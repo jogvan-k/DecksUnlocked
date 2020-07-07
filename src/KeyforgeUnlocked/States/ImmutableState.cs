@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.States
 
     public List<CoreAction> Actions { get; }
 
-    public Dictionary<Player, IList<Card>> Decks { get; }
+    public Dictionary<Player, Stack<Card>> Decks { get; }
 
     public Dictionary<Player, ISet<Card>> Hands { get; }
 
@@ -32,7 +32,7 @@ namespace KeyforgeUnlocked.States
     public ImmutableState(Player playerTurn,
       int turnNumber,
       List<CoreAction> actions,
-      Dictionary<Player, IList<Card>> decks,
+      Dictionary<Player, Stack<Card>> decks,
       Dictionary<Player, ISet<Card>> hands,
       Dictionary<Player, ISet<Card>> discards,
       Dictionary<Player, ISet<Card>> archives,

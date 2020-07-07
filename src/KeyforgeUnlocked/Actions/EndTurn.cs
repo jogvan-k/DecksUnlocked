@@ -1,12 +1,12 @@
 using KeyforgeUnlocked.States;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
+using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Actions
 {
   public class EndTurn : Action
   {
-    const int HandLimit = 6;
     public EndTurn(State state) : base(state)
     {
     }
@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Actions
     public override State DoAction()
     {
       var mutableState = State.ToMutable();
-      var toDraw = HandLimit - State.Hands[State.PlayerTurn].Count;
+      var toDraw = EndTurnHandLimit - State.Hands[State.PlayerTurn].Count;
       if (toDraw > 0)
       {
         //mutableState.Draw(mutableState.PlayerTurn, toDraw);

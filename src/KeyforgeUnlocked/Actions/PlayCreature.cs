@@ -6,8 +6,8 @@ namespace KeyforgeUnlocked.Actions
 {
   public class PlayCreature : Action
   {
-    public CreatureCard Card { get; }
-    public int Position { get; }
+    CreatureCard Card { get; }
+    int Position { get; }
 
     public PlayCreature(State state,
       CreatureCard card,

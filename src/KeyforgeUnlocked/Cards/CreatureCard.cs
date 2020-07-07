@@ -1,6 +1,5 @@
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.States;
 using UnlockedCore.Actions;
 
 namespace KeyforgeUnlocked.Cards
@@ -36,6 +35,14 @@ namespace KeyforgeUnlocked.Cards
     public Creature InsantiateCreature()
     {
       return new Creature(Power, Armor, this);
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != this.GetType()) return false;
+      return Equals((CreatureCard) obj);
     }
   }
 }

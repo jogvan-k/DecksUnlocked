@@ -9,8 +9,9 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
   {
     const int Power = 3;
     const int Armor = 0;
-    public SimpleCreatureCard(House house = House.Logos) : base("SimpleCreature", house, Power, Armor)
+    public SimpleCreatureCard(House house = House.Logos, int power = -1) : base("SimpleCreature", house, power > 0 ? power : Power, Armor)
     {
     }
+
   }
 }

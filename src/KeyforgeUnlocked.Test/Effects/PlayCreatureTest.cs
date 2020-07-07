@@ -12,7 +12,7 @@ using UnlockedCore.States;
 namespace KeyforgeUnlockedTest.Effects
 {
   [TestFixture]
-  public class PlayCreatureTest
+  class PlayCreatureTest
   {
     static readonly SimpleCreatureCard PlayedCard = new SimpleCreatureCard();
 

@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.States
       return new MutableState(
         state.PlayerTurn,
         state.TurnNumber,
-        new Dictionary<Player, IList<Card>>(state.Decks),
+        new Dictionary<Player, Stack<Card>>(state.Decks),
         new Dictionary<Player, ISet<Card>>(state.Hands),
         new Dictionary<Player, ISet<Card>>(state.Discards),
         new Dictionary<Player, ISet<Card>>(state.Archives),
@@ -22,35 +22,10 @@ namespace KeyforgeUnlocked.States
         new Queue<Effect>());
     }
 
-    public static bool TryReduce(this Dictionary<Player, Card[]> cards, Player player, int drawAmount,
-      out Dictionary<Player, Card[]> remaining, out Card[] reducedCards)
+    public static void Draw(this MutableState state, Player player)
     {
-      var currentRemaining = cards[player].Length;
-      var toDraw = Math.Min(drawAmount, currentRemaining);
-      if (toDraw > 0)
-      {
-        var remainingCards = new Card[currentRemaining - toDraw];
-        Array.Copy(cards[player], remainingCards, toDraw);
-        remaining = new Dictionary<Player, Card[]>
-        {
-          {player, remainingCards}, {player.Other(), cards[player]}
-        };
-        reducedCards = new Card[toDraw];
-        Array.Copy(cards[player], currentRemaining - toDraw, reducedCards, 0, drawAmount);
-        return toDraw == drawAmount;
-      }
-
-      remaining = cards;
-      reducedCards = new Card[0];
-      return false;
-    }
-
-    public static T[] Concat<T>(this T[] first, T[] second)
-    {
-      var newArray = new T[first.Length + second.Length];
-      first.CopyTo(newArray, 0);
-      second.CopyTo(newArray, first.Length);
-      return newArray;
+      if (state.Decks[player].TryPop(out var card))
+        state.Hands[player].Add(card);
     }
   }
 }

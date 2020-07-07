@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked
 {
   public interface State : CoreState
   {
-    public Dictionary<Player, IList<Card>> Decks { get; }
+    public Dictionary<Player, Stack<Card>> Decks { get; }
 
     public Dictionary<Player, ISet<Card>> Hands { get; }
 

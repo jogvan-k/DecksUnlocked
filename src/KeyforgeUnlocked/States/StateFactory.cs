@@ -14,10 +14,10 @@ namespace KeyforgeUnlocked
     public static State Initiate(Deck player1Deck,
       Deck player2Deck)
     {
-      var decks = new Dictionary<Player, IList<Card>>
+      var decks = new Dictionary<Player, Stack<Card>>
       {
-        {Player.Player1, new List<Card>(player1Deck.Cards)},
-        {Player.Player2, new List<Card>(player2Deck.Cards)}
+        {Player.Player1, new Stack<Card>(player1Deck.Cards)},
+        {Player.Player2, new Stack<Card>(player2Deck.Cards)}
       };
 
       return new MutableState(

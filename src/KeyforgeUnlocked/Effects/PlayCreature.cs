@@ -11,7 +11,9 @@ namespace KeyforgeUnlocked.Effects
     CreatureCard _card;
     int _position;
 
-    public PlayCreature(Player playingPlayer, CreatureCard card, int position)
+    public PlayCreature(Player playingPlayer,
+      CreatureCard card,
+      int position)
     {
       _playingPlayer = playingPlayer;
       _card = card;
@@ -22,8 +24,9 @@ namespace KeyforgeUnlocked.Effects
     {
       ValidatePosition(state);
       state.Fields[_playingPlayer].Insert(_position, _card.InsantiateCreature());
-      // Remove from hand
-      // state.Hands[_playingPlayer]
+
+      if(!state.Hands[_playingPlayer].Remove(_card))
+        throw new CardNotPresentException(state);
     }
 
     void ValidatePosition(State state)

@@ -32,29 +32,6 @@ namespace KeyforgeUnlocked
         .ResolveEffects();
     }
 
-    public static State New(
-      this State state,
-      Player? playerTurn = null,
-      int? turnNumber = null,
-      Dictionary<Player, IList<Card>> decks = null,
-      Dictionary<Player, ISet<Card>> hands = null,
-      Dictionary<Player, ISet<Card>> discards = null,
-      Dictionary<Player, ISet<Card>> archives = null,
-      Dictionary<Player, IList<Creature>> fields = null,
-      Queue<Effect> effects = null)
-    {
-      return new MutableState(
-          playerTurn ?? state.PlayerTurn,
-          turnNumber ?? state.TurnNumber,
-          decks ?? state.Decks,
-          hands ?? state.Hands,
-          discards ?? state.Discards,
-          archives ?? state.Archives,
-          fields ?? state.Fields,
-          effects ?? state.Effects)
-        .ResolveEffects();
-    }
-    
     static Dictionary<Player, IList<Card>> EmptyDeck<T>()
     {
       return new Dictionary<Player, IList<Card>>

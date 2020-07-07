@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -18,26 +19,26 @@ namespace KeyforgeUnlocked.States
 
     public int TurnNumber { get; set; }
 
-    public Dictionary<Player, Card[]> Decks { get; set; }
+    public Dictionary<Player, IList<Card>> Decks { get; set; }
 
-    public Dictionary<Player, Card[]> Hands { get; set; }
+    public Dictionary<Player, ISet<Card>> Hands { get; set; }
 
-    public Dictionary<Player, Card[]> Discards { get; set; }
+    public Dictionary<Player, ISet<Card>> Discards { get; set; }
 
-    public Dictionary<Player, Card[]> Archives { get; set; }
+    public Dictionary<Player, ISet<Card>> Archives { get; set; }
 
-    public Dictionary<Player, List<Creature>> Fields { get; set; }
+    public Dictionary<Player, IList<Creature>> Fields { get; set; }
 
     public Queue<Effect> Effects { get; set; }
 
     public MutableState(
       Player playerTurn,
       int turnNumber,
-      Dictionary<Player, Card[]> decks,
-      Dictionary<Player, Card[]> hands,
-      Dictionary<Player, Card[]> discards,
-      Dictionary<Player, Card[]> archives,
-      Dictionary<Player, List<Creature>> fields,
+      Dictionary<Player, IList<Card>> decks,
+      Dictionary<Player, ISet<Card>> hands,
+      Dictionary<Player, ISet<Card>> discards,
+      Dictionary<Player, ISet<Card>> archives,
+      Dictionary<Player, IList<Creature>> fields,
       Queue<Effect> effects)
     {
       PlayerTurn = playerTurn;
@@ -54,23 +55,23 @@ namespace KeyforgeUnlocked.States
     public void Draw(Player player,
       int cards)
     {
-      if (cards <= 0)
-      {
-        return;
-      }
-
-      if (!Decks.TryReduce(
-        player,
-        cards,
-        out var newDecks,
-        out var extraCards))
-      {
-        // shuffle and draw remaining
-      }
-
-      Decks = newDecks;
-      Hands = new Dictionary<Player, Card[]>
-        {{player, Hands[player].Concat(extraCards)}, {player.Other(), Hands[player.Other()]}};
+      // if (cards <= 0)
+      // {
+      //   return;
+      // }
+      //
+      // if (!Decks.TryReduce(
+      //   player,
+      //   cards,
+      //   out var newDecks,
+      //   out var extraCards))
+      // {
+      //   // shuffle and draw remaining
+      // }
+      //
+      // Decks = newDecks;
+      // Hands = new Dictionary<Player, Card[]>
+      //   {{player, Hands[player].Concat(extraCards)}, {player.Other(), Hands[player.Other()]}};
     }
 
     ImmutableState Immutable()

@@ -14,11 +14,11 @@ namespace KeyforgeUnlocked.States
       return new MutableState(
         state.PlayerTurn,
         state.TurnNumber,
-        new Dictionary<Player, Card[]>(state.Decks),
-        new Dictionary<Player, Card[]>(state.Hands),
-        new Dictionary<Player, Card[]>(state.Discards),
-        new Dictionary<Player, Card[]>(state.Archives),
-        new Dictionary<Player, List<Creature>>(state.Fields),
+        new Dictionary<Player, IList<Card>>(state.Decks),
+        new Dictionary<Player, ISet<Card>>(state.Hands),
+        new Dictionary<Player, ISet<Card>>(state.Discards),
+        new Dictionary<Player, ISet<Card>>(state.Archives),
+        new Dictionary<Player, IList<Creature>>(state.Fields),
         new Queue<Effect>());
     }
 

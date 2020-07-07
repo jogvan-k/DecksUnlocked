@@ -23,6 +23,7 @@ namespace KeyforgeUnlocked.Effects
       ValidatePosition(state);
       state.Fields[_playingPlayer].Insert(_position, _card.InsantiateCreature());
       // Remove from hand
+      // state.Hands[_playingPlayer]
     }
 
     void ValidatePosition(State state)

@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedTest.Effects
       {
         {
           Player.Player1,
-          Enumerable.Range(1, cardsInHand).Select(i => new SimpleCreatureCard(House.Brobnar, i)).ToHashSet<Card>()
+          Enumerable.Range(1, cardsInHand).Select(i => new SimpleCreatureCard(House.Brobnar)).ToHashSet<Card>()
         }
       };
 

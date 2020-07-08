@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
@@ -14,14 +15,8 @@ namespace KeyforgeUnlocked.Actions
     public override State DoAction()
     {
       var mutableState = State.ToMutable();
-      var toDraw = EndTurnHandLimit - State.Hands[State.PlayerTurn].Count;
-      if (toDraw > 0)
-      {
-        //mutableState.Draw(mutableState.PlayerTurn, toDraw);
-      }
-
-      mutableState.PlayerTurn = mutableState.PlayerTurn.Other();
-      mutableState.TurnNumber++;
+      mutableState.Effects.Enqueue(new DrawToHandLimit(mutableState.PlayerTurn));
+      mutableState.Effects.Enqueue(new ChangePlayer(mutableState.PlayerTurn));
       return mutableState.ResolveEffects();
     }
   }

@@ -22,7 +22,7 @@ namespace KeyforgeUnlocked.Cards
       _hash = Random.Next();
     }
 
-    public abstract CoreAction[] Actions(State state);
+    //public abstract CoreAction[] Actions(State state);
 
     public override string ToString()
     {

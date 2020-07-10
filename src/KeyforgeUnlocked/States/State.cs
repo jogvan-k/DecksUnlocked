@@ -1,13 +1,12 @@
-using System;
 using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using UnlockedCore.States;
 
-namespace KeyforgeUnlocked
+namespace KeyforgeUnlocked.States
 {
-  public interface State : CoreState
+  public interface IState : CoreState
   {
     public Dictionary<Player, Stack<Card>> Decks { get; }
 
@@ -20,5 +19,6 @@ namespace KeyforgeUnlocked
     public Dictionary<Player, IList<Creature>> Fields { get; }
 
     public Queue<Effect> Effects { get; }
+    public MutableState ToMutable();
   }
 }

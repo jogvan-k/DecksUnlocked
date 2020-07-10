@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedTest
       new Queue<Effect>());
 
     public static MutableState New(
-      this State state,
+      this IState state,
       Player? playerTurn = null,
       int? turnNumber = null,
       Dictionary<Player, Stack<Card>> decks = null,

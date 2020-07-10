@@ -19,19 +19,6 @@ namespace KeyforgeUnlocked.Cards
       Armor = armor;
     }
 
-    public override CoreAction[] Actions(State state)
-    {
-      var boardLength = state.Fields[state.PlayerTurn].Count;
-
-      var leftPosition = new PlayCreature(state, this, 0);
-      if (boardLength > 0)
-      {
-        return new CoreAction[] {leftPosition, new PlayCreature(state, this, boardLength)};
-      }
-
-      return new CoreAction[] {leftPosition};
-    }
-
     public Creature InsantiateCreature()
     {
       return new Creature(Power, Armor, this);

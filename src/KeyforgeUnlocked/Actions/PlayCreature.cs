@@ -9,31 +9,31 @@ namespace KeyforgeUnlocked.Actions
     CreatureCard Card { get; }
     int Position { get; }
 
-    public PlayCreature(State state,
+    public PlayCreature(
       CreatureCard card,
-      int position) : base(state)
+      int position)
     {
       Card = card;
       Position = position;
     }
 
-    public override State DoAction()
+    public override IState DoAction(IState state)
     {
-      ValidateNoUnresolvedEffects();
-      var mutableState = State.ToMutable();
+      ValidateNoUnresolvedEffects(state);
+      var mutableState = state.ToMutable();
       mutableState.Effects.Enqueue(
         new Effects.PlayCreature(
-          State.PlayerTurn,
+          state.PlayerTurn,
           Card,
           Position));
       return mutableState;
     }
 
-    void ValidateNoUnresolvedEffects()
+    void ValidateNoUnresolvedEffects(IState state)
     {
-      if (State.Effects.Count != 0)
+      if (state.Effects.Count != 0)
       {
-        throw new UnresolvedEffectsException(State);
+        throw new UnresolvedEffectsException(state);
       }
     }
   }

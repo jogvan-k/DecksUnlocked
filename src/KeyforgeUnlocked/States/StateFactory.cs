@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked
 {
   public static class StateFactory
   {
-    public static State Initiate(Deck player1Deck,
+    public static IState Initiate(Deck player1Deck,
       Deck player2Deck)
     {
       var decks = new Dictionary<Player, Stack<Card>>

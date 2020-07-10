@@ -27,7 +27,7 @@ namespace KeyforgeUnlocked.Effects
         throw new CardNotPresentException(state);
     }
 
-    void ValidatePosition(State state)
+    void ValidatePosition(IState state)
     {
       var creaturesOnField = state.Fields[Player].Count;
       if (!(0 <= _position && _position <= creaturesOnField))

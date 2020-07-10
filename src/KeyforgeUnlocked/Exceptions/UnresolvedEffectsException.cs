@@ -1,3 +1,5 @@
+using KeyforgeUnlocked.States;
+
 namespace KeyforgeUnlocked.Exceptions
 {
   /// <summary>
@@ -5,6 +7,6 @@ namespace KeyforgeUnlocked.Exceptions
   /// </summary>
   public class UnresolvedEffectsException : KeyforgeUnlockedException
   {
-    public UnresolvedEffectsException(State state) : base(state){}
+    public UnresolvedEffectsException(IState state) : base(state){}
   }
 }

@@ -4,7 +4,6 @@ namespace UnlockedCore.Actions
 {
   public interface CoreAction
   {
-    public CoreState CoreState { get; }
-    CoreState DoCoreAction();
+    CoreState DoCoreAction(CoreState state);
   }
 }

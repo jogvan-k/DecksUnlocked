@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.States
 {
   public static class StateExtensions
   {
-    public static MutableState ToMutable(this State state)
+    public static MutableState ToMutable(this IState state)
     {
       return new MutableState(
         state.PlayerTurn,

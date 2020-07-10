@@ -7,7 +7,7 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public class ImmutableState : State
+  public class ImmutableState : IState
   {
     public Player PlayerTurn { get; }
 
@@ -48,6 +48,12 @@ namespace KeyforgeUnlocked.States
       Archives = archives;
       Fields = fields;
       Effects = effects;
+    }
+
+    public MutableState ToMutable()
+    {
+      // TODO clone fields
+      return new MutableState(PlayerTurn, TurnNumber, Decks, Hands, Discards, Archives, Fields, Effects);
     }
   }
 }

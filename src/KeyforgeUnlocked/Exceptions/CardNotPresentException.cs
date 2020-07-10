@@ -1,8 +1,10 @@
+using KeyforgeUnlocked.States;
+
 namespace KeyforgeUnlocked.Exceptions
 {
   public class CardNotPresentException : KeyforgeUnlockedException
   {
-    public CardNotPresentException(State state) : base(state)
+    public CardNotPresentException(IState state) : base(state)
     {
     }
   }

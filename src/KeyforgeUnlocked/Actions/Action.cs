@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.States;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
 
@@ -5,19 +6,12 @@ namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action : CoreAction
   {
-    public CoreState CoreState => State;
 
-    public State State { get; }
-    public Action(State state)
+    public CoreState DoCoreAction(CoreState state)
     {
-      State = state;
+      return DoAction((IState) state);
     }
 
-    public CoreState DoCoreAction()
-    {
-      return DoAction();
-    }
-
-    public abstract State DoAction();
+    public abstract IState DoAction(IState state);
   }
 }

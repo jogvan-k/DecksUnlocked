@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.ActionGroup;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -11,10 +10,11 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  // TODO Refactor to popsicle immutable?
-  public class MutableState : State
+  public class MutableState : IState
   {
     public bool IsGameOver { get; set; }
+
+    public List<IActionGroup> ActionGroups { get; private set; }
 
     public List<CoreAction> Actions { get; private set; }
 
@@ -71,7 +71,13 @@ namespace KeyforgeUnlocked.States
 
     void RefreshBaseActions()
     {
-      Actions = IsGameOver ? new List<CoreAction>() : new List<CoreAction>() {new EndTurn(this)};
+      ActionGroups = new List<IActionGroup>();
+      if (IsGameOver)
+      {
+        return;
+      }
+
+      ActionGroups.Add(new EndTurnGroup(this));
     }
 
     public ImmutableState ResolveEffects()
@@ -83,6 +89,15 @@ namespace KeyforgeUnlocked.States
         RefreshBaseActions();
 
       return Immutable();
+    }
+
+    public MutableState ToMutable()
+    {
+      // TODO clone fields
+      return new MutableState(
+        PlayerTurn, TurnNumber, Decks,
+        Hands, Discards, Archives,
+        Fields, Effects);
     }
 
     public override bool Equals(object obj)
@@ -108,7 +123,7 @@ namespace KeyforgeUnlocked.States
     }
 
     static bool EqualContent<T>(IDictionary<Player, T> first,
-      IDictionary<Player, T> second) where T: IEnumerable<object>
+      IDictionary<Player, T> second) where T : IEnumerable<object>
     {
       if (first.Count != second.Count)
         return false;

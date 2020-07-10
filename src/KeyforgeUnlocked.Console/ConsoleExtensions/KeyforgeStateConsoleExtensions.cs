@@ -1,12 +1,13 @@
 using System;
 using System.Linq;
 using KeyforgeUnlocked;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlockedConsole
 {
   public static class KeyforgeStateConsoleExtensions
   {
-    public static void PrintActions(this State state)
+    public static void PrintActions(this IState state)
     {
       int i = 0;
       Console.WriteLine("Possible actions:");
@@ -16,15 +17,21 @@ namespace KeyforgeUnlockedConsole
       }
     }
 
-    public static void Print(this State state)
+    public static void Print(this IState state)
     {
-      Console.WriteLine($"Current turn: {state.PlayerTurn}");
-      Console.WriteLine($"Cards in hand:");
-      var currentPlayer = state.PlayerTurn;
-      foreach (var card in state.Hands[currentPlayer].OrderBy(c => c.House))
+      var playerTurn = state.PlayerTurn;
+      Console.WriteLine($"Current turn: {playerTurn}");
+      Console.WriteLine($"Turn number: {state.TurnNumber}");
+      Console.WriteLine($"Cards in hand: ");
+      var hand = state.Hands[playerTurn].ToList();
+      var handCount = hand.Count;
+      for (var i = 0; i < handCount; i++)
       {
-        Console.WriteLine(card);
+        if(i != 0)
+          Console.Write(", ");
+        Console.Write(hand[i]);
       }
+      Console.WriteLine();
     }
   }
 }

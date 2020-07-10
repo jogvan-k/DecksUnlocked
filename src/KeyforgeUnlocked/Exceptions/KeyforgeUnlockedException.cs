@@ -1,14 +1,15 @@
 using System;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Exceptions
 {
   public class KeyforgeUnlockedException : Exception
   {
-    public KeyforgeUnlockedException(State state)
+    public KeyforgeUnlockedException(IState state)
     {
       this.state = state;
     }
 
-    State state { get; }
+    IState state { get; }
   }
 }

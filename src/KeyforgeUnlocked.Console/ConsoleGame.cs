@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked;
-using KeyforgeUnlocked.ActionGroup;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using Action = KeyforgeUnlocked.Actions.Action;

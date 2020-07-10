@@ -1,8 +1,7 @@
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.States;
 
-namespace KeyforgeUnlocked.ActionGroup
+namespace KeyforgeUnlocked.ActionGroups
 {
   public abstract class PlayCard : ActionGroupBase
   {

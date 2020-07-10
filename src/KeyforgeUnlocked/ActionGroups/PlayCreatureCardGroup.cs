@@ -5,13 +5,13 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
 
-namespace KeyforgeUnlocked.ActionGroup
+namespace KeyforgeUnlocked.ActionGroups
 {
-  public class PlayCreatureCard : PlayCard
+  public class PlayCreatureCardGroup : PlayCard
   {
     public new CreatureCard Card => (CreatureCard) base.Card;
 
-    public PlayCreatureCard(
+    public PlayCreatureCardGroup(
       IState state,
       CreatureCard card) : base(card)
     {

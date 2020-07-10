@@ -1,8 +1,7 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.States;
 
-namespace KeyforgeUnlocked.ActionGroup
+namespace KeyforgeUnlocked.ActionGroups
 {
   public abstract class ActionGroupBase : IActionGroup
   {

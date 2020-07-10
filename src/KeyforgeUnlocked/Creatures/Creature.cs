@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Creatures
@@ -19,6 +20,30 @@ namespace KeyforgeUnlocked.Creatures
       Card = card;
       PowerCounters = 0;
       Damage = 0;
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != this.GetType()) return false;
+      return Equals((Creature) obj);
+    }
+
+    bool Equals(Creature other)
+    {
+      return BasePower == other.BasePower
+             && Armor == other.Armor
+             && Equals(Card, other.Card)
+             && PowerCounters == other.PowerCounters
+             && Damage == other.Damage;
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(
+        BasePower, Armor, Card,
+        PowerCounters, Damage);
     }
   }
 }

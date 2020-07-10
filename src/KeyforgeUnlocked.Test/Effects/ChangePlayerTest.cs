@@ -18,9 +18,8 @@ namespace KeyforgeUnlockedTest.Effects
 
       sut.Resolve(state);
 
-      var expectedPlayerTurn = playerTurn.Other();
-      Assert.AreEqual(expectedPlayerTurn, state.PlayerTurn);
-      Assert.AreEqual(turnNumberStart + 1, state.TurnNumber);
+      var expectedState = TestUtil.EmptyMutableState.New(playerTurn.Other(), turnNumberStart + 1);
+      Assert.AreEqual(expectedState, state);
     }
   }
 }

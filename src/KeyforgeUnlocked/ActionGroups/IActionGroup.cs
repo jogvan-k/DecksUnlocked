@@ -1,8 +1,7 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards;
 
-namespace KeyforgeUnlocked.ActionGroup
+namespace KeyforgeUnlocked.ActionGroups
 {
   public interface IActionGroup
   {

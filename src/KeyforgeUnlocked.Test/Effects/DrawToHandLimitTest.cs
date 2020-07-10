@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
@@ -13,6 +11,12 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DrawToHandLimitTest
   {
+    static Card[] sampleCards =
+    {
+      new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(),
+      new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(),
+    };
+
     [TestCase(Player.Player1)]
     [TestCase(Player.Player2)]
     public void Resolve_EmptyState(Player player)
@@ -28,25 +32,41 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_FullDeck([Range(0, 7)] int cardsInHand)
     {
-      var hands = new Dictionary<Player, ISet<Card>>
-      {
-        {
-          Player.Player1,
-          Enumerable.Range(1, cardsInHand).Select(i => new SimpleCreatureCard(House.Brobnar)).ToHashSet<Card>()
-        }
-      };
+      var hands = StateWithCardsInHand(cardsInHand);
 
-      var sampleDeck = TestUtil.SampleDeck;
+      var sampleDeck = SampleDecks.SimpleDeck;
       var sampleDeckCardCount = sampleDeck.Count;
-      var decks = new Dictionary<Player, Stack<Card>> {{Player.Player1, sampleDeck}};
+      var decks = InitializeDeck();
       var state = TestUtil.EmptyMutableState.New(decks: decks, hands: hands);
       var sut = new DrawToHandLimit();
 
       sut.Resolve(state);
 
-      var expectedCardDraws = Math.Max(Constants.EndTurnHandLimit - cardsInHand, 0);
-      Assert.AreEqual(Math.Max(Constants.EndTurnHandLimit, cardsInHand), state.Hands[Player.Player1].Count);
-      Assert.AreEqual(sampleDeckCardCount - expectedCardDraws, state.Decks[Player.Player1].Count);
+      var expectedCardsInHand = Math.Max(6, cardsInHand);
+      var expectedDraws = expectedCardsInHand - cardsInHand;
+      var expectedHands = StateWithCardsInHand(cardsInHand);
+      var expectedDecks = InitializeDeck();
+      for (var i = 0; i < expectedDraws; i++)
+        expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Pop());
+      var expectedState = TestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
+      Assert.AreEqual(expectedState, state);
+    }
+
+    static Dictionary<Player, Stack<Card>> InitializeDeck()
+    {
+      return new Dictionary<Player, Stack<Card>>
+        {{Player.Player1, SampleDecks.SimpleDeck}, {Player.Player2, new Stack<Card>()}};
+    }
+
+    static Dictionary<Player, ISet<Card>> StateWithCardsInHand(int cardsInHand)
+    {
+      return new Dictionary<Player, ISet<Card>>
+      {
+        {
+          Player.Player1,
+          new HashSet<Card>(sampleCards[new Range(0, cardsInHand)])
+        }
+      };
     }
   }
 }

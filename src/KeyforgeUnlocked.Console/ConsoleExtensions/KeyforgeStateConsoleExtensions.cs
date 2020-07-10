@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked;
-using KeyforgeUnlocked.ActionGroup;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;

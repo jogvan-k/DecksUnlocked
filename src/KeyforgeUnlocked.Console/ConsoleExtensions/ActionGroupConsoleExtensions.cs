@@ -1,5 +1,5 @@
 using System;
-using KeyforgeUnlocked.ActionGroup;
+using KeyforgeUnlocked.ActionGroups;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {

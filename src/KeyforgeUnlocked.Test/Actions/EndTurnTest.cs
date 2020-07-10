@@ -23,11 +23,5 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedState = TestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }
-
-    [Test]
-    public void DoActionNoResolve_UnresolvedEffects_Fail()
-    {
-      
-    }
   }
 }

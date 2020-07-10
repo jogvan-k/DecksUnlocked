@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using KeyforgeUnlocked.ActionGroup;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -82,7 +82,7 @@ namespace KeyforgeUnlocked.States
       {
         if (card.CardType == CardType.Creature)
         {
-          var actionGroup = new PlayCreatureCard(this, (CreatureCard) card);
+          var actionGroup = new PlayCreatureCardGroup(this, (CreatureCard) card);
           if (!actionGroup.Actions.IsEmpty)
             ActionGroups.Add(actionGroup);
         }

@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_EmptyState(Player player)
     {
       var state = TestUtil.EmptyMutableState;
-      var sut = new DrawToHandLimit(player);
+      var sut = new DrawToHandLimit();
 
       sut.Resolve(state);
 
@@ -40,7 +40,7 @@ namespace KeyforgeUnlockedTest.Effects
       var sampleDeckCardCount = sampleDeck.Count;
       var decks = new Dictionary<Player, Stack<Card>> {{Player.Player1, sampleDeck}};
       var state = TestUtil.EmptyMutableState.New(decks: decks, hands: hands);
-      var sut = new DrawToHandLimit(Player.Player1);
+      var sut = new DrawToHandLimit();
 
       sut.Resolve(state);
 

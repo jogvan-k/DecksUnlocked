@@ -1,10 +1,11 @@
+using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class PlayCreature : Action
+  public class PlayCreature : BasicAction
   {
     public CreatureCard Card { get; }
     public int Position { get; }
@@ -17,24 +18,33 @@ namespace KeyforgeUnlocked.Actions
       Position = position;
     }
 
-    public override IState DoAction(IState state)
+    internal override MutableState DoActionNoResolve(IState state)
     {
-      ValidateNoUnresolvedEffects(state);
+      Validate(state);
       var mutableState = state.ToMutable();
       mutableState.Effects.Enqueue(
         new Effects.PlayCreature(
-          state.PlayerTurn,
           Card,
           Position));
-      return mutableState.ResolveEffects();
+      return mutableState;
     }
 
-    void ValidateNoUnresolvedEffects(IState state)
+    public override bool Equals(object obj)
     {
-      if (state.Effects.Count != 0)
-      {
-        throw new UnresolvedEffectsException(state);
-      }
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != this.GetType()) return false;
+      return Equals((PlayCreature) obj);
+    }
+
+    bool Equals(PlayCreature other)
+    {
+      return Equals(Card, other.Card) && Position == other.Position;
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(Card, Position);
     }
   }
 }

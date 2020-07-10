@@ -7,9 +7,9 @@ namespace KeyforgeUnlocked.Exceptions
   {
     public KeyforgeUnlockedException(IState state)
     {
-      this.state = state;
+      this.State = state;
     }
 
-    IState state { get; }
+    public IState State { get; }
   }
 }

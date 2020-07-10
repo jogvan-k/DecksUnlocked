@@ -1,14 +1,36 @@
+using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked;
-using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.States;
 using NUnit.Framework;
-using UnlockedCore.States;
+using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
   class PlayCreatureTest
   {
+    static readonly CreatureCard Card = new SimpleCreatureCard();
+
+    [Test]
+    public void DoActionNoResolve_EmptyBoard()
+    {
+      IState state = TestUtil.EmptyMutableState;
+      var sut = new PlayCreature(Card, 0);
+
+      state = sut.DoActionNoResolve(state);
+
+      var expectedEffects = new Queue<Effect>();
+      expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
+      var expectedState = TestUtil.EmptyMutableState.New(effects: expectedEffects);
+      Assert.AreEqual(expectedState, state);
+
+      var effect = (KeyforgeUnlocked.Effects.PlayCreature) state.Effects.Single();
+      Assert.AreEqual(Card, effect.Card);
+      Assert.AreEqual(0, effect.Position);
+    }
   }
 }

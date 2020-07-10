@@ -5,11 +5,8 @@ namespace KeyforgeUnlocked.Effects
 {
   public abstract class Effect
   {
-    protected readonly Player Player;
-
-    protected Effect(Player player)
+    protected Effect()
     {
-      Player = player;
     }
 
     public abstract void Resolve(MutableState state);

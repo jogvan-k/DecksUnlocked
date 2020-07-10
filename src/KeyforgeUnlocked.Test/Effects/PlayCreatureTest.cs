@@ -22,7 +22,6 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var state = TestState(playingPlayer);
       var sut = new PlayCreature(
-        playingPlayer,
         PlayedCard,
         0);
 
@@ -38,7 +37,6 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var state = TestUtil.EmptyMutableState;
       var sut = new PlayCreature(
-        Player.Player1,
         PlayedCard,
         position);
       try
@@ -59,7 +57,6 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var state = TestUtil.EmptyMutableState;
       var sut = new PlayCreature(
-        Player.Player1,
         PlayedCard,
         0);
 
@@ -82,7 +79,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var playingPlayer = Player.Player2;
       var state = StateWithTwoCreatures(playingPlayer, out var creature1, out var creature2);
-      var sut = new PlayCreature(playingPlayer, PlayedCard, position);
+      var sut = new PlayCreature(PlayedCard, position);
 
       sut.Resolve(state);
 
@@ -100,7 +97,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_TwoCreaturesOnBoard_InvalidPosition(int position)
     {
       var state = StateWithTwoCreatures(Player.Player2, out _, out _);
-      var sut = new PlayCreature(Player.Player2, PlayedCard, position);
+      var sut = new PlayCreature(PlayedCard, position);
 
       try
       {
@@ -122,7 +119,7 @@ namespace KeyforgeUnlockedTest.Effects
         {playingPlayer, new HashSet<Card> {PlayedCard, new SimpleCreatureCard()}},
         {playingPlayer.Other(), new HashSet<Card> {new SimpleCreatureCard(), new SimpleCreatureCard()}}
       };
-      return TestUtil.EmptyMutableState.New(hands: hands);
+      return TestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
 
     static MutableState StateWithTwoCreatures(Player playingPlayer,

@@ -3,14 +3,15 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class EndTurn : Action
+  public class EndTurn : BasicAction
   {
-    public override IState DoAction(IState state)
+    internal override MutableState DoActionNoResolve(IState state)
     {
+      Validate(state);
       var mutableState = state.ToMutable();
-      mutableState.Effects.Enqueue(new DrawToHandLimit(mutableState.PlayerTurn));
-      mutableState.Effects.Enqueue(new ChangePlayer(mutableState.PlayerTurn));
-      return mutableState.ResolveEffects();
+      mutableState.Effects.Enqueue(new DrawToHandLimit());
+      mutableState.Effects.Enqueue(new ChangePlayer());
+      return mutableState;
     }
   }
 }

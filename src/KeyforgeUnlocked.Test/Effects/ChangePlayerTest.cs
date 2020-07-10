@@ -14,11 +14,11 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var turnNumberStart = 1;
       var state = TestUtil.EmptyMutableState.New(playerTurn, turnNumberStart);
-      var sut = new ChangePlayer(playerTurn);
+      var sut = new ChangePlayer();
 
       sut.Resolve(state);
 
-      var expectedPlayerTurn = playerTurn == Player.Player1 ? Player.Player2 : Player.Player1;
+      var expectedPlayerTurn = playerTurn.Other();
       Assert.AreEqual(expectedPlayerTurn, state.PlayerTurn);
       Assert.AreEqual(turnNumberStart + 1, state.TurnNumber);
     }

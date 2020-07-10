@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CommandLine;
 using KeyforgeUnlocked;
 using KeyforgeUnlocked.States;
@@ -18,7 +17,7 @@ namespace KeyforgeUnlockedConsole
         state.Print();
         state.PrintActions();
         var i = Int16.Parse(Console.ReadLine());
-        state = (IState) state.Actions[i].DoCoreAction(state);
+        state = (IState) state.Actions()[i].DoCoreAction(state);
       }
     }
   }

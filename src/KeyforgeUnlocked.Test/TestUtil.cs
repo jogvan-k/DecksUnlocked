@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked;
+using KeyforgeUnlocked.ActionGroup;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
@@ -21,7 +22,8 @@ namespace KeyforgeUnlockedTest
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new Queue<Effect>());
+      new Queue<Effect>(),
+      new List<IActionGroup>());
 
     public static MutableState New(
       this IState state,
@@ -32,7 +34,8 @@ namespace KeyforgeUnlockedTest
       Dictionary<Player, ISet<Card>> discards = null,
       Dictionary<Player, ISet<Card>> archives = null,
       Dictionary<Player, IList<Creature>> fields = null,
-      Queue<Effect> effects = null)
+      Queue<Effect> effects = null,
+      List<IActionGroup> actionGroups = null)
     {
       return new MutableState(
         playerTurn ?? state.PlayerTurn,
@@ -42,7 +45,8 @@ namespace KeyforgeUnlockedTest
         discards ?? state.Discards,
         archives ?? state.Archives,
         fields ?? state.Fields,
-        effects ?? state.Effects);
+        effects ?? state.Effects,
+        actionGroups ?? state.ActionGroups);
     }
 
     public static Stack<Card> SampleDeck =>

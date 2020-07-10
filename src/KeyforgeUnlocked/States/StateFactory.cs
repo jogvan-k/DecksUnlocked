@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using KeyforgeUnlocked.ActionGroup;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -28,7 +29,8 @@ namespace KeyforgeUnlocked
           EmptySet(),
           EmptySet(),
           new Dictionary<Player, IList<Creature>>(),
-          new Queue<Effect>())
+          new Queue<Effect>(),
+          new List<IActionGroup>())
         .ResolveEffects();
     }
 

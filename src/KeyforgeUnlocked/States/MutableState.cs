@@ -1,38 +1,49 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using KeyforgeUnlocked.ActionGroup;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
-using UnlockedCore.Actions;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public class MutableState : IState
+  public class MutableState : StateBase
   {
-    public bool IsGameOver { get; set; }
+    public new bool IsGameOver
+    {
+      get => _isGameOver;
+      set => _isGameOver = value;
+    }
 
-    public List<IActionGroup> ActionGroups { get; private set; }
+    public new List<IActionGroup> ActionGroups
+    {
+      get => _actionGroups;
+      set => _actionGroups = value;
+    }
 
-    public List<CoreAction> Actions { get; private set; }
+    public new Player PlayerTurn
+    {
+      get => _playerTurn;
+      set => _playerTurn = value;
+    }
 
-    public Player PlayerTurn { get; set; }
+    public new int TurnNumber
+    {
+      get => _turnNumber;
+      set => _turnNumber = value;
+    }
 
-    public int TurnNumber { get; set; }
+    public new Dictionary<Player, Stack<Card>> Decks { get => _decks; set => _decks = value; }
 
-    public Dictionary<Player, Stack<Card>> Decks { get; set; }
+    public new Dictionary<Player, ISet<Card>> Hands { get => _hands; set => _hands = value; }
 
-    public Dictionary<Player, ISet<Card>> Hands { get; set; }
+    public new Dictionary<Player, ISet<Card>> Discards { get => _discards; set => _discards = value; }
 
-    public Dictionary<Player, ISet<Card>> Discards { get; set; }
+    public new Dictionary<Player, ISet<Card>> Archives { get => _archives; set => _discards = value; }
 
-    public Dictionary<Player, ISet<Card>> Archives { get; set; }
+    public new Dictionary<Player, IList<Creature>> Fields { get => _fields; set => _fields = value; }
 
-    public Dictionary<Player, IList<Creature>> Fields { get; set; }
-
-    public Queue<Effect> Effects { get; set; }
+    public new Queue<Effect> Effects { get => _effects; set => _effects = value; }
 
     public MutableState(
       Player playerTurn,
@@ -42,31 +53,20 @@ namespace KeyforgeUnlocked.States
       Dictionary<Player, ISet<Card>> discards,
       Dictionary<Player, ISet<Card>> archives,
       Dictionary<Player, IList<Creature>> fields,
-      Queue<Effect> effects)
+      Queue<Effect> effects,
+      List<IActionGroup> actionGroups)
+      : base(
+        playerTurn,
+        turnNumber,
+        decks,
+        hands,
+        discards,
+        archives,
+        fields,
+        effects,
+        actionGroups)
     {
-      PlayerTurn = playerTurn;
-      TurnNumber = turnNumber;
-      Decks = decks;
-      Hands = hands;
-      Discards = discards;
-      Archives = archives;
-      Fields = fields;
-      Effects = effects;
-      Actions = new List<CoreAction>();
-    }
-
-    ImmutableState Immutable()
-    {
-      return new ImmutableState(
-        PlayerTurn,
-        TurnNumber,
-        Actions,
-        Decks,
-        Hands,
-        Discards,
-        Archives,
-        Fields,
-        Effects);
+      ActionGroups = new List<IActionGroup>();
     }
 
     void RefreshBaseActions()
@@ -78,78 +78,26 @@ namespace KeyforgeUnlocked.States
       }
 
       ActionGroups.Add(new EndTurnGroup(this));
+      foreach (var card in Hands[PlayerTurn])
+      {
+        if (card.CardType == CardType.Creature)
+        {
+          var actionGroup = new PlayCreatureCard(this, (CreatureCard) card);
+          if (!actionGroup.Actions.IsEmpty)
+            ActionGroups.Add(actionGroup);
+        }
+      }
     }
 
-    public ImmutableState ResolveEffects()
+    public Immutable ResolveEffects()
     {
-      while (Actions.Count == 0 && Effects.Count != 0)
+      while (ActionGroups.Count == 0 && Effects.Count != 0)
         Effects.Dequeue().Resolve(this);
 
-      if (Actions.Count == 0)
+      if (ActionGroups.Count == 0)
         RefreshBaseActions();
 
-      return Immutable();
-    }
-
-    public MutableState ToMutable()
-    {
-      // TODO clone fields
-      return new MutableState(
-        PlayerTurn, TurnNumber, Decks,
-        Hands, Discards, Archives,
-        Fields, Effects);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((MutableState) obj);
-    }
-
-    bool Equals(MutableState other)
-    {
-      return IsGameOver == other.IsGameOver
-             && TurnNumber == other.TurnNumber
-             && PlayerTurn == other.PlayerTurn
-             && Actions.SequenceEqual(other.Actions)
-             && EqualContent(Decks, other.Decks)
-             && EqualContent(Hands, other.Hands)
-             && EqualContent(Discards, other.Discards)
-             && EqualContent(Archives, other.Archives)
-             && EqualContent(Fields, other.Fields)
-             && Effects.SequenceEqual(other.Effects);
-    }
-
-    static bool EqualContent<T>(IDictionary<Player, T> first,
-      IDictionary<Player, T> second) where T : IEnumerable<object>
-    {
-      if (first.Count != second.Count)
-        return false;
-      foreach (var key in first.Keys)
-      {
-        if (!second.ContainsKey(key) || !first[key].SequenceEqual(second[key]))
-          return false;
-      }
-
-      return true;
-    }
-
-    public override int GetHashCode()
-    {
-      var hashCode = new HashCode();
-      hashCode.Add(IsGameOver);
-      hashCode.Add(Actions);
-      hashCode.Add((int) PlayerTurn);
-      hashCode.Add(TurnNumber);
-      hashCode.Add(Decks);
-      hashCode.Add(Hands);
-      hashCode.Add(Discards);
-      hashCode.Add(Archives);
-      hashCode.Add(Fields);
-      hashCode.Add(Effects);
-      return hashCode.ToHashCode();
+      return ToImmutable();
     }
   }
 }

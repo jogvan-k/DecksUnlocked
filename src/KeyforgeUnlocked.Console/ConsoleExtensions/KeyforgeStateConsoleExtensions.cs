@@ -11,7 +11,7 @@ namespace KeyforgeUnlockedConsole
     {
       int i = 0;
       Console.WriteLine("Possible actions:");
-      foreach (var action in state.Actions)
+      foreach (var action in state.Actions())
       {
         Console.WriteLine($"[{i++}]: {action.ToConsole()}.");
       }

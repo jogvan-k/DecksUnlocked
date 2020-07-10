@@ -3,12 +3,8 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public abstract class Effect
+  public interface IEffect
   {
-    protected Effect()
-    {
-    }
-
     public abstract void Resolve(MutableState state);
   }
 }

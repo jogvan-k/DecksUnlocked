@@ -12,5 +12,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       Card = card;
     }
+
+    protected Action DiscardAction()
+    {
+      return new DiscardCard(Card);
+    }
   }
 }

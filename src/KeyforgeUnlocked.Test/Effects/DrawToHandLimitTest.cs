@@ -34,7 +34,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var hands = StateWithCardsInHand(cardsInHand);
 
-      var sampleDeck = SampleDecks.SimpleDeck;
+      var sampleDeck = SampleSets.SampleDeck;
       var sampleDeckCardCount = sampleDeck.Count;
       var decks = InitializeDeck();
       var state = TestUtil.EmptyMutableState.New(decks: decks, hands: hands);
@@ -55,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects
     static Dictionary<Player, Stack<Card>> InitializeDeck()
     {
       return new Dictionary<Player, Stack<Card>>
-        {{Player.Player1, SampleDecks.SimpleDeck}, {Player.Player2, new Stack<Card>()}};
+        {{Player.Player1, SampleSets.SampleDeck}, {Player.Player2, new Stack<Card>()}};
     }
 
     static Dictionary<Player, ISet<Card>> StateWithCardsInHand(int cardsInHand)

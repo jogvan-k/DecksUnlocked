@@ -1,11 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
-using Microsoft.VisualBasic;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked
@@ -29,7 +27,7 @@ namespace KeyforgeUnlocked
           EmptySet(),
           EmptySet(),
           EmptyField(),
-          new Queue<Effect>(),
+          new Queue<IEffect>(),
           new List<IActionGroup>())
         .ResolveEffects();
     }

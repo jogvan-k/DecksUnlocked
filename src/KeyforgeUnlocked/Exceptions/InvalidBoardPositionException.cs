@@ -2,7 +2,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public class InvalidBoardPositionException : KeyforgeUnlockedException
+  public sealed class InvalidBoardPositionException : KeyforgeUnlockedException
   {
     public int boardPosition { get; }
 

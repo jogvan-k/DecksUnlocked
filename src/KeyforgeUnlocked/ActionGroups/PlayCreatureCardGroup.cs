@@ -7,7 +7,7 @@ using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public class PlayCreatureCardGroup : PlayCard
+  public sealed class PlayCreatureCardGroup : PlayCard
   {
     public new CreatureCard Card => (CreatureCard) base.Card;
 
@@ -31,10 +31,10 @@ namespace KeyforgeUnlocked.ActionGroups
 
       if (boardLength > 0)
       {
-        return list.Add(new PlayCreature(Card, boardLength));
+        list = list.Add(new PlayCreature(Card, boardLength));
       }
 
-      return list;
+      return list.Add(DiscardAction());
     }
   }
 }

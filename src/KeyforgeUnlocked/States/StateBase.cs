@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.States
     protected Dictionary<Player, ISet<Card>> _discards;
     protected Dictionary<Player, ISet<Card>> _archives;
     protected Dictionary<Player, IList<Creature>> _fields;
-    protected Queue<Effect> _effects;
+    protected Queue<IEffect> _effects;
 
     public Player PlayerTurn => _playerTurn;
 
@@ -41,7 +41,7 @@ namespace KeyforgeUnlocked.States
 
     public Dictionary<Player, IList<Creature>> Fields => _fields;
 
-    public Queue<Effect> Effects => _effects;
+    public Queue<IEffect> Effects => _effects;
 
     public StateBase(Player playerTurn,
       int turnNumber,
@@ -50,7 +50,7 @@ namespace KeyforgeUnlocked.States
       Dictionary<Player, ISet<Card>> discards,
       Dictionary<Player, ISet<Card>> archives,
       Dictionary<Player, IList<Creature>> fields,
-      Queue<Effect> effects,
+      Queue<IEffect> effects,
       List<IActionGroup> actionGroups)
     {
       _playerTurn = playerTurn;

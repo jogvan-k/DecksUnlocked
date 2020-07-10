@@ -21,7 +21,7 @@ namespace KeyforgeUnlockedTest
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new Queue<Effect>(),
+      new Queue<IEffect>(),
       new List<IActionGroup>());
 
     public static MutableState New(
@@ -33,7 +33,7 @@ namespace KeyforgeUnlockedTest
       Dictionary<Player, ISet<Card>> discards = null,
       Dictionary<Player, ISet<Card>> archives = null,
       Dictionary<Player, IList<Creature>> fields = null,
-      Queue<Effect> effects = null,
+      Queue<IEffect> effects = null,
       List<IActionGroup> actionGroups = null)
     {
       return new MutableState(

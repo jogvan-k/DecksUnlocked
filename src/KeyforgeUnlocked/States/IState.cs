@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.States
 
     Dictionary<Player, IList<Creature>> Fields { get; }
 
-    Queue<Effect> Effects { get; }
+    Queue<IEffect> Effects { get; }
     MutableState ToMutable();
   }
 }

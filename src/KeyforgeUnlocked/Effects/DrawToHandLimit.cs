@@ -6,9 +6,9 @@ using static KeyforgeUnlocked.Constants;
 namespace KeyforgeUnlocked.Effects
 {
   // TODO include shuffle upon empty deck
-  public class DrawToHandLimit : Effect
+  public sealed class DrawToHandLimit : IEffect
   {
-    public override void Resolve(MutableState state)
+    public void Resolve(MutableState state)
     {
       var toDraw = Math.Max(0, EndTurnHandLimit - state.Hands[state.PlayerTurn].Count);
       for(var i = 0; i< toDraw; i++)

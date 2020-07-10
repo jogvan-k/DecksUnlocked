@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
@@ -23,9 +24,9 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions;
 
-      var expectedAction = new PlayCreature(Card, 0);
-      var action = (PlayCreature) actions.Single();
-      Assert.AreEqual(expectedAction, action);
+      var expectedAction =
+        ImmutableList<Action>.Empty.AddRange(new[] {(Action) new PlayCreature(Card, 0), new DiscardCard(Card)});
+      Assert.AreEqual(expectedAction, actions);
     }
 
     [Test]
@@ -40,8 +41,12 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var expectedActions =
         ImmutableList<Action>.Empty.AddRange(
-          new[] {new PlayCreature(Card, 0),
-            new PlayCreature(Card, 5)});
+          new[]
+          {
+            (Action) new PlayCreature(Card, 0),
+            new PlayCreature(Card, 5),
+            new DiscardCard(Card)
+          });
       Assert.AreEqual(expectedActions, actions);
     }
   }

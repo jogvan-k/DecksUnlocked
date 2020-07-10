@@ -23,7 +23,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       state = sut.DoActionNoResolve(state);
 
-      var expectedEffects = new Queue<Effect>();
+      var expectedEffects = new Queue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
       var expectedState = TestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);

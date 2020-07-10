@@ -5,7 +5,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class PlayCreature : BasicAction
+  public sealed class PlayCreature : BasicAction
   {
     public CreatureCard Card { get; }
     public int Position { get; }

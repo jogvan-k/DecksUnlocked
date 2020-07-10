@@ -3,12 +3,11 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
-using UnlockedCore.Actions;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public class Immutable : StateBase
+  public sealed class Immutable : StateBase
   {
     public Immutable(Player playerTurn,
       int turnNumber,
@@ -17,7 +16,7 @@ namespace KeyforgeUnlocked.States
       Dictionary<Player, ISet<Card>> discards,
       Dictionary<Player, ISet<Card>> archives,
       Dictionary<Player, IList<Creature>> fields,
-      Queue<Effect> effects,
+      Queue<IEffect> effects,
       List<IActionGroup> actionGroups)
       : base(
         playerTurn,

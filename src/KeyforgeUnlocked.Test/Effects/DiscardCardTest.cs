@@ -1,0 +1,56 @@
+using System.Collections.Generic;
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Exceptions;
+using NUnit.Framework;
+using UnlockedCore.States;
+
+namespace KeyforgeUnlockedTest.Effects
+{
+  [TestFixture]
+  class DiscardCardTest
+  {
+    Card sampleCard = new SimpleCreatureCard();
+
+    [Test]
+    public void Resolve_SampleSetup()
+    {
+      var hands = SampleSets.SampleHands;
+      hands[Player.Player1].Add(sampleCard);
+      var state = TestUtil.EmptyMutableState.New(hands: hands);
+      var sut = new DiscardCard(sampleCard);
+
+      sut.Resolve(state);
+
+      var expectedHands = SampleSets.SampleHands;
+      var expectedDiscards = new Dictionary<Player, ISet<Card>>
+      {
+        {Player.Player1, new HashSet<Card> {sampleCard}},
+        {Player.Player2, new HashSet<Card>()}
+      };
+      var expectedState = TestUtil.EmptyMutableState.New(discards: expectedDiscards, hands: expectedHands);
+      Assert.AreEqual(expectedState, state);
+    }
+
+    [Test]
+    public void Resolve_CardNotInHand_ThrowException()
+    {
+      var hands = SampleSets.SampleHands;
+      var state = TestUtil.EmptyMutableState.New(hands: hands);
+      var sut = new DiscardCard(sampleCard);
+
+      try
+      {
+        sut.Resolve(state);
+      }
+      catch (CardNotPresentException e)
+      {
+        Assert.AreEqual(state, e.State);
+        return;
+      }
+
+      Assert.Fail();
+    }
+  }
+}

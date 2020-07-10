@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Actions;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public class EndTurnGroup : ActionGroupBase
+  public sealed class EndTurnGroup : ActionGroupBase
   {
     public EndTurnGroup() : base(ActionType.EndTurn)
     {

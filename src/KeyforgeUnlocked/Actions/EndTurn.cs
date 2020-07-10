@@ -3,7 +3,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class EndTurn : BasicAction
+  public sealed class EndTurn : BasicAction
   {
     internal override MutableState DoActionNoResolve(IState state)
     {

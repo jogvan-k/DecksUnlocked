@@ -6,7 +6,7 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayCreature : Effect
+  public sealed class PlayCreature : IEffect
   {
     public readonly CreatureCard Card;
     public readonly int Position;
@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Effects
       Position = position;
     }
 
-    public override void Resolve(MutableState state)
+    public void Resolve(MutableState state)
     {
       ValidatePosition(state);
       state.Fields[state.PlayerTurn].Insert(Position, Card.InsantiateCreature());

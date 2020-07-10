@@ -3,9 +3,9 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public class ChangePlayer : Effect
+  public sealed class ChangePlayer : IEffect
   {
-    public override void Resolve(MutableState state)
+    public void Resolve(MutableState state)
     {
       state.PlayerTurn = state.PlayerTurn.Other();
       state.TurnNumber++;

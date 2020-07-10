@@ -12,6 +12,8 @@ namespace KeyforgeUnlockedConsole
       {
         case PlayCreature a:
           return a.ToConsole();
+        case DiscardCard a:
+          return a.ToConsole();
         case EndTurn a:
           return a.ToConsole();
         default:
@@ -24,6 +26,11 @@ namespace KeyforgeUnlockedConsole
       return $"Play to position {playCard.Position}";
     }
 
+
+    static string ToConsole(this DiscardCard discardCard)
+    {
+      return $"Discard card";
+    }
     public static string ToConsole(this EndTurn action)
     {
       return "End turn";

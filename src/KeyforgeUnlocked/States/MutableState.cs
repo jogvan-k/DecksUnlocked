@@ -7,7 +7,7 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public class MutableState : StateBase
+  public sealed class MutableState : StateBase
   {
     public new bool IsGameOver
     {
@@ -43,7 +43,7 @@ namespace KeyforgeUnlocked.States
 
     public new Dictionary<Player, IList<Creature>> Fields { get => _fields; set => _fields = value; }
 
-    public new Queue<Effect> Effects { get => _effects; set => _effects = value; }
+    public new Queue<IEffect> Effects { get => _effects; set => _effects = value; }
 
     public MutableState(
       Player playerTurn,
@@ -53,7 +53,7 @@ namespace KeyforgeUnlocked.States
       Dictionary<Player, ISet<Card>> discards,
       Dictionary<Player, ISet<Card>> archives,
       Dictionary<Player, IList<Creature>> fields,
-      Queue<Effect> effects,
+      Queue<IEffect> effects,
       List<IActionGroup> actionGroups)
       : base(
         playerTurn,

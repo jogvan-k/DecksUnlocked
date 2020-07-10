@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroup;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;

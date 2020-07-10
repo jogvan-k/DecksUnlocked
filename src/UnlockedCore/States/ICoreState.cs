@@ -4,11 +4,11 @@ using UnlockedCore.Actions;
 
 namespace UnlockedCore.States
 {
-  public interface CoreState
+  public interface ICoreState
   {
     Player PlayerTurn { get; }
     int TurnNumber { get; }
     bool IsGameOver { get; }
-    List<CoreAction> Actions();
+    List<ICoreAction> Actions();
   }
 }

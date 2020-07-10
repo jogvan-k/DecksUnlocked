@@ -6,8 +6,8 @@ namespace KeyforgeUnlocked.Actions
 {
   public class PlayCreature : Action
   {
-    CreatureCard Card { get; }
-    int Position { get; }
+    public CreatureCard Card { get; }
+    public int Position { get; }
 
     public PlayCreature(
       CreatureCard card,
@@ -26,7 +26,7 @@ namespace KeyforgeUnlocked.Actions
           state.PlayerTurn,
           Card,
           Position));
-      return mutableState;
+      return mutableState.ResolveEffects();
     }
 
     void ValidateNoUnresolvedEffects(IState state)

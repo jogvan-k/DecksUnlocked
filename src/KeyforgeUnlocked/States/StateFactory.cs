@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked
           EmptySet(),
           EmptySet(),
           EmptySet(),
-          new Dictionary<Player, IList<Creature>>(),
+          EmptyField(),
           new Queue<Effect>(),
           new List<IActionGroup>())
         .ResolveEffects();
@@ -47,6 +47,14 @@ namespace KeyforgeUnlocked
       return new Dictionary<Player, ISet<Card>>
       {
         {Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}
+      };
+    }
+
+    static Dictionary<Player, IList<Creature>> EmptyField()
+    {
+      return new Dictionary<Player, IList<Creature>>
+      {
+        {Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}
       };
     }
   }

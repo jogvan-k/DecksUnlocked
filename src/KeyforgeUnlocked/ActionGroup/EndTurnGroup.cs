@@ -7,13 +7,9 @@ namespace KeyforgeUnlocked.ActionGroup
 {
   public class EndTurnGroup : ActionGroupBase
   {
-    public EndTurnGroup(IState state) : base(ActionType.EndTurn, state)
+    public EndTurnGroup() : base(ActionType.EndTurn)
     {
-    }
-
-    protected override ImmutableList<Action> InitiateActions(IState state)
-    {
-      return ImmutableList<Action>.Empty.Add(new EndTurn());
+      Actions = ImmutableList<Action>.Empty.Add(new EndTurn());
     }
   }
 }

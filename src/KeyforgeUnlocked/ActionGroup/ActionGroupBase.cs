@@ -8,15 +8,11 @@ namespace KeyforgeUnlocked.ActionGroup
   {
     public ActionType Type { get; }
 
-    public ImmutableList<Action> Actions { get; }
+    public ImmutableList<Action> Actions { get; protected set; }
 
-    public ActionGroupBase(ActionType type,
-      IState state)
+    public ActionGroupBase(ActionType type)
     {
       Type = type;
-      Actions = InitiateActions(state);
     }
-
-    protected abstract ImmutableList<Action> InitiateActions(IState state);
   }
 }

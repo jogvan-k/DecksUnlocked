@@ -7,7 +7,7 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public interface IState : CoreState
+  public interface IState : ICoreState
   {
     public List<IActionGroup> ActionGroups { get; }
 

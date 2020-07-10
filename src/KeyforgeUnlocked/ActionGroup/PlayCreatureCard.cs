@@ -13,13 +13,14 @@ namespace KeyforgeUnlocked.ActionGroup
 
     public PlayCreatureCard(
       IState state,
-      CreatureCard card) : base(state, card)
+      CreatureCard card) : base(card)
     {
       if (state == null || card == null)
         throw new ArgumentNullException();
+      Actions = InitiateActions(state);
     }
 
-    protected override ImmutableList<Action> InitiateActions(IState state)
+    protected ImmutableList<Action> InitiateActions(IState state)
     {
       var list = ImmutableList<Action>.Empty;
 

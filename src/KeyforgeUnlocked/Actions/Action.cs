@@ -4,10 +4,10 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public abstract class Action : CoreAction
+  public abstract class Action : ICoreAction
   {
 
-    public CoreState DoCoreAction(CoreState state)
+    public ICoreState DoCoreAction(ICoreState state)
     {
       return DoAction((IState) state);
     }

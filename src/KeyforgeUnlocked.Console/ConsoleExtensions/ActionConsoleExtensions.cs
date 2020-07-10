@@ -1,20 +1,27 @@
 using System;
 using KeyforgeUnlocked.Actions;
-using UnlockedCore.Actions;
+using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole
 {
   public static class ActionConsoleExtensions
   {
-    public static string ToConsole(this CoreAction coreAction)
+    public static string ToConsole(this Action action)
     {
-      switch (coreAction)
+      switch (action)
       {
+        case PlayCreature a:
+          return a.ToConsole();
         case EndTurn a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
+    }
+
+    static string ToConsole(this PlayCreature playCard)
+    {
+      return $"Play to position {playCard.Position}";
     }
 
     public static string ToConsole(this EndTurn action)

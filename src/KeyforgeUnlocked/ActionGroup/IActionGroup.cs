@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.ActionGroup
 {

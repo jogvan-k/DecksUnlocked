@@ -77,7 +77,7 @@ namespace KeyforgeUnlocked.States
         return;
       }
 
-      ActionGroups.Add(new EndTurnGroup(this));
+      ActionGroups.Add(new EndTurnGroup());
       foreach (var card in Hands[PlayerTurn])
       {
         if (card.CardType == CardType.Creature)

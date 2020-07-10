@@ -64,9 +64,9 @@ namespace KeyforgeUnlocked.States
       _actionGroups = actionGroups;
     }
 
-    public List<CoreAction> Actions()
+    public List<ICoreAction> Actions()
     {
-      return ActionGroups.SelectMany(a => a.Actions).Cast<CoreAction>().ToList();
+      return ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
     }
 
     public Immutable ToImmutable()

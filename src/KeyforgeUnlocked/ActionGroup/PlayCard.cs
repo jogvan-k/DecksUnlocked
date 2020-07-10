@@ -9,8 +9,7 @@ namespace KeyforgeUnlocked.ActionGroup
     public Card Card { get; }
 
     protected PlayCard(
-      IState state,
-      Card card) : base(ActionType.PlayCard, state)
+      Card card) : base(ActionType.PlayCard)
     {
       Card = card;
     }

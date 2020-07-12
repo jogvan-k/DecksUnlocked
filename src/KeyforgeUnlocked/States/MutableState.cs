@@ -3,6 +3,7 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -27,44 +28,85 @@ namespace KeyforgeUnlocked.States
       set => isGameOver = value;
     }
 
+    public IState PreviousState
+    {
+      get => previousState;
+    }
+
+    public IList<IResolvedEffect> ResolvedEffects
+    {
+      get => resolvedEffects;
+      set => resolvedEffects = value;
+    }
+
     public IList<IActionGroup> ActionGroups
     {
       get => actionGroups;
       set => actionGroups = value;
     }
 
-    public IDictionary<Player, Stack<Card>> Decks { get => decks; set => decks = value; }
+    public IDictionary<Player, Stack<Card>> Decks
+    {
+      get => decks;
+      set => decks = value;
+    }
 
-    public IDictionary<Player, ISet<Card>> Hands { get => hands; set => hands = value; }
+    public IDictionary<Player, ISet<Card>> Hands
+    {
+      get => hands;
+      set => hands = value;
+    }
 
-    public IDictionary<Player, ISet<Card>> Discards { get => discards; set => discards = value; }
+    public IDictionary<Player, ISet<Card>> Discards
+    {
+      get => discards;
+      set => discards = value;
+    }
 
-    public IDictionary<Player, ISet<Card>> Archives { get => archives; set => discards = value; }
+    public IDictionary<Player, ISet<Card>> Archives
+    {
+      get => archives;
+      set => discards = value;
+    }
 
-    public IDictionary<Player, IList<Creature>> Fields { get => fields; set => fields = value; }
+    public IDictionary<Player, IList<Creature>> Fields
+    {
+      get => fields;
+      set => fields = value;
+    }
 
-    public Queue<IEffect> Effects { get => effects; set => effects = value; }
+    public Queue<IEffect> Effects
+    {
+      get => effects;
+      set => effects = value;
+    }
 
     public MutableState(
       Player playerTurn,
       int turnNumber,
+      bool isGameOVer,
+      IState previousState,
+      IList<IResolvedEffect> resolvedEffects,
+      IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects,
-      IList<IActionGroup> actionGroups)
+      Queue<IEffect> effects)
       : base(
         playerTurn,
         turnNumber,
+        isGameOVer,
+        previousState,
+        resolvedEffects,
+        actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects,
-        actionGroups)
+        effects)
     {
       ActionGroups = new List<IActionGroup>();
     }

@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;
 
@@ -15,37 +16,46 @@ namespace KeyforgeUnlockedTest
     public static MutableState EmptyMutableState => new MutableState(
       Player.Player1,
       0,
+      false,
+      null,
+      new List<IResolvedEffect>(),
+      new List<IActionGroup>(),
       new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new Queue<IEffect>(),
-      new List<IActionGroup>());
+      new Queue<IEffect>());
 
     public static MutableState New(
       this IState state,
       Player? playerTurn = null,
       int? turnNumber = null,
-      Dictionary<Player, Stack<Card>> decks = null,
-      Dictionary<Player, ISet<Card>> hands = null,
-      Dictionary<Player, ISet<Card>> discards = null,
-      Dictionary<Player, ISet<Card>> archives = null,
-      Dictionary<Player, IList<Creature>> fields = null,
-      Queue<IEffect> effects = null,
-      List<IActionGroup> actionGroups = null)
+      bool isGameOver = false,
+      IState previousState = null,
+      IList<IResolvedEffect> resolvedEffects = null,
+      IList<IActionGroup> actionGroups = null,
+      IDictionary<Player, Stack<Card>> decks = null,
+      IDictionary<Player, ISet<Card>> hands = null,
+      IDictionary<Player, ISet<Card>> discards = null,
+      IDictionary<Player, ISet<Card>> archives = null,
+      IDictionary<Player, IList<Creature>> fields = null,
+      Queue<IEffect> effects = null)
     {
       return new MutableState(
         playerTurn ?? state.PlayerTurn,
         turnNumber ?? state.TurnNumber,
+        isGameOver || state.IsGameOver,
+        previousState ?? state.PreviousState,
+        resolvedEffects ?? state.ResolvedEffects,
+        actionGroups ?? state.ActionGroups,
         decks ?? state.Decks,
         hands ?? state.Hands,
         discards ?? state.Discards,
         archives ?? state.Archives,
         fields ?? state.Fields,
-        effects ?? state.Effects,
-        actionGroups ?? state.ActionGroups);
+        effects ?? state.Effects);
     }
 
     public static Stack<Card> SampleDeck =>

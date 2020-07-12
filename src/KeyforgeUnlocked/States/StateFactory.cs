@@ -3,10 +3,10 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
-using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.ResolvedEffects;
 using UnlockedCore.States;
 
-namespace KeyforgeUnlocked
+namespace KeyforgeUnlocked.States
 {
   public static class StateFactory
   {
@@ -22,13 +22,16 @@ namespace KeyforgeUnlocked
       return new MutableState(
           Player.Player1,
           1,
+          false,
+          null,
+          new List<IResolvedEffect>(),
+          new List<IActionGroup>(),
           decks,
           EmptySet(),
           EmptySet(),
           EmptySet(),
           EmptyField(),
-          new Queue<IEffect>(),
-          new List<IActionGroup>())
+          new Queue<IEffect>())
         .ResolveEffects();
     }
 

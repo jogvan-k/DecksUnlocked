@@ -3,12 +3,17 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
   public interface IState : ICoreState
   {
+    IState PreviousState { get; }
+
+    IList<IResolvedEffect> ResolvedEffects { get; }
+
     IList<IActionGroup> ActionGroups { get; }
 
     IDictionary<Player, Stack<Card>> Decks { get; }

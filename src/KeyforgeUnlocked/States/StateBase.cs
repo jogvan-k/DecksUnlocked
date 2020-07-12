@@ -5,6 +5,7 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
 
@@ -15,6 +16,8 @@ namespace KeyforgeUnlocked.States
     protected Player playerTurn;
     protected int turnNumber;
     protected bool isGameOver;
+    protected IState previousState;
+    protected IList<IResolvedEffect> resolvedEffects;
     protected IList<IActionGroup> actionGroups;
     protected IDictionary<Player, Stack<Card>> decks;
     protected IDictionary<Player, ISet<Card>> hands;
@@ -25,23 +28,29 @@ namespace KeyforgeUnlocked.States
 
     public StateBase(Player playerTurn,
       int turnNumber,
+      bool isGameOver,
+      IState previousState,
+      IList<IResolvedEffect> resolvedEffects,
+      IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects,
-      IList<IActionGroup> actionGroups)
+      Queue<IEffect> effects)
     {
       this.playerTurn = playerTurn;
       this.turnNumber = turnNumber;
+      this.isGameOver = isGameOver;
+      this.previousState = previousState;
+      this.resolvedEffects = resolvedEffects;
+      this.actionGroups = actionGroups;
+      this.effects = effects;
       this.decks = decks;
       this.hands = hands;
       this.discards = discards;
       this.archives = archives;
       this.fields = fields;
-      this.effects = effects;
-      this.actionGroups = actionGroups;
     }
 
     public IList<ICoreAction> Actions()
@@ -54,13 +63,16 @@ namespace KeyforgeUnlocked.States
       return new ImmutableState(
         playerTurn,
         turnNumber,
+        isGameOver,
+        (IState) this,
+        new List<IResolvedEffect>(),
+        actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects,
-        actionGroups);
+        effects);
     }
 
     public MutableState ToMutable()
@@ -69,13 +81,16 @@ namespace KeyforgeUnlocked.States
       return new MutableState(
         playerTurn,
         turnNumber,
+        isGameOver,
+        (IState) previousState,
+        resolvedEffects,
+        actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects,
-        actionGroups);
+        effects);
     }
 
     public override bool Equals(object obj)

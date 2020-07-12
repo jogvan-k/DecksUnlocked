@@ -20,7 +20,7 @@ namespace KeyforgeUnlocked.ActionGroups
       Actions = InitiateActions(state);
     }
 
-    protected ImmutableList<Action> InitiateActions(IState state)
+    ImmutableList<Action> InitiateActions(IState state)
     {
       var list = ImmutableList<Action>.Empty;
 

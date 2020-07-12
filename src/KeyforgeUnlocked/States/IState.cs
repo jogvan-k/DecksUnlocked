@@ -9,17 +9,17 @@ namespace KeyforgeUnlocked.States
 {
   public interface IState : ICoreState
   {
-    public List<IActionGroup> ActionGroups { get; }
+    IList<IActionGroup> ActionGroups { get; }
 
-    Dictionary<Player, Stack<Card>> Decks { get; }
+    IDictionary<Player, Stack<Card>> Decks { get; }
 
-    Dictionary<Player, ISet<Card>> Hands { get; }
+    IDictionary<Player, ISet<Card>> Hands { get; }
 
-    Dictionary<Player, ISet<Card>> Discards { get; }
+    IDictionary<Player, ISet<Card>> Discards { get; }
 
-    Dictionary<Player, ISet<Card>> Archives { get; }
+    IDictionary<Player, ISet<Card>> Archives { get; }
 
-    Dictionary<Player, IList<Creature>> Fields { get; }
+    IDictionary<Player, IList<Creature>> Fields { get; }
 
     Queue<IEffect> Effects { get; }
     MutableState ToMutable();

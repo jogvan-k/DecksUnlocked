@@ -10,92 +10,72 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public abstract class StateBase : IState
+  public abstract class StateBase
   {
-    protected Player _playerTurn;
-    protected int _turnNumber;
-    protected bool _isGameOver;
-    protected List<IActionGroup> _actionGroups;
-    protected Dictionary<Player, Stack<Card>> _decks;
-    protected Dictionary<Player, ISet<Card>> _hands;
-    protected Dictionary<Player, ISet<Card>> _discards;
-    protected Dictionary<Player, ISet<Card>> _archives;
-    protected Dictionary<Player, IList<Creature>> _fields;
-    protected Queue<IEffect> _effects;
-
-    public Player PlayerTurn => _playerTurn;
-
-    public int TurnNumber => _turnNumber;
-
-    public bool IsGameOver => _isGameOver;
-
-    public List<IActionGroup> ActionGroups => _actionGroups;
-
-    public Dictionary<Player, Stack<Card>> Decks => _decks;
-
-    public Dictionary<Player, ISet<Card>> Hands => _hands;
-
-    public Dictionary<Player, ISet<Card>> Discards => _discards;
-
-    public Dictionary<Player, ISet<Card>> Archives => _archives;
-
-    public Dictionary<Player, IList<Creature>> Fields => _fields;
-
-    public Queue<IEffect> Effects => _effects;
+    protected Player playerTurn;
+    protected int turnNumber;
+    protected bool isGameOver;
+    protected IList<IActionGroup> actionGroups;
+    protected IDictionary<Player, Stack<Card>> decks;
+    protected IDictionary<Player, ISet<Card>> hands;
+    protected IDictionary<Player, ISet<Card>> discards;
+    protected IDictionary<Player, ISet<Card>> archives;
+    protected IDictionary<Player, IList<Creature>> fields;
+    protected Queue<IEffect> effects;
 
     public StateBase(Player playerTurn,
       int turnNumber,
-      Dictionary<Player, Stack<Card>> decks,
-      Dictionary<Player, ISet<Card>> hands,
-      Dictionary<Player, ISet<Card>> discards,
-      Dictionary<Player, ISet<Card>> archives,
-      Dictionary<Player, IList<Creature>> fields,
+      IDictionary<Player, Stack<Card>> decks,
+      IDictionary<Player, ISet<Card>> hands,
+      IDictionary<Player, ISet<Card>> discards,
+      IDictionary<Player, ISet<Card>> archives,
+      IDictionary<Player, IList<Creature>> fields,
       Queue<IEffect> effects,
-      List<IActionGroup> actionGroups)
+      IList<IActionGroup> actionGroups)
     {
-      _playerTurn = playerTurn;
-      _turnNumber = turnNumber;
-      _decks = decks;
-      _hands = hands;
-      _discards = discards;
-      _archives = archives;
-      _fields = fields;
-      _effects = effects;
-      _actionGroups = actionGroups;
+      this.playerTurn = playerTurn;
+      this.turnNumber = turnNumber;
+      this.decks = decks;
+      this.hands = hands;
+      this.discards = discards;
+      this.archives = archives;
+      this.fields = fields;
+      this.effects = effects;
+      this.actionGroups = actionGroups;
     }
 
-    public List<ICoreAction> Actions()
+    public IList<ICoreAction> Actions()
     {
-      return ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
+      return actionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
     }
 
-    public Immutable ToImmutable()
+    public ImmutableState ToImmutable()
     {
-      return new Immutable(
-        PlayerTurn,
-        TurnNumber,
-        Decks,
-        Hands,
-        Discards,
-        Archives,
-        Fields,
-        Effects,
-        ActionGroups);
+      return new ImmutableState(
+        playerTurn,
+        turnNumber,
+        decks,
+        hands,
+        discards,
+        archives,
+        fields,
+        effects,
+        actionGroups);
     }
 
     public MutableState ToMutable()
     {
       // TODO clone fields
       return new MutableState(
-        PlayerTurn,
-        TurnNumber,
-        Decks,
-        Hands,
-        Discards,
-        Archives,
-        Fields,
-        Effects,
-        ActionGroups);
+        playerTurn,
+        turnNumber,
+        decks,
+        hands,
+        discards,
+        archives,
+        fields,
+        effects,
+        actionGroups);
     }
 
     public override bool Equals(object obj)
@@ -108,15 +88,15 @@ namespace KeyforgeUnlocked.States
 
     bool Equals(MutableState other)
     {
-      return IsGameOver == other.IsGameOver
-             && TurnNumber == other.TurnNumber
-             && PlayerTurn == other.PlayerTurn
-             && EqualContent(Decks, other.Decks)
-             && EqualContent(Hands, other.Hands)
-             && EqualContent(Discards, other.Discards)
-             && EqualContent(Archives, other.Archives)
-             && EqualContent(Fields, other.Fields)
-             && Effects.SequenceEqual(other.Effects);
+      return isGameOver == other.IsGameOver
+             && turnNumber == other.TurnNumber
+             && playerTurn == other.PlayerTurn
+             && EqualContent(decks, other.Decks)
+             && EqualContent(hands, other.Hands)
+             && EqualContent(discards, other.Discards)
+             && EqualContent(archives, other.Archives)
+             && EqualContent(fields, other.Fields)
+             && effects.SequenceEqual(other.Effects);
     }
 
     static bool EqualContent<T>(IDictionary<Player, T> first,
@@ -136,15 +116,15 @@ namespace KeyforgeUnlocked.States
     public override int GetHashCode()
     {
       var hashCode = new HashCode();
-      hashCode.Add(IsGameOver);
-      hashCode.Add((int) PlayerTurn);
-      hashCode.Add(TurnNumber);
-      hashCode.Add(Decks);
-      hashCode.Add(Hands);
-      hashCode.Add(Discards);
-      hashCode.Add(Archives);
-      hashCode.Add(Fields);
-      hashCode.Add(Effects);
+      hashCode.Add(isGameOver);
+      hashCode.Add((int) playerTurn);
+      hashCode.Add(playerTurn);
+      hashCode.Add(decks);
+      hashCode.Add(hands);
+      hashCode.Add(decks);
+      hashCode.Add(archives);
+      hashCode.Add(fields);
+      hashCode.Add(effects);
       return hashCode.ToHashCode();
     }
   }

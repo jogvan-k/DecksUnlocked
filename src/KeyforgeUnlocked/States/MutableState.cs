@@ -7,54 +7,54 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
 {
-  public sealed class MutableState : StateBase
+  public sealed class MutableState : StateBase, IState
   {
-    public new bool IsGameOver
+    public Player PlayerTurn
     {
-      get => _isGameOver;
-      set => _isGameOver = value;
+      get => playerTurn;
+      set => playerTurn = value;
     }
 
-    public new List<IActionGroup> ActionGroups
+    public int TurnNumber
     {
-      get => _actionGroups;
-      set => _actionGroups = value;
+      get => turnNumber;
+      set => turnNumber = value;
     }
 
-    public new Player PlayerTurn
+    public bool IsGameOver
     {
-      get => _playerTurn;
-      set => _playerTurn = value;
+      get => isGameOver;
+      set => isGameOver = value;
     }
 
-    public new int TurnNumber
+    public IList<IActionGroup> ActionGroups
     {
-      get => _turnNumber;
-      set => _turnNumber = value;
+      get => actionGroups;
+      set => actionGroups = value;
     }
 
-    public new Dictionary<Player, Stack<Card>> Decks { get => _decks; set => _decks = value; }
+    public IDictionary<Player, Stack<Card>> Decks { get => decks; set => decks = value; }
 
-    public new Dictionary<Player, ISet<Card>> Hands { get => _hands; set => _hands = value; }
+    public IDictionary<Player, ISet<Card>> Hands { get => hands; set => hands = value; }
 
-    public new Dictionary<Player, ISet<Card>> Discards { get => _discards; set => _discards = value; }
+    public IDictionary<Player, ISet<Card>> Discards { get => discards; set => discards = value; }
 
-    public new Dictionary<Player, ISet<Card>> Archives { get => _archives; set => _discards = value; }
+    public IDictionary<Player, ISet<Card>> Archives { get => archives; set => discards = value; }
 
-    public new Dictionary<Player, IList<Creature>> Fields { get => _fields; set => _fields = value; }
+    public IDictionary<Player, IList<Creature>> Fields { get => fields; set => fields = value; }
 
-    public new Queue<IEffect> Effects { get => _effects; set => _effects = value; }
+    public Queue<IEffect> Effects { get => effects; set => effects = value; }
 
     public MutableState(
       Player playerTurn,
       int turnNumber,
-      Dictionary<Player, Stack<Card>> decks,
-      Dictionary<Player, ISet<Card>> hands,
-      Dictionary<Player, ISet<Card>> discards,
-      Dictionary<Player, ISet<Card>> archives,
-      Dictionary<Player, IList<Creature>> fields,
+      IDictionary<Player, Stack<Card>> decks,
+      IDictionary<Player, ISet<Card>> hands,
+      IDictionary<Player, ISet<Card>> discards,
+      IDictionary<Player, ISet<Card>> archives,
+      IDictionary<Player, IList<Creature>> fields,
       Queue<IEffect> effects,
-      List<IActionGroup> actionGroups)
+      IList<IActionGroup> actionGroups)
       : base(
         playerTurn,
         turnNumber,
@@ -89,7 +89,7 @@ namespace KeyforgeUnlocked.States
       }
     }
 
-    public Immutable ResolveEffects()
+    public ImmutableState ResolveEffects()
     {
       while (ActionGroups.Count == 0 && Effects.Count != 0)
         Effects.Dequeue().Resolve(this);

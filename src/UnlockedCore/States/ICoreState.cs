@@ -9,6 +9,6 @@ namespace UnlockedCore.States
     Player PlayerTurn { get; }
     int TurnNumber { get; }
     bool IsGameOver { get; }
-    List<ICoreAction> Actions();
+    IList<ICoreAction> Actions();
   }
 }

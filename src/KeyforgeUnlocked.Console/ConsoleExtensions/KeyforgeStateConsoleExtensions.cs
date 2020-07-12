@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;
 
@@ -11,14 +11,38 @@ namespace KeyforgeUnlockedConsole
 {
   public static class KeyforgeStateConsoleExtensions
   {
-    public static void Print(this IState state, out Dictionary<string, IActionGroup> commands)
+    public static void Print(this IState state,
+      out Dictionary<string, IActionGroup> commands)
     {
-      var playerTurn = state.PlayerTurn;
-      Console.WriteLine($"Current turn: {playerTurn}");
-      Console.WriteLine($"Turn number: {state.TurnNumber}");
       commands = new Dictionary<string, IActionGroup>();
+      PrintStatus(state);
       PrintHand(state, commands);
       PrintAdditionalActions(state, commands);
+    }
+
+    static void PrintStatus(IState state)
+    {
+      Console.WriteLine($"Current player: {state.PlayerTurn}");
+      PrintAmounts(state);
+      PrintField(state);
+    }
+
+    static void PrintField(IState state)
+    {
+      Console.Write("Opponent's board: ");
+      PrintField(state.Fields[state.PlayerTurn.Other()]);
+      Console.Write("Your board:       ");
+      PrintField(state.Fields[state.PlayerTurn]);
+    }
+
+    static void PrintField(IList<Creature> creatures)
+    {
+      foreach (var creature in creatures)
+      {
+        Console.Write($"{creature.Card.Name} ");
+      }
+
+      Console.WriteLine();
     }
 
     static void PrintHand(IState state,
@@ -48,8 +72,16 @@ namespace KeyforgeUnlockedConsole
       if (endAction != default)
       {
         commands.Add("end", endAction);
-        Console.WriteLine("Additional actions: [end] End turn");
+        Console.WriteLine("Additional actions: [End] turn");
       }
+    }
+
+    static void PrintAmounts(IState state)
+    {
+      var playerTurn = state.PlayerTurn;
+      Console.Write($"[Deck]: {state.Decks[playerTurn].Count} ");
+      Console.Write($"[Dis]carde: {state.Discards[playerTurn].Count} ");
+      Console.WriteLine($"[Arc]hive: {state.Archives[playerTurn].Count}");
     }
 
     static bool IsActionEndTurn(this IActionGroup group)

@@ -5,6 +5,7 @@ using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
+using KeyforgeUnlockedConsole.PrintCommands;
 using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole
@@ -14,24 +15,30 @@ namespace KeyforgeUnlockedConsole
     static void Main(string[] args)
     {
       IState state = StateFactory.Initiate(Deck.LoadDeck(), Deck.LoadDeck());
+      var helperCommands = PrintCommandsFactory.HelperCommands;
       while (!state.IsGameOver)
       {
+        Console.Clear();
         state.Print(out var commands);
 
-        var command = ReadCommand(commands);
+        var command = ReadCommand(state, commands, helperCommands);
         state = ResolveCommand(state, commands[command]);
       }
     }
 
-    static string ReadCommand(Dictionary<string, IActionGroup> commands)
+    static string ReadCommand(IState state, Dictionary<string, IActionGroup> commands,
+      IDictionary<string, IPrintCommand> helperCommands)
     {
       while (true)
       {
         Console.Write("Action: ");
-        var command = Console.ReadLine();
-        if (commands.Keys.Contains(command))
+        var command = Console.ReadLine().ToLower();
+        if(helperCommands.Keys.Contains(command))
+          helperCommands[command].Print(state);
+        else if (commands.Keys.Contains(command))
           return command;
-        Console.WriteLine($"Invalid command: {command}");
+        else
+          Console.WriteLine($"Invalid command: {command}");
       }
     }
 

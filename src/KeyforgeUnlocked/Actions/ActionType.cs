@@ -2,6 +2,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public enum ActionType
   {
-    PlayCard, EndTurn
+    PlayCard,
+    EndTurn
   }
 }

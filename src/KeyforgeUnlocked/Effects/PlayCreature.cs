@@ -1,8 +1,8 @@
 using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
@@ -22,9 +22,11 @@ namespace KeyforgeUnlocked.Effects
     public void Resolve(MutableState state)
     {
       ValidatePosition(state);
-      state.Fields[state.PlayerTurn].Insert(Position, Card.InsantiateCreature());
+      var creature = Card.InsantiateCreature();
+      state.Fields[state.PlayerTurn].Insert(Position, creature);
+      state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
-      if(!state.Hands[state.PlayerTurn].Remove(Card))
+      if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state);
     }
 

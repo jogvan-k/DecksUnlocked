@@ -31,6 +31,7 @@ namespace KeyforgeUnlockedConsole
     {
       return $"Discard card";
     }
+
     public static string ToConsole(this EndTurn action)
     {
       return "End turn";

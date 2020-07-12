@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using NUnit.Framework;
 using DiscardCard = KeyforgeUnlocked.Actions.DiscardCard;
+using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
 
 namespace KeyforgeUnlockedTest.Actions
@@ -15,14 +16,14 @@ namespace KeyforgeUnlockedTest.Actions
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {
       new TestCaseData(new PlayCreature(new SimpleCreatureCard(), 0)),
-      new TestCaseData(new EndTurn()),
+      new TestCaseData(new KeyforgeUnlocked.Actions.EndTurn()),
       new TestCaseData(new DiscardCard(new SimpleCreatureCard())),
     };
 
     [TestCaseSource(nameof(testCases))]
     public void DoActionNoResolve_UnresolvedEffects_Fail(BasicAction sut)
     {
-      var state = TestUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new ChangePlayer()}));
+      var state = TestUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
 
       try
       {

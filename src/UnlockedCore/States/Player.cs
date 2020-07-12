@@ -2,7 +2,8 @@ namespace UnlockedCore.States
 {
   public enum Player
   {
-    Player1, Player2
+    Player1,
+    Player2
   }
 
   public static class PlayerExtensions

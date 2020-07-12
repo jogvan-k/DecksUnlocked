@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -30,27 +31,27 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOver,
       IState previousState,
-      IList<IResolvedEffect> resolvedEffects,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects)
+      Queue<IEffect> effects,
+      IList<IResolvedEffect> resolvedEffects)
     {
       this.playerTurn = playerTurn;
       this.turnNumber = turnNumber;
       this.isGameOver = isGameOver;
       this.previousState = previousState;
-      this.resolvedEffects = resolvedEffects;
       this.actionGroups = actionGroups;
-      this.effects = effects;
       this.decks = decks;
       this.hands = hands;
       this.discards = discards;
       this.archives = archives;
       this.fields = fields;
+      this.effects = effects;
+      this.resolvedEffects = resolvedEffects;
     }
 
     public IList<ICoreAction> Actions()
@@ -58,23 +59,26 @@ namespace KeyforgeUnlocked.States
       return actionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
     }
 
-    public ImmutableState ToImmutable()
+    protected ImmutableState ToImmutable()
     {
       return new ImmutableState(
         playerTurn,
         turnNumber,
         isGameOver,
-        (IState) this,
-        new List<IResolvedEffect>(),
+        previousState,
         actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects);
+        effects,
+        new List<IResolvedEffect>());
     }
 
+    /// <summary>
+    /// Creates a mutable instance of <see cref="IState"/>. All properties are cloned except of <see cref="previousState"/> which is set to the state initiating the mutable state, and the <see cref="resolvedEffects"/>  is emptied.
+    /// </summary>
     public MutableState ToMutable()
     {
       // TODO clone fields
@@ -82,36 +86,40 @@ namespace KeyforgeUnlocked.States
         playerTurn,
         turnNumber,
         isGameOver,
-        (IState) previousState,
-        resolvedEffects,
+        (IState) this,
         actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects);
+        effects,
+        new List<IResolvedEffect>());
     }
 
     public override bool Equals(object obj)
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((MutableState) obj);
+      if (!(obj is StateBase)) return false;
+      return Equals((StateBase) obj);
     }
 
-    bool Equals(MutableState other)
+    bool Equals(StateBase other)
     {
-      return isGameOver == other.IsGameOver
-             && turnNumber == other.TurnNumber
-             && playerTurn == other.PlayerTurn
-             && EqualContent(decks, other.Decks)
-             && EqualContent(hands, other.Hands)
-             && EqualContent(discards, other.Discards)
-             && EqualContent(archives, other.Archives)
-             && EqualContent(fields, other.Fields)
-             && effects.SequenceEqual(other.Effects);
+      return isGameOver == other.isGameOver
+             && turnNumber == other.turnNumber
+             && playerTurn == other.playerTurn
+             && (previousState == null && other.previousState == null ||
+                 (previousState != null && previousState.Equals(other.previousState)))
+             && actionGroups.SequenceEqual(other.actionGroups)
+             && EqualContent(decks, other.decks)
+             && EqualContent(hands, other.hands)
+             && EqualContent(discards, other.discards)
+             && EqualContent(archives, other.archives)
+             && EqualContent(fields, other.fields)
+             && effects.SequenceEqual(other.effects)
+             && resolvedEffects.SequenceEqual(other.resolvedEffects);
     }
 
     static bool EqualContent<T>(IDictionary<Player, T> first,
@@ -140,6 +148,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(archives);
       hashCode.Add(fields);
       hashCode.Add(effects);
+      hashCode.Add(resolvedEffects);
       return hashCode.ToHashCode();
     }
   }

@@ -12,6 +12,9 @@ namespace KeyforgeUnlocked.States
   {
     IState PreviousState { get; }
 
+    /// <summary>
+    /// Effects that have been resolved since <see cref="PreviousState"/>
+    /// </summary>
     IList<IResolvedEffect> ResolvedEffects { get; }
 
     IList<IActionGroup> ActionGroups { get; }

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
 
 [assembly: InternalsVisibleTo("KeyforgeUnlocked.Test")]
+
 namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action : ICoreAction
@@ -15,9 +18,11 @@ namespace KeyforgeUnlocked.Actions
 
     public IState DoAction(IState state)
     {
-      return DoActionNoResolve(state).ResolveEffects();
+      var mutableState = state.ToMutable();
+      mutableState.ActionGroups = new List<IActionGroup>();
+      return DoActionNoResolve(mutableState).ResolveEffects();
     }
 
-    internal abstract MutableState DoActionNoResolve(IState state);
+    internal abstract MutableState DoActionNoResolve(MutableState state);
   }
 }

@@ -12,12 +12,11 @@ namespace KeyforgeUnlocked.Actions
       Card = card;
     }
 
-    internal override MutableState DoActionNoResolve(IState state)
+    internal override MutableState DoActionNoResolve(MutableState state)
     {
       Validate(state);
-      var mutableState = state.ToMutable();
-      mutableState.Effects.Enqueue(new Effects.DiscardCard(Card));
-      return mutableState;
+      state.Effects.Enqueue(new Effects.DiscardCard(Card));
+      return state;
     }
 
     public override bool Equals(object obj)

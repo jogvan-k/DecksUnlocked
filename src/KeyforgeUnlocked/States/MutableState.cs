@@ -31,6 +31,7 @@ namespace KeyforgeUnlocked.States
     public IState PreviousState
     {
       get => previousState;
+      set => previousState = value;
     }
 
     public IList<IResolvedEffect> ResolvedEffects
@@ -86,29 +87,28 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOVer,
       IState previousState,
-      IList<IResolvedEffect> resolvedEffects,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects)
+      Queue<IEffect> effects,
+      IList<IResolvedEffect> resolvedEffects)
       : base(
         playerTurn,
         turnNumber,
         isGameOVer,
         previousState,
-        resolvedEffects,
         actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects)
+        effects,
+        resolvedEffects)
     {
-      ActionGroups = new List<IActionGroup>();
     }
 
     void RefreshBaseActions()

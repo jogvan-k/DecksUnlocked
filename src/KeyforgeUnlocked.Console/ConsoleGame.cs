@@ -26,14 +26,15 @@ namespace KeyforgeUnlockedConsole
       }
     }
 
-    static string ReadCommand(IState state, Dictionary<string, IActionGroup> commands,
+    static string ReadCommand(IState state,
+      Dictionary<string, IActionGroup> commands,
       IDictionary<string, IPrintCommand> helperCommands)
     {
       while (true)
       {
         Console.Write("Action: ");
         var command = Console.ReadLine().ToLower();
-        if(helperCommands.Keys.Contains(command))
+        if (helperCommands.Keys.Contains(command))
           helperCommands[command].Print(state);
         else if (commands.Keys.Contains(command))
           return command;

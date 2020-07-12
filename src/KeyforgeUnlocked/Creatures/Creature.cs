@@ -13,7 +13,9 @@ namespace KeyforgeUnlocked.Creatures
     public int Damage { get; }
     public int Health => Power - Damage;
 
-    public Creature(int basePower, int armor, CreatureCard card)
+    public Creature(int basePower,
+      int armor,
+      CreatureCard card)
     {
       BasePower = basePower;
       Armor = armor;

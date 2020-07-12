@@ -5,13 +5,12 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class EndTurn : BasicAction
   {
-    internal override MutableState DoActionNoResolve(IState state)
+    internal override MutableState DoActionNoResolve(MutableState state)
     {
       Validate(state);
-      var mutableState = state.ToMutable();
-      mutableState.Effects.Enqueue(new DrawToHandLimit());
-      mutableState.Effects.Enqueue(new ChangePlayer());
-      return mutableState;
+      state.Effects.Enqueue(new DrawToHandLimit());
+      state.Effects.Enqueue(new Effects.EndTurn());
+      return state;
     }
 
     public override bool Equals(object obj)

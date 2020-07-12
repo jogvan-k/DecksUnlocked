@@ -1,10 +1,11 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using NUnit.Framework;
 using UnlockedCore.States;
+using DiscardCard = KeyforgeUnlocked.Effects.DiscardCard;
 
 namespace KeyforgeUnlockedTest.Effects
 {
@@ -29,7 +30,10 @@ namespace KeyforgeUnlockedTest.Effects
         {Player.Player1, new HashSet<Card> {sampleCard}},
         {Player.Player2, new HashSet<Card>()}
       };
-      var expectedState = TestUtil.EmptyMutableState.New(discards: expectedDiscards, hands: expectedHands);
+      var expectedState = TestUtil.EmptyMutableState.New(
+        discards: expectedDiscards,
+        hands: expectedHands,
+        resolvedEffects: new List<IResolvedEffect> {new KeyforgeUnlocked.ResolvedEffects.CardDiscarded(sampleCard)});
       Assert.AreEqual(expectedState, state);
     }
 

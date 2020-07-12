@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using NUnit.Framework;
 using UnlockedCore.States;
 
@@ -17,9 +18,8 @@ namespace KeyforgeUnlockedTest.Effects
       new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(),
     };
 
-    [TestCase(Player.Player1)]
-    [TestCase(Player.Player2)]
-    public void Resolve_EmptyState(Player player)
+    [Test]
+    public void Resolve_EmptyState()
     {
       var state = TestUtil.EmptyMutableState;
       var sut = new DrawToHandLimit();
@@ -49,6 +49,8 @@ namespace KeyforgeUnlockedTest.Effects
       for (var i = 0; i < expectedDraws; i++)
         expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Pop());
       var expectedState = TestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
+      if (expectedDraws > 0)
+        expectedState.ResolvedEffects.Add(new CardsDrawn(expectedDraws));
       Assert.AreEqual(expectedState, state);
     }
 

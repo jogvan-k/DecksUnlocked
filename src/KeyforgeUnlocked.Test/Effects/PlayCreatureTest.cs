@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -31,8 +32,10 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedState = TestState(playingPlayer);
-      expectedState.Fields[playingPlayer].Add(new Creature(PlayedCard.Power, PlayedCard.Armor, PlayedCard));
+      var expectedCreature = new Creature(PlayedCard.Power, PlayedCard.Armor, PlayedCard);
+      expectedState.Fields[playingPlayer].Add(expectedCreature);
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
+      expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
       Assert.AreEqual(expectedState, state);
     }
 
@@ -89,8 +92,10 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedState = StateWithTwoCreatures(playingPlayer);
-      expectedState.Fields[playingPlayer].Insert(position , new Creature(PlayedCard.Power, PlayedCard.Armor, PlayedCard));
+      var expectedCreature = new Creature(PlayedCard.Power, PlayedCard.Armor, PlayedCard);
+      expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
+      expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
       Assert.AreEqual(expectedState, state);
     }
 

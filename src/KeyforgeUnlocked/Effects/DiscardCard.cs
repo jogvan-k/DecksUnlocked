@@ -15,9 +15,10 @@ namespace KeyforgeUnlocked.Effects
 
     public void Resolve(MutableState state)
     {
-      if(!state.Hands[state.PlayerTurn].Remove(Card))
+      if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state);
       state.Discards[state.PlayerTurn].Add(Card);
+      state.ResolvedEffects.Add(new ResolvedEffects.CardDiscarded(Card));
     }
 
     public override bool Equals(object obj)

@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void DoActionNoResolve_EmptyBoard()
     {
-      IState state = TestUtil.EmptyMutableState;
+      var state = TestUtil.EmptyMutableState;
       var sut = new PlayCreature(Card, 0);
 
       state = sut.DoActionNoResolve(state);

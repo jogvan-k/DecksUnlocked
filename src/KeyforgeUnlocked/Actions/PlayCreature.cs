@@ -18,15 +18,14 @@ namespace KeyforgeUnlocked.Actions
       Position = position;
     }
 
-    internal override MutableState DoActionNoResolve(IState state)
+    internal override MutableState DoActionNoResolve(MutableState state)
     {
       Validate(state);
-      var mutableState = state.ToMutable();
-      mutableState.Effects.Enqueue(
+      state.Effects.Enqueue(
         new Effects.PlayCreature(
           Card,
           Position));
-      return mutableState;
+      return state;
     }
 
     public override bool Equals(object obj)

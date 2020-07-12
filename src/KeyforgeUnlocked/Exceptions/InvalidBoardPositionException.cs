@@ -6,7 +6,8 @@ namespace KeyforgeUnlocked.Exceptions
   {
     public int boardPosition { get; }
 
-    public InvalidBoardPositionException(IState state, int boardPosition) : base(state)
+    public InvalidBoardPositionException(IState state,
+      int boardPosition) : base(state)
     {
       this.boardPosition = boardPosition;
     }

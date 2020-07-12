@@ -7,6 +7,8 @@ namespace KeyforgeUnlocked.Exceptions
   /// </summary>
   public sealed class UnresolvedEffectsException : KeyforgeUnlockedException
   {
-    public UnresolvedEffectsException(IState state) : base(state){}
+    public UnresolvedEffectsException(IState state) : base(state)
+    {
+    }
   }
 }

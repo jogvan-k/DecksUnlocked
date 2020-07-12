@@ -38,27 +38,27 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOver,
       IState previousState,
-      IList<IResolvedEffect> resolvedEffects,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects)
+      Queue<IEffect> effects,
+      IList<IResolvedEffect> resolvedEffects)
       : base(
         playerTurn,
         turnNumber,
         isGameOver,
         previousState,
-        resolvedEffects,
         actionGroups,
         decks,
         hands,
         discards,
         archives,
         fields,
-        effects)
+        effects,
+        resolvedEffects)
     {
     }
   }

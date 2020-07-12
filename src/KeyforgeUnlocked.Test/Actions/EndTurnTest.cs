@@ -3,6 +3,7 @@ using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 using NUnit.Framework;
+using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 
 namespace KeyforgeUnlockedTest.Actions
 {
@@ -12,14 +13,14 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void DoActionNoResolve_EmptyBoard()
     {
-      IState state = TestUtil.EmptyMutableState;
-      var sut = new EndTurn();
+      var state = TestUtil.EmptyMutableState;
+      var sut = new KeyforgeUnlocked.Actions.EndTurn();
 
       state = sut.DoActionNoResolve(state);
 
       var expectedEffects = new Queue<IEffect>();
       expectedEffects.Enqueue(new DrawToHandLimit());
-      expectedEffects.Enqueue(new ChangePlayer());
+      expectedEffects.Enqueue(new EndTurn());
       var expectedState = TestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }

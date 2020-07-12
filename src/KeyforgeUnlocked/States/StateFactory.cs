@@ -24,14 +24,14 @@ namespace KeyforgeUnlocked.States
           1,
           false,
           null,
-          new List<IResolvedEffect>(),
           new List<IActionGroup>(),
           decks,
           EmptySet(),
           EmptySet(),
           EmptySet(),
           EmptyField(),
-          new Queue<IEffect>())
+          new Queue<IEffect>(),
+          new List<IResolvedEffect>())
         .ResolveEffects();
     }
 

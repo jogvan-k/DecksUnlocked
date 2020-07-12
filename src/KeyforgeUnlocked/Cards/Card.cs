@@ -14,7 +14,9 @@ namespace KeyforgeUnlocked.Cards
 
     readonly int _hash;
 
-    protected Card(string name, House house, CardType cardType)
+    protected Card(string name,
+      House house,
+      CardType cardType)
     {
       Name = name;
       House = house;

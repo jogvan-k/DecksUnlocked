@@ -73,7 +73,7 @@ namespace KeyforgeUnlocked.States
         archives,
         fields,
         effects,
-        new List<IResolvedEffect>());
+        resolvedEffects);
     }
 
     /// <summary>

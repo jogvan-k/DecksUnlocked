@@ -10,7 +10,7 @@ using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole
 {
-  static class ConsoleGame
+  public static class ConsoleGame
   {
     static void Main(string[] args)
     {

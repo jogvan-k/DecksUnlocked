@@ -2,7 +2,7 @@ using System;
 using KeyforgeUnlocked.Actions;
 using Action = KeyforgeUnlocked.Actions.Action;
 
-namespace KeyforgeUnlockedConsole
+namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class ActionConsoleExtensions
   {

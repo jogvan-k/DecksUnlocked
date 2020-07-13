@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\KeyforgeUnlocked.Console\KeyforgeUnlocked.Console.csproj" />
         <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
         <ProjectReference Include="..\UnlockedCore\UnlockedCore.csproj" />
     </ItemGroup>

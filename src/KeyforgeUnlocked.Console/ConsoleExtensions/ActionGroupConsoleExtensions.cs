@@ -11,14 +11,21 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       {
         case PlayCard a:
           return a.ToConsole();
+        case EndTurnGroup a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
     }
 
-    static string ToConsole(this PlayCard playCard)
+    static string ToConsole(this PlayCreatureCardGroup playCard)
     {
       return $"Actions to card {playCard.Card.Name}:";
+    }
+
+    static string ToConsole(this EndTurnGroup endTurn)
+    {
+      return "End turn";
     }
   }
 }

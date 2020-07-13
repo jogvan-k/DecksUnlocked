@@ -7,7 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;
 
-namespace KeyforgeUnlockedConsole
+namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class KeyforgeStateConsoleExtensions
   {
@@ -17,6 +17,7 @@ namespace KeyforgeUnlockedConsole
       commands = new Dictionary<string, IActionGroup>();
       PrintStatus(state);
       PrintHand(state, commands);
+      PrintResolvedEffects(state);
       PrintAdditionalActions(state, commands);
     }
 
@@ -25,6 +26,16 @@ namespace KeyforgeUnlockedConsole
       Console.WriteLine($"Current player: {state.PlayerTurn}");
       PrintAmounts(state);
       PrintField(state);
+    }
+
+    static void PrintResolvedEffects(IState state)
+    {
+      if(state.ResolvedEffects.Any())
+        Console.WriteLine();
+      foreach (var effect in state.ResolvedEffects)
+      {
+        Console.WriteLine(effect.ToConsole());
+      }
     }
 
     static void PrintField(IState state)
@@ -48,6 +59,7 @@ namespace KeyforgeUnlockedConsole
     static void PrintHand(IState state,
       Dictionary<string, IActionGroup> commands)
     {
+      Console.WriteLine();
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
       foreach (var card in state.Hands[state.PlayerTurn])
@@ -71,6 +83,7 @@ namespace KeyforgeUnlockedConsole
       var endAction = state.ActionGroups.SingleOrDefault(a => a.IsActionEndTurn());
       if (endAction != default)
       {
+        Console.WriteLine();
         commands.Add("end", endAction);
         Console.WriteLine("Additional actions: [End] turn");
       }

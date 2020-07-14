@@ -34,6 +34,18 @@ namespace KeyforgeUnlocked.States
       set => previousState = value;
     }
 
+    public IDictionary<Player, int> Keys
+    {
+      get => keys;
+      set => keys = value;
+    }
+
+    public IDictionary<Player, int> Aember
+    {
+      get => aember;
+      set => aember = value;
+    }
+
     public IList<IResolvedEffect> ResolvedEffects
     {
       get => resolvedEffects;
@@ -87,6 +99,8 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOVer,
       IState previousState,
+      IDictionary<Player, int> keys,
+      IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
@@ -100,6 +114,8 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOVer,
         previousState,
+        keys,
+        aember,
         actionGroups,
         decks,
         hands,

@@ -106,7 +106,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       this IActionGroup group,
       Card card)
     {
-      if (group is PlayCard playCardGroup)
+      if (group is PlayCardGroup playCardGroup)
       {
         return playCardGroup.Card.Equals(card);
       }

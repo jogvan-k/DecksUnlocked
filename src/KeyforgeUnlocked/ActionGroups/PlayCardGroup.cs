@@ -3,11 +3,11 @@ using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public abstract class PlayCard : ActionGroupBase
+  public abstract class PlayCardGroup : ActionGroupBase
   {
     public Card Card { get; }
 
-    protected PlayCard(
+    protected PlayCardGroup(
       Card card) : base(ActionType.PlayCard)
     {
       Card = card;

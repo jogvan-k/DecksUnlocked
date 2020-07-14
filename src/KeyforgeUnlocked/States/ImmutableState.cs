@@ -16,6 +16,10 @@ namespace KeyforgeUnlocked.States
 
     public bool IsGameOver => isGameOver;
 
+    public IDictionary<Player, int> Keys => keys;
+
+    public IDictionary<Player, int> Aember => aember;
+
     public IState PreviousState => previousState;
 
     public IList<IResolvedEffect> ResolvedEffects => resolvedEffects;
@@ -38,6 +42,8 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOver,
       IState previousState,
+      IDictionary<Player, int> keys,
+      IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
@@ -51,6 +57,8 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOver,
         previousState,
+        keys,
+        aember,
         actionGroups,
         decks,
         hands,

@@ -3,49 +3,57 @@ using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Creatures
 {
-  public class Creature
+  public class Creature : CreatureBase, ICreature
   {
-    public int BasePower { get; }
-    public int Armor { get; }
-    public CreatureCard Card { get; }
-    public int PowerCounters { get; }
+    public string CreatureId => _creatureId;
+
+    public int BasePower => _basePower;
+
+    public int Armor => _armor;
+
+    public CreatureCard Card => _card;
+
+    public int PowerCounters => _powerCounters;
+
+    public int Damage => _damage;
+
     public int Power => BasePower + PowerCounters;
-    public int Damage { get; }
+
+    public bool IsReady => _isReady;
+
     public int Health => Power - Damage;
 
     public Creature(int basePower,
       int armor,
-      CreatureCard card)
+      CreatureCard card) : base(basePower, armor, card)
     {
-      BasePower = basePower;
-      Armor = armor;
-      Card = card;
-      PowerCounters = 0;
-      Damage = 0;
     }
 
-    public override bool Equals(object obj)
+    public Creature(
+      string creatureId,
+      int basePower,
+      int armor,
+      CreatureCard card,
+      int powerCounters,
+      int damage,
+      bool isReady) : this(basePower, armor, card)
     {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((Creature) obj);
+      _creatureId = creatureId;
+      _powerCounters = powerCounters;
+      _damage = damage;
+      _isReady = isReady;
     }
 
-    bool Equals(Creature other)
+    public MutableCreature ToMutable()
     {
-      return BasePower == other.BasePower
-             && Armor == other.Armor
-             && Equals(Card, other.Card)
-             && PowerCounters == other.PowerCounters
-             && Damage == other.Damage;
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(
-        BasePower, Armor, Card,
-        PowerCounters, Damage);
+      return new MutableCreature(
+        _creatureId,
+        _basePower,
+        _armor,
+        Card,
+        _powerCounters,
+        _damage,
+        _isReady);
     }
   }
 }

@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.States
 {
   public static class StateFactory
   {
-    public static IState Initiate(Deck player1Deck,
+    public static ImmutableState Initiate(Deck player1Deck,
       Deck player2Deck)
     {
       var decks = new Dictionary<Player, Stack<Card>>
@@ -24,6 +24,8 @@ namespace KeyforgeUnlocked.States
           1,
           false,
           null,
+          EmptyValues(),
+          EmptyValues(),
           new List<IActionGroup>(),
           decks,
           EmptySet(),
@@ -33,6 +35,14 @@ namespace KeyforgeUnlocked.States
           new Queue<IEffect>(),
           new List<IResolvedEffect>())
         .ResolveEffects();
+    }
+
+    static Dictionary<Player, int> EmptyValues()
+    {
+      return new Dictionary<Player, int>
+      {
+        {Player.Player1, 0}, {Player.Player2, 0}
+      };
     }
 
     static Dictionary<Player, IList<Card>> EmptyDeck<T>()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Dynamic;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -16,6 +17,9 @@ namespace KeyforgeUnlocked.States
     /// Effects that have been resolved since <see cref="PreviousState"/>
     /// </summary>
     IList<IResolvedEffect> ResolvedEffects { get; }
+
+    IDictionary<Player, int> Keys { get; }
+    IDictionary<Player, int> Aember { get; }
 
     IList<IActionGroup> ActionGroups { get; }
 

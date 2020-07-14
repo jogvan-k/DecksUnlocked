@@ -7,7 +7,7 @@ using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class PlayCreatureCardGroup : PlayCard
+  public sealed class PlayCreatureCardGroup : PlayCardGroup
   {
     public new CreatureCard Card => (CreatureCard) base.Card;
 

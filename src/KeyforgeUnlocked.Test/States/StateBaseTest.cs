@@ -15,6 +15,12 @@ namespace KeyforgeUnlockedTest.States
   [TestFixture]
   class StateBaseTest
   {
+    readonly Dictionary<Player, int> simpleValues = new Dictionary<Player, int>
+    {
+      {Player.Player1, 1},
+      {Player.Player2, 0}
+    };
+    
     readonly Dictionary<Player, ISet<Card>> simpleSet = new Dictionary<Player, ISet<Card>>
     {
       {Player.Player1, new HashSet<Card>()},
@@ -54,6 +60,8 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(turnNumber: 1).Equals(emptyState));
       Assert.False(emptyState.New(isGameOver: true).Equals(emptyState));
       Assert.False(emptyState.New(previousState: emptyState).Equals(emptyState));
+      Assert.False(emptyState.New(keys: simpleValues).Equals(emptyState));
+      Assert.False(emptyState.New(aember: simpleValues).Equals(emptyState));
       Assert.False(emptyState.New(actionGroups: new List<IActionGroup> {new EndTurnGroup()}).Equals(emptyState));
       Assert.False(emptyState.New(decks: simpleStack).Equals(emptyState));
       Assert.False(emptyState.New(hands: simpleSet).Equals(emptyState));

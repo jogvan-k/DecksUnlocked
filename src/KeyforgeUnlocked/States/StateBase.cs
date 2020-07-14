@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -18,7 +17,8 @@ namespace KeyforgeUnlocked.States
     protected int turnNumber;
     protected bool isGameOver;
     protected IState previousState;
-    protected IList<IResolvedEffect> resolvedEffects;
+    protected IDictionary<Player, int> keys;
+    protected IDictionary<Player, int> aember;
     protected IList<IActionGroup> actionGroups;
     protected IDictionary<Player, Stack<Card>> decks;
     protected IDictionary<Player, ISet<Card>> hands;
@@ -26,11 +26,14 @@ namespace KeyforgeUnlocked.States
     protected IDictionary<Player, ISet<Card>> archives;
     protected IDictionary<Player, IList<Creature>> fields;
     protected Queue<IEffect> effects;
+    protected IList<IResolvedEffect> resolvedEffects;
 
     public StateBase(Player playerTurn,
       int turnNumber,
       bool isGameOver,
       IState previousState,
+      IDictionary<Player, int> keys,
+      IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
@@ -44,6 +47,8 @@ namespace KeyforgeUnlocked.States
       this.turnNumber = turnNumber;
       this.isGameOver = isGameOver;
       this.previousState = previousState;
+      this.keys = keys;
+      this.aember = aember;
       this.actionGroups = actionGroups;
       this.decks = decks;
       this.hands = hands;
@@ -66,6 +71,8 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOver,
         previousState,
+        keys,
+        aember,
         actionGroups,
         decks,
         hands,
@@ -87,6 +94,8 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOver,
         (IState) this,
+        keys,
+        aember,
         actionGroups,
         decks,
         hands,
@@ -112,6 +121,8 @@ namespace KeyforgeUnlocked.States
              && playerTurn == other.playerTurn
              && (previousState == null && other.previousState == null ||
                  (previousState != null && previousState.Equals(other.previousState)))
+             && EqualValues(keys, other.keys)
+             && EqualValues(aember, other.aember)
              && actionGroups.SequenceEqual(other.actionGroups)
              && EqualContent(decks, other.decks)
              && EqualContent(hands, other.hands)
@@ -136,12 +147,28 @@ namespace KeyforgeUnlocked.States
       return true;
     }
 
+    static bool EqualValues<T>(IDictionary<Player, T> first,
+      IDictionary<Player, T> second) where T : struct
+    {
+      if (first.Count != second.Count)
+        return false;
+      foreach (var key in first.Keys)
+      {
+        if (!second.ContainsKey(key) || !first[key].Equals(second[key]))
+          return false;
+      }
+
+      return true;
+    }
+
     public override int GetHashCode()
     {
       var hashCode = new HashCode();
-      hashCode.Add(isGameOver);
-      hashCode.Add((int) playerTurn);
       hashCode.Add(playerTurn);
+      hashCode.Add(turnNumber);
+      hashCode.Add(isGameOver);
+      hashCode.Add(keys);
+      hashCode.Add(aember);
       hashCode.Add(decks);
       hashCode.Add(hands);
       hashCode.Add(decks);

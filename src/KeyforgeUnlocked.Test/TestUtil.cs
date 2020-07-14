@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
@@ -18,6 +19,8 @@ namespace KeyforgeUnlockedTest
       0,
       false,
       null,
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
       new List<IActionGroup>(),
       new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
@@ -33,6 +36,8 @@ namespace KeyforgeUnlockedTest
       0,
       false,
       null,
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
       new List<IActionGroup>(),
       new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
@@ -48,6 +53,8 @@ namespace KeyforgeUnlockedTest
       Player? playerTurn = null,
       int? turnNumber = null,
       bool isGameOver = false,
+      IDictionary<Player, int> keys = null,
+      IDictionary<Player, int> aember = null,
       IState previousState = null,
       IList<IActionGroup> actionGroups = null,
       IDictionary<Player, Stack<Card>> decks = null,
@@ -63,6 +70,8 @@ namespace KeyforgeUnlockedTest
         turnNumber ?? state.TurnNumber,
         isGameOver || state.IsGameOver,
         previousState ?? state.PreviousState,
+        keys ?? state.Keys,
+        aember ?? state.Aember,
         actionGroups ?? state.ActionGroups,
         decks ?? state.Decks,
         hands ?? state.Hands,
@@ -72,6 +81,8 @@ namespace KeyforgeUnlockedTest
         effects ?? state.Effects,
         resolvedEffects ?? state.ResolvedEffects);
     }
+
+    static Stack<Card> EmptyDeck => new Stack<Card>();
 
     public static Stack<Card> SampleDeck =>
       new Stack<Card>(Enumerable.Range(1, 36).Select(i => new SimpleCreatureCard()));

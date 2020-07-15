@@ -16,12 +16,12 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_EmptyState()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new DiscardCard(sampleCard);
 
       Act(sut, state);
 
-      var expectedState = StateUtil.EmptyMutableState;
+      var expectedState = StateTestUtil.EmptyMutableState;
       expectedState.Effects.Enqueue(new KeyforgeUnlocked.Effects.DiscardCard(sampleCard));
       Assert.AreEqual(expectedState, state);
     }

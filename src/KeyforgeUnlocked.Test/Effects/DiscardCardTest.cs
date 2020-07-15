@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var hands = SampleSets.SampleHands;
       hands[Player.Player1].Add(sampleCard);
-      var state = StateUtil.EmptyMutableState.New(hands: hands);
+      var state = StateTestUtil.EmptyMutableState.New(hands: hands);
       var sut = new DiscardCard(sampleCard);
 
       sut.Resolve(state);
@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedTest.Effects
         {Player.Player1, new HashSet<Card> {sampleCard}},
         {Player.Player2, new HashSet<Card>()}
       };
-      var expectedState = StateUtil.EmptyMutableState.New(
+      var expectedState = StateTestUtil.EmptyMutableState.New(
         discards: expectedDiscards,
         hands: expectedHands,
         resolvedEffects: new List<IResolvedEffect> {new KeyforgeUnlocked.ResolvedEffects.CardDiscarded(sampleCard)});
@@ -42,7 +42,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_CardNotInHand_ThrowException()
     {
       var hands = SampleSets.SampleHands;
-      var state = StateUtil.EmptyMutableState.New(hands: hands);
+      var state = StateTestUtil.EmptyMutableState.New(hands: hands);
       var sut = new DiscardCard(sampleCard);
 
       try

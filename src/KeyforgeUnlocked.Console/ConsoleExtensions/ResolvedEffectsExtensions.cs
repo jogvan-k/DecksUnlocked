@@ -19,6 +19,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case Reaped e:
           return e.ToConsole();
+        case KeyForged e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -47,6 +49,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this Reaped effect)
     {
       return $"{effect.Creature.Card.Name} reaped";
+    }
+
+    static string ToConsole(this KeyForged effect)
+    {
+      return $"Key forged for {effect.KeyCost} Æmber";
     }
   }
 }

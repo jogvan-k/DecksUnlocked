@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.Actions
     [TestCaseSource(nameof(testCases))]
     public void Act_UnresolvedEffects_Fail(BasicAction sut)
     {
-      var state = StateUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
+      var state = StateTestUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
 
       try
       {

@@ -11,7 +11,7 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlockedTest.Util
 {
-  public static class StateUtil
+  public static class StateTestUtil
   {
     public static MutableState EmptyMutableState => new MutableState(
       Player.Player1,

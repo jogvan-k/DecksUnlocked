@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Resolve_EmptyBoard_CreatureNotFoundException()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new Reap(CreatureId);
 
       try
@@ -42,7 +42,7 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(CreatureId, false)}},
         {Player.Player2, new List<Creature>()}
       };
-      var state = StateUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
       var sut = new Reap(CreatureId);
 
       try
@@ -64,14 +64,14 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(CreatureId, true)}},
         {Player.Player2, new List<Creature>()}
       };
-      var state = StateUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
       var sut = new Reap(CreatureId);
 
       Act(sut, state);
 
       var expectedEffects = new Queue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(CreatureId));
-      var expectedState = StateUtil.EmptyState.New(fields: fields, effects: expectedEffects);
+      var expectedState = StateTestUtil.EmptyState.New(fields: fields, effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }
   }

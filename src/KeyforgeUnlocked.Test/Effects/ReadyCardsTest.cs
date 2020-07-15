@@ -16,11 +16,11 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_EmptyState()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
 
       _sut.Resolve(state);
 
-      var expectedState = StateUtil.EmptyState;
+      var expectedState = StateTestUtil.EmptyState;
       Assert.AreEqual(expectedState, state);
     }
 
@@ -42,7 +42,7 @@ namespace KeyforgeUnlockedTest.Effects
         },
         {playerTurn.Other(), opponentField}
       };
-      var state = StateUtil.EmptyMutableState.New(playerTurn: playerTurn, fields: fields);
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn: playerTurn, fields: fields);
 
       _sut.Resolve(state);
 
@@ -51,7 +51,7 @@ namespace KeyforgeUnlockedTest.Effects
         {playerTurn, new List<Creature> {SampleCreature("1", true), SampleCreature("2", true)}},
         {playerTurn.Other(), opponentField}
       };
-      var expectedState = StateUtil.EmptyState.New(playerTurn: playerTurn, fields: expectedFields);
+      var expectedState = StateTestUtil.EmptyState.New(playerTurn: playerTurn, fields: expectedFields);
       Assert.AreEqual(expectedState, state);
     }
   }

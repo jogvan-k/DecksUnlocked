@@ -31,6 +31,11 @@ namespace KeyforgeUnlockedConsole
         var command = ReadCommand();
         ResolveCommand(Commands[command]);
       }
+
+      Console.Clear();
+      State.Print(out _);
+      Console.WriteLine($"Player {State.PlayerTurn} won!");
+      Console.WriteLine();
     }
 
     string ReadCommand()

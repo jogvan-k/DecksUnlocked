@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintResolvedEffects(IState state)
     {
-      if(state.ResolvedEffects.Any())
+      if (state.ResolvedEffects.Any())
         Console.WriteLine();
       foreach (var effect in state.ResolvedEffects)
       {
@@ -42,17 +42,34 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static void PrintField(IState state,
       Dictionary<string, IActionGroup> commands)
     {
-      Console.Write("Opponent's board: ");
-      PrintField(state, state.Fields[state.PlayerTurn.Other()], commands);
-      Console.Write("Your board:       ");
-      PrintField(state, state.Fields[state.PlayerTurn], commands);
+      Console.Write("Opponent: ");
+      var playerTurn = state.PlayerTurn;
+      PrintKeysAndAember(state.Keys[playerTurn.Other()], state.Aember[playerTurn.Other()]);
+      PrintField(state, state.Fields[playerTurn.Other()], commands);
+
+      Console.WriteLine();
+      Console.Write("You: ");
+      PrintKeysAndAember(state.Keys[playerTurn], state.Aember[playerTurn]);
+      PrintField(state, state.Fields[playerTurn], commands);
+    }
+
+    static void PrintKeysAndAember(int keys,
+      int aember)
+    {
+      var k = keys == 0
+        ? ""
+        : Enumerable.Repeat("*", keys).Aggregate(
+          (a,
+            b) => a + b);
+      Console.WriteLine($"Æmber: {k}{aember}");
     }
 
     static void PrintField(IState state,
       IList<Creature> creatures,
       Dictionary<string, IActionGroup> commands)
     {
-      int i = 0;
+      Console.Write("Board: ");
+      int i = 1;
       foreach (var creature in creatures)
       {
         var creatureGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionsRelatedToCreature(creature));
@@ -62,6 +79,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           commands.Add(command, creatureGroup);
           Console.Write($"[{command}]");
         }
+
         Console.Write($"{creature.Card.Name} ");
       }
 

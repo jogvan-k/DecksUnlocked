@@ -10,6 +10,7 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Enqueue(new ReadyCards());
       state.Effects.Enqueue(new DrawToHandLimit());
       state.Effects.Enqueue(new Effects.EndTurn());
+      state.Effects.Enqueue(new TryForge());
     }
 
     public override bool Equals(object obj)

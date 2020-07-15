@@ -17,12 +17,12 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_NextPlayerAndIncreaseTurnNumber(Player playerTurn)
     {
       var turnNumberStart = 1;
-      var state = StateUtil.EmptyMutableState.New(playerTurn, turnNumberStart);
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn, turnNumberStart);
       var sut = new EndTurn();
 
       sut.Resolve(state);
 
-      var expectedState = StateUtil.EmptyMutableState.New(
+      var expectedState = StateTestUtil.EmptyMutableState.New(
         playerTurn.Other(),
         turnNumberStart + 1,
         resolvedEffects: new List<IResolvedEffect> {new KeyforgeUnlocked.ResolvedEffects.TurnEnded()});

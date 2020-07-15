@@ -44,7 +44,7 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(1)]
     public void Resolve_EmptyBoard_InvalidPosition(int position)
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new PlayCreature(
         PlayedCard,
         position);
@@ -64,7 +64,7 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_EmptyBoard_CardNotPresentInHand()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new PlayCreature(
         PlayedCard,
         0);
@@ -127,7 +127,7 @@ namespace KeyforgeUnlockedTest.Effects
         {playingPlayer, new HashSet<Card> {PlayedCard, otherCards[0]}},
         {playingPlayer.Other(), new HashSet<Card> {otherCards[1], otherCards[2]}}
       };
-      return StateUtil.EmptyMutableState.New(playingPlayer, hands: hands);
+      return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
 
     static MutableState StateWithTwoCreatures(Player playingPlayer)

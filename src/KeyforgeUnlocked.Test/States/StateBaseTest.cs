@@ -43,8 +43,8 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void Equals_EmptyMutableAndEmptyImmutable()
     {
-      MutableState mutableState = StateUtil.EmptyMutableState;
-      ImmutableState immutableState = StateUtil.EmptyState;
+      MutableState mutableState = StateTestUtil.EmptyMutableState;
+      ImmutableState immutableState = StateTestUtil.EmptyState;
 
       Assert.True(mutableState.Equals(mutableState));
       Assert.True(mutableState.Equals(immutableState));
@@ -55,7 +55,7 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void Equals_EmptyAndNonEmpty()
     {
-      var emptyState = StateUtil.EmptyMutableState;
+      var emptyState = StateTestUtil.EmptyMutableState;
 
       Assert.False(emptyState.New(playerTurn: Player.Player2).Equals(emptyState));
       Assert.False(emptyState.New(turnNumber: 1).Equals(emptyState));

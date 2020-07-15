@@ -19,14 +19,14 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_EmptyBoard()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new PlayCreature(Card, 0);
 
       Act(sut, state);
 
       var expectedEffects = new Queue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
-      var expectedState = StateUtil.EmptyMutableState.New(effects: expectedEffects);
+      var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
 
       var effect = (KeyforgeUnlocked.Effects.PlayCreature) state.Effects.Single();

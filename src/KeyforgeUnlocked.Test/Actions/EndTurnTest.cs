@@ -14,7 +14,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_EmptyBoard()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       var sut = new KeyforgeUnlocked.Actions.EndTurn();
 
       Act(sut, state);
@@ -23,7 +23,8 @@ namespace KeyforgeUnlockedTest.Actions
       expectedEffects.Enqueue(new ReadyCards());
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new EndTurn());
-      var expectedState = StateUtil.EmptyMutableState.New(effects: expectedEffects);
+      expectedEffects.Enqueue(new TryForge());
+      var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }
   }

@@ -23,7 +23,7 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_EmptyBoard_CreatureNotPresentException()
     {
-      var state = StateUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
 
       try
       {
@@ -42,7 +42,7 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
     {
-      var state = StateUtil.EmptyState.New(
+      var state = StateTestUtil.EmptyState.New(
         fields: new Dictionary<Player, IList<Creature>>
         {
           {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(_creatureId, false)}},
@@ -67,7 +67,7 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_FieldWithCreatures()
     {
-      var state = StateUtil.EmptyState.New(
+      var state = StateTestUtil.EmptyState.New(
         fields: new Dictionary<Player, IList<Creature>>
         {
           {
@@ -89,7 +89,7 @@ namespace KeyforgeUnlockedTest.Effects
       };
       var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(CreatureTestUtil.SampleCreature(_creatureId, false))};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
-      var expectedState = StateUtil.EmptyMutableState.New(
+      var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);
 
       Assert.AreEqual(expectedState, state);

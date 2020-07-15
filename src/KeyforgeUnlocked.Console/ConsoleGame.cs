@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
@@ -10,52 +9,61 @@ using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole
 {
-  public static class ConsoleGame
+  public class ConsoleGame
   {
-    static void Main(string[] args)
+    IState State;
+    IDictionary<string, IActionGroup> Commands;
+    IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
+
+    public ConsoleGame(IState state)
     {
-      IState state = StateFactory.Initiate(Deck.LoadDeck(), Deck.LoadDeck());
-      var helperCommands = PrintCommandsFactory.HelperCommands;
-      while (!state.IsGameOver)
+      State = state;
+    }
+
+    public void StartGame()
+    {
+      while (!State.IsGameOver)
       {
         Console.Clear();
-        state.Print(out var commands);
+        State.Print(out var commands);
+        Commands = commands;
 
-        var command = ReadCommand(state, commands, helperCommands);
-        state = ResolveCommand(state, commands[command]);
+        var command = ReadCommand();
+        ResolveCommand(Commands[command]);
       }
     }
 
-    static string ReadCommand(IState state,
-      Dictionary<string, IActionGroup> commands,
-      IDictionary<string, IPrintCommand> helperCommands)
+    string ReadCommand()
     {
       while (true)
       {
         Console.Write("Action: ");
         var command = Console.ReadLine().ToLower();
-        if (helperCommands.Keys.Contains(command))
-          helperCommands[command].Print(state);
-        else if (commands.Keys.Contains(command))
+        if (HelperCommands.Keys.Contains(command))
+          HelperCommands[command].Print(State);
+        else if (Commands.Keys.Contains(command))
           return command;
         else
           Console.WriteLine($"Invalid command: {command}");
       }
     }
 
-    static IState ResolveCommand(IState state,
-      IActionGroup command)
+    void ResolveCommand(IActionGroup command)
     {
       var actions = command.Actions;
       if (actions.IsEmpty)
         throw new InvalidOperationException("List /'IActionGroup.Actions/' must not be empty ");
       if (actions.Count == 1)
-        return command.Actions.Single().DoAction(state);
+      {
+        State = command.Actions.Single().DoAction(State);
+        return;
+      }
+
       var action = WriteAndReadActions(command);
-      return action.DoAction(state);
+      State = action.DoAction(State);
     }
 
-    static Action WriteAndReadActions(IActionGroup actionGroup)
+    Action WriteAndReadActions(IActionGroup actionGroup)
     {
       Console.WriteLine(actionGroup.ToConsole());
 

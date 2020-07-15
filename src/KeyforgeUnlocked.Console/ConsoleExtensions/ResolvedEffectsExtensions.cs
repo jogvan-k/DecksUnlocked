@@ -17,6 +17,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case TurnEnded e:
           return e.ToConsole();
+        case Reaped e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -40,6 +42,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this TurnEnded effect)
     {
       return $"Turn ended";
+    }
+
+    static string ToConsole(this Reaped effect)
+    {
+      return $"{effect.Creature.Card.Name} reaped";
     }
   }
 }

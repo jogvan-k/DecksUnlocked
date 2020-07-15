@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
@@ -42,8 +43,8 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void Equals_EmptyMutableAndEmptyImmutable()
     {
-      MutableState mutableState = TestUtil.EmptyMutableState;
-      ImmutableState immutableState = TestUtil.EmptyState;
+      MutableState mutableState = StateUtil.EmptyMutableState;
+      ImmutableState immutableState = StateUtil.EmptyState;
 
       Assert.True(mutableState.Equals(mutableState));
       Assert.True(mutableState.Equals(immutableState));
@@ -54,7 +55,7 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void Equals_EmptyAndNonEmpty()
     {
-      var emptyState = TestUtil.EmptyMutableState;
+      var emptyState = StateUtil.EmptyMutableState;
 
       Assert.False(emptyState.New(playerTurn: Player.Player2).Equals(emptyState));
       Assert.False(emptyState.New(turnNumber: 1).Equals(emptyState));

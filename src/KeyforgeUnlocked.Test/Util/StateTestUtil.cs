@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
@@ -10,9 +9,9 @@ using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;
 
-namespace KeyforgeUnlockedTest
+namespace KeyforgeUnlockedTest.Util
 {
-  public static class TestUtil
+  public static class StateUtil
   {
     public static MutableState EmptyMutableState => new MutableState(
       Player.Player1,

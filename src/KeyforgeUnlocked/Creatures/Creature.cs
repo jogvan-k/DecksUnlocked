@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Creatures
 {
   public class Creature : CreatureBase, ICreature
   {
-    public string CreatureId => _creatureId;
+    public string Id => _id;
 
     public int BasePower => _basePower;
 
@@ -30,7 +30,7 @@ namespace KeyforgeUnlocked.Creatures
     }
 
     public Creature(
-      string creatureId,
+      string id,
       int basePower,
       int armor,
       CreatureCard card,
@@ -38,7 +38,7 @@ namespace KeyforgeUnlocked.Creatures
       int damage,
       bool isReady) : this(basePower, armor, card)
     {
-      _creatureId = creatureId;
+      _id = id;
       _powerCounters = powerCounters;
       _damage = damage;
       _isReady = isReady;
@@ -47,7 +47,7 @@ namespace KeyforgeUnlocked.Creatures
     public MutableCreature ToMutable()
     {
       return new MutableCreature(
-        _creatureId,
+        _id ,
         _basePower,
         _armor,
         Card,

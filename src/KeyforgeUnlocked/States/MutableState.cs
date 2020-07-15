@@ -145,6 +145,16 @@ namespace KeyforgeUnlocked.States
             ActionGroups.Add(actionGroup);
         }
       }
+
+      foreach (var creature in Fields[PlayerTurn])
+      {
+        if (creature.IsReady)
+        {
+          var actionGroup = new UseCreatureGroup(creature);
+          if (!actionGroup.Actions.IsEmpty)
+            ActionGroups.Add(actionGroup);
+        }
+      }
     }
 
     public ImmutableState ResolveEffects()

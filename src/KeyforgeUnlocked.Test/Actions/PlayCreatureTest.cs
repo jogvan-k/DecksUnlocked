@@ -5,27 +5,28 @@ using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class PlayCreatureTest
+  class PlayCreatureTest : ActionTestBase
   {
     static readonly CreatureCard Card = new SimpleCreatureCard();
 
     [Test]
-    public void DoActionNoResolve_EmptyBoard()
+    public void Act_EmptyBoard()
     {
-      var state = TestUtil.EmptyMutableState;
+      var state = StateUtil.EmptyMutableState;
       var sut = new PlayCreature(Card, 0);
 
-      state = sut.DoActionNoResolve(state);
+      Act(sut, state);
 
       var expectedEffects = new Queue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
-      var expectedState = TestUtil.EmptyMutableState.New(effects: expectedEffects);
+      var expectedState = StateUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
 
       var effect = (KeyforgeUnlocked.Effects.PlayCreature) state.Effects.Single();

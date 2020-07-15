@@ -18,11 +18,15 @@ namespace KeyforgeUnlocked.Actions
 
     public IState DoAction(IState state)
     {
+      Validate(state);
       var mutableState = state.ToMutable();
       mutableState.ActionGroups = new List<IActionGroup>();
-      return DoActionNoResolve(mutableState).ResolveEffects();
+      DoActionNoResolve(mutableState);
+      return mutableState.ResolveEffects();
     }
 
-    internal abstract MutableState DoActionNoResolve(MutableState state);
+    internal abstract void Validate(IState state);
+
+    internal abstract void DoActionNoResolve(MutableState state);
   }
 }

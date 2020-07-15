@@ -1,15 +1,21 @@
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class EndTurn : BasicAction
+  public class Reap : UseCreature
   {
+    public Reap(string creatureId) : base(creatureId)
+    {
+    }
+
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new ReadyCards());
-      state.Effects.Enqueue(new DrawToHandLimit());
-      state.Effects.Enqueue(new Effects.EndTurn());
+      state.Effects.Enqueue(new Effects.Reap(CreatureId));
+    }
+
+    protected bool Equals(Reap other)
+    {
+      return CreatureId.Equals(other.CreatureId);
     }
 
     public override bool Equals(object obj)
@@ -17,17 +23,12 @@ namespace KeyforgeUnlocked.Actions
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != this.GetType()) return false;
-      return Equals((EndTurn) obj);
-    }
-
-    bool Equals(EndTurn other)
-    {
-      return true;
+      return Equals((Reap) obj);
     }
 
     public override int GetHashCode()
     {
-      return 1;
+      return CreatureId.GetHashCode();
     }
   }
 }

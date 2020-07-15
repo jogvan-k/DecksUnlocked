@@ -7,6 +7,7 @@ namespace KeyforgeUnlocked
 {
   public class Deck
   {
+    public static Deck Empty => new Deck(new List<Card>());
     public List<Card> Cards { get; }
 
     public Deck(List<Card> cards)
@@ -18,5 +19,6 @@ namespace KeyforgeUnlocked
     {
       return new Deck(Enumerable.Range(0, 36).Select(i => (Card) new SimpleCreatureCard()).ToList());
     }
+
   }
 }

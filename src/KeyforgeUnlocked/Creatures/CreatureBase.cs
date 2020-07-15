@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Creatures
 {
   public class CreatureBase
   {
-    protected string _creatureId;
+    protected string _id;
     protected int _basePower;
     protected int _armor;
     protected CreatureCard _card;
@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.Creatures
       int armor,
       CreatureCard card)
     {
-      _creatureId = GenerateId();
+      _id = GenerateId();
       _basePower = basePower;
       _armor = armor;
       _card = card;
@@ -30,7 +30,7 @@ namespace KeyforgeUnlocked.Creatures
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
+      if (!(obj is CreatureBase)) return false;
       return Equals((CreatureBase) obj);
     }
 
@@ -40,14 +40,19 @@ namespace KeyforgeUnlocked.Creatures
              && _armor == other._armor
              && Equals(_card, other._card)
              && _powerCounters == other._powerCounters
-             && _damage == other._damage;
+             && _damage == other._damage
+             && _isReady == other._isReady;
     }
 
     public override int GetHashCode()
     {
       return HashCode.Combine(
-        _basePower, _armor, _card,
-        _powerCounters, _damage);
+        _basePower,
+        _armor,
+        _card,
+        _powerCounters,
+        _damage,
+        _isReady);
     }
 
     protected static string GenerateId()

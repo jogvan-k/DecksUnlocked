@@ -15,17 +15,18 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       out Dictionary<string, IActionGroup> commands)
     {
       commands = new Dictionary<string, IActionGroup>();
-      PrintStatus(state);
+      PrintStatus(state, commands);
       PrintHand(state, commands);
       PrintResolvedEffects(state);
       PrintAdditionalActions(state, commands);
     }
 
-    static void PrintStatus(IState state)
+    static void PrintStatus(IState state,
+      Dictionary<string, IActionGroup> commands)
     {
       Console.WriteLine($"Current player: {state.PlayerTurn}");
       PrintAmounts(state);
-      PrintField(state);
+      PrintField(state, commands);
     }
 
     static void PrintResolvedEffects(IState state)
@@ -38,18 +39,29 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       }
     }
 
-    static void PrintField(IState state)
+    static void PrintField(IState state,
+      Dictionary<string, IActionGroup> commands)
     {
       Console.Write("Opponent's board: ");
-      PrintField(state.Fields[state.PlayerTurn.Other()]);
+      PrintField(state, state.Fields[state.PlayerTurn.Other()], commands);
       Console.Write("Your board:       ");
-      PrintField(state.Fields[state.PlayerTurn]);
+      PrintField(state, state.Fields[state.PlayerTurn], commands);
     }
 
-    static void PrintField(IList<Creature> creatures)
+    static void PrintField(IState state,
+      IList<Creature> creatures,
+      Dictionary<string, IActionGroup> commands)
     {
+      int i = 0;
       foreach (var creature in creatures)
       {
+        var creatureGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionsRelatedToCreature(creature));
+        if (creatureGroup != default)
+        {
+          var command = $"c{i++}";
+          commands.Add(command, creatureGroup);
+          Console.Write($"[{command}]");
+        }
         Console.Write($"{creature.Card.Name} ");
       }
 
@@ -109,6 +121,18 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       if (group is PlayCardGroup playCardGroup)
       {
         return playCardGroup.Card.Equals(card);
+      }
+
+      return false;
+    }
+
+    static bool IsActionsRelatedToCreature(
+      this IActionGroup group,
+      ICreature creature)
+    {
+      if (group is UseCreatureGroup actions)
+      {
+        return actions.Creature.Equals(creature);
       }
 
       return false;

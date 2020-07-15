@@ -1,6 +1,5 @@
 using System;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
@@ -18,14 +17,12 @@ namespace KeyforgeUnlocked.Actions
       Position = position;
     }
 
-    internal override MutableState DoActionNoResolve(MutableState state)
+    internal override void DoActionNoResolve(MutableState state)
     {
-      Validate(state);
       state.Effects.Enqueue(
         new Effects.PlayCreature(
           Card,
           Position));
-      return state;
     }
 
     public override bool Equals(object obj)

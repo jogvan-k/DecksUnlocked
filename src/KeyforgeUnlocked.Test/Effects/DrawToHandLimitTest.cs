@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
 
@@ -21,12 +22,12 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_EmptyState()
     {
-      var state = TestUtil.EmptyMutableState;
+      var state = StateUtil.EmptyMutableState;
       var sut = new DrawToHandLimit();
 
       sut.Resolve(state);
 
-      Assert.AreEqual(TestUtil.EmptyMutableState, state);
+      Assert.AreEqual(StateUtil.EmptyMutableState, state);
     }
 
     [Test]
@@ -37,7 +38,7 @@ namespace KeyforgeUnlockedTest.Effects
       var sampleDeck = SampleSets.SampleDeck;
       var sampleDeckCardCount = sampleDeck.Count;
       var decks = InitializeDeck();
-      var state = TestUtil.EmptyMutableState.New(decks: decks, hands: hands);
+      var state = StateUtil.EmptyMutableState.New(decks: decks, hands: hands);
       var sut = new DrawToHandLimit();
 
       sut.Resolve(state);
@@ -48,7 +49,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedDecks = InitializeDeck();
       for (var i = 0; i < expectedDraws; i++)
         expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Pop());
-      var expectedState = TestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
+      var expectedState = StateUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
       if (expectedDraws > 0)
         expectedState.ResolvedEffects.Add(new CardsDrawn(expectedDraws));
       Assert.AreEqual(expectedState, state);

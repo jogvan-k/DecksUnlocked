@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.Creatures
 {
   public interface ICreature
   {
-    string CreatureId { get; }
+    string Id { get; }
 
     int BasePower { get; }
 

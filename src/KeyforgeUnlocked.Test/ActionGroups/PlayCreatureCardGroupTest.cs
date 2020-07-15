@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
 
@@ -19,7 +20,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void Actions_EmptyState()
     {
-      IState state = TestUtil.EmptyMutableState;
+      IState state = StateUtil.EmptyMutableState;
       var sut = new PlayCreatureCardGroup(state, Card);
 
       var actions = sut.Actions;
@@ -32,7 +33,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void Actions_CreaturesOnBoard_ActionsOnlyOnFlank()
     {
-      IState state = TestUtil.EmptyMutableState;
+      IState state = StateUtil.EmptyMutableState;
       for (int i = 0; i < 5; i++)
         state.Fields[Player.Player1].Add(new Creature(1, 0, new SimpleCreatureCard()));
       var sut = new PlayCreatureCardGroup(state, Card);

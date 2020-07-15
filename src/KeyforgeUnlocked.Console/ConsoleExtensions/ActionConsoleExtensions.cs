@@ -16,6 +16,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case EndTurn a:
           return a.ToConsole();
+        case Reap a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -35,6 +37,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this EndTurn action)
     {
       return "End turn";
+    }
+
+    public static string ToConsole(this Reap action)
+    {
+      return "Reap creature";
     }
   }
 }

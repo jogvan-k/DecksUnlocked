@@ -3,31 +3,34 @@ using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using DiscardCard = KeyforgeUnlocked.Actions.DiscardCard;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
+using Reap = KeyforgeUnlocked.Actions.Reap;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  public class BasicActionTest
+  public class BasicActionTest : ActionTestBase
   {
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {
       new TestCaseData(new PlayCreature(new SimpleCreatureCard(), 0)),
       new TestCaseData(new KeyforgeUnlocked.Actions.EndTurn()),
       new TestCaseData(new DiscardCard(new SimpleCreatureCard())),
+      new TestCaseData(new Reap(""))
     };
 
     [TestCaseSource(nameof(testCases))]
-    public void DoActionNoResolve_UnresolvedEffects_Fail(BasicAction sut)
+    public void Act_UnresolvedEffects_Fail(BasicAction sut)
     {
-      var state = TestUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
+      var state = StateUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
 
       try
       {
-        sut.DoActionNoResolve(state);
+        Act(sut, state);
       }
       catch (UnresolvedEffectsException e)
       {

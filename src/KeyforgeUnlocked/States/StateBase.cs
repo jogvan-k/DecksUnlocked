@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
 
@@ -25,7 +26,7 @@ namespace KeyforgeUnlocked.States
     protected IDictionary<Player, ISet<Card>> discards;
     protected IDictionary<Player, ISet<Card>> archives;
     protected IDictionary<Player, IList<Creature>> fields;
-    protected Queue<IEffect> effects;
+    protected StackQueue<IEffect> effects;
     protected IList<IResolvedEffect> resolvedEffects;
 
     public StateBase(Player playerTurn,
@@ -40,7 +41,7 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects,
+      StackQueue<IEffect> effects,
       IList<IResolvedEffect> resolvedEffects)
     {
       this.playerTurn = playerTurn;
@@ -125,12 +126,26 @@ namespace KeyforgeUnlocked.States
              && EqualValues(aember, other.aember)
              && actionGroups.SequenceEqual(other.actionGroups)
              && EqualContent(decks, other.decks)
-             && EqualContent(hands, other.hands)
-             && EqualContent(discards, other.discards)
-             && EqualContent(archives, other.archives)
+             && SetEquals(hands, other.hands)
+             && SetEquals(discards, other.discards)
+             && SetEquals(archives, other.archives)
              && EqualContent(fields, other.fields)
              && effects.SequenceEqual(other.effects)
              && resolvedEffects.SequenceEqual(other.resolvedEffects);
+    }
+
+    static bool SetEquals<T>(IDictionary<Player, ISet<T>> first,
+      IDictionary<Player, ISet<T>> second)
+    {
+      if (first.Count != second.Count)
+        return false;
+      foreach (var key in first.Keys)
+      {
+        if (!second.ContainsKey(key) || !first[key].SetEquals(second[key]))
+          return false;
+      }
+
+      return true;
     }
 
     static bool EqualContent<T>(IDictionary<Player, T> first,

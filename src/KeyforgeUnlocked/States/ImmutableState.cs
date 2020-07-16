@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -36,7 +37,7 @@ namespace KeyforgeUnlocked.States
 
     public IDictionary<Player, IList<Creature>> Fields => fields;
 
-    public Queue<IEffect> Effects => effects;
+    public StackQueue<IEffect> Effects => effects;
 
     public ImmutableState(Player playerTurn,
       int turnNumber,
@@ -50,7 +51,7 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects,
+      StackQueue<IEffect> effects,
       IList<IResolvedEffect> resolvedEffects)
       : base(
         playerTurn,

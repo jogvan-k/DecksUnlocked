@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new Effects.DiscardCard(Card));
+      state.Effects.Push(new Effects.DiscardCard(Card));
     }
 
     public override bool Equals(object obj)

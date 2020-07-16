@@ -34,7 +34,7 @@ namespace KeyforgeUnlockedConsole
 
       Console.Clear();
       State.Print(out _);
-      Console.WriteLine($"Player {State.PlayerTurn} won!");
+      Console.WriteLine($"{State.PlayerTurn} won!");
       Console.WriteLine();
     }
 
@@ -56,7 +56,7 @@ namespace KeyforgeUnlockedConsole
     void ResolveCommand(IActionGroup command)
     {
       var actions = command.Actions;
-      if (actions.IsEmpty)
+      if (actions.Count == 0)
         throw new InvalidOperationException("List /'IActionGroup.Actions/' must not be empty ");
       if (actions.Count == 1)
       {
@@ -73,9 +73,11 @@ namespace KeyforgeUnlockedConsole
       Console.WriteLine(actionGroup.ToConsole());
 
       int i = 1;
+      var actions = new List<Action>();
       foreach (var action in actionGroup.Actions)
       {
         Console.WriteLine($"{i++}: {action.ToConsole()}");
+        actions.Add(action);
       }
 
       while (true)
@@ -84,7 +86,7 @@ namespace KeyforgeUnlockedConsole
         var action = Console.ReadLine();
         if (Int16.TryParse(action, out var a) && InRange(a, 1, i - 1))
         {
-          return actionGroup.Actions[a - 1];
+          return actions[a - 1];
         }
 
         Console.WriteLine($"Invalid input {action}");

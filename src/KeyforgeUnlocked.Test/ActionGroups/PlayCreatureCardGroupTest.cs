@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
       var actions = sut.Actions;
 
       var expectedAction =
-        ImmutableList<Action>.Empty.AddRange(new[] {(Action) new PlayCreature(Card, 0), new DiscardCard(Card)});
+        ImmutableHashSet<Action>.Empty.Add(new PlayCreature(Card, 0)).Add(new DiscardCard(Card));
       Assert.AreEqual(expectedAction, actions);
     }
 
@@ -41,13 +41,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
       var actions = sut.Actions;
 
       var expectedActions =
-        ImmutableList<Action>.Empty.AddRange(
-          new[]
-          {
-            (Action) new PlayCreature(Card, 0),
-            new PlayCreature(Card, 5),
-            new DiscardCard(Card)
-          });
+        ImmutableHashSet<Action>.Empty
+          .Add(new PlayCreature(Card, 0))
+          .Add(new PlayCreature(Card, 5))
+          .Add(new DiscardCard(Card));
       Assert.AreEqual(expectedActions, actions);
     }
   }

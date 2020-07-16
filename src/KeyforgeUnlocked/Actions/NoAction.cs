@@ -1,16 +1,20 @@
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class EndTurn : BasicAction
+  public sealed class NoAction : Action
   {
+    internal override void Validate(IState state)
+    {
+    }
+
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new ReadyCards());
-      state.Effects.Enqueue(new DrawToHandLimit());
-      state.Effects.Enqueue(new Effects.EndTurn());
-      state.Effects.Enqueue(new TryForge());
+    }
+
+    bool Equals(NoAction other)
+    {
+      return true;
     }
 
     public override bool Equals(object obj)
@@ -18,17 +22,12 @@ namespace KeyforgeUnlocked.Actions
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != this.GetType()) return false;
-      return Equals((EndTurn) obj);
-    }
-
-    bool Equals(EndTurn other)
-    {
-      return true;
+      return Equals((NoAction) obj);
     }
 
     public override int GetHashCode()
     {
-      return typeof(EndTurn).GetHashCode();
+      return typeof(NoAction).GetHashCode();
     }
   }
 }

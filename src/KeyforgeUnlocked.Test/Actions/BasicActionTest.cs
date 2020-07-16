@@ -3,6 +3,7 @@ using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using DiscardCard = KeyforgeUnlocked.Actions.DiscardCard;
@@ -26,7 +27,7 @@ namespace KeyforgeUnlockedTest.Actions
     [TestCaseSource(nameof(testCases))]
     public void Act_UnresolvedEffects_Fail(BasicAction sut)
     {
-      var state = StateTestUtil.EmptyMutableState.New(effects: new Queue<IEffect>(new List<IEffect> {new EndTurn()}));
+      var state = StateTestUtil.EmptyMutableState.New(turnNumber: 2, effects: new StackQueue<IEffect>(new[]{new EndTurn()}));
 
       try
       {

@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlockedTest.Util
@@ -27,7 +28,7 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new Queue<IEffect>(),
+      new StackQueue<IEffect>(),
       new List<IResolvedEffect>());
 
     public static ImmutableState EmptyState => new ImmutableState(
@@ -44,7 +45,7 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new Queue<IEffect>(),
+      new StackQueue<IEffect>(),
       new List<IResolvedEffect>());
 
     public static MutableState New(
@@ -61,7 +62,7 @@ namespace KeyforgeUnlockedTest.Util
       IDictionary<Player, ISet<Card>> discards = null,
       IDictionary<Player, ISet<Card>> archives = null,
       IDictionary<Player, IList<Creature>> fields = null,
-      Queue<IEffect> effects = null,
+      StackQueue<IEffect> effects = null,
       IList<IResolvedEffect> resolvedEffects = null)
     {
       return new MutableState(

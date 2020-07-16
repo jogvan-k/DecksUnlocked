@@ -17,6 +17,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case UseCreatureGroup a:
           return a.ToConsole();
+        case NoActionGroup a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -35,6 +37,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this UseCreatureGroup group)
     {
       return $"Use creature";
+    }
+
+    static string ToConsole(this NoActionGroup group)
+    {
+      return "No action";
     }
   }
 }

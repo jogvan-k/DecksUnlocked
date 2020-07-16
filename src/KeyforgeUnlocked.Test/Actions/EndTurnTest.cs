@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
@@ -19,7 +20,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       Act(sut, state);
 
-      var expectedEffects = new Queue<IEffect>();
+      var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new ReadyCards());
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new EndTurn());

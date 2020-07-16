@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -88,7 +89,7 @@ namespace KeyforgeUnlocked.States
       set => fields = value;
     }
 
-    public Queue<IEffect> Effects
+    public StackQueue<IEffect> Effects
     {
       get => effects;
       set => effects = value;
@@ -107,7 +108,7 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
-      Queue<IEffect> effects,
+      StackQueue<IEffect> effects,
       IList<IResolvedEffect> resolvedEffects)
       : base(
         playerTurn,
@@ -141,7 +142,7 @@ namespace KeyforgeUnlocked.States
         if (card.CardType == CardType.Creature)
         {
           var actionGroup = new PlayCreatureCardGroup(this, (CreatureCard) card);
-          if (!actionGroup.Actions.IsEmpty)
+          if (actionGroup.Actions.Count != 0)
             ActionGroups.Add(actionGroup);
         }
       }
@@ -151,7 +152,7 @@ namespace KeyforgeUnlocked.States
         if (creature.IsReady)
         {
           var actionGroup = new UseCreatureGroup(creature);
-          if (!actionGroup.Actions.IsEmpty)
+          if (actionGroup.Actions.Count != 0)
             ActionGroups.Add(actionGroup);
         }
       }

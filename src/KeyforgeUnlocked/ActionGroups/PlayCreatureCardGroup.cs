@@ -20,9 +20,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Actions = InitiateActions(state);
     }
 
-    ImmutableList<Action> InitiateActions(IState state)
+    IImmutableSet<Action> InitiateActions(IState state)
     {
-      var list = ImmutableList<Action>.Empty;
+      var list = ImmutableHashSet<Action>.Empty;
 
       var boardLength = state.Fields[state.PlayerTurn].Count;
 

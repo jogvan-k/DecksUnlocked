@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public EndTurnGroup() : base(ActionType.EndTurn)
     {
-      Actions = ImmutableList<Action>.Empty.Add(new EndTurn());
+      Actions = ImmutableHashSet<Action>.Empty.Add(new EndTurn());
     }
   }
 }

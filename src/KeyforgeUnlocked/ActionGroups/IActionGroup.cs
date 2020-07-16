@@ -7,6 +7,6 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public ActionType Type { get; }
 
-    public ImmutableList<Action> Actions { get; }
+    public IImmutableSet<Action> Actions { get; }
   }
 }

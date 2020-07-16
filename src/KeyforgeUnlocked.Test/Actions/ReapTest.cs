@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -69,7 +70,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       Act(sut, state);
 
-      var expectedEffects = new Queue<IEffect>();
+      var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(CreatureId));
       var expectedState = StateTestUtil.EmptyState.New(fields: fields, effects: expectedEffects);
       Assert.AreEqual(expectedState, state);

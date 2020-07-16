@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
@@ -24,7 +25,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       Act(sut, state);
 
-      var expectedEffects = new Queue<IEffect>();
+      var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);

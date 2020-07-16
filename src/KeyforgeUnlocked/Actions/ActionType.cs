@@ -4,6 +4,7 @@ namespace KeyforgeUnlocked.Actions
   {
     PlayCard,
     EndTurn,
-    UseCreature
+    UseCreature,
+    NoAction
   }
 }

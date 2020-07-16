@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new Effects.Reap(CreatureId));
+      state.Effects.Push(new Effects.Reap(CreatureId));
     }
 
     protected bool Equals(Reap other)

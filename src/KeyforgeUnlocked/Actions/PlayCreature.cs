@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
@@ -19,7 +21,7 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(
+      state.Effects.Push(
         new Effects.PlayCreature(
           Card,
           Position));

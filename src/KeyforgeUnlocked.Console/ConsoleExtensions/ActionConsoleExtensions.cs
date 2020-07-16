@@ -18,6 +18,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case Reap a:
           return a.ToConsole();
+        case NoAction a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -42,6 +44,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this Reap action)
     {
       return "Reap creature";
+    }
+
+    public static string ToConsole(this NoAction action)
+    {
+      return "No action";
     }
   }
 }

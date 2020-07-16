@@ -14,9 +14,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Actions = InitiateActions();
     }
 
-    ImmutableList<Action> InitiateActions()
+    IImmutableSet<Action> InitiateActions()
     {
-      var actions = ImmutableList<Action>.Empty;
+      var actions = ImmutableHashSet<Action>.Empty;
       if (Creature.IsReady)
       {
         actions = actions.Add(new Reap(Creature.Id));

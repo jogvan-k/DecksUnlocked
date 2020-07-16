@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -33,7 +34,7 @@ namespace KeyforgeUnlocked.States
 
     IDictionary<Player, IList<Creature>> Fields { get; }
 
-    Queue<IEffect> Effects { get; }
+    StackQueue<IEffect> Effects { get; }
     MutableState ToMutable();
   }
 }

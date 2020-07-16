@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -19,6 +20,7 @@ namespace KeyforgeUnlocked.States
         {Player.Player2, new Stack<Card>(player2Deck.Cards)}
       };
 
+      var effects = new StackQueue<IEffect>(new[] {(IEffect) new InitiateGame()});
       return new MutableState(
           Player.Player1,
           1,
@@ -32,7 +34,7 @@ namespace KeyforgeUnlocked.States
           EmptySet(),
           EmptySet(),
           EmptyField(),
-          new Queue<IEffect>(),
+          effects,
           new List<IResolvedEffect>())
         .ResolveEffects();
     }

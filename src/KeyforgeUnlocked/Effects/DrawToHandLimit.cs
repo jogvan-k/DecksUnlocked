@@ -35,7 +35,7 @@ namespace KeyforgeUnlocked.Effects
 
     public override int GetHashCode()
     {
-      return 1;
+      return typeof(DrawToHandLimit).GetHashCode();
     }
   }
 }

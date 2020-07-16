@@ -1,15 +1,19 @@
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class EndTurn : IEffect
+  public class InitiateGame : IEffect
   {
     public void Resolve(MutableState state)
     {
-      state.PlayerTurn = state.PlayerTurn.Other();
-      state.TurnNumber++;
-      state.ResolvedEffects.Add(new ResolvedEffects.TurnEnded());
+      state.Effects.Enqueue(new DrawInitialHands());
+      state.Effects.Enqueue(new FirstTurn());
+      state.Effects.Enqueue(new EndTurn());
+    }
+
+    protected bool Equals(InitiateGame other)
+    {
+      return true;
     }
 
     public override bool Equals(object obj)
@@ -17,17 +21,12 @@ namespace KeyforgeUnlocked.Effects
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != this.GetType()) return false;
-      return Equals((EndTurn) obj);
-    }
-
-    bool Equals(EndTurn other)
-    {
-      return true;
+      return Equals((InitiateGame) obj);
     }
 
     public override int GetHashCode()
     {
-      return typeof(EndTurn).GetHashCode();
+      return typeof(InitiateGame).GetHashCode();
     }
   }
 }

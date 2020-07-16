@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -69,7 +70,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(discards: simpleSet).Equals(emptyState));
       Assert.False(emptyState.New(archives: simpleSet).Equals(emptyState));
       Assert.False(emptyState.New(fields: simpleField).Equals(emptyState));
-      Assert.False(emptyState.New(effects: new Queue<IEffect>(new[] {new EndTurn()})).Equals(emptyState));
+      Assert.False(emptyState.New(effects: new StackQueue<IEffect>(new[] {new EndTurn()})).Equals(emptyState));
       Assert.False(emptyState.New(resolvedEffects: new List<IResolvedEffect> {new TurnEnded()}).Equals(emptyState));
     }
   }

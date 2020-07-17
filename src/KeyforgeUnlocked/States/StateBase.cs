@@ -18,6 +18,7 @@ namespace KeyforgeUnlocked.States
     protected int turnNumber;
     protected bool isGameOver;
     protected IState previousState;
+    protected House? activeHouse;
     protected IDictionary<Player, int> keys;
     protected IDictionary<Player, int> aember;
     protected IList<IActionGroup> actionGroups;
@@ -28,11 +29,13 @@ namespace KeyforgeUnlocked.States
     protected IDictionary<Player, IList<Creature>> fields;
     protected StackQueue<IEffect> effects;
     protected IList<IResolvedEffect> resolvedEffects;
+    protected Metadata metadata;
 
     public StateBase(Player playerTurn,
       int turnNumber,
       bool isGameOver,
       IState previousState,
+      House? activeHouse,
       IDictionary<Player, int> keys,
       IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
@@ -42,12 +45,14 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
       StackQueue<IEffect> effects,
-      IList<IResolvedEffect> resolvedEffects)
+      IList<IResolvedEffect> resolvedEffects,
+      Metadata metadata)
     {
       this.playerTurn = playerTurn;
       this.turnNumber = turnNumber;
       this.isGameOver = isGameOver;
       this.previousState = previousState;
+      this.activeHouse = activeHouse;
       this.keys = keys;
       this.aember = aember;
       this.actionGroups = actionGroups;
@@ -58,6 +63,7 @@ namespace KeyforgeUnlocked.States
       this.fields = fields;
       this.effects = effects;
       this.resolvedEffects = resolvedEffects;
+      this.metadata = metadata;
     }
 
     public IList<ICoreAction> Actions()
@@ -72,6 +78,7 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOver,
         previousState,
+        activeHouse,
         keys,
         aember,
         actionGroups,
@@ -81,7 +88,8 @@ namespace KeyforgeUnlocked.States
         archives,
         fields,
         effects,
-        resolvedEffects);
+        resolvedEffects,
+        metadata);
     }
 
     /// <summary>
@@ -95,6 +103,7 @@ namespace KeyforgeUnlocked.States
         turnNumber,
         isGameOver,
         (IState) this,
+        activeHouse,
         keys,
         aember,
         actionGroups,
@@ -104,7 +113,8 @@ namespace KeyforgeUnlocked.States
         archives,
         fields,
         effects,
-        new List<IResolvedEffect>());
+        new List<IResolvedEffect>(),
+        metadata);
     }
 
     public override bool Equals(object obj)
@@ -122,6 +132,7 @@ namespace KeyforgeUnlocked.States
              && playerTurn == other.playerTurn
              && (previousState == null && other.previousState == null ||
                  (previousState != null && previousState.Equals(other.previousState)))
+             && activeHouse == other.activeHouse
              && EqualValues(keys, other.keys)
              && EqualValues(aember, other.aember)
              && actionGroups.SequenceEqual(other.actionGroups)
@@ -131,7 +142,8 @@ namespace KeyforgeUnlocked.States
              && SetEquals(archives, other.archives)
              && EqualContent(fields, other.fields)
              && effects.SequenceEqual(other.effects)
-             && resolvedEffects.SequenceEqual(other.resolvedEffects);
+             && resolvedEffects.SequenceEqual(other.resolvedEffects)
+             && ReferenceEquals(metadata, other.metadata);
     }
 
     static bool SetEquals<T>(IDictionary<Player, ISet<T>> first,
@@ -182,6 +194,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(playerTurn);
       hashCode.Add(turnNumber);
       hashCode.Add(isGameOver);
+      hashCode.Add(activeHouse);
       hashCode.Add(keys);
       hashCode.Add(aember);
       hashCode.Add(decks);
@@ -191,6 +204,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(fields);
       hashCode.Add(effects);
       hashCode.Add(resolvedEffects);
+      hashCode.Add(metadata);
       return hashCode.ToHashCode();
     }
   }

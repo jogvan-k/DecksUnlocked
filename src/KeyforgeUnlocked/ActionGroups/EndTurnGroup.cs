@@ -7,7 +7,11 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public EndTurnGroup() : base(ActionType.EndTurn)
     {
-      Actions = ImmutableHashSet<Action>.Empty.Add(new EndTurn());
+    }
+
+    protected override IImmutableSet<Action> InitiateActions()
+    {
+      return ImmutableHashSet<Action>.Empty.Add(new EndTurn());
     }
   }
 }

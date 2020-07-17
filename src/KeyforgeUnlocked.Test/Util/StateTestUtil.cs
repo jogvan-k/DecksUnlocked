@@ -19,22 +19,6 @@ namespace KeyforgeUnlockedTest.Util
       0,
       false,
       null,
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new List<IActionGroup>(),
-      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, IList<Creature>>
-        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new StackQueue<IEffect>(),
-      new List<IResolvedEffect>());
-
-    public static ImmutableState EmptyState => new ImmutableState(
-      Player.Player1,
-      0,
-      false,
       null,
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
@@ -46,7 +30,27 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
       new StackQueue<IEffect>(),
-      new List<IResolvedEffect>());
+      new List<IResolvedEffect>(),
+      null);
+
+    public static ImmutableState EmptyState => new ImmutableState(
+      Player.Player1,
+      0,
+      false,
+      null,
+      null,
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
+      new List<IActionGroup>(),
+      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
+      new Dictionary<Player, IList<Creature>>
+        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
+      new StackQueue<IEffect>(),
+      new List<IResolvedEffect>(),
+      null);
 
     public static MutableState New(
       this IState state,
@@ -56,6 +60,7 @@ namespace KeyforgeUnlockedTest.Util
       IDictionary<Player, int> keys = null,
       IDictionary<Player, int> aember = null,
       IState previousState = null,
+      House? activeHouse = null,
       IList<IActionGroup> actionGroups = null,
       IDictionary<Player, Stack<Card>> decks = null,
       IDictionary<Player, ISet<Card>> hands = null,
@@ -63,13 +68,15 @@ namespace KeyforgeUnlockedTest.Util
       IDictionary<Player, ISet<Card>> archives = null,
       IDictionary<Player, IList<Creature>> fields = null,
       StackQueue<IEffect> effects = null,
-      IList<IResolvedEffect> resolvedEffects = null)
+      IList<IResolvedEffect> resolvedEffects = null,
+      Metadata metadata = null)
     {
       return new MutableState(
         playerTurn ?? state.PlayerTurn,
         turnNumber ?? state.TurnNumber,
         isGameOver || state.IsGameOver,
         previousState ?? state.PreviousState,
+        activeHouse ?? state.ActiveHouse,
         keys ?? state.Keys,
         aember ?? state.Aember,
         actionGroups ?? state.ActionGroups,
@@ -79,7 +86,8 @@ namespace KeyforgeUnlockedTest.Util
         archives ?? state.Archives,
         fields ?? state.Fields,
         effects ?? state.Effects,
-        resolvedEffects ?? state.ResolvedEffects);
+        resolvedEffects ?? state.ResolvedEffects,
+        metadata ?? state.Metadata);
     }
 
     static Stack<Card> EmptyDeck => new Stack<Card>();

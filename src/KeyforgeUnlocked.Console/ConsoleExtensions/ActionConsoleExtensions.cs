@@ -20,6 +20,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case NoAction a:
           return a.ToConsole();
+        case DeclareHouse a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -49,6 +51,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this NoAction action)
     {
       return "No action";
+    }
+
+    public static string ToConsole(this DeclareHouse action)
+    {
+      return $"Declare {action.House}";
     }
   }
 }

@@ -9,6 +9,7 @@ namespace KeyforgeUnlocked.Effects
     {
       state.PlayerTurn = state.PlayerTurn.Other();
       state.TurnNumber++;
+      state.ActiveHouse = null;
       state.ResolvedEffects.Add(new ResolvedEffects.TurnEnded());
     }
 

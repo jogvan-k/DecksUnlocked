@@ -111,12 +111,21 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Dictionary<string, IActionGroup> commands)
     {
       var endAction = state.ActionGroups.SingleOrDefault(a => a.IsActionEndTurn());
+      var declareHouse = state.ActionGroups.SingleOrDefault(a => a.IsDeclareHouse());
+      Console.WriteLine();
+      Console.WriteLine("Additional actions: ");
       if (endAction != default)
       {
-        Console.WriteLine();
         commands.Add("end", endAction);
-        Console.WriteLine("Additional actions: [End] turn");
+        Console.Write("[End] turn ");
       }
+
+      if (declareHouse != default)
+      {
+        commands.Add("house", declareHouse);
+        Console.Write("Declare [House] ");
+      }
+      Console.WriteLine("");
     }
 
     static void PrintAmounts(IState state)
@@ -130,6 +139,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static bool IsActionEndTurn(this IActionGroup group)
     {
       return group is EndTurnGroup;
+    }
+
+    static bool IsDeclareHouse(this IActionGroup group)
+    {
+      return group is DeclareHouseGroup;
     }
 
     static bool IsActionsRelatedToCard(

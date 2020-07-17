@@ -17,13 +17,13 @@ namespace KeyforgeUnlocked.States
 
     public bool IsGameOver => isGameOver;
 
+    public IState PreviousState => previousState;
+
+    public House? ActiveHouse => activeHouse;
+
     public IDictionary<Player, int> Keys => keys;
 
     public IDictionary<Player, int> Aember => aember;
-
-    public IState PreviousState => previousState;
-
-    public IList<IResolvedEffect> ResolvedEffects => resolvedEffects;
 
     public IList<IActionGroup> ActionGroups => actionGroups;
 
@@ -39,10 +39,15 @@ namespace KeyforgeUnlocked.States
 
     public StackQueue<IEffect> Effects => effects;
 
+    public IList<IResolvedEffect> ResolvedEffects => resolvedEffects;
+    
+    public Metadata Metadata => metadata;
+
     public ImmutableState(Player playerTurn,
       int turnNumber,
       bool isGameOver,
       IState previousState,
+      House? activeHouse,
       IDictionary<Player, int> keys,
       IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
@@ -52,12 +57,14 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
       StackQueue<IEffect> effects,
-      IList<IResolvedEffect> resolvedEffects)
+      IList<IResolvedEffect> resolvedEffects,
+      Metadata metadata)
       : base(
         playerTurn,
         turnNumber,
         isGameOver,
         previousState,
+        activeHouse,
         keys,
         aember,
         actionGroups,
@@ -67,7 +74,8 @@ namespace KeyforgeUnlocked.States
         archives,
         fields,
         effects,
-        resolvedEffects)
+        resolvedEffects,
+        metadata)
     {
     }
   }

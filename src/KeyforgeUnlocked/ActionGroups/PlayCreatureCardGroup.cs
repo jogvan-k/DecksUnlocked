@@ -11,27 +11,27 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public new CreatureCard Card => (CreatureCard) base.Card;
 
+    public int BoardLength { get; }
+
     public PlayCreatureCardGroup(
       IState state,
       CreatureCard card) : base(card)
     {
+      BoardLength = state.Fields[state.PlayerTurn].Count;
       if (state == null || card == null)
         throw new ArgumentNullException();
-      Actions = InitiateActions(state);
     }
 
-    IImmutableSet<Action> InitiateActions(IState state)
+    protected override IImmutableSet<Action> InitiateActions()
     {
       var list = ImmutableHashSet<Action>.Empty;
-
-      var boardLength = state.Fields[state.PlayerTurn].Count;
 
       var leftPosition = new PlayCreature(Card, 0);
       list = list.Add(leftPosition);
 
-      if (boardLength > 0)
+      if (BoardLength > 0)
       {
-        list = list.Add(new PlayCreature(Card, boardLength));
+        list = list.Add(new PlayCreature(Card, BoardLength));
       }
 
       return list.Add(DiscardAction());

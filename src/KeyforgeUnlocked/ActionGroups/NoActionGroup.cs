@@ -7,7 +7,11 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public NoActionGroup() : base(ActionType.NoAction)
     {
-      Actions = ImmutableHashSet<Action>.Empty.Add(new NoAction());
+    }
+
+    protected override IImmutableSet<Action> InitiateActions()
+    {
+      return ImmutableHashSet<Action>.Empty.Add(new NoAction());
     }
   }
 }

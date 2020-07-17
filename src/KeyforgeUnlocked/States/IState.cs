@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Dynamic;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -13,11 +12,7 @@ namespace KeyforgeUnlocked.States
   public interface IState : ICoreState
   {
     IState PreviousState { get; }
-
-    /// <summary>
-    /// Effects that have been resolved since <see cref="PreviousState"/>
-    /// </summary>
-    IList<IResolvedEffect> ResolvedEffects { get; }
+    House? ActiveHouse { get; }
 
     IDictionary<Player, int> Keys { get; }
     IDictionary<Player, int> Aember { get; }
@@ -35,6 +30,14 @@ namespace KeyforgeUnlocked.States
     IDictionary<Player, IList<Creature>> Fields { get; }
 
     StackQueue<IEffect> Effects { get; }
+
+    /// <summary>
+    /// Effects that have been resolved since <see cref="PreviousState"/>
+    /// </summary>
+    IList<IResolvedEffect> ResolvedEffects { get; }
+
+    Metadata Metadata { get; }
+
     MutableState ToMutable();
   }
 }

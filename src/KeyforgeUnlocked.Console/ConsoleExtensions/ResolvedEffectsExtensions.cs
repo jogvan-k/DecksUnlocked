@@ -21,6 +21,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case KeyForged e:
           return e.ToConsole();
+        case HouseDeclared e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -54,6 +56,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this KeyForged effect)
     {
       return $"Key forged for {effect.KeyCost} Æmber";
+    }
+
+    static string ToConsole(this HouseDeclared effect)
+    {
+      return $"House {effect.House} declared.";
     }
   }
 }

@@ -5,6 +5,7 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
+using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 
 namespace KeyforgeUnlockedTest.Actions
@@ -25,6 +26,7 @@ namespace KeyforgeUnlockedTest.Actions
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new EndTurn());
       expectedEffects.Enqueue(new TryForge());
+      expectedEffects.Enqueue(new DeclareHouse());
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }

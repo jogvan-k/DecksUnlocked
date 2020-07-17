@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
@@ -17,7 +18,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_NextPlayerAndIncreaseTurnNumber(Player playerTurn)
     {
       var turnNumberStart = 1;
-      var state = StateTestUtil.EmptyMutableState.New(playerTurn, turnNumberStart);
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn, turnNumberStart, activeHouse: House.Brobnar);
       var sut = new EndTurn();
 
       sut.Resolve(state);
@@ -25,7 +26,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateTestUtil.EmptyMutableState.New(
         playerTurn.Other(),
         turnNumberStart + 1,
-        resolvedEffects: new List<IResolvedEffect> {new KeyforgeUnlocked.ResolvedEffects.TurnEnded()});
+        resolvedEffects: new List<IResolvedEffect> {new TurnEnded()});
       Assert.AreEqual(expectedState, state);
     }
   }

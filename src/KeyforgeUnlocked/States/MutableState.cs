@@ -35,6 +35,12 @@ namespace KeyforgeUnlocked.States
       set => previousState = value;
     }
 
+    public House? ActiveHouse
+    {
+      get => activeHouse;
+      set => activeHouse = value;
+    }
+
     public IDictionary<Player, int> Keys
     {
       get => keys;
@@ -95,11 +101,18 @@ namespace KeyforgeUnlocked.States
       set => effects = value;
     }
 
+    public Metadata Metadata
+    {
+      get => metadata;
+      set => metadata = value;
+    }
+
     public MutableState(
       Player playerTurn,
       int turnNumber,
       bool isGameOVer,
       IState previousState,
+      House? activeHouse,
       IDictionary<Player, int> keys,
       IDictionary<Player, int> aember,
       IList<IActionGroup> actionGroups,
@@ -109,12 +122,14 @@ namespace KeyforgeUnlocked.States
       IDictionary<Player, ISet<Card>> archives,
       IDictionary<Player, IList<Creature>> fields,
       StackQueue<IEffect> effects,
-      IList<IResolvedEffect> resolvedEffects)
+      IList<IResolvedEffect> resolvedEffects,
+      Metadata metadata)
       : base(
         playerTurn,
         turnNumber,
         isGameOVer,
         previousState,
+        activeHouse,
         keys,
         aember,
         actionGroups,
@@ -124,7 +139,8 @@ namespace KeyforgeUnlocked.States
         archives,
         fields,
         effects,
-        resolvedEffects)
+        resolvedEffects,
+        metadata)
     {
     }
 

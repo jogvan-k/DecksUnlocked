@@ -11,6 +11,7 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Enqueue(new DrawToHandLimit());
       state.Effects.Enqueue(new Effects.EndTurn());
       state.Effects.Enqueue(new TryForge());
+      state.Effects.Enqueue(new Effects.DeclareHouse());
     }
 
     public override bool Equals(object obj)

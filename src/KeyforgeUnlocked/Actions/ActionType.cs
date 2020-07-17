@@ -5,6 +5,7 @@ namespace KeyforgeUnlocked.Actions
     PlayCard,
     EndTurn,
     UseCreature,
+    DeclareHouse,
     NoAction
   }
 }

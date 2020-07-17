@@ -11,10 +11,9 @@ namespace KeyforgeUnlocked.ActionGroups
     public UseCreatureGroup(Creature creature) : base(ActionType.UseCreature)
     {
       Creature = creature;
-      Actions = InitiateActions();
     }
 
-    IImmutableSet<Action> InitiateActions()
+    protected override IImmutableSet<Action> InitiateActions()
     {
       var actions = ImmutableHashSet<Action>.Empty;
       if (Creature.IsReady)

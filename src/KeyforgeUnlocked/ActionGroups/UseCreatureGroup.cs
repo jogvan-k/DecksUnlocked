@@ -13,9 +13,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Creature = creature;
     }
 
-    protected override IImmutableSet<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions()
     {
-      var actions = ImmutableHashSet<Action>.Empty;
+      var actions = ImmutableList<Action>.Empty;
       if (Creature.IsReady)
       {
         actions = actions.Add(new Reap(Creature.Id));

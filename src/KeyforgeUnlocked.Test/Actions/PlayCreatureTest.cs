@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   class PlayCreatureTest : ActionTestBase
   {
-    static readonly CreatureCard Card = new SimpleCreatureCard();
+    static readonly CreatureCard Card = new LogosCreatureCard();
 
     [Test]
     public void Act_EmptyBoard()

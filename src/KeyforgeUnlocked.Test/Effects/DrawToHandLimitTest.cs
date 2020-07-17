@@ -15,8 +15,8 @@ namespace KeyforgeUnlockedTest.Effects
   {
     static Card[] sampleCards =
     {
-      new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(),
-      new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard(),
+      new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(),
+      new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(),
     };
 
     [Test]

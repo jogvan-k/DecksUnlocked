@@ -13,7 +13,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DiscardCardTest
   {
-    Card sampleCard = new SimpleCreatureCard();
+    Card sampleCard = new LogosCreatureCard();
 
     [Test]
     public void Resolve_SampleSetup()

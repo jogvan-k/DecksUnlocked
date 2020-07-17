@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedTest.Effects
     static string _creatureId = "creatureId";
     static string _otherCreatureId1 = "otherCreatureId1";
     static string _otherCreatureId2 = "otherCreatureId2";
-    static CreatureCard _creatureCard = new SimpleCreatureCard();
+    static CreatureCard _creatureCard = new LogosCreatureCard();
     readonly Reap sut = new Reap(_creatureId);
 
     [Test]
@@ -45,7 +45,7 @@ namespace KeyforgeUnlockedTest.Effects
       var state = StateTestUtil.EmptyState.New(
         fields: new Dictionary<Player, IList<Creature>>
         {
-          {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(_creatureId, false)}},
+          {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, false)}},
           {Player.Player2, new List<Creature>()}
         });
       var sut = new Reap(_creatureId);
@@ -56,7 +56,7 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotReadyException e)
       {
-        Assert.AreEqual(CreatureTestUtil.SampleCreature(_creatureId, false), e.Creature);
+        Assert.AreEqual(CreatureTestUtil.SampleLogosCreature(_creatureId, false), e.Creature);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -72,9 +72,9 @@ namespace KeyforgeUnlockedTest.Effects
         {
           {
             Player.Player1,
-            new List<Creature> {CreatureTestUtil.SampleCreature(_creatureId, true), CreatureTestUtil.SampleCreature(_otherCreatureId1, true)}
+            new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, true), CreatureTestUtil.SampleLogosCreature(_otherCreatureId1, true)}
           },
-          {Player.Player2, new List<Creature> {CreatureTestUtil.SampleCreature(_otherCreatureId2, true)}}
+          {Player.Player2, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_otherCreatureId2, true)}}
         });
 
       sut.Resolve(state);
@@ -83,11 +83,11 @@ namespace KeyforgeUnlockedTest.Effects
       {
         {
           Player.Player1,
-          new List<Creature> {CreatureTestUtil.SampleCreature(_creatureId, false), CreatureTestUtil.SampleCreature(_otherCreatureId1, true)}
+          new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, false), CreatureTestUtil.SampleLogosCreature(_otherCreatureId1, true)}
         },
-        {Player.Player2, new List<Creature> {CreatureTestUtil.SampleCreature(_otherCreatureId2, true)}}
+        {Player.Player2, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_otherCreatureId2, true)}}
       };
-      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(CreatureTestUtil.SampleCreature(_creatureId, false))};
+      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(CreatureTestUtil.SampleLogosCreature(_creatureId, false))};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);

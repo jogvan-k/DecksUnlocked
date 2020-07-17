@@ -40,7 +40,7 @@ namespace KeyforgeUnlocked.States
     public StackQueue<IEffect> Effects => effects;
 
     public IList<IResolvedEffect> ResolvedEffects => resolvedEffects;
-    
+
     public Metadata Metadata => metadata;
 
     public ImmutableState(Player playerTurn,

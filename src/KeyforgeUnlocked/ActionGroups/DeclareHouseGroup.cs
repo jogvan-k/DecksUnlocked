@@ -17,9 +17,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Houses = houses.ToImmutableHashSet();
     }
 
-    protected override IImmutableSet<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions()
     {
-      return Houses.Select(h => new DeclareHouse(h)).ToImmutableHashSet<Action>();
+      return Houses.Select(h => new DeclareHouse(h)).ToImmutableList<Action>();
     }
 
     bool Equals(DeclareHouseGroup other)

@@ -26,6 +26,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       Console.WriteLine($"Current player: {state.PlayerTurn}");
       PrintAmounts(state);
+      PrintActiveHouse(state);
       PrintField(state, commands);
     }
 
@@ -37,6 +38,19 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       {
         Console.WriteLine(effect.ToConsole());
       }
+    }
+
+    static void PrintAmounts(IState state)
+    {
+      var playerTurn = state.PlayerTurn;
+      Console.Write($"[Deck]: {state.Decks[playerTurn].Count} ");
+      Console.Write($"[Dis]carde: {state.Discards[playerTurn].Count} ");
+      Console.WriteLine($"[Arc]hive: {state.Archives[playerTurn].Count}");
+    }
+
+    static void PrintActiveHouse(IState state)
+    {
+      Console.WriteLine($"Active house: {state.ActiveHouse}");
     }
 
     static void PrintField(IState state,
@@ -126,14 +140,6 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         Console.Write("Declare [House] ");
       }
       Console.WriteLine("");
-    }
-
-    static void PrintAmounts(IState state)
-    {
-      var playerTurn = state.PlayerTurn;
-      Console.Write($"[Deck]: {state.Decks[playerTurn].Count} ");
-      Console.Write($"[Dis]carde: {state.Discards[playerTurn].Count} ");
-      Console.WriteLine($"[Arc]hive: {state.Archives[playerTurn].Count}");
     }
 
     static bool IsActionEndTurn(this IActionGroup group)

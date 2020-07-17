@@ -5,18 +5,18 @@ namespace KeyforgeUnlocked.ActionGroups
 {
   public abstract class ActionGroupBase : IActionGroup
   {
-    readonly System.Lazy<IImmutableSet<Action>> _actions;
+    readonly System.Lazy<IImmutableList<Action>> _actions;
     public ActionType Type { get; }
 
-    public IImmutableSet<Action> Actions => _actions.Value;
+    public IImmutableList<Action> Actions => _actions.Value;
 
     public ActionGroupBase(ActionType type)
     {
       Type = type;
-      _actions = new System.Lazy<IImmutableSet<Action>>(InitiateActions);
+      _actions = new System.Lazy<IImmutableList<Action>>(InitiateActions);
     }
 
-    protected abstract IImmutableSet<Action> InitiateActions();
+    protected abstract IImmutableList<Action> InitiateActions();
 
     protected bool Equals(ActionGroupBase other)
     {

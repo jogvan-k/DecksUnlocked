@@ -5,13 +5,13 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Cards.CreatureCards
 {
-  public sealed class SimpleCreatureCard : CreatureCard
+  public sealed class LogosCreatureCard : CreatureCard
   {
     const int InitialPower = 3;
     const int InitialArmor = 0;
 
-    public SimpleCreatureCard(House house = House.Logos) : base(
-      "SimpleCreature", house, InitialPower,
+    public LogosCreatureCard(House house = House.Logos) : base(
+      "LogosCreature", house, InitialPower,
       InitialArmor)
     {
     }

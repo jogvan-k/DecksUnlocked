@@ -6,14 +6,14 @@ namespace KeyforgeUnlockedTest.Util
 {
   public static class CreatureTestUtil
   {
-    static CreatureCard sampleCreatureCard = new SimpleCreatureCard();
+    static CreatureCard sampleLogosCreatureCard = new LogosCreatureCard();
 
-    public static Creature SampleCreature(string creatureId,
+    public static Creature SampleLogosCreature(string creatureId,
       bool isReady)
     {
       return new Creature(
         creatureId, 1, 0,
-        sampleCreatureCard, 0, 0,
+        sampleLogosCreatureCard, 0, 0,
         isReady);
     }
   }

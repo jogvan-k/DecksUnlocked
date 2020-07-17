@@ -25,8 +25,6 @@ namespace KeyforgeUnlockedTest.Actions
       expectedEffects.Enqueue(new ReadyCards());
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new EndTurn());
-      expectedEffects.Enqueue(new TryForge());
-      expectedEffects.Enqueue(new DeclareHouse());
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }

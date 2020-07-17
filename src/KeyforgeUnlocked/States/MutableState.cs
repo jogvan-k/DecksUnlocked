@@ -155,7 +155,7 @@ namespace KeyforgeUnlocked.States
       ActionGroups.Add(new EndTurnGroup());
       foreach (var card in Hands[PlayerTurn])
       {
-        if (card.CardType == CardType.Creature)
+        if (card.CardType == CardType.Creature && card.House == activeHouse)
         {
           var actionGroup = new PlayCreatureCardGroup(this, (CreatureCard) card);
           if (actionGroup.Actions.Count != 0)
@@ -165,7 +165,7 @@ namespace KeyforgeUnlocked.States
 
       foreach (var creature in Fields[PlayerTurn])
       {
-        if (creature.IsReady)
+        if (creature.IsReady && creature.Card.House == activeHouse)
         {
           var actionGroup = new UseCreatureGroup(creature);
           if (actionGroup.Actions.Count != 0)

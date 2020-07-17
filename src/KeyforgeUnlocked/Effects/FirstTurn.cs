@@ -10,13 +10,14 @@ namespace KeyforgeUnlocked.Effects
     public void Resolve(MutableState state)
     {
       foreach (var card in state.Hands[state.PlayerTurn])
-      {
-        state.ActionGroups.Add(ActionGroup(state, card));
-      }
+        if (card.House == state.ActiveHouse)
+          state.ActionGroups.Add(ActionGroup(state, card));
+
       state.ActionGroups.Add(new NoActionGroup());
     }
 
-    IActionGroup ActionGroup(IState state, Card card)
+    IActionGroup ActionGroup(IState state,
+      Card card)
     {
       switch (card)
       {

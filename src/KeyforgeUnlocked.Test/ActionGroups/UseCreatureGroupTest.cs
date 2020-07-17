@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     public void Actions_CreatureNotReady_NoActions()
     {
       _creatureId = "creatureId";
-      var sut = new UseCreatureGroup(CreatureTestUtil.SampleCreature(_creatureId, false));
+      var sut = new UseCreatureGroup(CreatureTestUtil.SampleLogosCreature(_creatureId, false));
 
       var actions = sut.Actions;
 
@@ -27,7 +27,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void Actions_CreatureReady()
     {
-      var sampleCreature = CreatureTestUtil.SampleCreature(_creatureId, true);
+      var sampleCreature = CreatureTestUtil.SampleLogosCreature(_creatureId, true);
       var sut = new UseCreatureGroup(sampleCreature);
 
       var actions = sut.Actions;

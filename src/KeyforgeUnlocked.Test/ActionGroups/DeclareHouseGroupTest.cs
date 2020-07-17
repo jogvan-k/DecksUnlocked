@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var expectedActions = new[]
           {new DeclareHouse(sampleHouses[0]), new DeclareHouse(sampleHouses[1]), new DeclareHouse(sampleHouses[2])}
-        .ToImmutableHashSet();
+        .ToImmutableList();
       Assert.AreEqual(expectedActions, actions);
     }
   }

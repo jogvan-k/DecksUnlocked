@@ -3,9 +3,11 @@ using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
+using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 
 namespace KeyforgeUnlockedTest.Effects
@@ -23,10 +25,12 @@ namespace KeyforgeUnlockedTest.Effects
 
       sut.Resolve(state);
 
+      var expectedEffects = new StackQueue<IEffect>(new[] {(IEffect) new DeclareHouse(), new TryForge()});
       var expectedState = StateTestUtil.EmptyMutableState.New(
         playerTurn.Other(),
         turnNumberStart + 1,
-        resolvedEffects: new List<IResolvedEffect> {new TurnEnded()});
+        resolvedEffects: new List<IResolvedEffect> {new TurnEnded()},
+        effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
     }
   }

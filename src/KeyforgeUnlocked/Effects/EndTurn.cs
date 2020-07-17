@@ -11,6 +11,8 @@ namespace KeyforgeUnlocked.Effects
       state.TurnNumber++;
       state.ActiveHouse = null;
       state.ResolvedEffects.Add(new ResolvedEffects.TurnEnded());
+      state.Effects.Enqueue(new TryForge());
+      state.Effects.Enqueue(new DeclareHouse());
     }
 
     public override bool Equals(object obj)

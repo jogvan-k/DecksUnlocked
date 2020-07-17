@@ -18,9 +18,9 @@ namespace KeyforgeUnlockedTest.Actions
   {
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {
-      new TestCaseData(new PlayCreature(new SimpleCreatureCard(), 0)),
+      new TestCaseData(new PlayCreature(new LogosCreatureCard(), 0)),
       new TestCaseData(new KeyforgeUnlocked.Actions.EndTurn()),
-      new TestCaseData(new DiscardCard(new SimpleCreatureCard())),
+      new TestCaseData(new DiscardCard(new LogosCreatureCard())),
       new TestCaseData(new Reap(""))
     };
 

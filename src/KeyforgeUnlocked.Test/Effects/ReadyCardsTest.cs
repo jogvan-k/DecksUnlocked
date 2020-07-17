@@ -29,15 +29,15 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_ReadyAndUnreadyCreatures(Player playerTurn)
     {
       var opponentField = new List<Creature>
-        {SampleCreature("3", true), SampleCreature("4", false)};
+        {SampleLogosCreature("3", true), SampleLogosCreature("4", false)};
       var fields = new Dictionary<Player, IList<Creature>>
       {
         {
           playerTurn,
           new List<Creature>
           {
-            SampleCreature("1", true),
-            SampleCreature("2", false)
+            SampleLogosCreature("1", true),
+            SampleLogosCreature("2", false)
           }
         },
         {playerTurn.Other(), opponentField}
@@ -48,7 +48,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedFields = new Dictionary<Player, IList<Creature>>
       {
-        {playerTurn, new List<Creature> {SampleCreature("1", true), SampleCreature("2", true)}},
+        {playerTurn, new List<Creature> {SampleLogosCreature("1", true), SampleLogosCreature("2", true)}},
         {playerTurn.Other(), opponentField}
       };
       var expectedState = StateTestUtil.EmptyState.New(playerTurn: playerTurn, fields: expectedFields);

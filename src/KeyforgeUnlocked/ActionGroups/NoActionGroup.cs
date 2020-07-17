@@ -9,9 +9,9 @@ namespace KeyforgeUnlocked.ActionGroups
     {
     }
 
-    protected override IImmutableSet<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions()
     {
-      return ImmutableHashSet<Action>.Empty.Add(new NoAction());
+      return ImmutableList<Action>.Empty.Add(new NoAction());
     }
   }
 }

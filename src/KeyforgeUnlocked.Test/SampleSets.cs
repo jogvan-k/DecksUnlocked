@@ -8,8 +8,8 @@ namespace KeyforgeUnlockedTest
 {
   public class SampleSets
   {
-    static Card[] _sampleDeck = Enumerable.Range(1, 36).Select(i => new SimpleCreatureCard()).ToArray();
-    static Card[] _sampleSet = Enumerable.Range(1, 6).Select(i => new SimpleCreatureCard()).ToArray();
+    static Card[] _sampleDeck = Enumerable.Range(1, 36).Select(i => new LogosCreatureCard()).ToArray();
+    static Card[] _sampleSet = Enumerable.Range(1, 6).Select(i => new LogosCreatureCard()).ToArray();
 
     public static Stack<Card> SampleDeck => new Stack<Card>(_sampleDeck);
 

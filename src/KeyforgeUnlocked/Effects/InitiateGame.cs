@@ -7,6 +7,7 @@ namespace KeyforgeUnlocked.Effects
     public void Resolve(MutableState state)
     {
       state.Effects.Enqueue(new DrawInitialHands());
+      state.Effects.Enqueue(new DeclareHouse());
       state.Effects.Enqueue(new FirstTurn());
       state.Effects.Enqueue(new EndTurn());
     }

@@ -18,7 +18,7 @@ namespace KeyforgeUnlocked
 
     public static Deck LoadDeck()
     {
-      return new Deck(Enumerable.Range(0, 36).Select(i => (Card) new SimpleCreatureCard()).ToList());
+      return new Deck(Enumerable.Range(0, 12).SelectMany(i => new[]{(Card) new LogosCreatureCard(), new StarAllianceCreatureCard(), new UntamedCreatureCard()}).ToList());
     }
 
   }

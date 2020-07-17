@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   class PlayCreatureCardGroupTest
   {
-    static readonly SimpleCreatureCard Card = new SimpleCreatureCard();
+    static readonly LogosCreatureCard Card = new LogosCreatureCard();
 
     [Test]
     public void Actions_EmptyState()
@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
       var actions = sut.Actions;
 
       var expectedAction =
-        ImmutableHashSet<Action>.Empty.Add(new PlayCreature(Card, 0)).Add(new DiscardCard(Card));
+        ImmutableList<Action>.Empty.Add(new PlayCreature(Card, 0)).Add(new DiscardCard(Card));
       Assert.AreEqual(expectedAction, actions);
     }
 
@@ -35,13 +35,13 @@ namespace KeyforgeUnlockedTest.ActionGroups
     {
       IState state = StateTestUtil.EmptyMutableState;
       for (int i = 0; i < 5; i++)
-        state.Fields[Player.Player1].Add(new Creature(1, 0, new SimpleCreatureCard()));
+        state.Fields[Player.Player1].Add(new Creature(1, 0, new LogosCreatureCard()));
       var sut = new PlayCreatureCardGroup(state, Card);
 
       var actions = sut.Actions;
 
       var expectedActions =
-        ImmutableHashSet<Action>.Empty
+        ImmutableList<Action>.Empty
           .Add(new PlayCreature(Card, 0))
           .Add(new PlayCreature(Card, 5))
           .Add(new DiscardCard(Card));

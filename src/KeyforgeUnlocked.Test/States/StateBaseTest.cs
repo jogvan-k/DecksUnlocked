@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
+using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
@@ -26,19 +28,19 @@ namespace KeyforgeUnlockedTest.States
     readonly Dictionary<Player, ISet<Card>> simpleSet = new Dictionary<Player, ISet<Card>>
     {
       {Player.Player1, new HashSet<Card>()},
-      {Player.Player2, new HashSet<Card>(new[] {new SimpleCreatureCard()})}
+      {Player.Player2, new HashSet<Card>(new[] {new LogosCreatureCard()})}
     };
 
     readonly Dictionary<Player, Stack<Card>> simpleStack = new Dictionary<Player, Stack<Card>>
     {
       {Player.Player1, new Stack<Card>()},
-      {Player.Player2, new Stack<Card>(new[] {new SimpleCreatureCard()})}
+      {Player.Player2, new Stack<Card>(new[] {new LogosCreatureCard()})}
     };
 
     readonly Dictionary<Player, IList<Creature>> simpleField = new Dictionary<Player, IList<Creature>>
     {
       {Player.Player1, new List<Creature>()},
-      {Player.Player2, new List<Creature>(new[] {new Creature(1, 1, new SimpleCreatureCard())})}
+      {Player.Player2, new List<Creature>(new[] {new Creature(1, 1, new LogosCreatureCard())})}
     };
 
     [Test]
@@ -62,6 +64,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(turnNumber: 1).Equals(emptyState));
       Assert.False(emptyState.New(isGameOver: true).Equals(emptyState));
       Assert.False(emptyState.New(previousState: emptyState).Equals(emptyState));
+      Assert.False(emptyState.New(activeHouse: House.Dis).Equals(emptyState));
       Assert.False(emptyState.New(keys: simpleValues).Equals(emptyState));
       Assert.False(emptyState.New(aember: simpleValues).Equals(emptyState));
       Assert.False(emptyState.New(actionGroups: new List<IActionGroup> {new EndTurnGroup()}).Equals(emptyState));
@@ -72,6 +75,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(fields: simpleField).Equals(emptyState));
       Assert.False(emptyState.New(effects: new StackQueue<IEffect>(new[] {new EndTurn()})).Equals(emptyState));
       Assert.False(emptyState.New(resolvedEffects: new List<IResolvedEffect> {new TurnEnded()}).Equals(emptyState));
+      Assert.False(emptyState.New(metadata: new Metadata(ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty)).Equals(emptyState));
     }
   }
 }

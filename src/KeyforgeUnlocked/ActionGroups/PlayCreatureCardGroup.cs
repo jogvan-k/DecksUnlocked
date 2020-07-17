@@ -22,9 +22,9 @@ namespace KeyforgeUnlocked.ActionGroups
         throw new ArgumentNullException();
     }
 
-    protected override IImmutableSet<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions()
     {
-      var list = ImmutableHashSet<Action>.Empty;
+      var list = ImmutableList<Action>.Empty;
 
       var leftPosition = new PlayCreature(Card, 0);
       list = list.Add(leftPosition);

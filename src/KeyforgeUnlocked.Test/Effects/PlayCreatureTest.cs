@@ -16,10 +16,10 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class PlayCreatureTest
   {
-    static readonly SimpleCreatureCard PlayedCard = new SimpleCreatureCard();
+    static readonly LogosCreatureCard PlayedCard = new LogosCreatureCard();
 
     static readonly Card[] otherCards = new[]
-      {new SimpleCreatureCard(), new SimpleCreatureCard(), new SimpleCreatureCard()};
+      {new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard()};
 
     [TestCase(Player.Player1)]
     [TestCase(Player.Player2)]

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -40,7 +41,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var fields = new Dictionary<Player, IList<Creature>>
       {
-        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(CreatureId, false)}},
+        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(CreatureId, false)}},
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(fields: fields);
@@ -52,28 +53,59 @@ namespace KeyforgeUnlockedTest.Actions
       }
       catch (CreatureNotReadyException e)
       {
-        Assert.AreEqual(CreatureTestUtil.SampleCreature(CreatureId, false), e.Creature);
+        Assert.AreEqual(CreatureTestUtil.SampleLogosCreature(CreatureId, false), e.Creature);
         Assert.AreSame(state, e.State);
+        return;
       }
+
+      Assert.Fail();
     }
 
     [Test]
     public void Act_CreatureReady()
     {
+      var activeHouse = House.Logos;
       var fields = new Dictionary<Player, IList<Creature>>
       {
-        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleCreature(CreatureId, true)}},
+        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(CreatureId, true)}},
         {Player.Player2, new List<Creature>()}
       };
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields);
       var sut = new Reap(CreatureId);
 
       Act(sut, state);
 
       var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(CreatureId));
-      var expectedState = StateTestUtil.EmptyState.New(fields: fields, effects: expectedEffects);
+      var expectedState = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields, effects: expectedEffects);
       Assert.AreEqual(expectedState, state);
+    }
+
+    [Test]
+    public void Act_CreatureNotFromActiveHouse_Exception()
+    {
+      var creature = CreatureTestUtil.SampleLogosCreature(CreatureId, true);
+      var fields = new Dictionary<Player, IList<Creature>>
+      {
+        {Player.Player1, new List<Creature> {creature}},
+        {Player.Player2, new List<Creature>()}
+      };
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Dis, fields: fields);
+      var sut = new Reap(CreatureId);
+
+      try
+      {
+        Act(sut, state);
+      }
+      catch (NotFromActiveHouseException e)
+      {
+        Assert.AreEqual(creature.Card, e.Card);
+        Assert.AreEqual(House.Dis, e.House);
+        Assert.AreSame(state, e.State);
+        return;
+      }
+
+      Assert.Fail();
     }
   }
 }

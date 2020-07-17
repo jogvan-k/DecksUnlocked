@@ -10,6 +10,7 @@ namespace KeyforgeUnlocked.Cards
     Saurian,
     Shadows,
     StarAlliance,
-    Untamed
+    Untamed,
+    Undefined
   }
 }

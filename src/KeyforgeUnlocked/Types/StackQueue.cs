@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -40,6 +41,11 @@ namespace KeyforgeUnlocked.Types
       if (value == null)
         throw new InvalidOperationException("No value present in StackQueue");
       return value.Value;
+    }
+
+    public ImmutableArray<T> ToImmutableArray()
+    {
+      return inner.ToImmutableArray();
     }
 
     public IEnumerator<T> GetEnumerator()

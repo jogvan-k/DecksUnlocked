@@ -22,10 +22,10 @@ namespace KeyforgeUnlockedTest.Effects
 
       _sut.Resolve(state);
 
-      IState expectedState;
+      IState expectedstate;
       if (aember < DefaultForgeCost)
       {
-        expectedState = StateTestUtil.EmptyState.New(aember: startAember);
+        expectedstate = StateTestUtil.EmptyState.New(aember: startAember);
       }
       else
       {
@@ -33,11 +33,11 @@ namespace KeyforgeUnlockedTest.Effects
         var expectedAembers = new Dictionary<Player, int>
           {{Player.Player1, aember - DefaultForgeCost}, {Player.Player2, aember}};
         var expectedResolvedEffects = new List<IResolvedEffect> {new KeyForged(DefaultForgeCost)};
-        expectedState = StateTestUtil.EmptyState.New(
+        expectedstate = StateTestUtil.EmptyState.New(
           keys: expectedKeys, aember: expectedAembers, resolvedEffects: expectedResolvedEffects);
       }
 
-      Assert.AreEqual(expectedState, state);
+      Assert.AreEqual(expectedstate, state);
     }
 
     [TestCase(Player.Player1)]

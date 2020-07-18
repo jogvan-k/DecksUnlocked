@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Exceptions
   {
     public Card Card;
     public House House;
-    
+
     public NotFromActiveHouseException(IState state,
       Card card,
       House house) : base(state)

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -14,27 +15,27 @@ namespace KeyforgeUnlocked.States
     IState PreviousState { get; }
     House? ActiveHouse { get; }
 
-    IDictionary<Player, int> Keys { get; }
-    IDictionary<Player, int> Aember { get; }
+    IImmutableDictionary<Player, int> Keys { get; }
+    IImmutableDictionary<Player, int> Aember { get; }
 
-    IList<IActionGroup> ActionGroups { get; }
+    IImmutableList<IActionGroup> ActionGroups { get; }
 
-    IDictionary<Player, Stack<Card>> Decks { get; }
+    IImmutableDictionary<Player, Stack<Card>> Decks { get; }
 
-    IDictionary<Player, ISet<Card>> Hands { get; }
+    IImmutableDictionary<Player, ISet<Card>> Hands { get; }
 
-    IDictionary<Player, ISet<Card>> Discards { get; }
+    IImmutableDictionary<Player, ISet<Card>> Discards { get; }
 
-    IDictionary<Player, ISet<Card>> Archives { get; }
+    IImmutableDictionary<Player, ISet<Card>> Archives { get; }
 
-    IDictionary<Player, IList<Creature>> Fields { get; }
+    IImmutableDictionary<Player, IList<Creature>> Fields { get; }
 
-    StackQueue<IEffect> Effects { get; }
+    ImmutableArray<IEffect> Effects { get; }
 
     /// <summary>
-    /// Effects that have been resolved since <see cref="PreviousState"/>
+    /// Effects that have been resolved since <see cref="Previousstate"/>
     /// </summary>
-    IList<IResolvedEffect> ResolvedEffects { get; }
+    IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 
     Metadata Metadata { get; }
 

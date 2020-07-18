@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -39,17 +40,17 @@ namespace KeyforgeUnlockedTest.Util
       false,
       null,
       null,
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new List<IActionGroup>(),
-      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
+      new List<IActionGroup>().ToImmutableList(),
+      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}}.ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
       new Dictionary<Player, IList<Creature>>
-        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
-      new StackQueue<IEffect>(),
-      new List<IResolvedEffect>(),
+        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}}.ToImmutableDictionary(),
+      ImmutableArray<IEffect>.Empty,
+      new List<IResolvedEffect>().ToImmutableList(),
       null);
 
     public static MutableState New(
@@ -59,7 +60,7 @@ namespace KeyforgeUnlockedTest.Util
       bool isGameOver = false,
       IDictionary<Player, int> keys = null,
       IDictionary<Player, int> aember = null,
-      IState previousState = null,
+      IState previousstate = null,
       House? activeHouse = null,
       IList<IActionGroup> actionGroups = null,
       IDictionary<Player, Stack<Card>> decks = null,
@@ -75,18 +76,18 @@ namespace KeyforgeUnlockedTest.Util
         playerTurn ?? state.PlayerTurn,
         turnNumber ?? state.TurnNumber,
         isGameOver || state.IsGameOver,
-        previousState ?? state.PreviousState,
+        previousstate ?? state.PreviousState,
         activeHouse ?? state.ActiveHouse,
-        keys ?? state.Keys,
-        aember ?? state.Aember,
-        actionGroups ?? state.ActionGroups,
-        decks ?? state.Decks,
-        hands ?? state.Hands,
-        discards ?? state.Discards,
-        archives ?? state.Archives,
-        fields ?? state.Fields,
-        effects ?? state.Effects,
-        resolvedEffects ?? state.ResolvedEffects,
+        keys ?? new Dictionary<Player, int>(state.Keys),
+        aember ?? new Dictionary<Player, int>(state.Aember),
+        actionGroups ?? new List<IActionGroup>(state.ActionGroups),
+        decks ?? new Dictionary<Player, Stack<Card>>(state.Decks),
+        hands ?? new Dictionary<Player, ISet<Card>>(state.Hands),
+        discards ?? new Dictionary<Player, ISet<Card>>(state.Discards),
+        archives ?? new Dictionary<Player, ISet<Card>>(state.Archives),
+        fields ?? new Dictionary<Player, IList<Creature>>(state.Fields),
+        effects ?? new StackQueue<IEffect>(state.Effects),
+        resolvedEffects ?? new List<IResolvedEffect>(state.ResolvedEffects),
         metadata ?? state.Metadata);
     }
 

@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Actions
 
     static void ValidateNoUnresolvedEffects(IState state)
     {
-      if (state.Effects.Count != 0 && state.TurnNumber > 1)
+      if (state.Effects.Length != 0 && state.TurnNumber > 1)
       {
         throw new UnresolvedEffectsException(state);
       }

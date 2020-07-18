@@ -11,21 +11,21 @@ namespace KeyforgeUnlockedConsole
 {
   public class ConsoleGame
   {
-    IState State;
+    IState _state;
     IDictionary<string, IActionGroup> Commands;
     IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
 
     public ConsoleGame(IState state)
     {
-      State = state;
+      _state = state;
     }
 
     public void StartGame()
     {
-      while (!State.IsGameOver)
+      while (!_state.IsGameOver)
       {
         Console.Clear();
-        State.Print(out var commands);
+        _state.Print(out var commands);
         Commands = commands;
 
         var command = ReadCommand();
@@ -33,8 +33,8 @@ namespace KeyforgeUnlockedConsole
       }
 
       Console.Clear();
-      State.Print(out _);
-      Console.WriteLine($"{State.PlayerTurn} won!");
+      _state.Print(out _);
+      Console.WriteLine($"{_state.PlayerTurn} won!");
       Console.WriteLine();
     }
 
@@ -45,7 +45,7 @@ namespace KeyforgeUnlockedConsole
         Console.Write("Action: ");
         var command = Console.ReadLine().ToLower();
         if (HelperCommands.Keys.Contains(command))
-          HelperCommands[command].Print(State);
+          HelperCommands[command].Print(_state);
         else if (Commands.Keys.Contains(command))
           return command;
         else
@@ -60,12 +60,12 @@ namespace KeyforgeUnlockedConsole
         throw new InvalidOperationException("List /'IActionGroup.Actions/' must not be empty ");
       if (actions.Count == 1)
       {
-        State = command.Actions.Single().DoAction(State);
+        _state = command.Actions.Single().DoAction(_state);
         return;
       }
 
       var action = WriteAndReadActions(command);
-      State = action.DoAction(State);
+      _state = action.DoAction(_state);
     }
 
     Action WriteAndReadActions(IActionGroup actionGroup)

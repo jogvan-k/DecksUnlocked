@@ -63,7 +63,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(playerTurn: Player.Player2).Equals(emptyState));
       Assert.False(emptyState.New(turnNumber: 1).Equals(emptyState));
       Assert.False(emptyState.New(isGameOver: true).Equals(emptyState));
-      Assert.False(emptyState.New(previousState: emptyState).Equals(emptyState));
+      Assert.False(emptyState.New(previousstate: emptyState).Equals(emptyState));
       Assert.False(emptyState.New(activeHouse: House.Dis).Equals(emptyState));
       Assert.False(emptyState.New(keys: simpleValues).Equals(emptyState));
       Assert.False(emptyState.New(aember: simpleValues).Equals(emptyState));

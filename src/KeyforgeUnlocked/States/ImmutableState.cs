@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -11,72 +12,72 @@ namespace KeyforgeUnlocked.States
 {
   public sealed class ImmutableState : StateBase, IState
   {
-    public Player PlayerTurn => playerTurn;
+    public Player PlayerTurn { get; }
 
-    public int TurnNumber => turnNumber;
+    public int TurnNumber { get; }
 
-    public bool IsGameOver => isGameOver;
+    public bool IsGameOver { get; }
 
-    public IState PreviousState => previousState;
+    public IState PreviousState { get; }
 
-    public House? ActiveHouse => activeHouse;
+    public House? ActiveHouse { get; }
 
-    public IDictionary<Player, int> Keys => keys;
+    public IImmutableDictionary<Player, int> Keys { get; }
 
-    public IDictionary<Player, int> Aember => aember;
+    public IImmutableDictionary<Player, int> Aember { get; }
 
-    public IList<IActionGroup> ActionGroups => actionGroups;
+    public IImmutableList<IActionGroup> ActionGroups { get; }
 
-    public IDictionary<Player, Stack<Card>> Decks => decks;
+    public IImmutableDictionary<Player, Stack<Card>> Decks { get; }
 
-    public IDictionary<Player, ISet<Card>> Hands => hands;
+    public IImmutableDictionary<Player, ISet<Card>> Hands { get; }
 
-    public IDictionary<Player, ISet<Card>> Discards => discards;
+    public IImmutableDictionary<Player, ISet<Card>> Discards { get; }
 
-    public IDictionary<Player, ISet<Card>> Archives => archives;
+    public IImmutableDictionary<Player, ISet<Card>> Archives { get; }
 
-    public IDictionary<Player, IList<Creature>> Fields => fields;
+    public IImmutableDictionary<Player, IList<Creature>> Fields { get; }
 
-    public StackQueue<IEffect> Effects => effects;
+    public ImmutableArray<IEffect> Effects { get; }
 
-    public IList<IResolvedEffect> ResolvedEffects => resolvedEffects;
+    public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 
-    public Metadata Metadata => metadata;
+    public Metadata Metadata { get; }
 
-    public ImmutableState(Player playerTurn,
+    public ImmutableState(
+      Player playerTurn,
       int turnNumber,
       bool isGameOver,
       IState previousState,
       House? activeHouse,
-      IDictionary<Player, int> keys,
-      IDictionary<Player, int> aember,
-      IList<IActionGroup> actionGroups,
-      IDictionary<Player, Stack<Card>> decks,
-      IDictionary<Player, ISet<Card>> hands,
-      IDictionary<Player, ISet<Card>> discards,
-      IDictionary<Player, ISet<Card>> archives,
-      IDictionary<Player, IList<Creature>> fields,
-      StackQueue<IEffect> effects,
-      IList<IResolvedEffect> resolvedEffects,
+      IImmutableDictionary<Player, int> keys,
+      IImmutableDictionary<Player, int> aember,
+      IImmutableList<IActionGroup> actionGroups,
+      IImmutableDictionary<Player, Stack<Card>> decks,
+      IImmutableDictionary<Player, ISet<Card>> hands,
+      IImmutableDictionary<Player, ISet<Card>> discards,
+      IImmutableDictionary<Player, ISet<Card>> archives,
+      IImmutableDictionary<Player, IList<Creature>> fields,
+      ImmutableArray<IEffect> effects,
+      IImmutableList<IResolvedEffect> resolvedEffects,
       Metadata metadata)
-      : base(
-        playerTurn,
-        turnNumber,
-        isGameOver,
-        previousState,
-        activeHouse,
-        keys,
-        aember,
-        actionGroups,
-        decks,
-        hands,
-        discards,
-        archives,
-        fields,
-        effects,
-        resolvedEffects,
-        metadata)
     {
+      PlayerTurn = playerTurn;
+      TurnNumber = turnNumber;
+      IsGameOver = isGameOver;
+      PreviousState = previousState;
+      ActiveHouse = activeHouse;
+      Keys = keys;
+      Aember = aember;
+      ActionGroups = actionGroups;
+      Decks = decks;
+      Hands = hands;
+      Discards = discards;
+      Archives = archives;
+      Fields = fields;
+      Effects = effects;
+      ResolvedEffects = resolvedEffects;
+      Metadata = metadata;
     }
   }
 }

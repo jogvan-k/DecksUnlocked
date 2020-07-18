@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -11,6 +12,23 @@ namespace KeyforgeUnlocked.States
 {
   public sealed class MutableState : StateBase, IState
   {
+    public Player playerTurn;
+    public int turnNumber;
+    public bool isGameOver;
+    public IState previousState;
+    public House? activeHouse;
+    public IDictionary<Player, int> Keys;
+    public IDictionary<Player, int> Aember;
+    public IList<IActionGroup> ActionGroups;
+    public IDictionary<Player, Stack<Card>> Decks;
+    public IDictionary<Player, ISet<Card>> Hands;
+    public IDictionary<Player, ISet<Card>> Discards;
+    public IDictionary<Player, ISet<Card>> Archives;
+    public IDictionary<Player, IList<Creature>> Fields;
+    public StackQueue<IEffect> Effects;
+    public IList<IResolvedEffect> ResolvedEffects;
+    public Metadata metadata;
+
     public Player PlayerTurn
     {
       get => playerTurn;
@@ -41,65 +59,26 @@ namespace KeyforgeUnlocked.States
       set => activeHouse = value;
     }
 
-    public IDictionary<Player, int> Keys
-    {
-      get => keys;
-      set => keys = value;
-    }
+    IImmutableDictionary<Player, int> IState.Keys => Keys.ToImmutableDictionary();
 
-    public IDictionary<Player, int> Aember
-    {
-      get => aember;
-      set => aember = value;
-    }
+    IImmutableDictionary<Player, int> IState.Aember => Aember.ToImmutableDictionary();
 
-    public IList<IResolvedEffect> ResolvedEffects
-    {
-      get => resolvedEffects;
-      set => resolvedEffects = value;
-    }
+    IImmutableList<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableList();
 
-    public IList<IActionGroup> ActionGroups
-    {
-      get => actionGroups;
-      set => actionGroups = value;
-    }
+    IImmutableDictionary<Player, Stack<Card>> IState.Decks => Decks.ToImmutableDictionary();
 
-    public IDictionary<Player, Stack<Card>> Decks
-    {
-      get => decks;
-      set => decks = value;
-    }
+    IImmutableDictionary<Player, ISet<Card>> IState.Hands => Hands.ToImmutableDictionary();
 
-    public IDictionary<Player, ISet<Card>> Hands
-    {
-      get => hands;
-      set => hands = value;
-    }
+    IImmutableDictionary<Player, ISet<Card>> IState.Discards => Discards.ToImmutableDictionary();
 
-    public IDictionary<Player, ISet<Card>> Discards
-    {
-      get => discards;
-      set => discards = value;
-    }
+    IImmutableDictionary<Player, ISet<Card>> IState.Archives => Archives.ToImmutableDictionary();
 
-    public IDictionary<Player, ISet<Card>> Archives
-    {
-      get => archives;
-      set => discards = value;
-    }
+    IImmutableDictionary<Player, IList<Creature>> IState.Fields => Fields.ToImmutableDictionary();
 
-    public IDictionary<Player, IList<Creature>> Fields
-    {
-      get => fields;
-      set => fields = value;
-    }
+    ImmutableArray<IEffect> IState.Effects => Effects.ToImmutableArray();
 
-    public StackQueue<IEffect> Effects
-    {
-      get => effects;
-      set => effects = value;
-    }
+    IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
+
 
     public Metadata Metadata
     {
@@ -107,10 +86,30 @@ namespace KeyforgeUnlocked.States
       set => metadata = value;
     }
 
+    public MutableState(IState state)
+    {
+      PlayerTurn = state.PlayerTurn;
+      TurnNumber = state.TurnNumber;
+      IsGameOver = state.IsGameOver;
+      PreviousState = state;
+      ActiveHouse = state.ActiveHouse;
+      Keys = new Dictionary<Player, int>(state.Keys);
+      Aember = new Dictionary<Player, int>(state.Aember);
+      ActionGroups = new List<IActionGroup>(state.ActionGroups);
+      Decks = new Dictionary<Player, Stack<Card>>(state.Decks);
+      Hands = new Dictionary<Player, ISet<Card>>(state.Hands);
+      Discards = new Dictionary<Player, ISet<Card>>(state.Discards);
+      Archives = new Dictionary<Player, ISet<Card>>(state.Archives);
+      Fields = new Dictionary<Player, IList<Creature>>(state.Fields);
+      Effects = new StackQueue<IEffect>(state.Effects);
+      ResolvedEffects = new List<IResolvedEffect>();
+      Metadata = state.Metadata;
+    }
+
     public MutableState(
       Player playerTurn,
       int turnNumber,
-      bool isGameOVer,
+      bool isGameOver,
       IState previousState,
       House? activeHouse,
       IDictionary<Player, int> keys,
@@ -124,24 +123,23 @@ namespace KeyforgeUnlocked.States
       StackQueue<IEffect> effects,
       IList<IResolvedEffect> resolvedEffects,
       Metadata metadata)
-      : base(
-        playerTurn,
-        turnNumber,
-        isGameOVer,
-        previousState,
-        activeHouse,
-        keys,
-        aember,
-        actionGroups,
-        decks,
-        hands,
-        discards,
-        archives,
-        fields,
-        effects,
-        resolvedEffects,
-        metadata)
     {
+      PlayerTurn = playerTurn;
+      TurnNumber = turnNumber;
+      IsGameOver = isGameOver;
+      PreviousState = previousState;
+      ActiveHouse = activeHouse;
+      Keys = keys;
+      Aember = aember;
+      ActionGroups = actionGroups;
+      Decks = decks;
+      Hands = hands;
+      Discards = discards;
+      Archives = archives;
+      Fields = fields;
+      Effects = effects;
+      ResolvedEffects = resolvedEffects;
+      Metadata = metadata;
     }
 
     void RefreshBaseActions()
@@ -183,6 +181,28 @@ namespace KeyforgeUnlocked.States
         RefreshBaseActions();
 
       return ToImmutable();
+    }
+
+
+    ImmutableState ToImmutable()
+    {
+      return new ImmutableState(
+        playerTurn,
+        turnNumber,
+        isGameOver,
+        previousState,
+        activeHouse,
+        Keys.ToImmutableDictionary(),
+        Aember.ToImmutableDictionary(),
+        ActionGroups.ToImmutableList(),
+        Decks.ToImmutableDictionary(),
+        Hands.ToImmutableDictionary(),
+        Discards.ToImmutableDictionary(),
+        Archives.ToImmutableDictionary(),
+        Fields.ToImmutableDictionary(),
+        Effects.ToImmutableArray(),
+        ResolvedEffects.ToImmutableList(),
+        metadata);
     }
   }
 }

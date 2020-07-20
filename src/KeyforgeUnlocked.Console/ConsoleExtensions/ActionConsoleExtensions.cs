@@ -1,12 +1,14 @@
 using System;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class ActionConsoleExtensions
   {
-    public static string ToConsole(this Action action)
+    public static string ToConsole(this Action action,
+      IState state)
     {
       switch (action)
       {
@@ -22,6 +24,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case DeclareHouse a:
           return a.ToConsole();
+        case FightCreature a:
+          return a.ToConsole(state);
         default:
           throw new NotImplementedException();
       }
@@ -56,6 +60,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this DeclareHouse action)
     {
       return $"Declare {action.House}";
+    }
+
+    public static string ToConsole(this FightCreature action, IState state)
+    {
+      return $"Attack {state.FindCreature(action.TargetId, out _).Card.Name}";
     }
   }
 }

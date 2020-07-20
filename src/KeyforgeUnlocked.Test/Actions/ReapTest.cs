@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -22,18 +23,10 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState;
       var sut = new Reap(CreatureId);
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (CreatureNotPresentException e)
-      {
+      Action<CreatureNotPresentException> asserts = e =>
         Assert.AreEqual(CreatureId, e.CreatureId);
-        Assert.AreSame(state, e.State);
-        return;
-      }
 
-      Assert.Fail();
+      ActExpectException(sut, state, asserts);
     }
 
     [Test]
@@ -47,18 +40,10 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(fields: fields);
       var sut = new Reap(CreatureId);
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (CreatureNotReadyException e)
-      {
-        Assert.AreEqual(CreatureTestUtil.SampleLogosCreature(CreatureId, false), e.Creature);
-        Assert.AreSame(state, e.State);
-        return;
-      }
+      Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(
+        CreatureTestUtil.SampleLogosCreature(CreatureId, false), e.Creature);
 
-      Assert.Fail();
+      ActExpectException(sut, state, asserts);
     }
 
     [Test]
@@ -73,12 +58,12 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields);
       var sut = new Reap(CreatureId);
 
-      Act(sut, state);
-
       var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(CreatureId));
-      var expectedState = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields, effects: expectedEffects);
-      Assert.AreEqual(expectedState, state);
+      var expectedState = StateTestUtil.EmptyState.New(
+        activeHouse: activeHouse, fields: fields, effects: expectedEffects);
+
+      Act(sut, state, expectedState);
     }
 
     [Test]
@@ -93,19 +78,13 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Dis, fields: fields);
       var sut = new Reap(CreatureId);
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (NotFromActiveHouseException e)
+      Action<NotFromActiveHouseException> asserts = e =>
       {
         Assert.AreEqual(creature.Card, e.Card);
         Assert.AreEqual(House.Dis, e.House);
-        Assert.AreSame(state, e.State);
-        return;
-      }
+      };
 
-      Assert.Fail();
+      ActExpectException(sut, state, asserts);
     }
   }
 }

@@ -19,11 +19,10 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState;
       var sut = new DiscardCard(sampleCard);
 
-      Act(sut, state);
-
       var expectedState = StateTestUtil.EmptyMutableState;
       expectedState.Effects.Enqueue(new KeyforgeUnlocked.Effects.DiscardCard(sampleCard));
-      Assert.AreEqual(expectedState, state);
+
+      Act(sut, state, expectedState);
     }
   }
 }

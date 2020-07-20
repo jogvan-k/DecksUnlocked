@@ -24,7 +24,18 @@ namespace KeyforgeUnlocked.Cards
       _hash = Random.Next();
     }
 
-    //public abstract CoreAction[] Actions(State state);
+    protected bool Equals(Card other)
+    {
+      return _hash == other._hash;
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != this.GetType()) return false;
+      return Equals((Card) obj);
+    }
 
     public override string ToString()
     {

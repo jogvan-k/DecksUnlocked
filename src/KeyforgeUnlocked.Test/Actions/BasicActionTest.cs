@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.CreatureCards;
@@ -16,6 +17,8 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   public class BasicActionTest : ActionTestBase
   {
+    Action<UnresolvedEffectsException> _asserts;
+
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {
       new TestCaseData(new PlayCreature(new LogosCreatureCard(), 0)),
@@ -27,19 +30,13 @@ namespace KeyforgeUnlockedTest.Actions
     [TestCaseSource(nameof(testCases))]
     public void Act_UnresolvedEffects_Fail(BasicAction sut)
     {
-      var state = StateTestUtil.EmptyMutableState.New(turnNumber: 2, effects: new StackQueue<IEffect>(new[]{new EndTurn()}));
+      var state = StateTestUtil.EmptyMutableState.New(
+        turnNumber: 2, effects: new StackQueue<IEffect>(new[] {new EndTurn()}));
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (UnresolvedEffectsException e)
-      {
+      _asserts = e =>
         Assert.AreEqual(state, e.State);
-        return;
-      }
 
-      Assert.Fail();
+      ActExpectException(sut, state, _asserts);
     }
   }
 }

@@ -23,16 +23,11 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState;
       var sut = new PlayCreature(Card, 0);
 
-      Act(sut, state);
-
       var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.PlayCreature(Card, 0));
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
-      Assert.AreEqual(expectedState, state);
 
-      var effect = (KeyforgeUnlocked.Effects.PlayCreature) state.Effects.Single();
-      Assert.AreEqual(Card, effect.Card);
-      Assert.AreEqual(0, effect.Position);
+      Act(sut, state, expectedState);
     }
   }
 }

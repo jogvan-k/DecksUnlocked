@@ -47,7 +47,7 @@ namespace KeyforgeUnlockedTest.Consistency
 
       foreach (var derived in v)
       {
-        if (!m.Any(f => f.GetParameters().Single().ParameterType == derived))
+        if (!m.Any(f => f.GetParameters().First().ParameterType == derived))
           Assert.Fail($"Class {type} does not implement ToConsole for class {derived}");
       }
     }
@@ -57,7 +57,7 @@ namespace KeyforgeUnlockedTest.Consistency
       return from m in KeyForgeUnlockedConsoleAssembly.GetType(type.FullName).GetRuntimeMethods()
         where m.Name == "ToConsole"
               && m.ReturnType == typeof(string)
-              && m.GetParameters().Length == 1
+              && m.GetParameters().Length >= 1
         select m;
     }
 

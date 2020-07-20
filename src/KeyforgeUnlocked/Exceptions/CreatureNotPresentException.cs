@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Exceptions
   public class CreatureNotPresentException : KeyforgeUnlockedException
   {
     public string CreatureId;
-    public CreatureNotPresentException(string creatureId, IState state) : base(state)
+    public CreatureNotPresentException(IState state, string creatureId) : base(state)
     {
       CreatureId = creatureId;
     }

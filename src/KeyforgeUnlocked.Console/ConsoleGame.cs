@@ -76,7 +76,7 @@ namespace KeyforgeUnlockedConsole
       var actions = new List<Action>();
       foreach (var action in actionGroup.Actions)
       {
-        Console.WriteLine($"{i++}: {action.ToConsole()}");
+        Console.WriteLine($"{i++}: {action.ToConsole(_state)}");
         actions.Add(action);
       }
 

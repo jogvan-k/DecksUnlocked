@@ -165,7 +165,7 @@ namespace KeyforgeUnlocked.States
       {
         if (creature.IsReady && creature.Card.House == activeHouse)
         {
-          var actionGroup = new UseCreatureGroup(creature);
+          var actionGroup = new UseCreatureGroup(this, creature);
           if (actionGroup.Actions.Count != 0)
             ActionGroups.Add(actionGroup);
         }

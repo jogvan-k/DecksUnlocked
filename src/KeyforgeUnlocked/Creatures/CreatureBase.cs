@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.Creatures
       _card = card;
       _powerCounters = 0;
       _damage = 0;
-      _isReady = false;
+      _isReady = true;
     }
 
     public override bool Equals(object obj)

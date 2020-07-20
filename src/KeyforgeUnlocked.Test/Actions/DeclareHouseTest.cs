@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
@@ -35,17 +35,9 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New();
       var sut = new DeclareHouse(House.Mars);
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (NoMetadataException e)
-      {
-        Assert.AreEqual(state, e.State);
-        return;
-      }
+      Action<NoMetadataException> asserts = e => { };
 
-      Assert.Fail();
+      ActExpectException(sut, state, asserts);
     }
 
     [Test]
@@ -55,18 +47,13 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var sut = new DeclareHouse(House.Brobnar);
 
-      try
-      {
-        Act(sut, state);
-      }
-      catch (DeclaredHouseNotAvailableException e)
+      Action<DeclaredHouseNotAvailableException> asserts = e =>
       {
         Assert.AreEqual(state, e.State);
         Assert.AreEqual(House.Brobnar, e.House);
-        return;
-      }
+      };
 
-      Assert.Fail();
+      ActExpectException(sut, state, asserts);
     }
 
     [Test]
@@ -77,11 +64,11 @@ namespace KeyforgeUnlockedTest.Actions
       var declaredHouse = House.Shadows;
       var sut = new DeclareHouse(declaredHouse);
 
-      Act(sut, state);
-
       var expectedResolvedEffects = new List<IResolvedEffect> {new HouseDeclared(declaredHouse)};
-      var expectedState = StateTestUtil.EmptyState.New(activeHouse: declaredHouse, metadata: metadata, resolvedEffects: expectedResolvedEffects);
-      Assert.AreEqual(expectedState, state);
+      var expectedState = StateTestUtil.EmptyState.New(
+        activeHouse: declaredHouse, metadata: metadata, resolvedEffects: expectedResolvedEffects);
+      
+      Act(sut, state, expectedState);
     }
   }
 }

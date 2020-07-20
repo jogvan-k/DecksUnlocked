@@ -1,3 +1,5 @@
+using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Exceptions;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -14,6 +16,22 @@ namespace KeyforgeUnlocked.States
       }
 
       return false;
+    }
+    
+    public static Creature FindCreature(
+      this IState state,
+      string creatureId,
+      out Player controllingPlayer)
+    {
+      foreach (var player in state.Fields.Keys)
+      foreach (var creature in state.Fields[player])
+        if (creature.Id.Equals(creatureId))
+        {
+          controllingPlayer = player;
+          return creature;
+        }
+
+      throw new CreatureNotPresentException(state, creatureId);
     }
   }
 }

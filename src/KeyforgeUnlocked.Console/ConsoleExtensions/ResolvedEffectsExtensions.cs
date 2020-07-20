@@ -1,5 +1,6 @@
 using System;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlockedTest.Effects;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
@@ -22,6 +23,10 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case KeyForged e:
           return e.ToConsole();
         case HouseDeclared e:
+          return e.ToConsole();
+        case CreatureFought e:
+          return e.ToConsole();
+        case CreatureDied e:
           return e.ToConsole();
         default:
           throw new NotImplementedException();
@@ -61,6 +66,16 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this HouseDeclared effect)
     {
       return $"House {effect.House} declared.";
+    }
+
+    static string ToConsole(this CreatureFought effect)
+    {
+      return $"{effect.Fighter.Card.Name} (power: {effect.Fighter.Power}) attacked {effect.Target.Card.Name} (power: {effect.Target.Power})";
+    }
+
+    static string ToConsole(this CreatureDied effect)
+    {
+      return $"{effect.Creature.Card.Name} died";
     }
   }
 }

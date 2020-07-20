@@ -12,10 +12,9 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var state = StateTestUtil.EmptyMutableState;
 
-      Act(new KeyforgeUnlocked.Actions.NoAction(), state);
-
       var expectedState = StateTestUtil.EmptyState;
-      Assert.AreEqual(expectedState, state);
+
+      Act(new KeyforgeUnlocked.Actions.NoAction(), state, expectedState);
     }
   }
 }

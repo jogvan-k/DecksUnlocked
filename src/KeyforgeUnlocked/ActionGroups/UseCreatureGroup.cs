@@ -23,14 +23,14 @@ namespace KeyforgeUnlocked.ActionGroups
     protected override IImmutableList<Action> InitiateActions()
     {
       var actions = ImmutableList<Action>.Empty;
+      if (!Creature.IsReady)
+        return actions;
       foreach (var targetCreature in _opponentCreatures)
       {
         actions = actions.Add(new FightCreature(Creature.Id, targetCreature.Id));
       }
-      if (Creature.IsReady)
-      {
-        actions = actions.Add(new Reap(Creature.Id));
-      }
+
+      actions = actions.Add(new Reap(Creature.Id));
 
       return actions;
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
@@ -13,11 +14,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DrawToHandLimitTest
   {
-    static Card[] sampleCards =
-    {
-      new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(),
-      new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(), new LogosCreatureCard(),
-    };
+    static Card[] sampleCards = Enumerable.Range(0, 8).Select(c => new SampleCreatureCard()).ToArray();
 
     [Test]
     public void Resolve_EmptyState()
@@ -36,7 +33,6 @@ namespace KeyforgeUnlockedTest.Effects
       var hands = StateWithCardsInHand(cardsInHand);
 
       var sampleDeck = SampleSets.SampleDeck;
-      var sampleDeckCardCount = sampleDeck.Count;
       var decks = InitializeDeck();
       var state = StateTestUtil.EmptyMutableState.New(decks: decks, hands: hands);
       var sut = new DrawToHandLimit();

@@ -13,9 +13,8 @@ namespace KeyforgeUnlocked.Effects
         var creature = field[i];
         if (!creature.IsReady)
         {
-          var mutableCreature = creature.ToMutable();
-          mutableCreature.IsReady = true;
-          field[i] = mutableCreature.ToImmutable();
+          creature.IsReady = true;
+          field[i] = creature;
         }
       }
     }

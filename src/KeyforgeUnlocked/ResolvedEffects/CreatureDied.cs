@@ -5,7 +5,7 @@ namespace KeyforgeUnlockedTest.Effects
 {
   public sealed class CreatureDied : IResolvedEffect
   {
-    public Creature Creature;
+    public readonly Creature Creature;
 
     public CreatureDied(Creature creature)
     {
@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedTest.Effects
 
     public override int GetHashCode()
     {
-      return (Creature != null ? Creature.GetHashCode() : 0);
+      return Creature.GetHashCode();
     }
   }
 }

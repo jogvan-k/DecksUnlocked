@@ -3,57 +3,57 @@ using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Creatures
 {
-  public class Creature : CreatureBase, ICreature
+  public struct Creature
   {
-    public string Id => _id;
+    public CreatureCard Card;
 
-    public int BasePower => _basePower;
+    public int PowerCounters;
 
-    public int Armor => _armor;
+    public int Damage;
 
-    public CreatureCard Card => _card;
+    public bool IsReady;
 
-    public int PowerCounters => _powerCounters;
+    public string Id => Card.Id;
 
-    public int Damage => _damage;
+    public int BasePower => Card.Power;
 
+    public int BaseArmor => Card.Armor;
     public int Power => BasePower + PowerCounters;
-
-    public bool IsReady => _isReady;
 
     public int Health => Power - Damage;
 
-    public Creature(int basePower,
-      int armor,
-      CreatureCard card) : base(basePower, armor, card)
-    {
-    }
-
     public Creature(
-      string id,
-      int basePower,
-      int armor,
       CreatureCard card,
-      int powerCounters,
-      int damage,
-      bool isReady) : this(basePower, armor, card)
+      int powerCounters = 0,
+      int damage = 0,
+      bool isReady = false)
     {
-      _id = id;
-      _powerCounters = powerCounters;
-      _damage = damage;
-      _isReady = isReady;
+      Card = card;
+      PowerCounters = powerCounters;
+      Damage = damage;
+      IsReady = isReady;
     }
 
-    public MutableCreature ToMutable()
+    public bool Equals(Creature other)
     {
-      return new MutableCreature(
-        _id ,
-        _basePower,
-        _armor,
-        Card,
-        _powerCounters,
-        _damage,
-        _isReady);
+      return Id == other.Id
+             && PowerCounters == other.PowerCounters
+             && Damage == other.Damage
+             && IsReady == other.IsReady;
+    }
+
+    public override bool Equals(object obj)
+    {
+      return obj is Creature other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(
+        Id,
+        PowerCounters,
+        Damage,
+        IsReady);
     }
   }
 }

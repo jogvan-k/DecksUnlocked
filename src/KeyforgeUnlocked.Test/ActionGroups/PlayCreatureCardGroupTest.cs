@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   class PlayCreatureCardGroupTest
   {
-    static readonly LogosCreatureCard Card = new LogosCreatureCard();
+    static readonly CreatureCard Card = new SampleCreatureCard();
 
     [Test]
     public void Actions_EmptyState()
@@ -35,7 +35,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     {
       IState state = StateTestUtil.EmptyMutableState;
       for (int i = 0; i < 5; i++)
-        state.Fields[Player.Player1].Add(new Creature(1, 0, new LogosCreatureCard()));
+        state.Fields[Player.Player1].Add(new Creature(new SampleCreatureCard()));
       var sut = new PlayCreatureCardGroup(state, Card);
 
       var actions = sut.Actions;

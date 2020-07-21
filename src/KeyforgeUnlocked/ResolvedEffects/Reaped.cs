@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return (Creature != null ? Creature.GetHashCode() : 0);
+      return Creature.GetHashCode();
     }
   }
 }

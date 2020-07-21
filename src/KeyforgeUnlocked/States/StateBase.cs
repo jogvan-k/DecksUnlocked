@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using KeyforgeUnlocked.Creatures;
 using UnlockedCore.Actions;
 using UnlockedCore.States;
 
@@ -11,7 +12,7 @@ namespace KeyforgeUnlocked.States
   {
     public IList<ICoreAction> Actions()
     {
-      return ((IState)this).ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
+      return ((IState) this).ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
     }
 
 
@@ -69,6 +70,21 @@ namespace KeyforgeUnlocked.States
 
     static bool EqualContent<T>(IImmutableDictionary<Player, T> first,
       IImmutableDictionary<Player, T> second) where T : IEnumerable<object>
+    {
+      if (first.Count != second.Count)
+        return false;
+      foreach (var key in first.Keys)
+      {
+        if (!second.ContainsKey(key) || !first[key].SequenceEqual(second[key]))
+          return false;
+      }
+
+      return true;
+    }
+
+    // reduce and incorporate to above function?
+    static bool EqualContent(IImmutableDictionary<Player, IList<Creature>> first,
+      IImmutableDictionary<Player, IList<Creature>> second)
     {
       if (first.Count != second.Count)
         return false;

@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.States
 
       return false;
     }
-    
+
     public static Creature FindCreature(
       this IState state,
       string creatureId,

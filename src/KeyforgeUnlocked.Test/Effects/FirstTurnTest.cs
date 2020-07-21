@@ -13,12 +13,12 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class FirstTurnTest
   {
-    readonly CreatureCard[] LogosCreatureCards = {new LogosCreatureCard(), new LogosCreatureCard()};
+    readonly CreatureCard[] LogosCreatureCards = {new SampleCreatureCard(house: House.Logos), new SampleCreatureCard(house: House.Logos)};
 
     readonly CreatureCard[] StarAllianceCreatureCards =
-      {new StarAllianceCreatureCard(), new StarAllianceCreatureCard()};
+      {new SampleCreatureCard(house: House.StarAlliance), new SampleCreatureCard(house: House.StarAlliance)};
 
-    readonly CreatureCard[] UntamedCreatureCards = {new UntamedCreatureCard(), new UntamedCreatureCard()};
+    readonly CreatureCard[] UntamedCreatureCards = {new SampleCreatureCard(house: House.Undefined), new SampleCreatureCard(house: House.Undefined)};
 
 
     [Test]
@@ -55,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects
       var activeHouse = House.Brobnar;
       var hands = new Dictionary<Player, ISet<Card>>
       {
-        {Player.Player1, new HashSet<Card> {new StarAllianceCreatureCard()}},
+        {Player.Player1, new HashSet<Card> {new SampleCreatureCard(house: House.StarAlliance)}},
         {Player.Player2, new HashSet<Card>()}
       };
       var state = StateTestUtil.EmptyMutableState.New(activeHouse: activeHouse, hands: hands);

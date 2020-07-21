@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Effects
     protected override void SpecificResolve(MutableState state)
     {
       state.Aember[state.PlayerTurn]++;
-      state.ResolvedEffects.Add(new Reaped(Creature.ToImmutable()));
+      state.ResolvedEffects.Add(new Reaped(Creature));
     }
 
     protected bool Equals(Reap other)

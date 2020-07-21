@@ -4,7 +4,6 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
-using static KeyforgeUnlockedTest.Util.CreatureTestUtil;
 
 namespace KeyforgeUnlockedTest.Effects
 {
@@ -28,16 +27,23 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(Player.Player2)]
     public void Resolve_ReadyAndUnreadyCreatures(Player playerTurn)
     {
+      var playerCreatureCard1 = new SampleCreatureCard();
+      var playerCreatureCard2 = new SampleCreatureCard();
+      var opponentCreatureCard1 = new SampleCreatureCard();
+      var opponentCreatureCard2 = new SampleCreatureCard();
       var opponentField = new List<Creature>
-        {SampleLogosCreature("3", true), SampleLogosCreature("4", false)};
+      {
+        new Creature(opponentCreatureCard1, isReady: true),
+        new Creature(opponentCreatureCard2, isReady: false)
+      };
       var fields = new Dictionary<Player, IList<Creature>>
       {
         {
           playerTurn,
           new List<Creature>
           {
-            SampleLogosCreature("1", true),
-            SampleLogosCreature("2", false)
+            new Creature(playerCreatureCard1, isReady: true),
+            new Creature(playerCreatureCard2, isReady: false)
           }
         },
         {playerTurn.Other(), opponentField}
@@ -48,7 +54,13 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedFields = new Dictionary<Player, IList<Creature>>
       {
-        {playerTurn, new List<Creature> {SampleLogosCreature("1", true), SampleLogosCreature("2", true)}},
+        {
+          playerTurn, new List<Creature>
+          {
+            new Creature(playerCreatureCard1, isReady: true),
+            new Creature(playerCreatureCard2, isReady: true)
+          }
+        },
         {playerTurn.Other(), opponentField}
       };
       var expectedState = StateTestUtil.EmptyState.New(playerTurn: playerTurn, fields: expectedFields);

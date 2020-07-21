@@ -1,32 +1,29 @@
 using System;
-using UnlockedCore.Actions;
 
 namespace KeyforgeUnlocked.Cards
 {
   public abstract class Card
   {
-    static readonly Random Random = new Random();
+    public string Id { get; }
     public string Name { get; }
 
     public House House { get; }
 
     public CardType CardType { get; }
 
-    readonly int _hash;
-
     protected Card(string name,
       House house,
       CardType cardType)
     {
+      Id = Guid.NewGuid().ToString("N");
       Name = name;
       House = house;
       CardType = cardType;
-      _hash = Random.Next();
     }
 
     protected bool Equals(Card other)
     {
-      return _hash == other._hash;
+      return Id == other.Id;
     }
 
     public override bool Equals(object obj)
@@ -44,7 +41,7 @@ namespace KeyforgeUnlocked.Cards
 
     public override int GetHashCode()
     {
-      return _hash;
+      return Id.GetHashCode();
     }
   }
 }

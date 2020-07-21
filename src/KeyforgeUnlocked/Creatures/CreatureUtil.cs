@@ -1,11 +1,9 @@
-using System.Linq;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Effects;
 using UnlockedCore.States;
 
-namespace KeyforgeUnlocked.Effects
+namespace KeyforgeUnlocked.Creatures
 {
   public static class CreatureUtil
   {
@@ -20,22 +18,6 @@ namespace KeyforgeUnlocked.Effects
         throw new CreatureNotReadyException(state, creature);
     }
 
-    public static Creature FindCreature(
-      IState state,
-      string creatureId,
-      out Player controllingPlayer)
-    {
-      foreach (var player in state.Fields.Keys)
-      foreach (var creature in state.Fields[player])
-        if (creature.Id.Equals(creatureId))
-        {
-          controllingPlayer = player;
-          return creature;
-        }
-
-      throw new CreatureNotPresentException(state, creatureId);
-    }
-
     public static void SetCreature(
       MutableState state,
       Creature creature)
@@ -46,8 +28,13 @@ namespace KeyforgeUnlocked.Effects
         for (int i = 0; i < creatures.Count; i++)
         {
           if (creatures[i].Id == creature.Id)
+          {
             creatures[i] = creature;
+            return;
+          }
         }
+
+        throw new CreatureNotPresentException(state, creature.Id);
       }
     }
 

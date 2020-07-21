@@ -1,5 +1,4 @@
 using System.Linq;
-using System.Reflection;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -12,28 +11,21 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   sealed class FightCreatureTest
   {
-    CreatureCard fightingCreatureCard = new SampleCreatureCard();
-    CreatureCard targetCreatureCard = new SampleCreatureCard();
-
     [Test]
     public void Resolve_TargetCreatureDies()
     {
-      var fightingCreature = new Creature(3, 0, fightingCreatureCard);
-      var targetCreature = new Creature(2, 0, targetCreatureCard);
+      var fightingCreatureCard = new SampleCreatureCard(3);
+      var targetCreatureCard = new SampleCreatureCard(2);
+      var fightingCreature = new Creature(fightingCreatureCard, isReady: true);
+      var targetCreature = new Creature(targetCreatureCard, isReady: true);
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
       var sut = new FightCreature(fightingCreature, targetCreature);
 
       sut.Resolve(state);
 
-      var expectedFightingCreature = new Creature(
-        fightingCreature.Id,
-        3, 0, fightingCreatureCard,
-        0, 2, false);
-      var expectedDeadCreature = new Creature(
-        targetCreature.Id, 2, 0,
-        targetCreatureCard, 0, 3,
-        true);
+      var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 2);
+      var expectedDeadCreature = new Creature(targetCreatureCard, damage: 3, isReady: true);
       var expectedFields = TestUtil.Lists(new[] {expectedFightingCreature}, Enumerable.Empty<Creature>());
       var expectedDiscards = TestUtil.Sets(Enumerable.Empty<Card>(), new[] {targetCreatureCard});
       var expectedResolvedEffects = new[]

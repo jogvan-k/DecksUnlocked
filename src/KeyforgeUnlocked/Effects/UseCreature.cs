@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Effects
   public abstract class UseCreature : IEffect
   {
     public readonly string CreatureId;
-    protected MutableCreature Creature;
+    protected Creature Creature;
 
     public UseCreature(string creatureId)
     {
@@ -18,10 +18,10 @@ namespace KeyforgeUnlocked.Effects
     public void Resolve(MutableState state)
     {
       CreatureUtil.FindAndValidateCreatureReady(state, CreatureId, out var creature);
-      Creature = creature.ToMutable();
-      Creature.IsReady = false;
+      creature.IsReady = false;
+      Creature = creature;
       SpecificResolve(state);
-      CreatureUtil.SetCreature(state, Creature.ToImmutable());
+      CreatureUtil.SetCreature(state, creature);
     }
 
     protected abstract void SpecificResolve(MutableState state);

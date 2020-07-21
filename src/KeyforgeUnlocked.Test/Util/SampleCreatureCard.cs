@@ -4,9 +4,11 @@ namespace KeyforgeUnlockedTest.Util
 {
   public sealed class SampleCreatureCard : CreatureCard
   {
-    public SampleCreatureCard() : base(
-      "SampleCreatureCard", KeyforgeUnlocked.Cards.House.Undefined, 10,
-      0)
+    public SampleCreatureCard(int power = 1,
+      int armor = 0,
+      House house = House.Undefined) : base(
+      "SampleCreatureCard", house, power,
+      armor)
     {
     }
   }

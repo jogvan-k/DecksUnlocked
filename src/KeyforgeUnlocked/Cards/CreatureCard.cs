@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.Cards
 
     public Creature InsantiateCreature()
     {
-      return new Creature(Power, Armor, this);
+      return new Creature(this);
     }
   }
 }

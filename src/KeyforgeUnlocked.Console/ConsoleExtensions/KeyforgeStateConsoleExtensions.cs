@@ -166,7 +166,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsActionsRelatedToCreature(
       this IActionGroup group,
-      ICreature creature)
+      Creature creature)
     {
       if (group is UseCreatureGroup actions)
       {

@@ -15,16 +15,16 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   class ReapTest : ActionTestBase
   {
-    readonly string CreatureId = "creatureId";
+    readonly CreatureCard _creatureCard = new SampleCreatureCard(house: House.Logos);
 
     [Test]
     public void Resolve_EmptyBoard_CreatureNotFoundException()
     {
       var state = StateTestUtil.EmptyMutableState;
-      var sut = new Reap(CreatureId);
+      var sut = new Reap("NotOnBoardId");
 
       Action<CreatureNotPresentException> asserts = e =>
-        Assert.AreEqual(CreatureId, e.CreatureId);
+        Assert.AreEqual("NotOnBoardId", e.CreatureId);
 
       ActExpectException(sut, state, asserts);
     }
@@ -32,16 +32,16 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
     {
+      var creature = new Creature(_creatureCard);
       var fields = new Dictionary<Player, IList<Creature>>
       {
-        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(CreatureId, false)}},
+        {Player.Player1, new List<Creature> {creature}},
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new Reap(CreatureId);
+      var sut = new Reap(creature.Id);
 
-      Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(
-        CreatureTestUtil.SampleLogosCreature(CreatureId, false), e.Creature);
+      Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(creature, e.Creature);
 
       ActExpectException(sut, state, asserts);
     }
@@ -50,16 +50,17 @@ namespace KeyforgeUnlockedTest.Actions
     public void Act_CreatureReady()
     {
       var activeHouse = House.Logos;
+      var creature = new Creature(_creatureCard, isReady: true);
       var fields = new Dictionary<Player, IList<Creature>>
       {
-        {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(CreatureId, true)}},
+        {Player.Player1, new List<Creature> {creature}},
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields);
-      var sut = new Reap(CreatureId);
+      var sut = new Reap(creature.Id);
 
       var expectedEffects = new StackQueue<IEffect>();
-      expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(CreatureId));
+      expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(creature.Id));
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, fields: fields, effects: expectedEffects);
 
@@ -69,14 +70,14 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_CreatureNotFromActiveHouse_Exception()
     {
-      var creature = CreatureTestUtil.SampleLogosCreature(CreatureId, true);
+      var creature = new Creature(_creatureCard, isReady: true);
       var fields = new Dictionary<Player, IList<Creature>>
       {
         {Player.Player1, new List<Creature> {creature}},
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Dis, fields: fields);
-      var sut = new Reap(CreatureId);
+      var sut = new Reap(creature.Id);
 
       Action<NotFromActiveHouseException> asserts = e =>
       {

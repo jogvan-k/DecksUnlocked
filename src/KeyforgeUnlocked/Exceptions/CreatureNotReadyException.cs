@@ -5,8 +5,8 @@ namespace KeyforgeUnlocked.Exceptions
 {
   public class CreatureNotReadyException : KeyforgeUnlockedException
   {
-    public ICreature Creature;
-    public CreatureNotReadyException(IState state, ICreature creature) : base(state)
+    public Creature Creature;
+    public CreatureNotReadyException(IState state, Creature creature) : base(state)
     {
       Creature = creature;
     }

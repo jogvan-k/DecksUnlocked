@@ -94,6 +94,6 @@ namespace KeyforgeUnlockedTest.Util
     static Stack<Card> EmptyDeck => new Stack<Card>();
 
     public static Stack<Card> SampleDeck =>
-      new Stack<Card>(Enumerable.Range(1, 36).Select(i => new LogosCreatureCard()));
+      new Stack<Card>(Enumerable.Range(1, 36).Select(i => new SampleCreatureCard()));
   }
 }

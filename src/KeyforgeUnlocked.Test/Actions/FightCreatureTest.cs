@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -13,19 +15,19 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   sealed class FightCreatureTest : ActionTestBase
   {
-    const string FightingCreatureId = "id1";
-    const string TargetCreatureId = "id2";
-    readonly Creature _fightingCreature = CreatureTestUtil.SampleLogosCreature(FightingCreatureId, true);
-    readonly Creature _targetCreature = CreatureTestUtil.SampleUntamedCreature(TargetCreatureId, true);
-    readonly FightCreature sut;
+    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard();
+    static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard();
+    static readonly Creature _fightingCreature = new Creature(FightingCreatureCard, isReady: true);
+    static readonly Creature _targetCreature = new Creature(TargetCreatureCard, isReady: true);
+    static readonly FightCreature sut;
 
     Action<CreatureNotPresentException> creatureNotPresentAsserts;
     Action<InvalidFightException> invalidFightException;
     Action<CreatureNotReadyException> creatureNotReadyException;
 
-    public FightCreatureTest()
+    static FightCreatureTest()
     {
-      sut = new FightCreature(FightingCreatureId, TargetCreatureId);
+      sut = new FightCreature(FightingCreatureCard.Id, TargetCreatureCard.Id);
     }
 
     [Test]
@@ -36,7 +38,7 @@ namespace KeyforgeUnlockedTest.Actions
         new[] {_targetCreature});
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
-      creatureNotPresentAsserts = e => { Assert.AreEqual(FightingCreatureId, e.CreatureId); };
+      creatureNotPresentAsserts = e => { Assert.AreEqual(_fightingCreature.Id, e.CreatureId); };
 
       ActExpectException(sut, state, creatureNotPresentAsserts);
     }
@@ -49,7 +51,7 @@ namespace KeyforgeUnlockedTest.Actions
         Enumerable.Empty<Creature>());
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
-      creatureNotPresentAsserts = e => { Assert.AreEqual(TargetCreatureId, e.CreatureId); };
+      creatureNotPresentAsserts = e => { Assert.AreEqual(_targetCreature.Id, e.CreatureId); };
 
       ActExpectException(sut, state, creatureNotPresentAsserts);
     }
@@ -64,8 +66,8 @@ namespace KeyforgeUnlockedTest.Actions
 
       invalidFightException = e =>
       {
-        Assert.AreEqual(FightingCreatureId, e.FightingCreatureId);
-        Assert.AreEqual(TargetCreatureId, e.TargetCreatureId);
+        Assert.AreEqual(_fightingCreature.Id, e.FightingCreatureId);
+        Assert.AreEqual(_targetCreature.Id, e.TargetCreatureId);
       };
 
       ActExpectException(sut, state, invalidFightException);
@@ -81,8 +83,8 @@ namespace KeyforgeUnlockedTest.Actions
 
       invalidFightException = e =>
       {
-        Assert.AreEqual(FightingCreatureId, e.FightingCreatureId);
-        Assert.AreEqual(TargetCreatureId, e.TargetCreatureId);
+        Assert.AreEqual(_fightingCreature.Id, e.FightingCreatureId);
+        Assert.AreEqual(_targetCreature.Id, e.TargetCreatureId);
       };
 
       ActExpectException(sut, state, invalidFightException);
@@ -91,11 +93,11 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void FightingCreatureNotReady_validationError()
     {
-      var fightingCreature = CreatureTestUtil.SampleLogosCreature(FightingCreatureId, false);
-      var fields = TestUtil.Lists(fightingCreature,_targetCreature);
+      var unreadyCreature = new Creature(FightingCreatureCard);
+      var fields = TestUtil.Lists(unreadyCreature, _targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
-      creatureNotReadyException = e => { Assert.AreEqual(fightingCreature, e.Creature); };
+      creatureNotReadyException = e => { Assert.AreEqual(unreadyCreature, e.Creature); };
 
       ActExpectException(sut, state, creatureNotReadyException);
     }
@@ -106,7 +108,8 @@ namespace KeyforgeUnlockedTest.Actions
       var fields = TestUtil.Lists(_fightingCreature, _targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
-      var expectedEffects = new StackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
+      var expectedEffects = new StackQueue<IEffect>(
+        new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
       var expectedState = StateTestUtil.EmptyState.New(fields: fields, effects: expectedEffects);
 
       Act(sut, state, expectedState);

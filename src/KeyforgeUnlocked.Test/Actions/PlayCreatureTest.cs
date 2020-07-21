@@ -1,10 +1,6 @@
-using System.Collections.Generic;
-using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
-using KeyforgeUnlocked.Exceptions;
-using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -15,7 +11,7 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   class PlayCreatureTest : ActionTestBase
   {
-    static readonly CreatureCard Card = new LogosCreatureCard();
+    static readonly CreatureCard Card = new SampleCreatureCard(house: House.Logos);
 
     [Test]
     public void Act_EmptyBoard()

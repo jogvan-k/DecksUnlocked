@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -14,11 +13,10 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class ReapTest
   {
-    static string _creatureId = "creatureId";
-    static string _otherCreatureId1 = "otherCreatureId1";
-    static string _otherCreatureId2 = "otherCreatureId2";
-    static CreatureCard _creatureCard = new LogosCreatureCard();
-    readonly Reap sut = new Reap(_creatureId);
+    static readonly CreatureCard CreatureCard = new SampleCreatureCard();
+    static readonly CreatureCard OtherCreatureCard1 = new SampleCreatureCard();
+    static readonly CreatureCard OtherCreatureCard2 = new SampleCreatureCard();
+    readonly Reap sut = new Reap(CreatureCard.Id);
 
     [Test]
     public void Resolve_EmptyBoard_CreatureNotPresentException()
@@ -31,7 +29,7 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(_creatureId, e.CreatureId);
+        Assert.AreEqual(CreatureCard.Id, e.CreatureId);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -45,10 +43,13 @@ namespace KeyforgeUnlockedTest.Effects
       var state = StateTestUtil.EmptyState.New(
         fields: new Dictionary<Player, IList<Creature>>
         {
-          {Player.Player1, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, false)}},
+          {
+            Player.Player1,
+            new List<Creature> {new Creature(CreatureCard)}
+          },
           {Player.Player2, new List<Creature>()}
         });
-      var sut = new Reap(_creatureId);
+      var sut = new Reap(CreatureCard.Id);
 
       try
       {
@@ -56,7 +57,7 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotReadyException e)
       {
-        Assert.AreEqual(CreatureTestUtil.SampleLogosCreature(_creatureId, false), e.Creature);
+        Assert.AreEqual(new Creature(CreatureCard), e.Creature);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -72,9 +73,19 @@ namespace KeyforgeUnlockedTest.Effects
         {
           {
             Player.Player1,
-            new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, true), CreatureTestUtil.SampleLogosCreature(_otherCreatureId1, true)}
+            new List<Creature>
+            {
+              new Creature(CreatureCard, isReady: true),
+              new Creature(OtherCreatureCard1, isReady: true)
+            }
           },
-          {Player.Player2, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_otherCreatureId2, true)}}
+          {
+            Player.Player2,
+            new List<Creature>
+            {
+              new Creature(OtherCreatureCard2, isReady: true)
+            }
+          }
         });
 
       sut.Resolve(state);
@@ -83,11 +94,21 @@ namespace KeyforgeUnlockedTest.Effects
       {
         {
           Player.Player1,
-          new List<Creature> {CreatureTestUtil.SampleLogosCreature(_creatureId, false), CreatureTestUtil.SampleLogosCreature(_otherCreatureId1, true)}
+          new List<Creature>
+          {
+            new Creature(CreatureCard),
+            new Creature(OtherCreatureCard1, isReady: true)
+          }
         },
-        {Player.Player2, new List<Creature> {CreatureTestUtil.SampleLogosCreature(_otherCreatureId2, true)}}
+        {
+          Player.Player2,
+          new List<Creature>
+          {
+            new Creature(OtherCreatureCard2, isReady: true)
+          }
+        }
       };
-      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(CreatureTestUtil.SampleLogosCreature(_creatureId, false))};
+      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(new Creature(CreatureCard))};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);

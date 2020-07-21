@@ -20,14 +20,14 @@ namespace KeyforgeUnlocked.Effects
 
     public void Resolve(MutableState state)
     {
-      var fighter = Fighter.ToMutable();
-      var target = Target.ToMutable();
+      var fighter = Fighter;
+      var target = Target;
       fighter.Damage += target.Power;
       target.Damage += fighter.Power;
 
       fighter.IsReady = false;
-      state.ResolvedEffects.Add(new CreatureFought(fighter.ToImmutable(), target.ToImmutable()));
-      UpdateState(state, fighter.ToImmutable(), target.ToImmutable());
+      state.ResolvedEffects.Add(new CreatureFought(fighter, target));
+      UpdateState(state, fighter, target);
     }
 
     void UpdateState(MutableState state,

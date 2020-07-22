@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedEffects =
         new StackQueue<IEffect>(new[] {(IEffect) new EndTurn(), new ReadyCards(), new FirstTurn(), new DeclareHouse(), new DrawInitialHands()});
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

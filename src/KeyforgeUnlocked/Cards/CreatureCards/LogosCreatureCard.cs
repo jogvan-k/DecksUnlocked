@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using UnlockedCore.Actions;
@@ -12,7 +13,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
 
     public LogosCreatureCard(House house = House.Logos) : base(
       "LogosCreature", house, InitialPower,
-      InitialArmor)
+      InitialArmor, Array.Empty<Keyword>())
     {
     }
   }

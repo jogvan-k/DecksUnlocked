@@ -33,5 +33,17 @@ namespace KeyforgeUnlocked.States
 
       throw new CreatureNotPresentException(state, creatureId);
     }
+
+    public static void UpdateCreature(
+      this MutableState state,
+      Creature creature)
+    {
+      if (creature.Health > 0)
+        CreatureUtil.SetCreature(state, creature);
+      else
+      {
+        CreatureUtil.DestroyCreature(state, creature);
+      }
+    }
   }
 }

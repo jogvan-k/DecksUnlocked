@@ -22,6 +22,8 @@ namespace KeyforgeUnlocked.Creatures
 
     public int Health => Power - Damage;
 
+    public Keyword[] Keywords => Card.Keywords;
+
     public Creature(
       CreatureCard card,
       int powerCounters = 0,
@@ -54,6 +56,11 @@ namespace KeyforgeUnlocked.Creatures
         PowerCounters,
         Damage,
         IsReady);
+    }
+
+    public override string ToString()
+    {
+      return $"{{{Card.Name}, Power: {Power}, Armor: {BaseArmor}, Health: {Health}, IsReady: {IsReady} }}";
     }
   }
 }

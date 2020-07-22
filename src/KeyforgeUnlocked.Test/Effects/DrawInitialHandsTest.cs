@@ -30,7 +30,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedHands = new Dictionary<Player, ISet<Card>>
         {{Player.Player1, expectedHand1}, {Player.Player2, expectedHand2}};
       var expectedState = StateTestUtil.EmptyState.New(decks: expectedDecks,hands:expectedHands);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     static Stack<Card> InitializeDeck(int expectedDraws,

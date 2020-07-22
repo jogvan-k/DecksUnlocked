@@ -113,7 +113,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);
 
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

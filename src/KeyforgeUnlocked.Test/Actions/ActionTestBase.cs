@@ -1,6 +1,7 @@
 using System;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using Action = KeyforgeUnlocked.Actions.Action;
 
@@ -15,7 +16,7 @@ namespace KeyforgeUnlockedTest.Actions
       sut.Validate(state);
       sut.DoActionNoResolve(state);
 
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     protected void ActExpectException<T>(Action sut,

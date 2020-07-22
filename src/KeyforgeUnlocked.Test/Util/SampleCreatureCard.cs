@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlockedTest.Util
@@ -6,9 +7,14 @@ namespace KeyforgeUnlockedTest.Util
   {
     public SampleCreatureCard(int power = 1,
       int armor = 0,
-      House house = House.Undefined) : base(
-      "SampleCreatureCard", house, power,
-      armor)
+      House house = House.Undefined,
+      Keyword[] keywords = null)
+      : base(
+        "SampleCreatureCard",
+        house,
+        power,
+        armor,
+        keywords ?? Array.Empty<Keyword>())
     {
     }
   }

@@ -48,7 +48,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateTestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
       if (expectedDraws > 0)
         expectedState.ResolvedEffects.Add(new CardsDrawn(expectedDraws));
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     static Dictionary<Player, Stack<Card>> InitializeDeck()

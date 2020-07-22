@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedTest.Effects
         turnNumberStart + 1,
         resolvedEffects: new List<IResolvedEffect> {new TurnEnded()},
         effects: expectedEffects);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

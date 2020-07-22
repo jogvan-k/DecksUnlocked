@@ -60,7 +60,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedActionGroups = new List<IActionGroup> {new DeclareHouseGroup(expectedHouses)};
       var expectedState = StateTestUtil.EmptyState.New(
         playerTurn: playerTurn, actionGroups: expectedActionGroups, metadata: metadata);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

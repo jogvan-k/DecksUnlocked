@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Effects
       _sut.Resolve(state);
 
       var expectedState = StateTestUtil.EmptyState;
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     [TestCase(Player.Player1)]
@@ -64,7 +64,7 @@ namespace KeyforgeUnlockedTest.Effects
         {playerTurn.Other(), opponentField}
       };
       var expectedState = StateTestUtil.EmptyState.New(playerTurn: playerTurn, fields: expectedFields);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

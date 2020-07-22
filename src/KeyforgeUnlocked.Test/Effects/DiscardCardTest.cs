@@ -35,7 +35,7 @@ namespace KeyforgeUnlockedTest.Effects
         discards: expectedDiscards,
         hands: expectedHands,
         resolvedEffects: new List<IResolvedEffect> {new KeyforgeUnlocked.ResolvedEffects.CardDiscarded(sampleCard)});
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     [Test]

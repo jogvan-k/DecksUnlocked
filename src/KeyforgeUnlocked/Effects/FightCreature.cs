@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
@@ -22,31 +24,14 @@ namespace KeyforgeUnlocked.Effects
     {
       var fighter = Fighter;
       var target = Target;
-      fighter.Damage += target.Power;
+      if (!fighter.Keywords.Contains(Keyword.Skirmish))
+        fighter.Damage += target.Power;
       target.Damage += fighter.Power;
 
       fighter.IsReady = false;
       state.ResolvedEffects.Add(new CreatureFought(fighter, target));
-      UpdateState(state, fighter, target);
-    }
-
-    void UpdateState(MutableState state,
-      Creature fighter,
-      Creature target)
-    {
-      UpdateOrDestroy(state, fighter);
-      UpdateOrDestroy(state, target);
-    }
-
-    void UpdateOrDestroy(MutableState state,
-      Creature creature)
-    {
-      if(creature.Health > 0)
-        CreatureUtil.SetCreature(state, creature);
-      else
-      {
-        CreatureUtil.DestroyCreature(state, creature);
-      }
+      state.UpdateCreature(fighter);
+      state.UpdateCreature(target);
     }
 
     bool Equals(FightCreature other)

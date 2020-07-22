@@ -61,7 +61,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedKeys = new Dictionary<Player, int> {{winningPlayer, KeysRequiredToWin}, {winningPlayer.Other(), 0}};
       var expectedResolvedEffects = new List<IResolvedEffect>{new KeyForged(DefaultForgeCost)};
       var expectedState = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: expectedKeys, isGameOver: true, resolvedEffects: expectedResolvedEffects);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

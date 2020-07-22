@@ -46,7 +46,7 @@ namespace KeyforgeUnlockedTest.Effects
       };
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, actionGroups: expectedActionGroups, hands: hands);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     [Test]
@@ -66,7 +66,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedActionGroups = new List<IActionGroup> {new NoActionGroup()};
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, actionGroups: expectedActionGroups, hands: hands);
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
   }
 }

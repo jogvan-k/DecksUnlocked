@@ -33,9 +33,9 @@ namespace KeyforgeUnlocked.Creatures
             return;
           }
         }
-
-        throw new CreatureNotPresentException(state, creature.Id);
       }
+
+      throw new CreatureNotPresentException(state, creature.Id);
     }
 
     public static void DestroyCreature(

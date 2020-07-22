@@ -38,7 +38,7 @@ namespace KeyforgeUnlockedTest.Effects
       expectedState.Fields[playingPlayer].Add(expectedCreature);
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     [TestCase(-1)]
@@ -98,7 +98,7 @@ namespace KeyforgeUnlockedTest.Effects
       expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
-      Assert.AreEqual(expectedState, state);
+      StateAsserter.StateEquals(expectedState, state);
     }
 
     [TestCase(-1)]

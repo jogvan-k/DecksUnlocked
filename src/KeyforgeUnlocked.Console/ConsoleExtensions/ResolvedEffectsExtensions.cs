@@ -28,6 +28,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case CreatureDied e:
           return e.ToConsole();
+        case AemberStolen e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -76,6 +78,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this CreatureDied effect)
     {
       return $"{effect.Creature.Card.Name} died";
+    }
+
+    static string ToConsole(this AemberStolen effect)
+    {
+      return $"{effect.stealingPlayer} stole {effect.stolenAmount} aember";
     }
   }
 }

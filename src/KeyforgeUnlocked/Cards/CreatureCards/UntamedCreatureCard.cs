@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     const int InitialArmor = 0;
 
     public UntamedCreatureCard(House house = House.Untamed) : base(
-      "UntamedCreature", house, InitialPower, InitialArmor, Array.Empty<Keyword>())
+      "UntamedCreature", house, InitialPower, InitialArmor, Array.Empty<Keyword>(), null)
     {
     }
   }

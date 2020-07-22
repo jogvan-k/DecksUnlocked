@@ -32,6 +32,9 @@ namespace KeyforgeUnlocked.Effects
       state.ResolvedEffects.Add(new CreatureFought(fighter, target));
       state.UpdateCreature(fighter);
       state.UpdateCreature(target);
+
+      if (fighter.Health > 0)
+        fighter.FightAbility(state);
     }
 
     bool Equals(FightCreature other)

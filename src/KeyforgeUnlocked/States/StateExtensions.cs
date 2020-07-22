@@ -1,5 +1,7 @@
+using System;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.States
@@ -13,6 +15,22 @@ namespace KeyforgeUnlocked.States
       {
         state.Hands[player].Add(card);
         return true;
+      }
+
+      return false;
+    }
+
+    public static bool Steal(
+      this MutableState state,
+      int amount)
+    {
+      var stealingPlayer = state.PlayerTurn;
+      var toSteal = Math.Min(amount, state.Aember[stealingPlayer.Other()]);
+      if (toSteal > 0)
+      {
+        state.Aember[stealingPlayer] += toSteal;
+        state.Aember[stealingPlayer.Other()] -= toSteal;
+        state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
       }
 
       return false;

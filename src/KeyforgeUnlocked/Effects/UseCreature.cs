@@ -7,20 +7,20 @@ namespace KeyforgeUnlocked.Effects
 {
   public abstract class UseCreature : IEffect
   {
-    public readonly string CreatureId;
-    protected Creature Creature;
+    public readonly Creature Creature;
 
-    public UseCreature(string creatureId)
+    public UseCreature(Creature creature)
     {
-      CreatureId = creatureId;
+      Creature = creature;
     }
 
     public void Resolve(MutableState state)
     {
-      CreatureUtil.FindAndValidateCreatureReady(state, CreatureId, out var creature);
-      creature.IsReady = false;
-      Creature = creature;
+      if(!Creature.IsReady)
+        throw new CreatureNotReadyException(state, Creature);
       SpecificResolve(state);
+      var creature = Creature;
+      creature.IsReady = false;
       CreatureUtil.SetCreature(state, creature);
     }
 

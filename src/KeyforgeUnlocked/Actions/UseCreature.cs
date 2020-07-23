@@ -8,26 +8,31 @@ namespace KeyforgeUnlocked.Actions
 {
   public abstract class UseCreature : BasicAction
   {
-    public string CreatureId;
+    public readonly Creature Creature;
 
-    public UseCreature(string creatureId)
+    public UseCreature(Creature creature)
     {
-      CreatureId = creatureId;
+      Creature = creature;
     }
 
     internal override void Validate(IState state)
     {
       base.Validate(state);
-      CreatureUtil.FindAndValidateCreatureReady(state, CreatureId, out var creature);
-      ValidateActiveHouse(creature, state);
+      ValidateActiveHouse(state);
+      ValidateCreatureIsReady(state);
     }
 
-    void ValidateActiveHouse(Creature creature,
-      IState state)
+    void ValidateCreatureIsReady(IState state)
+    {
+      if (!Creature.IsReady)
+        throw new CreatureNotReadyException(state, Creature);
+    }
+
+    void ValidateActiveHouse(IState state)
     {
       var house = state.ActiveHouse;
-      if (creature.Card.House != house)
-        throw new NotFromActiveHouseException(state, creature.Card, house ?? House.Undefined);
+      if (Creature.Card.House != house)
+        throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
     }
   }
 }

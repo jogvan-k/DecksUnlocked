@@ -10,13 +10,15 @@ namespace KeyforgeUnlockedTest.Util
       int armor = 0,
       House house = House.Undefined,
       Keyword[] keywords = null,
-      Delegates.Callback fightAbility = null)
+      Delegates.Callback fightAbility = null,
+      Delegates.Callback creatureAbility = null)
       : base(
         house,
         power,
         armor,
-        keywords ?? Array.Empty<Keyword>(),
-        fightAbility)
+        keywords,
+        fightAbility,
+        creatureAbility)
     {
     }
   }

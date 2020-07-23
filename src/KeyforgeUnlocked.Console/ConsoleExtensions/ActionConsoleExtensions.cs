@@ -7,8 +7,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class ActionConsoleExtensions
   {
-    public static string ToConsole(this Action action,
-      IState state)
+    public static string ToConsole(this Action action)
     {
       switch (action)
       {
@@ -25,7 +24,9 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case DeclareHouse a:
           return a.ToConsole();
         case FightCreature a:
-          return a.ToConsole(state);
+          return a.ToConsole();
+        case UseCreatureAbility a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -62,9 +63,14 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       return $"Declare {action.House}";
     }
 
-    public static string ToConsole(this FightCreature action, IState state)
+    public static string ToConsole(this FightCreature action)
     {
-      return $"Attack {state.FindCreature(action.TargetId, out _).Card.Name}";
+      return $"Attack {action.Creature.Card.Name}";
+    }
+
+    public static string ToConsole(this UseCreatureAbility action)
+    {
+      return "Use creature ability";
     }
   }
 }

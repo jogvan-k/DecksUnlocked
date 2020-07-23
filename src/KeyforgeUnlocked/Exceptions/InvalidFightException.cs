@@ -5,15 +5,15 @@ namespace KeyforgeUnlocked.Exceptions
 {
   public sealed class InvalidFightException : KeyforgeUnlockedException
   {
-    public string FightingCreatureId { get; }
-    public string TargetCreatureId { get; }
+    public Creature FightingCreature { get; }
+    public Creature TargetCreature { get; }
 
     public InvalidFightException(IState state,
-      string fightingCreatureId,
-      string targetCreatureId) : base(state)
+      Creature fightingCreature,
+      Creature targetCreature) : base(state)
     {
-      FightingCreatureId = fightingCreatureId;
-      TargetCreatureId = targetCreatureId;
+      FightingCreature = fightingCreature;
+      TargetCreature = targetCreature;
     }
   }
 }

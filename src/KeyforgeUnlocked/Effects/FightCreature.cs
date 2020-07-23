@@ -37,7 +37,7 @@ namespace KeyforgeUnlocked.Effects
       state.UpdateCreature(target);
 
       if (fighter.Health > 0)
-        fighter.FightAbility(state);
+        fighter.FightAbility?.Invoke(state);
     }
 
     Predicate<IResolvedEffect> HasBeenAttacked(string creatureId)

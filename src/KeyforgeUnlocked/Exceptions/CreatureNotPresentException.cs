@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Exceptions
@@ -5,9 +6,9 @@ namespace KeyforgeUnlocked.Exceptions
   public class CreatureNotPresentException : KeyforgeUnlockedException
   {
     public string CreatureId;
-    public CreatureNotPresentException(IState state, string creatureId) : base(state)
+    public CreatureNotPresentException(IState state, string creature) : base(state)
     {
-      CreatureId = creatureId;
+      CreatureId = creature;
     }
   }
 }

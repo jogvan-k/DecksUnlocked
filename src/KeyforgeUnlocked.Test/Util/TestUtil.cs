@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using UnlockedCore.States;
 
@@ -15,6 +16,11 @@ namespace KeyforgeUnlockedTest.Util
       };
     }
 
+    public static Dictionary<Player, IList<T>> Lists<T>(
+      T player1Type)
+    {
+      return Lists(new[] {player1Type}, Enumerable.Empty<T>());
+    }
     public static Dictionary<Player, IList<T>> Lists<T>(
       T player1Type,
       T player2Type)

@@ -27,10 +27,15 @@ namespace KeyforgeUnlocked.ActionGroups
         return actions;
       foreach (var targetCreature in _opponentCreatures)
       {
-        actions = actions.Add(new FightCreature(Creature.Id, targetCreature.Id));
+        actions = actions.Add(new FightCreature(Creature, targetCreature));
       }
 
-      actions = actions.Add(new Reap(Creature.Id));
+      if (Creature.Card.CreatureAbility != null)
+      {
+        actions = actions.Add(new UseCreatureAbility(Creature));
+      }
+
+      actions = actions.Add(new Reap(Creature));
 
       return actions;
     }

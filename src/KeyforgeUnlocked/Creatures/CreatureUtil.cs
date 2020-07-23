@@ -7,17 +7,6 @@ namespace KeyforgeUnlocked.Creatures
 {
   public static class CreatureUtil
   {
-    public static void FindAndValidateCreatureReady(
-      IState state,
-      string creatureId,
-      out Creature creature)
-    {
-      creature = state.FindCreature(creatureId, out _);
-
-      if (!creature.IsReady)
-        throw new CreatureNotReadyException(state, creature);
-    }
-
     public static void SetCreature(
       MutableState state,
       Creature creature)
@@ -42,28 +31,28 @@ namespace KeyforgeUnlocked.Creatures
       MutableState state,
       Creature creature)
     {
-      var owningPlayer = RemoveCreature(state, creature.Id);
+      var owningPlayer = RemoveCreature(state, creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
     }
 
     static Player RemoveCreature(
       MutableState state,
-      string creatureId)
+      Creature creature)
     {
       foreach (var player in state.Fields.Keys)
       {
-        foreach (var creature in state.Fields[player])
+        foreach (var c in state.Fields[player])
         {
-          if (creature.Id == creatureId)
+          if (c.Id == creature.Id)
           {
-            state.Fields[player].Remove(creature);
+            state.Fields[player].Remove(c);
             return player;
           }
         }
       }
 
-      throw new CreatureNotPresentException(state, creatureId);
+      throw new CreatureNotPresentException(state, creature.Id);
     }
   }
 }

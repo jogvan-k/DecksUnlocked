@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
@@ -24,7 +25,7 @@ namespace KeyforgeUnlockedTest.Actions
       new TestCaseData(new PlayCreature(new SampleCreatureCard(), 0)),
       new TestCaseData(new KeyforgeUnlocked.Actions.EndTurn()),
       new TestCaseData(new DiscardCard(new SampleCreatureCard())),
-      new TestCaseData(new Reap(""))
+      new TestCaseData(new Reap(new Creature()))
     };
 
     [TestCaseSource(nameof(testCases))]

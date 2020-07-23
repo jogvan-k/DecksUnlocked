@@ -15,10 +15,10 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   sealed class FightCreatureTest : ActionTestBase
   {
-    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard();
+    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard(house: House.Brobnar);
     static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard();
-    static readonly Creature _fightingCreature = new Creature(FightingCreatureCard, isReady: true);
-    static readonly Creature _targetCreature = new Creature(TargetCreatureCard, isReady: true);
+    static readonly Creature _fightingCreature;
+    static readonly Creature _targetCreature;
     static readonly FightCreature sut;
 
     Action<CreatureNotPresentException> creatureNotPresentAsserts;
@@ -27,7 +27,9 @@ namespace KeyforgeUnlockedTest.Actions
 
     static FightCreatureTest()
     {
-      sut = new FightCreature(FightingCreatureCard.Id, TargetCreatureCard.Id);
+      _fightingCreature = new Creature(FightingCreatureCard, isReady: true);
+      _targetCreature = new Creature(TargetCreatureCard, isReady: true);
+      sut = new FightCreature(_fightingCreature, _targetCreature);
     }
 
     [Test]
@@ -36,7 +38,7 @@ namespace KeyforgeUnlockedTest.Actions
       var fields = TestUtil.Lists(
         Enumerable.Empty<Creature>(),
         new[] {_targetCreature});
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       creatureNotPresentAsserts = e => { Assert.AreEqual(_fightingCreature.Id, e.CreatureId); };
 
@@ -49,7 +51,7 @@ namespace KeyforgeUnlockedTest.Actions
       var fields = TestUtil.Lists(
         new[] {_fightingCreature},
         Enumerable.Empty<Creature>());
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       creatureNotPresentAsserts = e => { Assert.AreEqual(_targetCreature.Id, e.CreatureId); };
 
@@ -62,12 +64,12 @@ namespace KeyforgeUnlockedTest.Actions
       var fields = TestUtil.Lists(
         Enumerable.Empty<Creature>(),
         new[] {_fightingCreature, _targetCreature});
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar,fields: fields);
 
       invalidFightException = e =>
       {
-        Assert.AreEqual(_fightingCreature.Id, e.FightingCreatureId);
-        Assert.AreEqual(_targetCreature.Id, e.TargetCreatureId);
+        Assert.AreEqual(_fightingCreature, e.FightingCreature);
+        Assert.AreEqual(_targetCreature, e.TargetCreature);
       };
 
       ActExpectException(sut, state, invalidFightException);
@@ -79,12 +81,12 @@ namespace KeyforgeUnlockedTest.Actions
       var fields = TestUtil.Lists(
         new[] {_fightingCreature, _targetCreature},
         Enumerable.Empty<Creature>());
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       invalidFightException = e =>
       {
-        Assert.AreEqual(_fightingCreature.Id, e.FightingCreatureId);
-        Assert.AreEqual(_targetCreature.Id, e.TargetCreatureId);
+        Assert.AreEqual(_fightingCreature, e.FightingCreature);
+        Assert.AreEqual(_targetCreature, e.TargetCreature);
       };
 
       ActExpectException(sut, state, invalidFightException);
@@ -95,7 +97,8 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var unreadyCreature = new Creature(FightingCreatureCard);
       var fields = TestUtil.Lists(unreadyCreature, _targetCreature);
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
+      var sut = new FightCreature(unreadyCreature, _targetCreature);
 
       creatureNotReadyException = e => { Assert.AreEqual(unreadyCreature, e.Creature); };
 
@@ -106,11 +109,11 @@ namespace KeyforgeUnlockedTest.Actions
     public void ValidState()
     {
       var fields = TestUtil.Lists(_fightingCreature, _targetCreature);
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       var expectedEffects = new StackQueue<IEffect>(
         new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
-      var expectedState = StateTestUtil.EmptyState.New(fields: fields, effects: expectedEffects);
+      var expectedState = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
 
       Act(sut, state, expectedState);
     }

@@ -39,18 +39,24 @@ namespace KeyforgeUnlocked.States
 
     public static Creature FindCreature(
       this IState state,
-      string creatureId,
+      Creature creature,
       out Player controllingPlayer)
     {
       foreach (var player in state.Fields.Keys)
-      foreach (var creature in state.Fields[player])
-        if (creature.Id.Equals(creatureId))
+      foreach (var c in state.Fields[player])
+        if (c.Id.Equals(creature.Id))
         {
           controllingPlayer = player;
           return creature;
         }
 
-      throw new CreatureNotPresentException(state, creatureId);
+      throw new CreatureNotPresentException(state, creature.Id);
+    }
+
+    public static Player ControllingPlayer(this IState state, Creature creature)
+    {
+      state.FindCreature(creature, out var controllingPlayer);
+      return controllingPlayer;
     }
 
     public static void UpdateCreature(

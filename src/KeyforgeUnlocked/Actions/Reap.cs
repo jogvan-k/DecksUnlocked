@@ -1,21 +1,22 @@
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
   public class Reap : UseCreature
   {
-    public Reap(string creatureId) : base(creatureId)
+    public Reap(Creature creature) : base(creature)
     {
     }
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Push(new Effects.Reap(CreatureId));
+      state.Effects.Push(new Effects.Reap(Creature));
     }
 
     protected bool Equals(Reap other)
     {
-      return CreatureId.Equals(other.CreatureId);
+      return Creature.Equals(other.Creature);
     }
 
     public override bool Equals(object obj)
@@ -28,7 +29,7 @@ namespace KeyforgeUnlocked.Actions
 
     public override int GetHashCode()
     {
-      return CreatureId.GetHashCode();
+      return 11 * Creature.GetHashCode();
     }
   }
 }

@@ -18,18 +18,6 @@ namespace KeyforgeUnlockedTest.Actions
     readonly CreatureCard _creatureCard = new SampleCreatureCard(house: House.Logos);
 
     [Test]
-    public void Resolve_EmptyBoard_CreatureNotFoundException()
-    {
-      var state = StateTestUtil.EmptyMutableState;
-      var sut = new Reap("NotOnBoardId");
-
-      Action<CreatureNotPresentException> asserts = e =>
-        Assert.AreEqual("NotOnBoardId", e.CreatureId);
-
-      ActExpectException(sut, state, asserts);
-    }
-
-    [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
     {
       var creature = new Creature(_creatureCard);
@@ -38,8 +26,8 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player1, new List<Creature> {creature}},
         {Player.Player2, new List<Creature>()}
       };
-      var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new Reap(creature.Id);
+      var state = StateTestUtil.EmptyState.New(activeHouse: House.Logos, fields: fields);
+      var sut = new Reap(creature);
 
       Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(creature, e.Creature);
 
@@ -57,10 +45,10 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: fields);
-      var sut = new Reap(creature.Id);
+      var sut = new Reap(creature);
 
       var expectedEffects = new StackQueue<IEffect>();
-      expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(creature.Id));
+      expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(creature));
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, fields: fields, effects: expectedEffects);
 
@@ -77,7 +65,7 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player2, new List<Creature>()}
       };
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Dis, fields: fields);
-      var sut = new Reap(creature.Id);
+      var sut = new Reap(creature);
 
       Action<NotFromActiveHouseException> asserts = e =>
       {

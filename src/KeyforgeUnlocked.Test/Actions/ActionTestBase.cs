@@ -25,11 +25,12 @@ namespace KeyforgeUnlockedTest.Actions
     {
       try
       {
-        Act(sut, state, null);
+        sut.Validate(state);
+        sut.DoActionNoResolve(state);
       }
       catch (T e)
       {
-        Assert.AreEqual(state, e.State);
+        StateAsserter.StateEquals(state, e.State);
         callbackAsserts(e);
         return;
       }

@@ -16,7 +16,8 @@ namespace KeyforgeUnlockedTest.Effects
     static readonly CreatureCard CreatureCard = new SampleCreatureCard();
     static readonly CreatureCard OtherCreatureCard1 = new SampleCreatureCard();
     static readonly CreatureCard OtherCreatureCard2 = new SampleCreatureCard();
-    readonly Reap sut = new Reap(CreatureCard.Id);
+    static readonly Creature creature = new Creature(CreatureCard, isReady: true);
+    readonly Reap sut = new Reap(creature);
 
     [Test]
     public void Resolve_EmptyBoard_CreatureNotPresentException()
@@ -29,7 +30,7 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(CreatureCard.Id, e.CreatureId);
+        Assert.AreEqual(creature.Id, e.CreatureId);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -49,7 +50,7 @@ namespace KeyforgeUnlockedTest.Effects
           },
           {Player.Player2, new List<Creature>()}
         });
-      var sut = new Reap(CreatureCard.Id);
+      var sut = new Reap(new Creature(CreatureCard));
 
       try
       {
@@ -108,7 +109,7 @@ namespace KeyforgeUnlockedTest.Effects
           }
         }
       };
-      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(new Creature(CreatureCard))};
+      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(creature)};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);

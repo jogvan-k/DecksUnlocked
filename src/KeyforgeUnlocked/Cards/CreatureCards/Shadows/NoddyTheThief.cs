@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
@@ -7,6 +8,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
     const int power = 2;
     const int armor = 0;
     static Keyword[] keywords = {Keyword.Elusive};
+    static Delegates.Callback creatureAbility = s => s.Steal(1);
 
     public static string SpecialName = "Noddy the Thief";
 
@@ -14,7 +16,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
     {
     }
 
-    public NoddyTheThief(House house) : base(house, power, armor, keywords, null)
+    public NoddyTheThief(House house) : base(house, power, armor, keywords, creatureAbility: creatureAbility)
     {
     }
   }

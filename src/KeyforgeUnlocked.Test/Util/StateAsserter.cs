@@ -56,21 +56,24 @@ namespace KeyforgeUnlockedTest.Util
     {
       if (expected.PreviousState == null && actual.PreviousState != null)
       {
-        sb.AppendLine("PrevioiusState: Actual has previousState set to null whereas actual don't.");
+        AppendFieldName(sb, "PreviousState");
+        sb.AppendLine("Actual has previousState set to null whereas actual don't.");
       }
       else if (actual.PreviousState == null && expected.PreviousState != null)
       {
-        sb.AppendLine("PrevioiusState: Expected has previousState set to null whereas actual don't.");
+        AppendFieldName(sb, "PreviousState");
+        sb.AppendLine("Expected has previousState set to null whereas actual don't.");
       }
-      else if (!(expected.PreviousState != null && expected.PreviousState.Equals(actual.PreviousState)))
+      else if (expected.PreviousState != null && expected.PreviousState.Equals(actual.PreviousState))
       {
+        AppendFieldName(sb, "PreviousState");
         var expectedDepth = GetStateDepth(expected);
         var actualDepth = GetStateDepth(actual);
         if (actualDepth != expectedDepth)
-          sb.AppendLine($"PrevioiusState: Expected's depth is {expectedDepth} but actual's depth is {actualDepth}");
+          sb.AppendLine($"Expected's depth is {expectedDepth} but actual's depth is {actualDepth}");
         else
-          sb.Append(
-            "PrevioiusState: Expected and actual have same depth previousState depth, but their previousState differ");
+          sb.AppendLine(
+            "Expected and actual have same depth previousState depth, but their previousState differ");
       }
     }
 
@@ -162,9 +165,9 @@ namespace KeyforgeUnlockedTest.Util
       {
         if (expected.Count < i + 1)
           sb.AppendLine($"{entry} expected don't have an entry at index {i} whereas actual has");
-        if (actual.Count < i + 1)
+        else if (actual.Count < i + 1)
           sb.AppendLine($"{entry} actual don't have an entry at index {i} whereas expected has");
-        if (!expected[i].Equals(actual[i]))
+        else if (!expected[i].Equals(actual[i]))
           sb.AppendLine($"{entry} lists differ at index {i}. Expected: {expected[i]}, actual: {actual[i]}");
       }
     }

@@ -1,47 +1,37 @@
 using System;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class FightCreature : Action
+  public sealed class FightCreature : UseCreature
   {
-    public string FighterId { get; }
-    public string TargetId { get; }
+    public Creature Target { get; }
 
-    Creature _fighter;
-    Creature _target;
-
-    public FightCreature(string fighterId,
-      string targetId)
+    public FightCreature(Creature fighter,
+      Creature target) : base(fighter)
     {
-      FighterId = fighterId;
-      TargetId = targetId;
+      Target = target;
     }
 
     internal override void Validate(IState state)
     {
+      base.Validate(state);
       var playerTurn = state.PlayerTurn;
-      _fighter = state.FindCreature(FighterId, out var fightingPlayer);
-      _target = state.FindCreature(TargetId, out var targetPlayer);
 
-      if (!_fighter.IsReady)
-        throw new CreatureNotReadyException(state, _fighter);
-
-      if (fightingPlayer != playerTurn || targetPlayer == playerTurn)
-        throw new InvalidFightException(state, FighterId, TargetId);
+      if (state.ControllingPlayer(Creature) != playerTurn || state.ControllingPlayer(Target) == playerTurn)
+        throw new InvalidFightException(state, Creature, Target);
     }
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new Effects.FightCreature(_fighter, _target));
+      state.Effects.Enqueue(new Effects.FightCreature(Creature, Target));
     }
 
     bool Equals(FightCreature other)
     {
-      return FighterId == other.FighterId && TargetId == other.TargetId;
+      return Creature.Equals(other.Creature) && Target.Equals(other.Target);
     }
 
     public override bool Equals(object obj)
@@ -51,7 +41,7 @@ namespace KeyforgeUnlocked.Actions
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(FighterId, TargetId);
+      return 13 * HashCode.Combine(Creature, Target);
     }
   }
 }

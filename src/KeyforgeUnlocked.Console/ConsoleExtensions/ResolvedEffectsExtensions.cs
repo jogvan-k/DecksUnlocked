@@ -72,7 +72,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static string ToConsole(this CreatureFought effect)
     {
-      return $"{effect.Fighter.Card.Name} (power: {effect.Fighter.Power}) attacked {effect.Target.Card.Name} (power: {effect.Target.Power})";
+      return $"{effect.Fighter.Card.Name} (power: {effect.Fighter.Power}) attacked {effect.Target.Card.GetType().Name} (power: {effect.Target.Power})";
     }
 
     static string ToConsole(this CreatureDied effect)

@@ -24,6 +24,13 @@ namespace KeyforgeUnlocked.States
       return new MutableState((IState) this);
     }
 
+    public ImmutableState ToImmutable()
+    {
+      if (this is ImmutableState s)
+        return s;
+      return new ImmutableState((IState) this);
+    }
+
     public override bool Equals(object obj)
     {
       if (ReferenceEquals(null, obj)) return false;
@@ -83,7 +90,7 @@ namespace KeyforgeUnlocked.States
     }
 
     // reduce and incorporate to above function?
-    static bool EqualContent(IImmutableDictionary<Player, IList<Creature>> first,
+    internal static bool EqualContent(IImmutableDictionary<Player, IList<Creature>> first,
       IImmutableDictionary<Player, IList<Creature>> second)
     {
       if (first.Count != second.Count)

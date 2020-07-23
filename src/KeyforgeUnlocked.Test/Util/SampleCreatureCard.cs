@@ -12,7 +12,6 @@ namespace KeyforgeUnlockedTest.Util
       Keyword[] keywords = null,
       Delegates.Callback fightAbility = null)
       : base(
-        "SampleCreatureCard",
         house,
         power,
         armor,

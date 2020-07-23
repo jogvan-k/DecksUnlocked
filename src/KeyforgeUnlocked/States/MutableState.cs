@@ -184,7 +184,7 @@ namespace KeyforgeUnlocked.States
     }
 
 
-    ImmutableState ToImmutable()
+    internal ImmutableState ToImmutable()
     {
       return new ImmutableState(
         playerTurn,

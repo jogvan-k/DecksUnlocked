@@ -18,7 +18,6 @@ namespace KeyforgeUnlockedTest.Util
     {
       if (expected.Equals(actual))
         return;
-
       var sb = new StringBuilder("States differ on the following parameters:\n");
       if (expected.PlayerTurn != actual.PlayerTurn)
         WriteFieldErrorMessage(
@@ -36,6 +35,7 @@ namespace KeyforgeUnlockedTest.Util
         WriteFieldErrorMessage(
           sb, "ActiveHouse", expected.ActiveHouse,
           actual.ActiveHouse);
+      CheckAndWritePreviousStateErrorMessage(sb, expected, actual);
       CheckAndWriteFieldErrorMessage(sb, "Keys", expected.Keys, actual.Keys);
       CheckAndWriteFieldErrorMessage(sb, "Aember", expected.Aember, actual.Aember);
       //if (!expected.ActionGroups.Equals(actual.ActionGroups))
@@ -44,12 +44,49 @@ namespace KeyforgeUnlockedTest.Util
       CheckAndWriteFieldErrorMessage(sb, "Discards", expected.Discards, actual.Discards);
       CheckAndWriteFieldErrorMessage(sb, "Archives", expected.Archives, actual.Archives);
       CheckAndWriteFieldErrorMessage(sb, "Fields", expected.Fields, actual.Fields);
-      //CheckAndWriteFieldErrorMessage(sb, "Effects", expected.Effects, actual.Effects);
-      //CheckAndWriteFieldErrorMessage(sb, "ResolvedEffects", expected.ResolvedEffects, actual.ResolvedEffects);
+      CheckAndWriteFieldErrorMessage(sb, "Effects", expected.Effects, actual.Effects);
+      CheckAndWriteFieldErrorMessage(sb, "ResolvedEffects", expected.ResolvedEffects, actual.ResolvedEffects);
       //Metadata
 
 
       Assert.Fail(sb.ToString());
+    }
+
+    static void CheckAndWritePreviousStateErrorMessage(StringBuilder sb, IState expected, IState actual)
+    {
+      if (expected.PreviousState == null && actual.PreviousState != null)
+      {
+        sb.AppendLine("PrevioiusState: Actual has previousState set to null whereas actual don't.");
+      }
+      else if (actual.PreviousState == null && expected.PreviousState != null)
+      {
+        sb.AppendLine("PrevioiusState: Expected has previousState set to null whereas actual don't.");
+      }
+      else if (!(expected.PreviousState != null && expected.PreviousState.Equals(actual.PreviousState)))
+      {
+        var expectedDepth = GetStateDepth(expected);
+        var actualDepth = GetStateDepth(actual);
+        if (actualDepth != expectedDepth)
+          sb.AppendLine($"PrevioiusState: Expected's depth is {expectedDepth} but actual's depth is {actualDepth}");
+        else
+          sb.Append(
+            "PrevioiusState: Expected and actual have same depth previousState depth, but their previousState differ");
+      }
+    }
+
+    static int GetStateDepth(IState state)
+    {
+      int depth = 0;
+      var currentState = state;
+      while (currentState.PreviousState != null)
+      {
+        currentState = currentState.PreviousState;
+        depth++;
+        if (depth > 10000)
+          throw new Exception("Circular reference in state's previousState");
+      }
+
+      return depth;
     }
 
     static void WriteFieldErrorMessage<T>(
@@ -59,6 +96,23 @@ namespace KeyforgeUnlockedTest.Util
       T actual)
     {
       sb.Append($"{fieldName}: Expected {expected}, actual {actual}\n");
+    }
+
+    static void CheckAndWriteFieldErrorMessage<T>(
+      StringBuilder sb,
+      string fieldName,
+      IImmutableList<T> expected,
+      IImmutableList<T> actual)
+    {
+      if (expected.SequenceEqual(actual)) return;
+      sb.AppendLine($"{fieldName}:");
+      var expectedExtra = expected.Except(actual);
+      var actualExtra = actual.Except(expected);
+
+      if (expectedExtra.Any())
+        sb.AppendLine($"Expected has the following extra entries: {ToString(expectedExtra)}");
+      if (actualExtra.Any())
+        sb.AppendLine($"Actual has the following extra entries: {ToString(actualExtra)}");
     }
 
     static void CheckAndWriteFieldErrorMessage<T>(
@@ -86,11 +140,32 @@ namespace KeyforgeUnlockedTest.Util
           var ac = actual[key];
           if (ex is IEnumerable<object> e && ac is IEnumerable<object> a)
             WriteEntryError(sb, fieldName, key, e, a);
-          else if(ex is IEnumerable<Creature> exC && ac is IEnumerable<Creature> acC)
-            WriteEntryError(sb, fieldName, key, exC.Cast<object>(), acC.Cast<object>());
+          else if (ex is IList<Creature> exC && ac is IList<Creature> acC)
+            WriteCreatureEntryError(sb, fieldName, key, exC, acC);
           else
             WriteEntryError(sb, fieldName, key, ex, ac);
         }
+      }
+    }
+
+    static void WriteCreatureEntryError(StringBuilder sb,
+      string fieldName,
+      Player entry,
+      IList<Creature> expected,
+      IList<Creature> actual)
+    {
+      if (expected.SequenceEqual(actual))
+        return;
+      AppendFieldName(sb, fieldName);
+
+      for (int i = 0; i < Math.Max(expected.Count, actual.Count); i++)
+      {
+        if (expected.Count < i + 1)
+          sb.AppendLine($"{entry} expected don't have an entry at index {i} whereas actual has");
+        if (actual.Count < i + 1)
+          sb.AppendLine($"{entry} actual don't have an entry at index {i} whereas expected has");
+        if (!expected[i].Equals(actual[i]))
+          sb.AppendLine($"{entry} lists differ at index {i}. Expected: {expected[i]}, actual: {actual[i]}");
       }
     }
 
@@ -114,19 +189,17 @@ namespace KeyforgeUnlockedTest.Util
       IEnumerable<T> actual)
     {
       var expectedExtra = expected.Except(actual);
-
       var actualExtra = actual.Except(expected);
-      if (expectedExtra.Any())
-      {
+
+      if (expectedExtra.Any() || actualExtra.Any())
         AppendFieldName(sb, fieldName);
+
+      if (expectedExtra.Any())
         sb.AppendLine($"Expected has the following extra values for {entry}: {ToString(expectedExtra)}");
-      }
+
 
       if (actualExtra.Any())
-      {
-        AppendFieldName(sb, fieldName);
         sb.AppendLine($"Actual has the following extra values for {entry}: {ToString(actualExtra)}");
-      }
     }
 
     static string ToString<T>(IEnumerable<T> c)
@@ -136,7 +209,7 @@ namespace KeyforgeUnlockedTest.Util
 
     static void AppendFieldName(StringBuilder sb, string fieldName)
     {
-      sb.Append($"{fieldName}: ");
+      sb.AppendLine($"{fieldName}: ");
     }
   }
 }

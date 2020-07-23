@@ -24,9 +24,12 @@ namespace KeyforgeUnlocked.Effects
     {
       var fighter = Fighter;
       var target = Target;
-      if (!fighter.Keywords.Contains(Keyword.Skirmish))
-        fighter.Damage += target.Power;
-      target.Damage += fighter.Power;
+      if (!target.Keywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(target.Id)))
+      {
+        if (!fighter.Keywords.Contains(Keyword.Skirmish))
+          fighter.Damage += target.Power;
+        target.Damage += fighter.Power;
+      }
 
       fighter.IsReady = false;
       state.ResolvedEffects.Add(new CreatureFought(fighter, target));
@@ -35,6 +38,11 @@ namespace KeyforgeUnlocked.Effects
 
       if (fighter.Health > 0)
         fighter.FightAbility(state);
+    }
+
+    Predicate<IResolvedEffect> HasBeenAttacked(string creatureId)
+    {
+      return re => re is CreatureFought cf && cf.Target.Id.Equals(creatureId);
     }
 
     bool Equals(FightCreature other)

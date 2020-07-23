@@ -1,5 +1,6 @@
 ﻿using KeyforgeUnlocked;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlockedConsole
 {

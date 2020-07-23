@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
 
     public StarAllianceCreatureCard(House house = House.StarAlliance)
       : base(
-        "StarAllianceCreature", house, InitialPower,
+        house, InitialPower,
         InitialArmor, Array.Empty<Keyword>(), null)
     {
     }

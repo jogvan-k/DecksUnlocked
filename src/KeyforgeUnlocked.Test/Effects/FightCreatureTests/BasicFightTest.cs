@@ -1,24 +1,24 @@
-using System.Collections.Generic;
-using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
-namespace KeyforgeUnlockedTest.Effects
+namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 {
   [TestFixture]
-  sealed class FightCreatureTest
+  sealed class BasicFightTest : FightCreatureTestBase
   {
     bool _fightingCreatureFightAbilityResolved;
     bool _targetCreatureFightAbilityResolved;
 
     Delegates.Callback _fightingCreatureFightAbility;
     Delegates.Callback _targetCreatureFightAbility;
+
+    static readonly Keyword[] Elusive = {Keyword.Elusive};
+    static readonly Keyword[] Skirmish = {Keyword.Skirmish};
 
     [SetUp]
     public void SetUp()
@@ -78,8 +78,9 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_AttackerHasAssault()
     {
-      var fightingCreatureCard = new SampleCreatureCard(2, keywords: new[] {Keyword.Skirmish}, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(3, keywords: new[] {Keyword.Skirmish}, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = new SampleCreatureCard(
+        2, fightAbility: _fightingCreatureFightAbility, keywords: Skirmish);
+      var targetCreatureCard = new SampleCreatureCard(3, fightAbility: _targetCreatureFightAbility, keywords: Skirmish);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -90,49 +91,20 @@ namespace KeyforgeUnlockedTest.Effects
       Assert(expectedState, state, true);
     }
 
-    static MutableState SetupAndAct(
-      SampleCreatureCard fightingCreatureCard,
-      SampleCreatureCard targetCreatureCard)
+    [Test]
+    public void Resolve_TargetIsElusive_NoDamageDealt()
     {
-      var fightingCreature = new Creature(fightingCreatureCard, isReady: true);
-      var targetCreature = new Creature(targetCreatureCard, isReady: true);
-      var fields = TestUtil.Lists(fightingCreature, targetCreature);
-      var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new FightCreature(fightingCreature, targetCreature);
+      var fightingCreatureCard = new SampleCreatureCard(3, fightAbility: _fightingCreatureFightAbility);
+      var targetCreatureCard = new SampleCreatureCard(2, fightAbility: _targetCreatureFightAbility, keywords: Elusive);
 
-      sut.Resolve(state);
+      var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
-      return state;
-    }
+      var expectedFightingCreature = new Creature(fightingCreatureCard);
+      var expectedTargetCreature = new Creature(targetCreatureCard, isReady: true);
+      var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
 
-    static MutableState ExpectedState(
-      Creature expectedFighter,
-      Creature expectedTarget,
-      params IResolvedEffect[] preResolvedEffects)
-    {
-      var fighterDead = expectedFighter.Health <= 0;
-      var targetDead = expectedTarget.Health <= 0;
-      var expectedFields = TestUtil.Lists(
-        fighterDead ? Enumerable.Empty<Creature>() : new[] {expectedFighter},
-        targetDead ? Enumerable.Empty<Creature>() : new[] {expectedTarget});
-
-      var expectedDiscards = TestUtil.Sets(
-        fighterDead ? new[] {expectedFighter.Card} : Enumerable.Empty<Card>(),
-        targetDead ? new[] {expectedTarget.Card} : Enumerable.Empty<Card>());
-
-      var resolvedEffects = new List<IResolvedEffect>(preResolvedEffects);
-      if (fighterDead)
-      {
-        resolvedEffects.Add(new CreatureDied(expectedFighter));
-      }
-
-      if (targetDead)
-      {
-        resolvedEffects.Add(new CreatureDied(expectedTarget));
-      }
-
-      return StateTestUtil.EmptyState.New(
-        fields: expectedFields, discards: expectedDiscards, resolvedEffects: resolvedEffects);
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
+      Assert(expectedState, state, true);
     }
 
     void Assert(IState expectedState, IState actualState, bool expectFighterAbilityTriggered)

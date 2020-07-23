@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     const int InitialArmor = 0;
 
     public LogosCreatureCard(House house = House.Logos) : base(
-      "LogosCreature", house, InitialPower,
+      house, InitialPower,
       InitialArmor, Array.Empty<Keyword>(), null)
     {
     }

@@ -79,5 +79,25 @@ namespace KeyforgeUnlocked.States
       ResolvedEffects = resolvedEffects;
       Metadata = metadata;
     }
+
+    public ImmutableState(IState state)
+    {
+      PlayerTurn = state.PlayerTurn;
+      TurnNumber = state.TurnNumber;
+      IsGameOver = state.IsGameOver;
+      PreviousState = state.PreviousState;
+      ActiveHouse = state.ActiveHouse;
+      Keys = state.Keys;
+      Aember = state.Aember;
+      ActionGroups = state.ActionGroups;
+      Decks = state.Decks;
+      Hands = state.Hands;
+      Discards = state.Discards;
+      Archives = state.Archives;
+      Fields = state.Fields;
+      Effects = state.Effects;
+      ResolvedEffects = state.ResolvedEffects;
+      Metadata = state.Metadata;
+    }
   }
 }

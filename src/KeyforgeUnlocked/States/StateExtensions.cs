@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -62,6 +63,24 @@ namespace KeyforgeUnlocked.States
       {
         CreatureUtil.DestroyCreature(state, creature);
       }
+    }
+
+    public static bool HasEffectOccured(this IState state, Predicate<IResolvedEffect> predicate, int fromTurn = 0,
+      int toTurn = 0)
+    {
+      if (toTurn < fromTurn)
+        throw new ArgumentException("Argument fromTurn must be smaller or equal to toTurn");
+      var currentState = state;
+      var maxTurnNumber = currentState.TurnNumber - fromTurn;
+      var minTurnNumber = currentState.TurnNumber - toTurn;
+      while (currentState != null && currentState.TurnNumber >= minTurnNumber)
+      {
+        if (currentState.TurnNumber <= maxTurnNumber && currentState.ResolvedEffects.Any(re => predicate(re)))
+          return true;
+        currentState = currentState.PreviousState;
+      }
+
+      return false;
     }
   }
 }

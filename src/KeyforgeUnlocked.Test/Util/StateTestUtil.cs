@@ -43,10 +43,14 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
       new List<IActionGroup>().ToImmutableList(),
-      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}}.ToImmutableDictionary(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}.ToImmutableDictionary(),
+      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}}
+        .ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+        .ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+        .ToImmutableDictionary(),
+      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+        .ToImmutableDictionary(),
       new Dictionary<Player, IList<Creature>>
         {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}}.ToImmutableDictionary(),
       ImmutableArray<IEffect>.Empty,
@@ -89,6 +93,34 @@ namespace KeyforgeUnlockedTest.Util
         effects ?? new StackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new List<IResolvedEffect>(state.ResolvedEffects),
         metadata ?? state.Metadata);
+    }
+
+    /// <summary>
+    /// Returns a new state with "PreviousState" set to the current state, and "ResolvedEffects" cleared
+    /// </summary>
+    /// <returns></returns>
+    public static MutableState Extend(
+      this IState state,
+      Player? playerTurn = null,
+      int? turnNumber = null,
+      bool isGameOver = false,
+      IDictionary<Player, int> keys = null,
+      IDictionary<Player, int> aember = null,
+      House? activeHouse = null,
+      IList<IActionGroup> actionGroups = null,
+      IDictionary<Player, Stack<Card>> decks = null,
+      IDictionary<Player, ISet<Card>> hands = null,
+      IDictionary<Player, ISet<Card>> discards = null,
+      IDictionary<Player, ISet<Card>> archives = null,
+      IDictionary<Player, IList<Creature>> fields = null,
+      IList<IResolvedEffect> resolvedEffects = null,
+      StackQueue<IEffect> effects = null,
+      Metadata metadata = null)
+    {
+      return state.New(
+        playerTurn, turnNumber, isGameOver, keys, aember, state,
+        activeHouse, actionGroups, decks, hands, discards, archives,
+        fields, effects, resolvedEffects ?? new List<IResolvedEffect>(), metadata);
     }
 
     static Stack<Card> EmptyDeck => new Stack<Card>();

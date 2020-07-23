@@ -1,24 +1,36 @@
 using System;
+using System.Reflection;
 
 namespace KeyforgeUnlocked.Cards
 {
   public abstract class Card
   {
     public string Id { get; }
-    public string Name { get; }
 
     public House House { get; }
 
     public CardType CardType { get; }
 
-    protected Card(string name,
+    Lazy<string> _name;
+
+    public string Name => _name.Value;
+
+    protected Card(
       House house,
       CardType cardType)
     {
       Id = Guid.NewGuid().ToString("N");
-      Name = name;
       House = house;
       CardType = cardType;
+      _name = new Lazy<string>(GetName);
+    }
+
+    string GetName()
+    {
+      var fieldInfo = GetType().GetField("SpecialName", BindingFlags.Public | BindingFlags.Static);
+      if (fieldInfo == null)
+        return GetType().Name;
+      return (string) fieldInfo.GetValue(null);
     }
 
     protected bool Equals(Card other)

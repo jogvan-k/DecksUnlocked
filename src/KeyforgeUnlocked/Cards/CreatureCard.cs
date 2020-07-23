@@ -14,12 +14,11 @@ namespace KeyforgeUnlocked.Cards
     public Delegates.Callback FightAbility { get; }
 
     protected CreatureCard(
-      string name,
       House house,
       int power,
       int armor,
       Keyword[] keywords,
-      Delegates.Callback fightAbility) : base(name, house, CardType.Creature)
+      Delegates.Callback fightAbility) : base(house, CardType.Creature)
     {
       Power = power;
       Armor = armor;

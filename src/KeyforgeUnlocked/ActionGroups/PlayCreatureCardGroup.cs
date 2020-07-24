@@ -2,6 +2,7 @@ using System;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
 

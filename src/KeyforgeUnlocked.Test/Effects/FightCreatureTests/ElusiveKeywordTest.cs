@@ -17,8 +17,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_TargetIsElusiveAndAttackedPreviousTurn_NoDamageDealt()
     {
-      var fightingCreatureCard = new SampleCreatureCard(3);
-      var targetCreatureCard = new SampleCreatureCard(2, keywords: Elusive);
+      var fightingCreatureCard = new SampleCreatureCard(power: 3);
+      var targetCreatureCard = new SampleCreatureCard(power: 2, keywords: Elusive);
       var fightingCreature = new Creature(fightingCreatureCard);
       var targetCreature = new Creature(targetCreatureCard);
       var resolvedEffects = new[]
@@ -41,9 +41,9 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_TargetIsElusiveAndAttackedCurrentTurn_NoDamageDealt()
     {
-      var foughtCreatureCard = new SampleCreatureCard(3);
-      var fightingCreatureCard = new SampleCreatureCard(3);
-      var targetCreatureCard = new SampleCreatureCard(2, keywords: Elusive);
+      var foughtCreatureCard = new SampleCreatureCard(power: 3);
+      var fightingCreatureCard = new SampleCreatureCard(power: 3);
+      var targetCreatureCard = new SampleCreatureCard(power: 2, keywords: Elusive);
       var foughtCreature = new Creature(foughtCreatureCard);
       var fightingCreature = new Creature(fightingCreatureCard);
       var targetCreature = new Creature(targetCreatureCard);

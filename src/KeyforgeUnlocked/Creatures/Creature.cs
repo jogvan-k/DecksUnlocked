@@ -1,5 +1,6 @@
 using System;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Creatures
@@ -19,6 +20,7 @@ namespace KeyforgeUnlocked.Creatures
     public int BasePower => Card.Power;
 
     public int BaseArmor => Card.Armor;
+    
     public int Power => BasePower + PowerCounters;
 
     public int Health => Power - Damage;
@@ -26,6 +28,8 @@ namespace KeyforgeUnlocked.Creatures
     public Delegates.Callback FightAbility => Card.FightAbility;
 
     public Keyword[] Keywords => Card.Keywords;
+
+    public CreatureType[] Types => Card.Types;
 
     public Creature(
       CreatureCard card,

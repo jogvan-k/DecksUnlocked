@@ -32,8 +32,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_FightingCreatureDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(2, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(3, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _fightingCreatureFightAbility);
+      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -48,8 +48,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_TargetCreatureDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(2, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
+      var targetCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _targetCreatureFightAbility);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -63,8 +63,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_BothCreaturesDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(3, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
+      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -79,8 +79,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     public void Resolve_AttackerHasAssault()
     {
       var fightingCreatureCard = new SampleCreatureCard(
-        2, fightAbility: _fightingCreatureFightAbility, keywords: Skirmish);
-      var targetCreatureCard = new SampleCreatureCard(3, fightAbility: _targetCreatureFightAbility, keywords: Skirmish);
+        power: 2, fightAbility: _fightingCreatureFightAbility, keywords: Skirmish);
+      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility, keywords: Skirmish);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -94,8 +94,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_TargetIsElusive_NoDamageDealt()
     {
-      var fightingCreatureCard = new SampleCreatureCard(3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(2, fightAbility: _targetCreatureFightAbility, keywords: Elusive);
+      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
+      var targetCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _targetCreatureFightAbility, keywords: Elusive);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 

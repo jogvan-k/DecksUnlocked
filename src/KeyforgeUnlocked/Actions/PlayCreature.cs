@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 

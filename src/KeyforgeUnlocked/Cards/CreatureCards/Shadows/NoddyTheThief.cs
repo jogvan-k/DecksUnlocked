@@ -7,6 +7,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
   {
     const int power = 2;
     const int armor = 0;
+    static CreatureType[] creatureTypes = {CreatureType.Elf, CreatureType.Thief};
     static Keyword[] keywords = {Keyword.Elusive};
     static Delegates.Callback creatureAbility = s => s.Steal(1);
 
@@ -16,7 +17,8 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
     {
     }
 
-    public NoddyTheThief(House house) : base(house, power, armor, keywords, creatureAbility: creatureAbility)
+    public NoddyTheThief(House house) : base(
+      house, power, armor, creatureTypes, keywords, creatureAbility: creatureAbility)
     {
     }
   }

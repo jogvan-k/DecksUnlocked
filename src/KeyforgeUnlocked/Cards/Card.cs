@@ -1,9 +1,10 @@
 using System;
 using System.Reflection;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
 {
-  public abstract class Card
+  public abstract class Card : IIdentifiable
   {
     public string Id { get; }
 

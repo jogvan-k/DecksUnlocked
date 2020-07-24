@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
@@ -12,6 +13,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     public CreatureType[] Types { get; }
     public Delegates.Callback FightAbility { get; }
     public Delegates.Callback CreatureAbility { get; }
+    public Delegates.Callback DestroyedAbility { get; }
 
     protected CreatureCard(
       House house,
@@ -20,7 +22,8 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       CreatureType[] types = null,
       Keyword[] keywords = null,
       Delegates.Callback fightAbility = null,
-      Delegates.Callback creatureAbility = null) : base(house, CardType.Creature)
+      Delegates.Callback creatureAbility = null,
+      Delegates.Callback destroyedAbility = null) : base(house, CardType.Creature)
     {
       Power = power;
       Armor = armor;
@@ -28,6 +31,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       Types = types ?? new CreatureType[0];
       FightAbility = fightAbility;
       CreatureAbility = creatureAbility;
+      DestroyedAbility = destroyedAbility;
     }
 
     public Creature InsantiateCreature()

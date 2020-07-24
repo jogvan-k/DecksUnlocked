@@ -65,7 +65,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     public static string ToConsole(this FightCreature action)
     {
-      return $"Attack {action.Creature.Card.Name}";
+      return $"Attack {action.Target.Card.Name}";
     }
 
     public static string ToConsole(this UseCreatureAbility action)

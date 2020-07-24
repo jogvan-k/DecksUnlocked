@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -12,10 +13,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
   sealed class BasicFightTest : FightCreatureTestBase
   {
     bool _fightingCreatureFightAbilityResolved;
+    bool _fightingCreatureDestroyedAbilityResolved;
     bool _targetCreatureFightAbilityResolved;
+    bool _targetCreatureDestroyedAbilityResolved;
 
     Delegates.Callback _fightingCreatureFightAbility;
+    Delegates.Callback _fightingCreatureDestroyedAbility;
     Delegates.Callback _targetCreatureFightAbility;
+    Delegates.Callback _targetCreatureDestroyedAbility;
 
     static readonly Keyword[] Elusive = {Keyword.Elusive};
     static readonly Keyword[] Skirmish = {Keyword.Skirmish};
@@ -24,16 +29,20 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     public void SetUp()
     {
       _fightingCreatureFightAbilityResolved = false;
+      _fightingCreatureDestroyedAbilityResolved = false;
       _targetCreatureFightAbilityResolved = false;
-      _fightingCreatureFightAbility = s => _fightingCreatureFightAbilityResolved = true;
-      _targetCreatureFightAbility = s => _targetCreatureFightAbilityResolved = true;
+      _targetCreatureDestroyedAbilityResolved = false;
+      _fightingCreatureFightAbility = (s, id) => _fightingCreatureFightAbilityResolved = true;
+      _fightingCreatureDestroyedAbility = (s, id) => _fightingCreatureDestroyedAbilityResolved = true;
+      _targetCreatureFightAbility = (s, id) => _targetCreatureFightAbilityResolved = true;
+      _targetCreatureDestroyedAbility = (s, id) => _targetCreatureDestroyedAbilityResolved = true;
     }
 
     [Test]
     public void Resolve_FightingCreatureDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(2);
+      var targetCreatureCard = InstantiateTargetCreatureCard(3);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -42,14 +51,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
       var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
 
-      Assert(expectedState, state, false);
+      Assert(expectedState, state, false, true, false);
     }
 
     [Test]
     public void Resolve_TargetCreatureDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(3);
+      var targetCreatureCard = InstantiateTargetCreatureCard(2);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -57,14 +66,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3, isReady: true);
       var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
       var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true);
+      Assert(expectedState, state, true, false, true);
     }
 
     [Test]
     public void Resolve_BothCreaturesDies()
     {
-      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(3);
+      var targetCreatureCard = InstantiateTargetCreatureCard(3);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -72,15 +81,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3, isReady: true);
       var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
       var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, false);
+      Assert(expectedState, state, false, true, true);
     }
 
     [Test]
     public void Resolve_AttackerHasAssault()
     {
-      var fightingCreatureCard = new SampleCreatureCard(
-        power: 2, fightAbility: _fightingCreatureFightAbility, keywords: Skirmish);
-      var targetCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _targetCreatureFightAbility, keywords: Skirmish);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(2, Skirmish);
+      var targetCreatureCard = InstantiateTargetCreatureCard(3, Skirmish);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -88,14 +96,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 2, isReady: true);
       var targetFoughtResolvedEffect = new CreatureFought(expectedFigthingCreature, expectedTargetCreature);
       var expectedState = ExpectedState(expectedFigthingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true);
+      Assert(expectedState, state, true, false, false);
     }
 
     [Test]
     public void Resolve_TargetIsElusive_NoDamageDealt()
     {
-      var fightingCreatureCard = new SampleCreatureCard(power: 3, fightAbility: _fightingCreatureFightAbility);
-      var targetCreatureCard = new SampleCreatureCard(power: 2, fightAbility: _targetCreatureFightAbility, keywords: Elusive);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(3);
+      var targetCreatureCard = InstantiateTargetCreatureCard(2, Elusive);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
@@ -104,13 +112,25 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
 
       var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true);
+      Assert(expectedState, state, true, false, false);
     }
 
-    void Assert(IState expectedState, IState actualState, bool expectFighterAbilityTriggered)
+    SampleCreatureCard InstantiateFightingCreatureCard(int power, Keyword[] keywords = null)
+    {
+      return new SampleCreatureCard(power: power, fightAbility: _fightingCreatureFightAbility, destroyedAbility: _fightingCreatureDestroyedAbility, keywords: keywords);
+    }
+
+    SampleCreatureCard InstantiateTargetCreatureCard(int power, Keyword[] keywords = null)
+    {
+      return new SampleCreatureCard(power: power, fightAbility: _targetCreatureFightAbility, destroyedAbility: _targetCreatureDestroyedAbility, keywords: keywords);
+    }
+
+    void Assert(IState expectedState, IState actualState, bool expectFighterAbilityTriggered, bool expectedFighterDead, bool expectedTargetDead)
     {
       NUnit.Framework.Assert.AreEqual(expectFighterAbilityTriggered, _fightingCreatureFightAbilityResolved);
       NUnit.Framework.Assert.False(_targetCreatureFightAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(expectedFighterDead, _fightingCreatureDestroyedAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(expectedTargetDead, _targetCreatureDestroyedAbilityResolved);
       StateAsserter.StateEquals(expectedState, actualState);
     }
   }

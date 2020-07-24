@@ -5,7 +5,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Creatures
 {
-  public struct Creature
+  public struct Creature : IIdentifiable
   {
     public CreatureCard Card;
 
@@ -20,12 +20,14 @@ namespace KeyforgeUnlocked.Creatures
     public int BasePower => Card.Power;
 
     public int BaseArmor => Card.Armor;
-    
+
     public int Power => BasePower + PowerCounters;
 
     public int Health => Power - Damage;
 
     public Delegates.Callback FightAbility => Card.FightAbility;
+
+    public Delegates.Callback DestroyedAbility => Card.DestroyedAbility;
 
     public Keyword[] Keywords => Card.Keywords;
 

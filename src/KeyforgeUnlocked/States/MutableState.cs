@@ -183,27 +183,5 @@ namespace KeyforgeUnlocked.States
 
       return ToImmutable();
     }
-
-
-    internal ImmutableState ToImmutable()
-    {
-      return new ImmutableState(
-        playerTurn,
-        turnNumber,
-        isGameOver,
-        previousState,
-        activeHouse,
-        Keys.ToImmutableDictionary(),
-        Aember.ToImmutableDictionary(),
-        ActionGroups.ToImmutableList(),
-        Decks.ToImmutableDictionary(),
-        Hands.ToImmutableDictionary(),
-        Discards.ToImmutableDictionary(),
-        Archives.ToImmutableDictionary(),
-        Fields.ToImmutableDictionary(),
-        Effects.ToImmutableArray(),
-        ResolvedEffects.ToImmutableList(),
-        metadata);
-    }
   }
 }

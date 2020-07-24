@@ -14,7 +14,8 @@ namespace KeyforgeUnlockedTest.Util
       CreatureType[] types = null,
       Keyword[] keywords = null,
       Delegates.Callback fightAbility = null,
-      Delegates.Callback creatureAbility = null)
+      Delegates.Callback creatureAbility = null,
+      Delegates.Callback destroyedAbility = null)
       : base(
         house,
         power,
@@ -22,7 +23,8 @@ namespace KeyforgeUnlockedTest.Util
         types,
         keywords,
         fightAbility,
-        creatureAbility)
+        creatureAbility,
+        destroyedAbility)
     {
     }
   }

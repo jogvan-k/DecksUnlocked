@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.Effects
       SpecificResolve(state);
       var creature = Creature;
       creature.IsReady = false;
-      CreatureUtil.SetCreature(state, creature);
+      state.SetCreature(creature);
     }
 
     protected abstract void SpecificResolve(MutableState state);

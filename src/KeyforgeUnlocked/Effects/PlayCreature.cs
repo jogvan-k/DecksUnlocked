@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.Effects
       state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
       if (!state.Hands[state.PlayerTurn].Remove(Card))
-        throw new CardNotPresentException(state);
+        throw new CardNotPresentException(state, Card.Id);
     }
 
     void ValidatePosition(IState state)

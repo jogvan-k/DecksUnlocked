@@ -30,6 +30,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case AemberStolen e:
           return e.ToConsole();
+        case CardReturnedToHand e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -83,6 +85,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this AemberStolen effect)
     {
       return $"{effect.stealingPlayer} stole {effect.stolenAmount} aember";
+    }
+
+    static string ToConsole(this CardReturnedToHand effect)
+    {
+      return $"{effect.card.Name} returned to hand";
     }
   }
 }

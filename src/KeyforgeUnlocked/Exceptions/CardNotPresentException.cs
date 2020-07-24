@@ -4,8 +4,10 @@ namespace KeyforgeUnlocked.Exceptions
 {
   public sealed class CardNotPresentException : KeyforgeUnlockedException
   {
-    public CardNotPresentException(IState state) : base(state)
+    public string CardId;
+    public CardNotPresentException(IState state, string cardId) : base(state)
     {
+      CardId = cardId;
     }
   }
 }

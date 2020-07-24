@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
     const int armor = 0;
     static CreatureType[] creatureTypes = {CreatureType.Elf, CreatureType.Thief};
     static Keyword[] keywords = {Keyword.Skirmish};
-    static Delegates.Callback fightAbility = state => state.Steal(1);
+    static Delegates.Callback fightAbility = (s, id) => s.Steal(1);
 
     public Umbra() : this(House.Shadows)
     {

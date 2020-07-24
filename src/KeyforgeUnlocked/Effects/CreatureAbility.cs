@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Effects
 
     public void Resolve(MutableState state)
     {
-      Creature.Card.CreatureAbility(state);
+      Creature.Card.CreatureAbility(state, Creature.Id);
     }
 
     bool Equals(CreatureAbility other)

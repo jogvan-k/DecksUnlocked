@@ -79,6 +79,23 @@ namespace KeyforgeUnlockedTest.ActionGroups
       Assert.AreEqual(expectedActions, actions);
     }
 
+    [Test]
+    public void Actions_CreatureStunned_OnlyRemoveStunAction()
+    {
+      var creature = new Creature(_sampleCreatureCardWithCreatureAbility, isReady: true, state: CreatureState.Stunned);
+      var state = SetupState(creature);
+      var sut = new UseCreatureGroup(state, creature);
+
+      var actions = sut.Actions;
+
+      var expectedActions = ImmutableArray<Action>.Empty.AddRange(
+        new[]
+        {
+          (Action) new RemoveStun(creature)
+        });
+      Assert.AreEqual(expectedActions, actions);
+    }
+
     MutableState SetupState(Creature creature)
     {
       var opponentCreatures = new[]

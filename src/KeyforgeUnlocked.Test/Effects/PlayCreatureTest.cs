@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -15,13 +16,22 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class PlayCreatureTest
   {
-    static readonly CreatureCard PlayedCard = new SampleCreatureCard();
+    bool _playedEffectResolved;
+    CreatureCard PlayedCard;
 
     static readonly Card[] otherCards =
       {new SampleCreatureCard(), new SampleCreatureCard(), new SampleCreatureCard()};
 
     static readonly CreatureCard CreatureCardOnBoard1 = new SampleCreatureCard();
     static readonly CreatureCard CreatureCardOnBoard2 = new SampleCreatureCard();
+
+    [SetUp]
+    public void SetUp()
+    {
+      _playedEffectResolved = false;
+      Delegates.Callback playAbility = (s, id) => { _playedEffectResolved = true; };
+      PlayedCard = new SampleCreatureCard(PlayAbility: playAbility);
+    }
 
     [TestCase(Player.Player1)]
     [TestCase(Player.Player2)]
@@ -40,6 +50,7 @@ namespace KeyforgeUnlockedTest.Effects
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
       StateAsserter.StateEquals(expectedState, state);
+      Assert.True(_playedEffectResolved);
     }
 
     [TestCase(-1)]
@@ -100,6 +111,7 @@ namespace KeyforgeUnlockedTest.Effects
       expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
       StateAsserter.StateEquals(expectedState, state);
+      Assert.True(_playedEffectResolved);
     }
 
     [TestCase(-1)]
@@ -122,7 +134,7 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.Fail();
     }
 
-    static MutableState TestState(Player playingPlayer)
+    MutableState TestState(Player playingPlayer)
     {
       var hands = new Dictionary<Player, ISet<Card>>
       {
@@ -132,7 +144,7 @@ namespace KeyforgeUnlockedTest.Effects
       return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
 
-    static MutableState StateWithTwoCreatures(Player playingPlayer)
+    MutableState StateWithTwoCreatures(Player playingPlayer)
     {
       var creature1 = new Creature(CreatureCardOnBoard1);
       var creature2 = new Creature(CreatureCardOnBoard2);

@@ -10,20 +10,24 @@ namespace KeyforgeUnlocked.Cards
 
     public House House { get; }
 
-    public CardType CardType { get; }
 
     Lazy<string> _name;
-
     public string Name => _name.Value;
+
+    public CardType CardType { get; }
+
+    public Delegates.Callback PlayAbility { get; }
 
     protected Card(
       House house,
-      CardType cardType)
+      CardType cardType,
+      Delegates.Callback playAbility = null)
     {
       Id = Guid.NewGuid().ToString("N");
       House = house;
-      CardType = cardType;
       _name = new Lazy<string>(GetName);
+      CardType = cardType;
+      PlayAbility = playAbility;
     }
 
     string GetName()

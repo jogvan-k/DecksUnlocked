@@ -21,9 +21,10 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       int armor,
       CreatureType[] types = null,
       Keyword[] keywords = null,
+      Delegates.Callback playAbility = null,
       Delegates.Callback fightAbility = null,
       Delegates.Callback creatureAbility = null,
-      Delegates.Callback destroyedAbility = null) : base(house, CardType.Creature)
+      Delegates.Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
     {
       Power = power;
       Armor = armor;

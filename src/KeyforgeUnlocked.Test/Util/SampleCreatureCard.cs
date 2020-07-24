@@ -13,6 +13,7 @@ namespace KeyforgeUnlockedTest.Util
       int armor = 0,
       CreatureType[] types = null,
       Keyword[] keywords = null,
+      Delegates.Callback PlayAbility = null,
       Delegates.Callback fightAbility = null,
       Delegates.Callback creatureAbility = null,
       Delegates.Callback destroyedAbility = null)
@@ -22,6 +23,7 @@ namespace KeyforgeUnlockedTest.Util
         armor,
         types,
         keywords,
+        PlayAbility,
         fightAbility,
         creatureAbility,
         destroyedAbility)

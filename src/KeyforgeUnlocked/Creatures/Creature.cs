@@ -15,6 +15,8 @@ namespace KeyforgeUnlocked.Creatures
 
     public bool IsReady;
 
+    public CreatureState State;
+
     public string Id => Card.Id;
 
     public int BasePower => Card.Power;
@@ -37,12 +39,14 @@ namespace KeyforgeUnlocked.Creatures
       CreatureCard card,
       int powerCounters = 0,
       int damage = 0,
-      bool isReady = false)
+      bool isReady = false,
+      CreatureState state = CreatureState.None)
     {
       Card = card;
       PowerCounters = powerCounters;
       Damage = damage;
       IsReady = isReady;
+      State = state;
     }
 
     public bool Equals(Creature other)

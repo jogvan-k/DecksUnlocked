@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
@@ -7,6 +8,13 @@ namespace KeyforgeUnlocked.Actions
   {
     public Reap(Creature creature) : base(creature)
     {
+    }
+
+    internal override void Validate(IState state)
+    {
+      base.Validate(state);
+      if(Creature.IsStunned())
+        throw new CreatureStunnedException(state, Creature);
     }
 
     internal override void DoActionNoResolve(MutableState state)

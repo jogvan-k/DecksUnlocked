@@ -18,6 +18,9 @@ namespace KeyforgeUnlocked.Actions
     internal override void Validate(IState state)
     {
       base.Validate(state);
+      if (Creature.IsStunned())
+        throw new CreatureStunnedException(state, Creature);
+
       var playerTurn = state.PlayerTurn;
 
       if (state.ControllingPlayer(Creature) != playerTurn || state.ControllingPlayer(Target) == playerTurn)

@@ -27,6 +27,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case UseCreatureAbility a:
           return a.ToConsole();
+        case RemoveStun a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -71,6 +73,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this UseCreatureAbility action)
     {
       return "Use creature ability";
+    }
+
+    public static string ToConsole(this RemoveStun action)
+    {
+      return "Remove stun";
     }
   }
 }

@@ -1,41 +1,40 @@
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class UseCreatureAbility : UseCreature
+  public sealed class RemoveStun : UseCreature
   {
-    public UseCreatureAbility(Creature creature) : base(creature)
+    public RemoveStun(Creature creature) : base(creature)
     {
     }
 
     internal override void Validate(IState state)
     {
       base.Validate(state);
-      if(Creature.IsStunned())
-        throw new CreatureStunnedException(state, Creature);
+      if (!Creature.IsStunned())
+        throw new CreatureNotStunnedException(state, Creature);
     }
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Push(new CreatureAbility(Creature));
+      state.Effects.Enqueue(new Effects.RemoveStun(Creature));
     }
 
-    bool Equals(UseCreatureAbility other)
+    bool Equals(RemoveStun other)
     {
       return Creature.Equals(other.Creature);
     }
 
     public override bool Equals(object obj)
     {
-      return ReferenceEquals(this, obj) || obj is UseCreatureAbility other && Equals(other);
+      return ReferenceEquals(this, obj) || obj is RemoveStun other && Equals(other);
     }
 
     public override int GetHashCode()
     {
-      return 7 * Creature.GetHashCode();
+      return 21 * Creature.GetHashCode();
     }
   }
 }

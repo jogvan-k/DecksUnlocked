@@ -29,6 +29,8 @@ namespace KeyforgeUnlocked.Effects
 
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card.Id);
+
+      Card.PlayAbility?.Invoke(state, Card.Id);
     }
 
     void ValidatePosition(IState state)

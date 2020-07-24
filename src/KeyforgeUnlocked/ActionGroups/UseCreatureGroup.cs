@@ -25,6 +25,12 @@ namespace KeyforgeUnlocked.ActionGroups
       var actions = ImmutableList<Action>.Empty;
       if (!Creature.IsReady)
         return actions;
+
+      if (Creature.IsStunned())
+      {
+        return actions.Add(new RemoveStun(Creature));
+      }
+
       foreach (var targetCreature in _opponentCreatures)
       {
         actions = actions.Add(new FightCreature(Creature, targetCreature));

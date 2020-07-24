@@ -32,6 +32,10 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case CardReturnedToHand e:
           return e.ToConsole();
+        case CreatureStunned e:
+          return e.ToConsole();
+        case StunRemoved e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -90,6 +94,16 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this CardReturnedToHand effect)
     {
       return $"{effect.card.Name} returned to hand";
+    }
+
+    static string ToConsole(this CreatureStunned effect)
+    {
+      return $"{effect.Creature.Card.Name} stunned";
+    }
+
+    static string ToConsole(this StunRemoved effect)
+    {
+      return $"Stun removed from {effect.Creature.Card.Name}";
     }
   }
 }

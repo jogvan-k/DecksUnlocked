@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
@@ -120,14 +121,25 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       }
     }
 
+    static bool IsActionEndTurn(this IActionGroup group)
+    {
+      return group is EndTurnGroup;
+    }
+
     static void PrintAdditionalActions(
       IState state,
       Dictionary<string, IActionGroup> commands)
     {
+      var specialActions = state.ActionGroups.SingleOrDefault(a => a.IsSpecialActionGroup());
       var endAction = state.ActionGroups.SingleOrDefault(a => a.IsActionEndTurn());
       var declareHouse = state.ActionGroups.SingleOrDefault(a => a.IsDeclareHouse());
       Console.WriteLine();
       Console.WriteLine("Additional actions: ");
+      if (specialActions != default)
+      {
+        commands.Add("action", specialActions);
+        Console.Write("[Action]");
+      }
       if (endAction != default)
       {
         commands.Add("end", endAction);
@@ -142,14 +154,14 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Console.WriteLine("");
     }
 
-    static bool IsActionEndTurn(this IActionGroup group)
-    {
-      return group is EndTurnGroup;
-    }
-
     static bool IsDeclareHouse(this IActionGroup group)
     {
       return group is DeclareHouseGroup;
+    }
+
+    static bool IsSpecialActionGroup(this IActionGroup group)
+    {
+      return group is TargetCreatureGroup;
     }
 
     static bool IsActionsRelatedToCard(

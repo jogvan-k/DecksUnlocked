@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
     const int power = 1;
     const int armor = 0;
     static CreatureType[] creatureTypes = {CreatureType.Human, CreatureType.Thief};
-    static Delegates.Callback destroyedAbility = (s, id) => { s.ReturnFromDiscard(id); };
+    static Callback destroyedAbility = (s, id) => { s.ReturnFromDiscard(id); };
 
     public static string SpecialName = "Bad Penny";
 

@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
@@ -14,7 +15,11 @@ namespace KeyforgeUnlocked.Effects
 
     public void Resolve(MutableState state)
     {
-      throw new System.NotImplementedException();
+      var creature = Creature;
+      creature.State = creature.State & ~CreatureState.Stunned;
+      creature.IsReady = false;
+      state.SetCreature(creature);
+      state.ResolvedEffects.Add(new StunRemoved(creature));
     }
 
     bool Equals(RemoveStun other)

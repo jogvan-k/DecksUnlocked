@@ -1,5 +1,6 @@
 using System;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
@@ -20,6 +21,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case NoActionGroup a:
           return a.ToConsole();
         case DeclareHouseGroup a:
+          return a.ToConsole();
+        case TargetCreatureGroup a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
@@ -49,6 +52,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this DeclareHouseGroup group)
     {
       return $"Declare house";
+    }
+
+    static string ToConsole(this TargetCreatureGroup group)
+    {
+      return $"Target creature";
     }
   }
 }

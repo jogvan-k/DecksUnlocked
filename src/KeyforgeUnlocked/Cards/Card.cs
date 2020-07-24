@@ -16,12 +16,12 @@ namespace KeyforgeUnlocked.Cards
 
     public CardType CardType { get; }
 
-    public Delegates.Callback PlayAbility { get; }
+    public Callback PlayAbility { get; }
 
     protected Card(
       House house,
       CardType cardType,
-      Delegates.Callback playAbility = null)
+      Callback playAbility = null)
     {
       Id = Guid.NewGuid().ToString("N");
       House = house;

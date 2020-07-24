@@ -1,4 +1,5 @@
 using System;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
@@ -28,6 +29,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case UseCreatureAbility a:
           return a.ToConsole();
         case RemoveStun a:
+          return a.ToConsole();
+        case TargetCreature a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
@@ -78,6 +81,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this RemoveStun action)
     {
       return "Remove stun";
+    }
+    
+    public static string ToConsole(this TargetCreature action)
+    {
+      return $"Target {action.Target.Card.Name}";
     }
   }
 }

@@ -4,10 +4,6 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class NoAction : Action
   {
-    internal override void Validate(IState state)
-    {
-    }
-
     internal override void DoActionNoResolve(MutableState state)
     {
     }

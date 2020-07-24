@@ -11,9 +11,9 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     public Keyword[] Keywords { get; }
 
     public CreatureType[] Types { get; }
-    public Delegates.Callback FightAbility { get; }
-    public Delegates.Callback CreatureAbility { get; }
-    public Delegates.Callback DestroyedAbility { get; }
+    public Callback FightAbility { get; }
+    public Callback CreatureAbility { get; }
+    public Callback DestroyedAbility { get; }
 
     protected CreatureCard(
       House house,
@@ -21,10 +21,10 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       int armor,
       CreatureType[] types = null,
       Keyword[] keywords = null,
-      Delegates.Callback playAbility = null,
-      Delegates.Callback fightAbility = null,
-      Delegates.Callback creatureAbility = null,
-      Delegates.Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
+      Callback playAbility = null,
+      Callback fightAbility = null,
+      Callback creatureAbility = null,
+      Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
     {
       Power = power;
       Armor = armor;

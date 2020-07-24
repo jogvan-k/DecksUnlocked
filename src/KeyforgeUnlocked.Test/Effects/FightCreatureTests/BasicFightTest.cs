@@ -17,10 +17,10 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     bool _targetCreatureFightAbilityResolved;
     bool _targetCreatureDestroyedAbilityResolved;
 
-    Delegates.Callback _fightingCreatureFightAbility;
-    Delegates.Callback _fightingCreatureDestroyedAbility;
-    Delegates.Callback _targetCreatureFightAbility;
-    Delegates.Callback _targetCreatureDestroyedAbility;
+    Callback _fightingCreatureFightAbility;
+    Callback _fightingCreatureDestroyedAbility;
+    Callback _targetCreatureFightAbility;
+    Callback _targetCreatureDestroyedAbility;
 
     static readonly Keyword[] Elusive = {Keyword.Elusive};
     static readonly Keyword[] Skirmish = {Keyword.Skirmish};

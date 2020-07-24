@@ -27,9 +27,9 @@ namespace KeyforgeUnlocked.Creatures
 
     public int Health => Power - Damage;
 
-    public Delegates.Callback FightAbility => Card.FightAbility;
+    public Callback FightAbility => Card.FightAbility;
 
-    public Delegates.Callback DestroyedAbility => Card.DestroyedAbility;
+    public Callback DestroyedAbility => Card.DestroyedAbility;
 
     public Keyword[] Keywords => Card.Keywords;
 
@@ -54,6 +54,7 @@ namespace KeyforgeUnlocked.Creatures
       return Id == other.Id
              && PowerCounters == other.PowerCounters
              && Damage == other.Damage
+             && State == other.State
              && IsReady == other.IsReady;
     }
 
@@ -68,12 +69,13 @@ namespace KeyforgeUnlocked.Creatures
         Id,
         PowerCounters,
         Damage,
+        State,
         IsReady);
     }
 
     public override string ToString()
     {
-      return $"{{{Card.GetType().Name}, Power: {Power}, Armor: {BaseArmor}, Health: {Health}, IsReady: {IsReady} }}";
+      return $"{{{Card.GetType().Name}, Power: {Power}, Armor: {BaseArmor}, Health: {Health}, State: {State} IsReady: {IsReady} }}";
     }
   }
 }

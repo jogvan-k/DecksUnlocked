@@ -25,7 +25,9 @@ namespace KeyforgeUnlocked.Actions
       return mutableState.ResolveEffects();
     }
 
-    internal abstract void Validate(IState state);
+    internal virtual void Validate(IState state)
+    {
+    }
 
     internal abstract void DoActionNoResolve(MutableState state);
   }

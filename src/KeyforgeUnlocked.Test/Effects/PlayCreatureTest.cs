@@ -29,7 +29,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void SetUp()
     {
       _playedEffectResolved = false;
-      Delegates.Callback playAbility = (s, id) => { _playedEffectResolved = true; };
+      Callback playAbility = (s, id) => { _playedEffectResolved = true; };
       PlayedCard = new SampleCreatureCard(PlayAbility: playAbility);
     }
 

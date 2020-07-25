@@ -6,7 +6,8 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     Human,
     Giant,
     Spirit,
+    Beast,
     Thief,
-    Knight
+    Knight,
   }
 }

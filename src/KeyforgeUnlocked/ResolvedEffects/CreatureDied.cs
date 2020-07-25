@@ -9,16 +9,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
     }
 
-    bool Equals(CreatureDied other)
-    {
-      return Equals(Creature, other.Creature);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is CreatureDied other && Equals(other);
-    }
-
     public override int GetHashCode()
     {
       return 7 * Creature.GetHashCode();

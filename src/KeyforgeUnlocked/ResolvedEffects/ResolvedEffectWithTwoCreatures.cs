@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public abstract class ResolvedEffectWithTwoCreatures : ResolvedEffectWithCreature
   {
-    public readonly Creature Target;
+    public Creature Target;
 
     public ResolvedEffectWithTwoCreatures(Creature creature, Creature target) : base(creature)
     {

@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public abstract class ResolvedEffectWithCreature : IResolvedEffect
   {
-    public readonly Creature Creature;
+    public Creature Creature;
 
     protected ResolvedEffectWithCreature(Creature creature)
     {

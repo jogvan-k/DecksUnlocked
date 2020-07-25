@@ -1,7 +1,10 @@
-namespace KeyforgeUnlocked.Cards
+namespace KeyforgeUnlocked.Creatures
 {
   public enum Keyword
   {
-    Skirmish, Elusive, Taunt
+    Skirmish,
+    Elusive,
+    Taunt,
+    Poison
   }
 }

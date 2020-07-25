@@ -27,9 +27,19 @@ namespace KeyforgeUnlocked.Effects
       fighter.IsReady = false;
       if (!target.Keywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(target.Id)))
       {
+        int damageBeforeFight;
         if (!fighter.Keywords.Contains(Keyword.Skirmish))
+        {
+          damageBeforeFight = fighter.Damage;
           fighter = fighter.Damage(target.Power);
+          if (target.Keywords.Contains(Keyword.Poison) && fighter.Damage > damageBeforeFight)
+            fighter.Damage += 1000;
+        }
+
+        damageBeforeFight = target.Damage;
         target = target.Damage(fighter.Power);
+        if (fighter.Keywords.Contains(Keyword.Poison) && target.Damage > damageBeforeFight)
+          target.Damage += 1000;
       }
 
       state.ResolvedEffects.Add(new CreatureFought(fighter, target));

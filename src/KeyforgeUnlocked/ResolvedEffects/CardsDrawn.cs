@@ -30,5 +30,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return NoDrawn;
     }
+
+    public override string ToString()
+    {
+      return $"{NoDrawn} cards drawn";
+    }
   }
 }

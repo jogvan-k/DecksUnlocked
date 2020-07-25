@@ -31,14 +31,6 @@ namespace KeyforgeUnlockedTest.Consistency
       AssertToConsoleFunctionsExists(interf, type);
     }
 
-    [Test]
-    public void ResolvedEffect_AssertToConsoleImplemented()
-    {
-      var interf = typeof(KeyforgeUnlocked.ResolvedEffects.IResolvedEffect);
-      var type = typeof(ResolvedEffectsExtensions);
-      AssertToConsoleFunctionsExists(interf, type);
-    }
-
     void AssertToConsoleFunctionsExists(Type @interface,
       Type type)
     {

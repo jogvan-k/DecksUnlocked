@@ -13,5 +13,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 5 * base.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return $"{Creature.Card.Name} stunned";
+    }
   }
 }

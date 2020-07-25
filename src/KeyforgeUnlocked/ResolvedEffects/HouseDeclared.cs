@@ -28,5 +28,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return (int) House;
     }
+
+    public override string ToString()
+    {
+      return $"House {House} declared.";
+    }
   }
 }

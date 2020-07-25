@@ -30,5 +30,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return HashCode.Combine(StolenAmount, (int) StealingPlayer);
     }
+
+    public override string ToString()
+    {
+      return $"{StealingPlayer} stole {StolenAmount} aember";
+    }
   }
 }

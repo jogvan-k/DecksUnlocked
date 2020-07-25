@@ -30,5 +30,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return HashCode.Combine(Creature, Position);
     }
+
+    public override string ToString()
+    {
+      return $"Played {Creature.Card.Name} on position {Position}";
+    }
   }
 }

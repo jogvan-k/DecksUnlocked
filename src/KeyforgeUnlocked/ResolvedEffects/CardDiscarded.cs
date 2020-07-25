@@ -25,5 +25,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return (Card != null ? Card.GetHashCode() : 0);
     }
+
+    public override string ToString()
+    {
+      return $"Discarded {Card}";
+    }
   }
 }

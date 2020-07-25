@@ -12,5 +12,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 3 * base.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return $"{Creature.Card.Name} reaped";
+    }
   }
 }

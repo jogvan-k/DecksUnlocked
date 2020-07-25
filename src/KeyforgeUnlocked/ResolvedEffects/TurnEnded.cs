@@ -19,5 +19,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 1;
     }
+
+    public override string ToString()
+    {
+      return $"Turn ended";
+    }
   }
 }

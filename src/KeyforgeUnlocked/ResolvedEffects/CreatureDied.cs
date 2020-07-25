@@ -23,5 +23,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 7 * Creature.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return $"{Creature.Card.Name} died";
+    }
   }
 }

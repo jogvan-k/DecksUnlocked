@@ -14,5 +14,11 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 3 * base.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return
+        $"{Creature.Card.Name} (power: {Creature.Power}) attacked {Target.Card.GetType().Name} (power: {Target.Power})";
+    }
   }
 }

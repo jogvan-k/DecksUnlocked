@@ -13,5 +13,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return 2 * base.GetHashCode();
     }
+
+    public override string ToString()
+    {
+      return $"{Creature.Card.Name} swapped position with {Target.Card.Name}";
+    }
   }
 }

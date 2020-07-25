@@ -26,5 +26,10 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
       return KeyCost;
     }
+
+    public override string ToString()
+    {
+      return $"Key forged for {KeyCost} Æmber";
+    }
   }
 }

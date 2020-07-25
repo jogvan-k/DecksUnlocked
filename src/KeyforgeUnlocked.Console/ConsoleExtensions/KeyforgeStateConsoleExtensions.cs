@@ -37,7 +37,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         Console.WriteLine();
       foreach (var effect in state.ResolvedEffects)
       {
-        Console.WriteLine(effect.ToConsole());
+        Console.WriteLine(effect.ToString());
       }
     }
 
@@ -134,7 +134,6 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       var endAction = state.ActionGroups.SingleOrDefault(a => a.IsActionEndTurn());
       var declareHouse = state.ActionGroups.SingleOrDefault(a => a.IsDeclareHouse());
       Console.WriteLine();
-      Console.WriteLine("Additional actions: ");
       if (specialActions != default)
       {
         commands.Add("action", specialActions);

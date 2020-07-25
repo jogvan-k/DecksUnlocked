@@ -137,7 +137,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       if (specialActions != default)
       {
         commands.Add("action", specialActions);
-        Console.Write("[Action]");
+        int i = 1;
+        foreach (var action in specialActions.Actions)
+        {
+          Console.WriteLine($"{i++}: {action.ToConsole()}");
+        }
       }
       if (endAction != default)
       {
@@ -160,7 +164,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsSpecialActionGroup(this IActionGroup group)
     {
-      return group is TargetCreatureGroup;
+      return group is ResolveEffectActionGroup;
     }
 
     static bool IsActionsRelatedToCard(

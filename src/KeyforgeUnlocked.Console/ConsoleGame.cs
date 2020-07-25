@@ -29,7 +29,14 @@ namespace KeyforgeUnlockedConsole
         Commands = commands;
 
         var command = ReadCommand();
-        ResolveCommand(Commands[command]);
+        if (int.TryParse(command, out var i))
+        {
+          _state = Commands["action"].Actions[i - 1].DoAction(_state);
+        }
+        else
+        {
+          ResolveCommand(Commands[command]);
+        }
       }
 
       Console.Clear();
@@ -44,12 +51,17 @@ namespace KeyforgeUnlockedConsole
       {
         Console.Write("Action: ");
         var command = Console.ReadLine().ToLower();
-        if (HelperCommands.Keys.Contains(command))
+        if (Commands.Keys.Contains("action"))
+        {
+          if (int.TryParse(command, out var i) && 0 < i && i <= Commands["action"].Actions.Count)
+            return command;
+        }
+        else if (HelperCommands.Keys.Contains(command))
           HelperCommands[command].Print(_state);
         else if (Commands.Keys.Contains(command))
           return command;
-        else
-          Console.WriteLine($"Invalid command: {command}");
+
+        Console.WriteLine($"Invalid command: {command}");
       }
     }
 

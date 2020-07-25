@@ -7,7 +7,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class TargetCreatureGroup : ActionGroupBase
+  public sealed class TargetCreatureGroup : ResolveEffectActionGroup
   {
     readonly IImmutableList<Action> actions;
 

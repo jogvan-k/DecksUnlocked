@@ -31,9 +31,11 @@ namespace KeyforgeUnlocked.ActionGroups
         return actions.Add(new RemoveStun(Creature));
       }
 
-      foreach (var targetCreature in _opponentCreatures)
+      for (int i = 0; i < _opponentCreatures.Count; i++)
       {
-        actions = actions.Add(new FightCreature(Creature, targetCreature));
+        var opponentCreature = _opponentCreatures[i];
+        if (opponentCreature.HasTaunt() || !NeighboursHasTaunt(i))
+          actions = actions.Add(new FightCreature(Creature, opponentCreature));
       }
 
       if (Creature.Card.CreatureAbility != null)
@@ -44,6 +46,16 @@ namespace KeyforgeUnlocked.ActionGroups
       actions = actions.Add(new Reap(Creature));
 
       return actions;
+    }
+
+    bool NeighboursHasTaunt(int i)
+    {
+      return ExistsAndHasTaunt(i - 1) || ExistsAndHasTaunt(i + 1);
+    }
+
+    bool ExistsAndHasTaunt(int i)
+    {
+      return i >= 0 && i < _opponentCreatures.Count && _opponentCreatures[i].HasTaunt();
     }
   }
 }

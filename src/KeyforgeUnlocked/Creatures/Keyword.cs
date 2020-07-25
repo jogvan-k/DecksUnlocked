@@ -2,6 +2,6 @@ namespace KeyforgeUnlocked.Cards
 {
   public enum Keyword
   {
-    Skirmish, Elusive
+    Skirmish, Elusive, Taunt
   }
 }

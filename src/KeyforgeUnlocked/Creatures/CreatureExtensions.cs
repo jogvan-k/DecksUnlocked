@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Creatures
 {
@@ -24,6 +26,11 @@ namespace KeyforgeUnlocked.Creatures
     public static bool IsEnraged(this Creature creature)
     {
       return (creature.State & CreatureState.Enraged) != 0;
+    }
+    
+    public static bool HasTaunt(this Creature creature)
+    {
+      return creature.Card.Keywords.Contains(Keyword.Taunt);
     }
   }
 }

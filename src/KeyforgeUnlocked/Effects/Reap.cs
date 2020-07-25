@@ -13,6 +13,7 @@ namespace KeyforgeUnlocked.Effects
     protected override void SpecificResolve(MutableState state)
     {
       state.Aember[state.PlayerTurn]++;
+      Creature.Card.ReapAbility?.Invoke(state, Creature.Id);
       state.ResolvedEffects.Add(new Reaped(Creature));
     }
 

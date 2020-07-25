@@ -3,29 +3,16 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureFought : ResolvedEffectWithCreature
+  public sealed class CreatureFought : ResolvedEffectWithTwoCreatures
   {
-    public readonly Creature Target;
-
     public CreatureFought(Creature fighter,
-      Creature target) : base(fighter)
+      Creature target) : base(fighter, target)
     {
-      Target = target;
-    }
-
-    bool Equals(CreatureFought other)
-    {
-      return base.Equals(other) && Equals(Target, other.Target);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is CreatureFought other && Equals(other);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Creature, Target);
+      return 3 * base.GetHashCode();
     }
   }
 }

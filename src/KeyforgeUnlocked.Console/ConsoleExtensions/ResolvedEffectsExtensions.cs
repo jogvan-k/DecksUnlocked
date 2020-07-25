@@ -35,6 +35,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return e.ToConsole();
         case StunRemoved e:
           return e.ToConsole();
+        case CreaturesSwapped e:
+          return e.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -103,6 +105,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this StunRemoved effect)
     {
       return $"Stun removed from {effect.Creature.Card.Name}";
+    }
+
+    static string ToConsole(this CreaturesSwapped effect)
+    {
+      return $"{effect.Creature.Card.Name} swapped position with {effect.Target.Card.Name}";
     }
   }
 }

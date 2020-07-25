@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -14,11 +15,21 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class ReapTest
   {
-    static readonly CreatureCard CreatureCard = new SampleCreatureCard();
+    bool _reapAbilityResolved;
+    readonly CreatureCard _creatureCard;
     static readonly CreatureCard OtherCreatureCard1 = new SampleCreatureCard();
     static readonly CreatureCard OtherCreatureCard2 = new SampleCreatureCard();
-    static readonly Creature creature = new Creature(CreatureCard, isReady: true);
-    readonly Reap sut = new Reap(creature);
+    readonly Creature _creature;
+    Reap _sut;
+
+    public ReapTest()
+    {
+      _reapAbilityResolved = false;
+      Callback reapAbility = (mutableState, id) => _reapAbilityResolved = true;
+      _creatureCard = new SampleCreatureCard(reapAbility: reapAbility);
+      _creature = new Creature(_creatureCard, isReady: true);
+      _sut = new Reap(_creature);
+    }
 
     [Test]
     public void Resolve_EmptyBoard_CreatureNotPresentException()
@@ -27,11 +38,11 @@ namespace KeyforgeUnlockedTest.Effects
 
       try
       {
-        sut.Resolve(state);
+        _sut.Resolve(state);
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(creature.Id, e.CreatureId);
+        Assert.AreEqual(_creature.Id, e.CreatureId);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -47,11 +58,11 @@ namespace KeyforgeUnlockedTest.Effects
         {
           {
             Player.Player1,
-            new List<Creature> {new Creature(CreatureCard)}
+            new List<Creature> {new Creature(_creatureCard)}
           },
           {Player.Player2, new List<Creature>()}
         });
-      var sut = new Reap(new Creature(CreatureCard));
+      var sut = new Reap(new Creature(_creatureCard));
 
       try
       {
@@ -59,7 +70,7 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotReadyException e)
       {
-        Assert.AreEqual(new Creature(CreatureCard), e.Creature);
+        Assert.AreEqual(new Creature(_creatureCard), e.Creature);
         Assert.AreSame(state, e.State);
         return;
       }
@@ -77,7 +88,7 @@ namespace KeyforgeUnlockedTest.Effects
             Player.Player1,
             new List<Creature>
             {
-              new Creature(CreatureCard, isReady: true),
+              new Creature(_creatureCard, isReady: true),
               new Creature(OtherCreatureCard1, isReady: true)
             }
           },
@@ -90,7 +101,7 @@ namespace KeyforgeUnlockedTest.Effects
           }
         });
 
-      sut.Resolve(state);
+      _sut.Resolve(state);
 
       var expectedField = new Dictionary<Player, IList<Creature>>
       {
@@ -98,7 +109,7 @@ namespace KeyforgeUnlockedTest.Effects
           Player.Player1,
           new List<Creature>
           {
-            new Creature(CreatureCard),
+            new Creature(_creatureCard),
             new Creature(OtherCreatureCard1, isReady: true)
           }
         },
@@ -110,12 +121,13 @@ namespace KeyforgeUnlockedTest.Effects
           }
         }
       };
-      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(creature)};
+      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(_creature)};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);
 
       StateAsserter.StateEquals(expectedState, state);
+      Assert.True(_reapAbilityResolved);
     }
   }
 }

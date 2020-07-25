@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -60,6 +61,30 @@ namespace KeyforgeUnlocked.States
         DestroyCreature(state, creature);
         creature.DestroyedAbility?.Invoke(state, creature.Id);
       }
+    }
+
+    public static void SwapCreatures(
+      this MutableState state,
+      string creatureId,
+      string targetId)
+    {
+      foreach (var player in state.Fields.Keys)
+      {
+        var field = state.Fields[player];
+        var ci = field.Index(creatureId);
+        if (ci == -1)
+          continue;
+        var ti = field.Index(targetId);
+        if (ti == -1)
+          throw new CreatureNotPresentException(state, targetId);
+        var creature = field[ci];
+        var target = field[ti];
+        field[ti] = creature;
+        field[ci] = target;
+        return;
+      }
+
+      throw new CreatureNotPresentException(state, creatureId);
     }
 
     public static void SetCreature(

@@ -21,14 +21,6 @@ namespace KeyforgeUnlocked.Types
       Cards = cards.ToImmutableList();
     }
 
-    public static Deck LoadDeck()
-    {
-      return new Deck(
-        Enumerable.Range(0, 12).SelectMany(
-            i => new[] {(Card) new LogosCreatureCard(), new StarAllianceCreatureCard(), new UntamedCreatureCard()})
-          .ToList());
-    }
-
     public static Deck LoadDeckFromFile(string filename)
     {
       var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", "Sample.txt");

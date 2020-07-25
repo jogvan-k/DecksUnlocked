@@ -13,9 +13,10 @@ namespace KeyforgeUnlockedTest.Util
       int armor = 0,
       CreatureType[] types = null,
       Keyword[] keywords = null,
-      Callback PlayAbility = null,
+      Callback playAbility = null,
       Callback fightAbility = null,
       Callback creatureAbility = null,
+      Callback reapAbility = null,
       Callback destroyedAbility = null)
       : base(
         house,
@@ -23,9 +24,10 @@ namespace KeyforgeUnlockedTest.Util
         armor,
         types,
         keywords,
-        PlayAbility,
+        playAbility,
         fightAbility,
         creatureAbility,
+        reapAbility,
         destroyedAbility)
     {
     }

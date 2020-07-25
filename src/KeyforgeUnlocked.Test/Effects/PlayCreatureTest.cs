@@ -30,7 +30,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       _playedEffectResolved = false;
       Callback playAbility = (s, id) => { _playedEffectResolved = true; };
-      PlayedCard = new SampleCreatureCard(PlayAbility: playAbility);
+      PlayedCard = new SampleCreatureCard(playAbility: playAbility);
     }
 
     [TestCase(Player.Player1)]

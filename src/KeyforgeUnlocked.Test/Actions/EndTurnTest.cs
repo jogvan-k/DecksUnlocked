@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Actions
       var sut = new KeyforgeUnlocked.Actions.EndTurn();
 
       var expectedEffects = new StackQueue<IEffect>();
-      expectedEffects.Enqueue(new ReadyCards());
+      expectedEffects.Enqueue(new ReadyCardsAndRestoreArmor());
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new EndTurn());
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);

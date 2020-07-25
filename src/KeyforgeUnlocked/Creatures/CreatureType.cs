@@ -5,6 +5,8 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     Elf,
     Human,
     Giant,
-    Thief
+    Spirit,
+    Thief,
+    Knight
   }
 }

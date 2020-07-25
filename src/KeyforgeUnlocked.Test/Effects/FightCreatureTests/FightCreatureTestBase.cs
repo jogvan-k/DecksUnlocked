@@ -13,10 +13,12 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
   {
     protected MutableState SetupAndAct(
       SampleCreatureCard fightingCreatureCard,
-      SampleCreatureCard targetCreatureCard)
+      SampleCreatureCard targetCreatureCard,
+      int fightingCreatureBrokenArmor = 0,
+      int targetCreatureBrokenArmor = 0)
     {
-      var fightingCreature = new Creature(fightingCreatureCard, isReady: true);
-      var targetCreature = new Creature(targetCreatureCard, isReady: true);
+      var fightingCreature = new Creature(fightingCreatureCard, isReady: true, brokenArmor: fightingCreatureBrokenArmor);
+      var targetCreature = new Creature(targetCreatureCard, isReady: true, brokenArmor: targetCreatureBrokenArmor);
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
       var sut = new FightCreature(fightingCreature, targetCreature);
@@ -26,10 +28,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       return state;
     }
 
-    protected MutableState ExpectedState(
-      Creature expectedFighter,
-      Creature expectedTarget,
-      params IResolvedEffect[] preResolvedEffects)
+    protected MutableState ExpectedState(Creature expectedFighter,
+      Creature expectedTarget)
     {
       var fighterDead = expectedFighter.Health <= 0;
       var targetDead = expectedTarget.Health <= 0;
@@ -41,7 +41,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         fighterDead ? new[] {expectedFighter.Card} : Enumerable.Empty<Card>(),
         targetDead ? new[] {expectedTarget.Card} : Enumerable.Empty<Card>());
 
-      var resolvedEffects = new List<IResolvedEffect>(preResolvedEffects);
+      var resolvedEffects = new List<IResolvedEffect>{new CreatureFought(expectedFighter, expectedTarget)};
+
       if (fighterDead)
       {
         resolvedEffects.Add(new CreatureDied(expectedFighter));

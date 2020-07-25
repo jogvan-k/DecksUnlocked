@@ -1,4 +1,3 @@
-using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -48,10 +47,9 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 3);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 2, isReady: true);
-      var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
-      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
 
-      Assert(expectedState, state, false, true, false);
+      Assert(expectedState, state, true, false);
     }
 
     [Test]
@@ -64,9 +62,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 2);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3, isReady: true);
-      var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
-      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true, false, true);
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
+      Assert(expectedState, state, false, true);
     }
 
     [Test]
@@ -79,55 +76,87 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 3);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3, isReady: true);
-      var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
-      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, false, true, true);
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
+      Assert(expectedState, state, true, true);
     }
 
     [Test]
     public void Resolve_AttackerHasAssault()
     {
-      var fightingCreatureCard = InstantiateFightingCreatureCard(2, Skirmish);
-      var targetCreatureCard = InstantiateTargetCreatureCard(3, Skirmish);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(2, 0, Skirmish);
+      var targetCreatureCard = InstantiateTargetCreatureCard(3, 0, Skirmish);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
       var expectedFigthingCreature = new Creature(fightingCreatureCard);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 2, isReady: true);
-      var targetFoughtResolvedEffect = new CreatureFought(expectedFigthingCreature, expectedTargetCreature);
-      var expectedState = ExpectedState(expectedFigthingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true, false, false);
+      var expectedState = ExpectedState(expectedFigthingCreature, expectedTargetCreature);
+      Assert(expectedState, state, false, false);
     }
 
     [Test]
     public void Resolve_TargetIsElusive_NoDamageDealt()
     {
       var fightingCreatureCard = InstantiateFightingCreatureCard(3);
-      var targetCreatureCard = InstantiateTargetCreatureCard(2, Elusive);
+      var targetCreatureCard = InstantiateTargetCreatureCard(2, 0, Elusive);
 
       var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
 
       var expectedFightingCreature = new Creature(fightingCreatureCard);
       var expectedTargetCreature = new Creature(targetCreatureCard, isReady: true);
-      var targetFoughtResolvedEffect = new CreatureFought(expectedFightingCreature, expectedTargetCreature);
 
-      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature, targetFoughtResolvedEffect);
-      Assert(expectedState, state, true, false, false);
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
+      Assert(expectedState, state, false, false);
     }
 
-    SampleCreatureCard InstantiateFightingCreatureCard(int power, Keyword[] keywords = null)
+    [Test]
+    public void Resolve_CreaturesHaveArmor()
     {
-      return new SampleCreatureCard(power: power, fightAbility: _fightingCreatureFightAbility, destroyedAbility: _fightingCreatureDestroyedAbility, keywords: keywords);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(3, 1);
+      var targetCreatureCard = InstantiateFightingCreatureCard(3, 4);
+
+      var state = SetupAndAct(fightingCreatureCard, targetCreatureCard);
+
+      var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 2, brokenArmor: 1);
+      var expectedTargetCreature = new Creature(targetCreatureCard, brokenArmor: 3, isReady: true);
+
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
+      Assert(expectedState, state, false, false);
     }
 
-    SampleCreatureCard InstantiateTargetCreatureCard(int power, Keyword[] keywords = null)
+    [Test]
+    public void Resolve_CreaturesHaveBrokenArmor()
     {
-      return new SampleCreatureCard(power: power, fightAbility: _targetCreatureFightAbility, destroyedAbility: _targetCreatureDestroyedAbility, keywords: keywords);
+      var fightingCreatureCard = InstantiateFightingCreatureCard(3, 1);
+      var targetCreatureCard = InstantiateFightingCreatureCard(3, 4);
+
+      var state = SetupAndAct(fightingCreatureCard, targetCreatureCard, 1, 3);
+
+      var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 3, brokenArmor: 1);
+      var expectedTargetCreature = new Creature(targetCreatureCard, damage: 2, brokenArmor: 4, isReady: true);
+
+      var expectedState = ExpectedState(expectedFightingCreature, expectedTargetCreature);
+      Assert(expectedState, state, true, false);
     }
 
-    void Assert(IState expectedState, IState actualState, bool expectFighterAbilityTriggered, bool expectedFighterDead, bool expectedTargetDead)
+    SampleCreatureCard InstantiateFightingCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
     {
-      NUnit.Framework.Assert.AreEqual(expectFighterAbilityTriggered, _fightingCreatureFightAbilityResolved);
+      return new SampleCreatureCard(
+        power: power, armor: armor, fightAbility: _fightingCreatureFightAbility,
+        destroyedAbility: _fightingCreatureDestroyedAbility, keywords: keywords);
+    }
+
+    SampleCreatureCard InstantiateTargetCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
+    {
+      return new SampleCreatureCard(
+        power: power, armor: armor, fightAbility: _targetCreatureFightAbility,
+        destroyedAbility: _targetCreatureDestroyedAbility, keywords: keywords);
+    }
+
+    void Assert(IState expectedState, IState actualState, bool expectedFighterDead,
+      bool expectedTargetDead)
+    {
+      NUnit.Framework.Assert.AreEqual(!expectedFighterDead, _fightingCreatureFightAbilityResolved);
       NUnit.Framework.Assert.False(_targetCreatureFightAbilityResolved);
       NUnit.Framework.Assert.AreEqual(expectedFighterDead, _fightingCreatureDestroyedAbilityResolved);
       NUnit.Framework.Assert.AreEqual(expectedTargetDead, _targetCreatureDestroyedAbilityResolved);

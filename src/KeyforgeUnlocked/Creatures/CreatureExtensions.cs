@@ -1,10 +1,14 @@
+using System;
+
 namespace KeyforgeUnlocked.Creatures
 {
   public static class CreatureExtensions
   {
     public static Creature Damage(this Creature creature, int damage)
     {
-      creature.Damage += damage;
+      var brokenArmor = Math.Min(creature.Armor, damage);
+      creature.BrokenArmor += brokenArmor;
+      creature.Damage += damage - brokenArmor;
       return creature;
     }
     public static bool IsStunned(this Creature creature)

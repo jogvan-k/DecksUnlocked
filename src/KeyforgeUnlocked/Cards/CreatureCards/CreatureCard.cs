@@ -6,14 +6,15 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
 {
   public abstract class CreatureCard : Card
   {
-    public int Power { get; }
-    public int Armor { get; }
-    public Keyword[] Keywords { get; }
+    public int Power;
+    public int Armor;
+    public Keyword[] Keywords;
 
-    public CreatureType[] Types { get; }
-    public Callback FightAbility { get; }
-    public Callback CreatureAbility { get; }
-    public Callback DestroyedAbility { get; }
+    public CreatureType[] Types;
+    public Callback FightAbility;
+    public Callback CreatureAbility;
+    public readonly Callback ReapAbility;
+    public Callback DestroyedAbility;
 
     protected CreatureCard(
       House house,
@@ -24,6 +25,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       Callback playAbility = null,
       Callback fightAbility = null,
       Callback creatureAbility = null,
+      Callback reapAbility = null,
       Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
     {
       Power = power;
@@ -32,6 +34,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
       Types = types ?? new CreatureType[0];
       FightAbility = fightAbility;
       CreatureAbility = creatureAbility;
+      ReapAbility = reapAbility;
       DestroyedAbility = destroyedAbility;
     }
 

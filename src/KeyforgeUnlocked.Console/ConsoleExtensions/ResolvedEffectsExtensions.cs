@@ -1,6 +1,5 @@
 using System;
 using KeyforgeUnlocked.ResolvedEffects;
-using KeyforgeUnlockedTest.Effects;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
@@ -78,7 +77,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static string ToConsole(this CreatureFought effect)
     {
-      return $"{effect.Fighter.Card.Name} (power: {effect.Fighter.Power}) attacked {effect.Target.Card.GetType().Name} (power: {effect.Target.Power})";
+      return $"{effect.Creature.Card.Name} (power: {effect.Creature.Power}) attacked {effect.Target.Card.GetType().Name} (power: {effect.Target.Power})";
     }
 
     static string ToConsole(this CreatureDied effect)
@@ -88,12 +87,12 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static string ToConsole(this AemberStolen effect)
     {
-      return $"{effect.stealingPlayer} stole {effect.stolenAmount} aember";
+      return $"{effect.StealingPlayer} stole {effect.StolenAmount} aember";
     }
 
     static string ToConsole(this CardReturnedToHand effect)
     {
-      return $"{effect.card.Name} returned to hand";
+      return $"{effect.Card.Name} returned to hand";
     }
 
     static string ToConsole(this CreatureStunned effect)

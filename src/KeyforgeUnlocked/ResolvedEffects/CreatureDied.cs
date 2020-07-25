@@ -1,15 +1,12 @@
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.ResolvedEffects;
 
-namespace KeyforgeUnlockedTest.Effects
+namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureDied : IResolvedEffect
+  public sealed class CreatureDied : ResolvedEffectWithCreature
   {
-    public readonly Creature Creature;
 
-    public CreatureDied(Creature creature)
+    public CreatureDied(Creature creature) : base(creature)
     {
-      Creature = creature;
     }
 
     bool Equals(CreatureDied other)
@@ -24,7 +21,7 @@ namespace KeyforgeUnlockedTest.Effects
 
     public override int GetHashCode()
     {
-      return Creature.GetHashCode();
+      return 7 * Creature.GetHashCode();
     }
   }
 }

@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class CardsDrawn : IResolvedEffect
   {
-    public int NoDrawn { get; }
+    public readonly int NoDrawn;
 
     public CardsDrawn(int noDrawn)
     {

@@ -2,28 +2,15 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class StunRemoved : IResolvedEffect
+  public sealed class StunRemoved : ResolvedEffectWithCreature
   {
-    public Creature Creature;
-
-    public StunRemoved(Creature creature)
+    public StunRemoved(Creature creature) : base(creature)
     {
-      Creature = creature;
-    }
-
-    bool Equals(StunRemoved other)
-    {
-      return Creature.Equals(other.Creature);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is StunRemoved other && Equals(other);
     }
 
     public override int GetHashCode()
     {
-      return Creature.GetHashCode();
+      return 2 * base.GetHashCode();
     }
   }
 }

@@ -27,8 +27,8 @@ namespace KeyforgeUnlocked.Effects
       if (!target.Keywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(target.Id)))
       {
         if (!fighter.Keywords.Contains(Keyword.Skirmish))
-          fighter.Damage += target.Power;
-        target.Damage += fighter.Power;
+          fighter = fighter.Damage(target.Power);
+        target = target.Damage(fighter.Power);
       }
 
       fighter.IsReady = false;

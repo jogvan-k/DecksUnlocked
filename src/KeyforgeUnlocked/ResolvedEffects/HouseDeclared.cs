@@ -4,12 +4,12 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public class HouseDeclared : IResolvedEffect
   {
+    public readonly House House;
+
     public HouseDeclared(House house)
     {
       House = house;
     }
-
-    public House House { get; }
 
     protected bool Equals(HouseDeclared other)
     {

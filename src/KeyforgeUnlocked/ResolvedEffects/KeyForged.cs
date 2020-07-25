@@ -2,7 +2,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class KeyForged : IResolvedEffect
   {
-    public int KeyCost;
+    public readonly int KeyCost;
 
     public KeyForged(int keyCost)
     {

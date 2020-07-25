@@ -4,11 +4,11 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class CardReturnedToHand : IResolvedEffect
   {
-    public Card card { get; }
+    public readonly Card Card;
 
     public CardReturnedToHand(Card card)
     {
-      this.card = card;
+      this.Card = card;
     }
   }
 }

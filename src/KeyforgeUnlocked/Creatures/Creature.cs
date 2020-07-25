@@ -49,7 +49,7 @@ namespace KeyforgeUnlocked.Creatures
       State = state;
     }
 
-    public bool Equals(Creature other)
+    public readonly bool Equals(Creature other)
     {
       return Id == other.Id
              && PowerCounters == other.PowerCounters

@@ -3,22 +3,19 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreaturePlayed : IResolvedEffect
+  public sealed class CreaturePlayed : ResolvedEffectWithCreature
   {
-    public Creature Creature { get; }
-
-    public int Position { get; }
+    public readonly int Position;
 
     public CreaturePlayed(Creature creature,
-      int position)
+      int position) : base(creature)
     {
-      Creature = creature;
       Position = position;
     }
 
     bool Equals(CreaturePlayed other)
     {
-      return Equals(Creature, other.Creature) && Position == other.Position;
+      return base.Equals(other) && Position == other.Position;
     }
 
     public override bool Equals(object obj)

@@ -5,20 +5,20 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class AemberStolen : IResolvedEffect
   {
-    public Player stealingPlayer;
-    public int stolenAmount;
+    public readonly Player StealingPlayer;
+    public readonly int StolenAmount;
 
     public AemberStolen(Player stealingPlayer, int stolenAmount)
     {
       if (stolenAmount < 0)
         throw new ArgumentOutOfRangeException(nameof(stolenAmount));
-      this.stealingPlayer = stealingPlayer;
-      this.stolenAmount = stolenAmount;
+      StealingPlayer = stealingPlayer;
+      StolenAmount = stolenAmount;
     }
 
     bool Equals(AemberStolen other)
     {
-      return stolenAmount == other.stolenAmount && stealingPlayer == other.stealingPlayer;
+      return StolenAmount == other.StolenAmount && StealingPlayer == other.StealingPlayer;
     }
 
     public override bool Equals(object obj)
@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(stolenAmount, (int) stealingPlayer);
+      return HashCode.Combine(StolenAmount, (int) StealingPlayer);
     }
   }
 }

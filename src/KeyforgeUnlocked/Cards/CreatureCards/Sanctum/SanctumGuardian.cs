@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Sanctum
 
     static Callback fightReapAbility = (s, self) =>
     {
-      s.Effects.Push(new TargetCreature(Delegates.SwapCreatures(self), Delegates.AlliesOf(self)));
+      s.Effects.Push(new TargetSingleCreature(Delegates.SwapCreatures(self), Delegates.AlliesOf(self)));
     };
 
     public static string SpecialName = "Sanctum Guardian";

@@ -4,6 +4,7 @@ using System.Linq;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -62,6 +63,7 @@ namespace KeyforgeUnlockedTest.States
       state.SwapCreatures(_playerCreature1.Id, _playerCreature3.Id);
 
       var expectedState = SetupState(_playerCreature3, _playerCreature2, _playerCreature1, _opponentCreature);
+      expectedState.ResolvedEffects.Add(new CreaturesSwapped(_playerCreature1, _playerCreature3));
       StateAsserter.StateEquals(expectedState, state);
     }
 

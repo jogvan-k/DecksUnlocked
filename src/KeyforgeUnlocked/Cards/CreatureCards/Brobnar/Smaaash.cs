@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
     static CreatureType[] creatureTypes = {CreatureType.Giant};
     static Callback playAbility = (s, id) =>
     {
-      s.Effects.Push(new TargetCreature(Delegates.StunCreature, Delegates.All));
+      s.Effects.Push(new TargetSingleCreature(Delegates.StunCreature, Delegates.All));
     };
 
     public Smaaash() : this(House.Brobnar)

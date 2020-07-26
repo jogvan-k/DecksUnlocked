@@ -6,12 +6,12 @@ using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class TargetCreature : IEffect
+  public sealed class TargetSingleCreature : IEffect
   {
     EffectOnCreature _effect;
     ValidOn _validOn;
 
-    public TargetCreature(EffectOnCreature effect, ValidOn validOn)
+    public TargetSingleCreature(EffectOnCreature effect, ValidOn validOn)
     {
       _effect = effect;
       _validOn = validOn;

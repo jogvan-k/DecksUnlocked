@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
@@ -10,25 +11,25 @@ using UnlockedCore.States;
 namespace KeyforgeUnlockedTest.Effects
 {
   [TestFixture]
-  sealed class TargetCreatureTest
+  sealed class TargetSingleCreatureTest
   {
     Creature playerOneCreature = new Creature(new SampleCreatureCard());
     Creature playerTwoCreature = new Creature(new SampleCreatureCard());
 
     [Test]
-    public void Resolve_TwoValidTarets_CreateActions()
+    public void Resolve_TwoValidTargets_CreateActions()
     {
       var state = Setup();
       EffectOnCreature effectOnCreature = (s, c) => { };
-      var sut = new TargetCreature(effectOnCreature, Delegates.All);
+      var sut = new TargetSingleCreature(effectOnCreature, Delegates.All);
 
       sut.Resolve(state);
 
       var expectedActionGroup = new TargetCreatureGroup(
         new[]
         {
-          new KeyforgeUnlocked.Actions.TargetCreature(effectOnCreature, playerTwoCreature),
-          new KeyforgeUnlocked.Actions.TargetCreature(effectOnCreature, playerOneCreature)
+          new TargetCreature(effectOnCreature, playerTwoCreature),
+          new TargetCreature(effectOnCreature, playerOneCreature)
         });
 
       var expectedState = Setup().New(actionGroups: new IActionGroup[]{expectedActionGroup});
@@ -38,13 +39,13 @@ namespace KeyforgeUnlockedTest.Effects
 
     [TestCase(Player.Player1)]
     [TestCase(Player.Player2)]
-    public void Resolve_OneValidTaret_DoEffectOnTarget(Player targetPlayerCreature)
+    public void Resolve_OneValidTarget_DoEffectOnTarget(Player targetPlayerCreature)
     {
       var state = Setup();
       Creature target = default;
       EffectOnCreature effect = (s, c) => target = c;
       ValidOn validOn = (s, c) => state.ControllingPlayer(c).Equals(targetPlayerCreature);
-      var sut = new TargetCreature(effect, validOn);
+      var sut = new TargetSingleCreature(effect, validOn);
 
       sut.Resolve(state);
 
@@ -54,13 +55,13 @@ namespace KeyforgeUnlockedTest.Effects
     }
 
     [Test]
-    public void Resolve_NoValidTarets_NoEffect()
+    public void Resolve_NoValidTargets_NoEffect()
     {
       var state = Setup();
       bool effectResolved = false;
       EffectOnCreature effect = (s, c) => effectResolved = true;
       ValidOn validOn = (s, c) => false;
-      var sut = new TargetCreature(effect, validOn);
+      var sut = new TargetSingleCreature(effect, validOn);
 
       sut.Resolve(state);
 

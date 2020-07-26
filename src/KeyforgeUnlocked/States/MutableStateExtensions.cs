@@ -50,6 +50,15 @@ namespace KeyforgeUnlocked.States
       state.ResolvedEffects.Add(new CardReturnedToHand(card));
     }
 
+    public static void ReturnCreatureToHand(
+      this MutableState state,
+      Creature creature)
+    {
+      var owningPlayer = state.RemoveCreature(creature);
+      state.Hands[owningPlayer].Add(creature.Card);
+      state.ResolvedEffects.Add(new CreatureReturnedToHand(creature));
+    }
+
     public static void UpdateCreature(
       this MutableState state,
       Creature creature)
@@ -81,6 +90,8 @@ namespace KeyforgeUnlocked.States
         var target = field[ti];
         field[ti] = creature;
         field[ci] = target;
+
+        state.ResolvedEffects.Add(new CreaturesSwapped(creature, target));
         return;
       }
 
@@ -111,13 +122,13 @@ namespace KeyforgeUnlocked.States
       this MutableState state,
       Creature creature)
     {
-      var owningPlayer = RemoveCreature(state, creature);
+      var owningPlayer = state.RemoveCreature(creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
     }
 
     static Player RemoveCreature(
-      MutableState state,
+      this MutableState state,
       Creature creature)
     {
       foreach (var player in state.Fields.Keys)

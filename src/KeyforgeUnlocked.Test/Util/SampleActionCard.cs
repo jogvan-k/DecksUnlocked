@@ -1,0 +1,13 @@
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.Types;
+
+namespace KeyforgeUnlockedTest.Util
+{
+  public sealed class SampleActionCard : ActionCard
+  {
+    public SampleActionCard(House house = House.Undefined, Callback playAbility = null) : base(house, playAbility)
+    {
+    }
+  }
+}

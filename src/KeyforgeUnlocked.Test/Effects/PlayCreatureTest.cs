@@ -38,16 +38,13 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_EmptyBoard(Player playingPlayer)
     {
       var state = TestState(playingPlayer);
-      var sut = new PlayCreature(
-        PlayedCard,
-        0);
+      var sut = new PlayCreatureCard(PlayedCard, 0);
 
       sut.Resolve(state);
 
       var expectedState = TestState(playingPlayer);
       var expectedCreature = new Creature(PlayedCard);
       expectedState.Fields[playingPlayer].Add(expectedCreature);
-      expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
@@ -58,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_EmptyBoard_InvalidPosition(int position)
     {
       var state = StateTestUtil.EmptyMutableState;
-      var sut = new PlayCreature(
+      var sut = new PlayCreatureCard(
         PlayedCard,
         position);
       try
@@ -74,26 +71,6 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.Fail();
     }
 
-    [Test]
-    public void Resolve_EmptyBoard_CardNotPresentInHand()
-    {
-      var state = StateTestUtil.EmptyMutableState;
-      var sut = new PlayCreature(
-        PlayedCard,
-        0);
-
-      try
-      {
-        sut.Resolve(state);
-      }
-      catch (CardNotPresentException)
-      {
-        return;
-      }
-
-      Assert.Fail();
-    }
-
     [TestCase(0)]
     [TestCase(1)]
     [TestCase(2)]
@@ -101,14 +78,13 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var playingPlayer = Player.Player2;
       var state = StateWithTwoCreatures(playingPlayer);
-      var sut = new PlayCreature(PlayedCard, position);
+      var sut = new PlayCreatureCard(PlayedCard, position);
 
       sut.Resolve(state);
 
       var expectedState = StateWithTwoCreatures(playingPlayer);
       var expectedCreature = new Creature(PlayedCard);
       expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
-      expectedState.Hands[playingPlayer].Remove(PlayedCard);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
@@ -119,7 +95,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_TwoCreaturesOnBoard_InvalidPosition(int position)
     {
       var state = StateWithTwoCreatures(Player.Player2);
-      var sut = new PlayCreature(PlayedCard, position);
+      var sut = new PlayCreatureCard(PlayedCard, position);
 
       try
       {
@@ -138,7 +114,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var hands = new Dictionary<Player, ISet<Card>>
       {
-        {playingPlayer, new HashSet<Card> {PlayedCard, otherCards[0]}},
+        {playingPlayer, new HashSet<Card> {otherCards[0]}},
         {playingPlayer.Other(), new HashSet<Card> {otherCards[1], otherCards[2]}}
       };
       return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);

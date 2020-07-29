@@ -21,6 +21,7 @@ namespace KeyforgeUnlockedTest.Util
     {
       return Lists(new[] {player1Type}, Enumerable.Empty<T>());
     }
+
     public static Dictionary<Player, IList<T>> Lists<T>(
       T player1Type,
       T player2Type)
@@ -37,6 +38,19 @@ namespace KeyforgeUnlockedTest.Util
         {Player.Player1, new List<T>(player1Types)},
         {Player.Player2, new List<T>(player2Types)}
       };
+    }
+
+    public static IDictionary<Player, ISet<T>> Sets<T>(
+      T player1Type)
+    {
+      return Sets<T>(new[] {player1Type}, Enumerable.Empty<T>());
+    }
+
+    public static IDictionary<Player, ISet<T>> Sets<T>(
+      T player1Type,
+      T player2Type)
+    {
+      return Sets<T>(new []{player1Type}, new []{player2Type});
     }
 
     public static IDictionary<Player, ISet<T>> Sets<T>(

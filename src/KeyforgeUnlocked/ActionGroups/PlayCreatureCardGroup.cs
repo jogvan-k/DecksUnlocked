@@ -27,12 +27,12 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       var list = ImmutableList<Action>.Empty;
 
-      var leftPosition = new PlayCreature(Card, 0);
+      var leftPosition = new PlayCreatureCard(Card, 0);
       list = list.Add(leftPosition);
 
       if (BoardLength > 0)
       {
-        list = list.Add(new PlayCreature(Card, BoardLength));
+        list = list.Add(new PlayCreatureCard(Card, BoardLength));
       }
 
       return list.Add(DiscardAction());

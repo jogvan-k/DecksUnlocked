@@ -7,12 +7,12 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayCreature : IEffect
+  public sealed class PlayCreatureCard : IEffect
   {
     public readonly CreatureCard Card;
     public readonly int Position;
 
-    public PlayCreature(
+    public PlayCreatureCard(
       CreatureCard card,
       int position)
     {
@@ -27,9 +27,6 @@ namespace KeyforgeUnlocked.Effects
       state.Fields[state.PlayerTurn].Insert(Position, creature);
       state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
-      if (!state.Hands[state.PlayerTurn].Remove(Card))
-        throw new CardNotPresentException(state, Card.Id);
-
       Card.PlayAbility?.Invoke(state, Card.Id);
     }
 
@@ -40,14 +37,14 @@ namespace KeyforgeUnlocked.Effects
         throw new InvalidBoardPositionException(state, Position);
     }
 
-    bool Equals(PlayCreature other)
+    bool Equals(PlayCreatureCard other)
     {
       return Equals(Card, other.Card) && Position == other.Position;
     }
 
     public override bool Equals(object obj)
     {
-      return ReferenceEquals(this, obj) || obj is PlayCreature other && Equals(other);
+      return ReferenceEquals(this, obj) || obj is PlayCreatureCard other && Equals(other);
     }
 
     public override int GetHashCode()

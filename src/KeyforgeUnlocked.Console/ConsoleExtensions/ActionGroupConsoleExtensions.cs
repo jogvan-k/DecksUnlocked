@@ -14,8 +14,6 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case PlayCreatureCardGroup a:
           return a.ToConsole();
-        case PlayCardGroup a:
-          return a.ToConsole();
         case UseCreatureGroup a:
           return a.ToConsole();
         case NoActionGroup a:
@@ -23,6 +21,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case DeclareHouseGroup a:
           return a.ToConsole();
         case TargetCreatureGroup a:
+          return a.ToConsole();
+        case PlayActionCardGroup a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
@@ -57,6 +57,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this TargetCreatureGroup group)
     {
       return $"Target creature";
+    }
+
+    static string ToConsole(this PlayActionCardGroup group)
+    {
+      return $"Play action";
     }
   }
 }

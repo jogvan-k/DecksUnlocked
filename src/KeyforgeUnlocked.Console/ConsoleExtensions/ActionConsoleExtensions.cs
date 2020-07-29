@@ -12,7 +12,9 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       switch (action)
       {
-        case PlayCreature a:
+        case PlayCreatureCard a:
+          return a.ToConsole();
+        case PlayActionCard a:
           return a.ToConsole();
         case DiscardCard a:
           return a.ToConsole();
@@ -37,11 +39,15 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       }
     }
 
-    static string ToConsole(this PlayCreature playCard)
+    static string ToConsole(this PlayCreatureCard playCard)
     {
       return $"Play to position {playCard.Position}";
     }
 
+    static string ToConsole(this PlayActionCard playCard)
+    {
+      return $"Play action";
+    }
 
     static string ToConsole(this DiscardCard discardCard)
     {
@@ -82,7 +88,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       return "Remove stun";
     }
-    
+
     public static string ToConsole(this TargetCreature action)
     {
       return $"Target {action.Target.Card.Name}";

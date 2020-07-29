@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.ActionCards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -154,12 +156,23 @@ namespace KeyforgeUnlocked.States
       ActionGroups.Add(new EndTurnGroup());
       foreach (var card in Hands[PlayerTurn])
       {
-        if (card.CardType == CardType.Creature && card.House == activeHouse)
+        if (card.House != activeHouse)
+          continue;
+        IActionGroup actionGroup;
+        switch (card)
         {
-          var actionGroup = new PlayCreatureCardGroup(this, (CreatureCard) card);
-          if (actionGroup.Actions.Count != 0)
-            ActionGroups.Add(actionGroup);
+          case CreatureCard creatureCard:
+            actionGroup = new PlayCreatureCardGroup(this, creatureCard);
+            break;
+          case ActionCard actionCard:
+            actionGroup = new PlayActionCardGroup(actionCard);
+            break;
+          default:
+            throw new NotImplementedException();
         }
+
+        if (actionGroup.Actions.Count != 0)
+          ActionGroups.Add(actionGroup);
       }
 
       foreach (var creature in Fields[PlayerTurn])

@@ -10,7 +10,7 @@ using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using DiscardCard = KeyforgeUnlocked.Actions.DiscardCard;
 using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
-using PlayCreature = KeyforgeUnlocked.Actions.PlayCreature;
+using PlayCreatureCard = KeyforgeUnlocked.Actions.PlayCreatureCard;
 using Reap = KeyforgeUnlocked.Actions.Reap;
 
 namespace KeyforgeUnlockedTest.Actions
@@ -22,7 +22,7 @@ namespace KeyforgeUnlockedTest.Actions
 
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {
-      new TestCaseData(new PlayCreature(new SampleCreatureCard(), 0)),
+      new TestCaseData(new PlayCreatureCard(new SampleCreatureCard(), 0)),
       new TestCaseData(new KeyforgeUnlocked.Actions.EndTurn()),
       new TestCaseData(new DiscardCard(new SampleCreatureCard())),
       new TestCaseData(new Reap(new Creature()))

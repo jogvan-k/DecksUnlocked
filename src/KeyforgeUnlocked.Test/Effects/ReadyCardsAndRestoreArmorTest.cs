@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore.States;
@@ -56,7 +57,8 @@ namespace KeyforgeUnlockedTest.Effects
           new Creature(opponentCreatureCard2, isReady: false)
         });
 
-      var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields);
+      var expectedResolvedEffects = new List<IResolvedEffect> { new CreatureReadied(new Creature(playerCreatureCard2, isReady: true))};
+      var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields, resolvedEffects: expectedResolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

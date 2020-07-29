@@ -1,4 +1,5 @@
 using System.Linq;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using UnlockedCore.States;
 
@@ -12,9 +13,13 @@ namespace KeyforgeUnlocked.Effects
       for (int i = 0; i < field.Count; i++)
       {
         var creature = field[i];
-        creature.IsReady = true;
-        creature.BrokenArmor = 0;
-        field[i] = creature;
+        if (!creature.IsReady)
+        {
+          creature.IsReady = true;
+          creature.BrokenArmor = 0;
+          field[i] = creature;
+          state.ResolvedEffects.Add(new CreatureReadied(creature));
+        }
       }
 
       field = state.Fields[state.PlayerTurn.Other()];

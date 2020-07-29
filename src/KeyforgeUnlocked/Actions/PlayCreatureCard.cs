@@ -1,18 +1,16 @@
 using System;
-using System.Collections.Immutable;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class PlayCreature : BasicAction
+  public sealed class PlayCreatureCard : BasicAction
   {
     public CreatureCard Card { get; }
     public int Position { get; }
 
-    public PlayCreature(
+    public PlayCreatureCard(
       CreatureCard card,
       int position)
     {
@@ -22,8 +20,11 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
+      if (!state.Hands[state.PlayerTurn].Remove(Card))
+        throw new CardNotPresentException(state, Card.Id);
+
       state.Effects.Push(
-        new Effects.PlayCreature(
+        new Effects.PlayCreatureCard(
           Card,
           Position));
     }
@@ -33,10 +34,10 @@ namespace KeyforgeUnlocked.Actions
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != this.GetType()) return false;
-      return Equals((PlayCreature) obj);
+      return Equals((PlayCreatureCard) obj);
     }
 
-    bool Equals(PlayCreature other)
+    bool Equals(PlayCreatureCard other)
     {
       return Equals(Card, other.Card) && Position == other.Position;
     }

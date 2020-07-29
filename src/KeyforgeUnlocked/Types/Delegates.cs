@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -42,6 +43,12 @@ namespace KeyforgeUnlocked.Types
       s.FindCreature(c, out var cControllingPlayer);
       s.FindCreature(t.Id, out var tControllingPlayer);
       return cControllingPlayer == tControllingPlayer;
+    };
+
+    public static ValidOn AlliesOf(Player player) => (s, t) =>
+    {
+      s.FindCreature(t.Id, out var controllingPlayer);
+      return controllingPlayer == player;
     };
 
     public static ValidOn OfHouse(House house) => (s, c) => c.Card.House == house;

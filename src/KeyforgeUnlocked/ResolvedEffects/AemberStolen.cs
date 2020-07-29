@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(StolenAmount, (int) StealingPlayer);
+      return 2 * HashCode.Combine(StolenAmount, (int) StealingPlayer);
     }
 
     public override string ToString()

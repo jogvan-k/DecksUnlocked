@@ -60,5 +60,22 @@ namespace KeyforgeUnlockedTest.States
       var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields, hands: expectedHands, resolvedEffects: resolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }
+
+    [Test]
+    public void LoseAember([Range(0, 3)]int amount)
+    {
+      var aember = TestUtil.Ints(2, 2);
+      var state = StateTestUtil.EmptyState.New(aember: aember);
+
+      state.LoseAember(Player.Player1, amount);
+
+      var expectedLost = Math.Min(amount, 2);
+      var expectedAember = TestUtil.Ints(1 - expectedLost, 2);
+      var expectedResolvedEffects = new List<IResolvedEffect>();
+      if(expectedLost > 0)
+        expectedResolvedEffects.Add(new AemberLost(Player.Player1, expectedLost));
+      var expectedState = StateTestUtil.EmptyState.New(aember: aember, resolvedEffects: expectedResolvedEffects);
+      StateAsserter.StateEquals(expectedState, state);
+    }
   }
 }

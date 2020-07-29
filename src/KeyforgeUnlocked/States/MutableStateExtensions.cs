@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.States
       return false;
     }
 
-    public static bool Steal(
+    public static void Steal(
       this MutableState state,
       int amount)
     {
@@ -35,8 +35,18 @@ namespace KeyforgeUnlocked.States
         state.Aember[stealingPlayer.Other()] -= toSteal;
         state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
       }
+    }
 
-      return false;
+
+    public static void LoseAember(
+      this MutableState state,
+      Player player,
+      int amount)
+    {
+      var toLose = Math.Min(state.Aember[player], amount);
+      if (toLose < 1) return;
+      state.Aember[player] -= toLose;
+      state.ResolvedEffects.Add(new AemberLost(player, toLose));
     }
 
     public static void ReturnFromDiscard(

@@ -12,6 +12,7 @@ namespace KeyforgeUnlocked.Creatures
     public int Damage;
     public int BrokenArmor;
     public bool IsReady;
+    public int Aember;
     public CreatureState State;
 
     public string Id => Card.Id;
@@ -31,6 +32,7 @@ namespace KeyforgeUnlocked.Creatures
       int damage = 0,
       int brokenArmor = 0,
       bool isReady = false,
+      int aember = 0,
       CreatureState state = CreatureState.None)
     {
       Card = card;
@@ -38,6 +40,7 @@ namespace KeyforgeUnlocked.Creatures
       Damage = damage;
       BrokenArmor = brokenArmor;
       IsReady = isReady;
+      Aember = aember;
       State = state;
     }
 
@@ -48,6 +51,7 @@ namespace KeyforgeUnlocked.Creatures
              && Damage == other.Damage
              && State == other.State
              && IsReady == other.IsReady
+             && Aember == other.Aember
              && BrokenArmor == other.BrokenArmor;
     }
 
@@ -64,6 +68,7 @@ namespace KeyforgeUnlocked.Creatures
         Damage,
         State,
         IsReady,
+        Aember,
         BrokenArmor);
     }
 

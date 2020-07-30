@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Creature = creature;
     }
 
-    protected bool Equals(ResolvedEffectWithCreature other)
+    protected virtual bool Equals(ResolvedEffectWithCreature other)
     {
       return Creature.Equals(other.Creature);
     }

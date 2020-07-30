@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -22,6 +21,8 @@ namespace KeyforgeUnlocked.States
 
       return false;
     }
+
+    #region Aember control
 
     public static void Steal(
       this MutableState state,
@@ -48,6 +49,22 @@ namespace KeyforgeUnlocked.States
       state.Aember[player] -= toLose;
       state.ResolvedEffects.Add(new AemberLost(player, toLose));
     }
+
+    public static void CaptureAember(
+      this MutableState state,
+      Creature creature,
+      int amount = 1)
+    {
+      state.FindCreature(creature.Id, out var controllingPlayer);
+      var toCapture = Math.Min(state.Aember[controllingPlayer.Other()], amount);
+      if (toCapture < 1) return;
+      state.Aember[controllingPlayer.Other()] -= toCapture;
+      creature.Aember += toCapture;
+      state.ResolvedEffects.Add(new AemberCaptured(creature, toCapture));
+      state.UpdateCreature(creature);
+    }
+
+    #endregion
 
     public static void ReturnFromDiscard(
       this MutableState state,
@@ -135,6 +152,9 @@ namespace KeyforgeUnlocked.States
       var owningPlayer = state.RemoveCreature(creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
+      if (creature.Aember < 1) return;
+      state.Aember[owningPlayer.Other()] += creature.Aember;
+      state.ResolvedEffects.Add(new AemberClaimed(owningPlayer.Other(), creature.Aember));
     }
 
     static Player RemoveCreature(

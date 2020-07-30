@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Effects
       if(!Creature.IsReady)
         throw new CreatureNotReadyException(state, Creature);
       SpecificResolve(state);
-      var creature = Creature;
+      var creature = state.FindCreature(Creature.Id, out _);
       creature.IsReady = false;
       state.SetCreature(creature);
     }

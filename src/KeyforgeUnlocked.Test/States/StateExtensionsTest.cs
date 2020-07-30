@@ -87,7 +87,7 @@ namespace KeyforgeUnlockedTest.States
       var fields = TestUtil.Lists(creature, opponentCreature);
       var state = StateTestUtil.EmptyState.New(aember: aember, fields: fields);
 
-      state.CaptureAember(creature, amount);
+      state.CaptureAember(creature.Id, amount);
 
       var expectedCapture = Math.Min(amount, 2);
       var expectedAember = TestUtil.Ints(2, 2 - expectedCapture);

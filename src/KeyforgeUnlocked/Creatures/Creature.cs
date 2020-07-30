@@ -75,7 +75,7 @@ namespace KeyforgeUnlocked.Creatures
     public override string ToString()
     {
       return
-        $"{{{Card.GetType().Name}, Power: {Power}, Armor: {Armor}, Health: {Health}, State: {State} IsReady: {IsReady} }}";
+        $"{{{Card.GetType().Name}, Power: {Power}, Armor: {Armor}, Health: {Health}, State: {State}, Aember: {Aember}, IsReady: {IsReady} }}";
     }
   }
 }

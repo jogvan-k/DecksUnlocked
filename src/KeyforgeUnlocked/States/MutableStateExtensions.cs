@@ -42,7 +42,7 @@ namespace KeyforgeUnlocked.States
     public static void LoseAember(
       this MutableState state,
       Player player,
-      int amount)
+      int amount = 1)
     {
       var toLose = Math.Min(state.Aember[player], amount);
       if (toLose < 1) return;

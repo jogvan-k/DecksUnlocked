@@ -21,6 +21,7 @@ namespace KeyforgeUnlocked.Creatures
     public int Power => BasePower + PowerCounters;
     public int Armor => BaseArmor - BrokenArmor;
     public int Health => Power - Damage;
+    public bool IsDead => Health <= 0;
     public Callback FightAbility => Card.FightAbility;
     public Callback AfterKillAbility => Card.AfterKillAbility;
     public Callback DestroyedAbility => Card.DestroyedAbility;

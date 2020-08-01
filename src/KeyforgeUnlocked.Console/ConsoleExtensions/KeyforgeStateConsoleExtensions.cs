@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
@@ -62,7 +63,6 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       PrintKeysAndAember(state.Keys[playerTurn.Other()], state.Aember[playerTurn.Other()]);
       PrintField(state, state.Fields[playerTurn.Other()], commands);
 
-      Console.WriteLine();
       Console.Write("You: ");
       PrintKeysAndAember(state.Keys[playerTurn], state.Aember[playerTurn]);
       PrintField(state, state.Fields[playerTurn], commands);
@@ -83,7 +83,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       IList<Creature> creatures,
       Dictionary<string, IActionGroup> commands)
     {
-      Console.Write("Board: ");
+      Console.WriteLine("Board: ");
       int i = 1;
       foreach (var creature in creatures)
       {
@@ -94,17 +94,37 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           commands.Add(command, creatureGroup);
           Console.Write($"[{command}]");
         }
+        var sb = new StringBuilder($"{creature.Card.Name}");
+        sb.Append($", Power: {creature.Power}");
+        if (creature.Armor > 0) sb.Append($", Armor: {creature.Armor}");
+        if (creature.Damage > 0) sb.Append($", Damage: {creature.Damage}");
+        if (creature.Aember > 0) sb.Append($", Aember: {creature.Aember}");
+        if (creature.Keywords.Any()) sb.Append($", Keywords: ({KeywordsReadable(creature.Keywords)})");
+        if (creature.IsWarded()) sb.Append(", Warded");
+        if (creature.IsStunned()) sb.Append(", Stunned");
+        if (creature.IsEnraged()) sb.Append(", Enraged");
+        if (!creature.IsReady) sb.Append(", Exhausted");
 
-        Console.Write($"{creature.Card.Name} ");
+        Console.WriteLine(sb.ToString());
       }
 
       Console.WriteLine();
     }
 
+    static string KeywordsReadable(Keyword[] keywords)
+    {
+      if (keywords.Length == 0) return "";
+      var sb = new StringBuilder();
+      int i = 0;
+      while(i < keywords.Length - 1)
+        sb.Append($"{keywords[i++]}, ");
+      sb.Append($"{keywords[i]}");
+      return sb.ToString();
+    }
+
     static void PrintHand(IState state,
       Dictionary<string, IActionGroup> commands)
     {
-      Console.WriteLine();
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
       foreach (var card in state.Hands[state.PlayerTurn])

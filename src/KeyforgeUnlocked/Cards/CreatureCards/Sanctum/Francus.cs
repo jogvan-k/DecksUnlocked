@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
@@ -11,7 +10,11 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Sanctum
     static readonly CreatureType[] types = {CreatureType.Knight, CreatureType.Spirit};
     static readonly Callback afterKillAbility = (s, i) => { s.CaptureAember(i); };
 
-    public Francus(House house = House.Sanctum) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
+    public Francus() : this(House.Sanctum)
+    {
+    }
+
+    public Francus(House house) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
     {
     }
   }

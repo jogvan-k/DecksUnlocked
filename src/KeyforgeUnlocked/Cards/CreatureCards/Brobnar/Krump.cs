@@ -16,7 +16,11 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
       s.LoseAember(controllingPlayer.Other());
     };
 
-    public Krump(House house = House.Brobnar) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
+    public Krump() : this(House.Brobnar)
+    {
+    }
+
+    public Krump(House house) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
     {
     }
   }

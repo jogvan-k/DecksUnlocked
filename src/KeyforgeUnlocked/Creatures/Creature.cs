@@ -22,6 +22,7 @@ namespace KeyforgeUnlocked.Creatures
     public int Armor => BaseArmor - BrokenArmor;
     public int Health => Power - Damage;
     public Callback FightAbility => Card.FightAbility;
+    public Callback AfterKillAbility => Card.AfterKillAbility;
     public Callback DestroyedAbility => Card.DestroyedAbility;
     public Keyword[] Keywords => Card.Keywords;
     public CreatureType[] Types => Card.Types;

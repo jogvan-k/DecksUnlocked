@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
@@ -47,7 +46,13 @@ namespace KeyforgeUnlocked.Effects
       state.UpdateCreature(target);
 
       if (fighter.Health > 0)
+      {
         fighter.FightAbility?.Invoke(state, fighter.Id);
+        if(target.Health <= 0)
+          fighter.AfterKillAbility?.Invoke(state, fighter.Id);
+      }
+      if(target.Health > 0 && fighter.Health <= 0)
+        target.AfterKillAbility?.Invoke(state, target.Id);
     }
 
     Predicate<IResolvedEffect> HasBeenAttacked(string creatureId)

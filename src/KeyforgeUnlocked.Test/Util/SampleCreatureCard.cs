@@ -16,6 +16,7 @@ namespace KeyforgeUnlockedTest.Util
       Keyword[] keywords = null,
       Callback playAbility = null,
       Callback fightAbility = null,
+      Callback afterKillAbility = null,
       Callback creatureAbility = null,
       Callback reapAbility = null,
       Callback destroyedAbility = null)
@@ -27,6 +28,7 @@ namespace KeyforgeUnlockedTest.Util
         keywords,
         playAbility,
         fightAbility,
+        afterKillAbility,
         creatureAbility,
         reapAbility,
         destroyedAbility)

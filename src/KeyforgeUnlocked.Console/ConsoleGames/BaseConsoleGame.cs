@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,15 @@ using KeyforgeUnlockedConsole.ConsoleExtensions;
 using KeyforgeUnlockedConsole.PrintCommands;
 using Action = KeyforgeUnlocked.Actions.Action;
 
-namespace KeyforgeUnlockedConsole
+namespace KeyforgeUnlockedConsole.ConsoleGames
 {
-  public class ConsoleGame
+  public abstract class BaseConsoleGame : IConsoleGame
   {
-    IState _state;
-    IDictionary<string, IActionGroup> Commands;
-    IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
+    protected IState _state;
+    protected IDictionary<string, IActionGroup> Commands;
+    protected IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
 
-    public ConsoleGame(IState state)
+    public BaseConsoleGame(IState state)
     {
       _state = state;
     }
@@ -24,19 +25,7 @@ namespace KeyforgeUnlockedConsole
     {
       while (!_state.IsGameOver)
       {
-        Console.Clear();
-        _state.Print(out var commands);
-        Commands = commands;
-
-        var command = ReadCommand();
-        if (int.TryParse(command, out var i))
-        {
-          _state = Commands["action"].Actions[i - 1].DoAction(_state);
-        }
-        else
-        {
-          ResolveCommand(Commands[command]);
-        }
+        AdvanceState();
       }
 
       Console.Clear();
@@ -44,6 +33,26 @@ namespace KeyforgeUnlockedConsole
       Console.WriteLine($"{_state.PlayerTurn} won!");
       Console.WriteLine();
     }
+
+    protected abstract void AdvanceState();
+
+    protected void AdvanceStateOnPlayerTurn()
+    {
+      Console.Clear();
+      _state.Print(out var commands);
+      Commands = commands;
+
+      var command = ReadCommand();
+      if (int.TryParse(command, out var i))
+      {
+        _state = Commands["action"].Actions[i - 1].DoAction(_state);
+      }
+      else
+      {
+        ResolveCommand(Commands[command]);
+      }
+    }
+
 
     string ReadCommand()
     {

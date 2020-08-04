@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.ActionGroups;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
@@ -16,20 +15,30 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static void Print(this IState state,
       out Dictionary<string, IActionGroup> commands)
     {
+      var fromPlayerPerspective = state.PlayerTurn;
       commands = new Dictionary<string, IActionGroup>();
-      PrintStatus(state, commands);
-      PrintHand(state, commands);
+      PrintStatus(state, fromPlayerPerspective, commands);
+      PrintHand(state, fromPlayerPerspective, commands);
       PrintResolvedEffects(state);
       PrintAdditionalActions(state, commands);
     }
 
+    public static void PrintAITurn(this IState state)
+    {
+      var fromPlayerPerspective = state.PlayerTurn.Other();
+      PrintStatus(state, fromPlayerPerspective);
+      PrintHand(state, fromPlayerPerspective);
+      PrintResolvedEffects(state);
+    }
+
     static void PrintStatus(IState state,
-      Dictionary<string, IActionGroup> commands)
+      Player fromPlayerPerspective,
+      Dictionary<string, IActionGroup> commands = null)
     {
       Console.WriteLine($"Current player: {state.PlayerTurn}");
-      PrintAmounts(state);
+      PrintAmounts(state, fromPlayerPerspective);
       PrintActiveHouse(state);
-      PrintField(state, commands);
+      PrintField(state, fromPlayerPerspective, commands);
     }
 
     static void PrintResolvedEffects(IState state)
@@ -42,12 +51,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       }
     }
 
-    static void PrintAmounts(IState state)
+    static void PrintAmounts(IState state, Player fromPlayerPerspective)
     {
-      var playerTurn = state.PlayerTurn;
-      Console.Write($"[Deck]: {state.Decks[playerTurn].Count} ");
-      Console.Write($"[Dis]carde: {state.Discards[playerTurn].Count} ");
-      Console.WriteLine($"[Arc]hive: {state.Archives[playerTurn].Count}");
+      Console.Write($"[Deck]: {state.Decks[fromPlayerPerspective].Count} ");
+      Console.Write($"[Dis]carde: {state.Discards[fromPlayerPerspective].Count} ");
+      Console.WriteLine($"[Arc]hive: {state.Archives[fromPlayerPerspective].Count}");
     }
 
     static void PrintActiveHouse(IState state)
@@ -56,16 +64,16 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     }
 
     static void PrintField(IState state,
-      Dictionary<string, IActionGroup> commands)
+      Player fromPlayerPerspective,
+      Dictionary<string, IActionGroup> commands = null)
     {
       Console.Write("Opponent: ");
-      var playerTurn = state.PlayerTurn;
-      PrintKeysAndAember(state.Keys[playerTurn.Other()], state.Aember[playerTurn.Other()]);
-      PrintField(state, state.Fields[playerTurn.Other()], commands);
+      PrintKeysAndAember(state.Keys[fromPlayerPerspective.Other()], state.Aember[fromPlayerPerspective.Other()]);
+      PrintField(state, state.Fields[fromPlayerPerspective.Other()], commands);
 
       Console.Write("You: ");
-      PrintKeysAndAember(state.Keys[playerTurn], state.Aember[playerTurn]);
-      PrintField(state, state.Fields[playerTurn], commands);
+      PrintKeysAndAember(state.Keys[fromPlayerPerspective], state.Aember[fromPlayerPerspective]);
+      PrintField(state, state.Fields[fromPlayerPerspective], commands);
     }
 
     static void PrintKeysAndAember(int keys,
@@ -81,19 +89,23 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintField(IState state,
       IList<Creature> creatures,
-      Dictionary<string, IActionGroup> commands)
+      Dictionary<string, IActionGroup> commands = null)
     {
       Console.WriteLine("Board: ");
       int i = 1;
       foreach (var creature in creatures)
       {
-        var creatureGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionsRelatedToCreature(creature));
-        if (creatureGroup != default)
+        if (commands != null)
         {
-          var command = $"c{i++}";
-          commands.Add(command, creatureGroup);
-          Console.Write($"[{command}]");
+          var creatureGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionsRelatedToCreature(creature));
+          if (creatureGroup != default)
+          {
+            var command = $"c{i++}";
+            commands.Add(command, creatureGroup);
+            Console.Write($"[{command}]");
+          }
         }
+
         var sb = new StringBuilder($"{creature.Card.Name}");
         sb.Append($", Power: {creature.Power}");
         if (creature.Armor > 0) sb.Append($", Armor: {creature.Armor}");
@@ -123,18 +135,22 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     }
 
     static void PrintHand(IState state,
-      Dictionary<string, IActionGroup> commands)
+      Player fromPlayerPerspective,
+      Dictionary<string, IActionGroup> commands = null)
     {
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
-      foreach (var card in state.Hands[state.PlayerTurn])
+      foreach (var card in state.Hands[fromPlayerPerspective])
       {
-        var cardGroup = state.ActionGroups.SingleOrDefault(g => g.IsActionsRelatedToCard(card));
-        if (cardGroup != default)
+        if (commands != null)
         {
-          var command = $"p{i++}";
-          commands.Add(command, cardGroup);
-          Console.Write($"[{command}] ");
+          var cardGroup = state.ActionGroups.SingleOrDefault(g => g.IsActionsRelatedToCard(card));
+          if (cardGroup != default)
+          {
+            var command = $"p{i++}";
+            commands.Add(command, cardGroup);
+            Console.Write($"[{command}] ");
+          }
         }
 
         Console.WriteLine(card);

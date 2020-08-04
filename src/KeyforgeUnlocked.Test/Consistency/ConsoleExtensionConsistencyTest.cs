@@ -13,7 +13,7 @@ namespace KeyforgeUnlockedTest.Consistency
   class ConsoleExtensionConsistencyTest
   {
     static readonly Assembly KeyForgeUnlockedAssembly = Assembly.GetAssembly(typeof(IState));
-    static readonly Assembly KeyForgeUnlockedConsoleAssembly = Assembly.GetAssembly(typeof(Entry));
+    static readonly Assembly KeyForgeUnlockedConsoleAssembly = Assembly.GetAssembly(typeof(Program));
 
     [Test]
     public void Action_AssertToConsoleImplemented()

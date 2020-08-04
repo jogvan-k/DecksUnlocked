@@ -11,13 +11,16 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     readonly IList<Creature> _opponentCreatures;
     public Creature Creature;
+    readonly bool _allowOutOfHouseUse;
 
     public UseCreatureGroup(
       IState state,
-      Creature creature) : base(ActionType.UseCreature)
+      Creature creature,
+      bool allowOutOfHouseUse = false) : base(ActionType.UseCreature)
     {
       _opponentCreatures = state.Fields[state.PlayerTurn.Other()];
       Creature = creature;
+      _allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
     protected override IImmutableList<Action> InitiateActions()
@@ -28,22 +31,22 @@ namespace KeyforgeUnlocked.ActionGroups
 
       if (Creature.IsStunned())
       {
-        return actions.Add(new RemoveStun(Creature));
+        return actions.Add(new RemoveStun(Creature, _allowOutOfHouseUse));
       }
 
       for (int i = 0; i < _opponentCreatures.Count; i++)
       {
         var opponentCreature = _opponentCreatures[i];
         if (opponentCreature.HasTaunt() || !NeighboursHasTaunt(i))
-          actions = actions.Add(new FightCreature(Creature, opponentCreature));
+          actions = actions.Add(new FightCreature(Creature, opponentCreature, _allowOutOfHouseUse));
       }
 
       if (Creature.Card.CreatureAbility != null)
       {
-        actions = actions.Add(new UseCreatureAbility(Creature));
+        actions = actions.Add(new UseCreatureAbility(Creature, _allowOutOfHouseUse));
       }
 
-      actions = actions.Add(new Reap(Creature));
+      actions = actions.Add(new Reap(Creature, _allowOutOfHouseUse));
 
       return actions;
     }

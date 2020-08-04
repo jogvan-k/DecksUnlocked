@@ -23,7 +23,7 @@ namespace KeyforgeUnlockedTest.Effects
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(Player.Player2, fields: fields);
 
-      var sut = new ReadyAndUse(target);
+      var sut = new ReadyAndUse(target, false);
 
       try
       {
@@ -45,7 +45,7 @@ namespace KeyforgeUnlockedTest.Effects
       var target = new Creature(sampleCreatureCard);
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new ReadyAndUse(target);
+      var sut = new ReadyAndUse(target, false);
 
       sut.Resolve(state);
 

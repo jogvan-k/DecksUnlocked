@@ -9,10 +9,12 @@ namespace KeyforgeUnlocked.Actions
   public abstract class UseCreature : BasicAction
   {
     public readonly Creature Creature;
+    readonly bool _allowOutOfHouseUse;
 
-    public UseCreature(Creature creature)
+    public UseCreature(Creature creature, bool allowOutOfHouseUse)
     {
       Creature = creature;
+      _allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
     internal override void Validate(IState state)
@@ -31,7 +33,7 @@ namespace KeyforgeUnlocked.Actions
     void ValidateActiveHouse(IState state)
     {
       var house = state.ActiveHouse;
-      if (Creature.Card.House != house)
+      if (!_allowOutOfHouseUse && Creature.Card.House != house)
         throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
     }
   }

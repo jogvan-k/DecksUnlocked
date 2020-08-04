@@ -17,10 +17,10 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   class ReapTest : ActionTestBase
   {
+    const House ActiveHouse = House.Logos;
     readonly CreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
     Creature _creature;
     Dictionary<Player, IList<Creature>> _fields;
-    static readonly House ActiveHouse = House.Logos;
 
     [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
@@ -38,6 +38,16 @@ namespace KeyforgeUnlockedTest.Actions
       var sut = Setup(true, ActiveHouse, false, out var state);
 
       var expectedState = Expected();
+
+      Act(sut, state, expectedState);
+    }
+
+    [Test]
+    public void Act_AllowOutOfHouseUse()
+    {
+      var sut = Setup(true, House.Dis, false, out var state, true);
+
+      var expectedState = Expected(House.Dis);
 
       Act(sut, state, expectedState);
     }
@@ -66,7 +76,7 @@ namespace KeyforgeUnlockedTest.Actions
       ActExpectException(sut, state, asserts);
     }
 
-    Reap Setup(bool ready, House activeHouse, bool stunned, out MutableState state)
+    Reap Setup(bool ready, House activeHouse, bool stunned, out MutableState state, bool allowOutOfHouseUse = false)
     {
       _creature = new Creature(_creatureCard, isReady: ready, state: stunned ? CreatureState.Stunned : CreatureState.None);
       _fields = new Dictionary<Player, IList<Creature>>
@@ -75,15 +85,15 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player2, new List<Creature>()}
       };
       state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: _fields);
-      return new Reap(_creature);
+      return new Reap(_creature, allowOutOfHouseUse);
     }
 
-    MutableState Expected()
+    MutableState Expected(House activeHouse = ActiveHouse)
     {
       var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(_creature));
       var expectedState = StateTestUtil.EmptyState.New(
-        activeHouse: ActiveHouse, fields: _fields, effects: expectedEffects);
+        activeHouse: activeHouse, fields: _fields, effects: expectedEffects);
       return expectedState;
     }
   }

@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public class Reap : UseCreature
   {
-    public Reap(Creature creature) : base(creature)
+    public Reap(Creature creature, bool allowOutOfHouseUse = false) : base(creature, allowOutOfHouseUse)
     {
     }
 

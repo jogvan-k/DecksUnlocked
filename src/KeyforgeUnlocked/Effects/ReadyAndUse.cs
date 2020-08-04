@@ -9,10 +9,12 @@ namespace KeyforgeUnlocked.Effects
   public sealed class ReadyAndUse : IEffect
   {
     readonly Creature _target;
+    readonly bool _allowOutOfHouseUse;
 
-    public ReadyAndUse(Creature target)
+    public ReadyAndUse(Creature target, bool allowOutOfHouseUse)
     {
       _target = target;
+      _allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
     public void Resolve(MutableState state)
@@ -26,7 +28,7 @@ namespace KeyforgeUnlocked.Effects
         state.UpdateCreature(target);
         state.ResolvedEffects.Add(new CreatureReadied(target));
       }
-      state.ActionGroups.Add(new UseCreatureGroup(state, target));
+      state.ActionGroups.Add(new UseCreatureGroup(state, target, _allowOutOfHouseUse));
     }
   }
 }

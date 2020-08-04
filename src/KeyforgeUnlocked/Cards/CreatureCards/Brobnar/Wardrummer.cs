@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
     const int armor = 0;
     static readonly CreatureType[] _types = {CreatureType.Goblin};
 
-    static readonly Callback PlayAbility = (s, i) =>
+    static readonly Callback _playAbility = (s, i) =>
     {
       var effect = new TargetAllCreatures(
         ReturnCreatureToHand,
@@ -24,7 +24,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
     {
     }
 
-    public Wardrummer(House house) : base(house, power, armor, _types, playAbility: PlayAbility)
+    public Wardrummer(House house) : base(house, power, armor, _types, playAbility: _playAbility)
     {
     }
   }

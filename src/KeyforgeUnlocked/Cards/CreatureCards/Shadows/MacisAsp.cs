@@ -1,5 +1,4 @@
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
 {

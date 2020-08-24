@@ -1,5 +1,5 @@
 using System;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {

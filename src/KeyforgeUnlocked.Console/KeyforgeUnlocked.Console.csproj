@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
-        <ProjectReference Include="..\UnlockedCore\UnlockedCore.csproj" />
     </ItemGroup>
 
     <ItemGroup>

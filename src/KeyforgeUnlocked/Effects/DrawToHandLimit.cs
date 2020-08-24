@@ -1,7 +1,6 @@
 using System;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
 using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Effects

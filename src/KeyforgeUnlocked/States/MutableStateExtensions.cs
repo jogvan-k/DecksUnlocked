@@ -4,7 +4,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
 {

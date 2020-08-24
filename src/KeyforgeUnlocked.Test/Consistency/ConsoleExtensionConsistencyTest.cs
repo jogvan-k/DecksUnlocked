@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using NUnit.Framework;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Consistency
 {
@@ -18,7 +20,7 @@ namespace KeyforgeUnlockedTest.Consistency
     [Test]
     public void Action_AssertToConsoleImplemented()
     {
-      var interf = typeof(UnlockedCore.Actions.ICoreAction);
+      var interf = typeof(ICoreAction);
       var type = typeof(ActionConsoleExtensions);
       AssertToConsoleFunctionsExists(interf, type);
     }
@@ -26,7 +28,7 @@ namespace KeyforgeUnlockedTest.Consistency
     [Test]
     public void ActionGroup_AssertToConsoleImplemented()
     {
-      var interf = typeof(KeyforgeUnlocked.ActionGroups.IActionGroup);
+      var interf = typeof(IActionGroup);
       var type = typeof(ActionGroupConsoleExtensions);
       AssertToConsoleFunctionsExists(interf, type);
     }

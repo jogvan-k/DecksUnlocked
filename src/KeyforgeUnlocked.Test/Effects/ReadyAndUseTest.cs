@@ -7,7 +7,7 @@ using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

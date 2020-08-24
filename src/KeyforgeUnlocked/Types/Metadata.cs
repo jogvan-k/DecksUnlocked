@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {

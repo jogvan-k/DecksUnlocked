@@ -1,10 +1,8 @@
-using System;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {

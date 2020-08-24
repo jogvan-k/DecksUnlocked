@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
-using UnlockedCore.States;
+using UnlockedCore;
 using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlockedTest.Effects

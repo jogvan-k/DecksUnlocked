@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
-using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

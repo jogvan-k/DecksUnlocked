@@ -2,7 +2,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;

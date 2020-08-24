@@ -1,6 +1,4 @@
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;

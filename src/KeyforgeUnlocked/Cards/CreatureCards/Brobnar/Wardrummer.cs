@@ -1,6 +1,4 @@
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
-using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using static KeyforgeUnlocked.Types.Delegates;
 

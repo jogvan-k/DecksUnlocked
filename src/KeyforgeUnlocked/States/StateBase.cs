@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
-using UnlockedCore.Actions;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
 {
   public abstract class StateBase
   {
-    public IList<ICoreAction> Actions()
+    public ICoreAction [] Actions()
     {
-      return ((IState) this).ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToList();
+      return ((IState) this).ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToArray();
     }
 
 

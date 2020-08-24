@@ -1,7 +1,6 @@
-using System.Linq;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {

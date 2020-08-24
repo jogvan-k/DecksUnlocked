@@ -1,4 +1,3 @@
-using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;

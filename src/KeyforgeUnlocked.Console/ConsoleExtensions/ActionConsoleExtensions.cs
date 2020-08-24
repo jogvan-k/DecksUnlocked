@@ -1,7 +1,5 @@
 using System;
-using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions

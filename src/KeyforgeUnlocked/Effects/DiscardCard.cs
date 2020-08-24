@@ -1,5 +1,6 @@
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
@@ -18,7 +19,7 @@ namespace KeyforgeUnlocked.Effects
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card.Id);
       state.Discards[state.PlayerTurn].Add(Card);
-      state.ResolvedEffects.Add(new ResolvedEffects.CardDiscarded(Card));
+      state.ResolvedEffects.Add(new CardDiscarded(Card));
     }
 
     public override bool Equals(object obj)

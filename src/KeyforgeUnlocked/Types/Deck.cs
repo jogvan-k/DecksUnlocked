@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -24,7 +23,7 @@ namespace KeyforgeUnlocked.Types
     public static Deck LoadDeckFromFile(string filename)
     {
       var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", "Sample.txt");
-      var deckString = System.IO.File.ReadLines(path);
+      var deckString = File.ReadLines(path);
       var cards = new List<Card>();
       foreach (var cardString in deckString)
       {

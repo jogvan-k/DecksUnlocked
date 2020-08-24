@@ -2,11 +2,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
-using UnlockedCore.Actions;
-using UnlockedCore.States;
+using UnlockedCore;
 
 [assembly: InternalsVisibleTo("KeyforgeUnlocked.Test")]
-
 namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action : ICoreAction

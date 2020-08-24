@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ActionGroups
 {

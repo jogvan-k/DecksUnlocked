@@ -6,7 +6,8 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
-using UnlockedCore.States;
+using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.Creatures;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -29,6 +30,11 @@ namespace KeyforgeUnlocked.Types
       }
 
       return -1;
+    }
+
+    public static Player Other(this Player player)
+    {
+      return player == Player.Player1 ? Player.Player2 : Player.Player1;
     }
   }
 }

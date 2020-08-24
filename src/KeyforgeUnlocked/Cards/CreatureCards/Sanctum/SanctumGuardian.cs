@@ -1,7 +1,5 @@
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
-using KeyforgeUnlocked.ResolvedEffects;
-using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.CreatureCards.Sanctum

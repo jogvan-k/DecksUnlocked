@@ -9,7 +9,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
 {

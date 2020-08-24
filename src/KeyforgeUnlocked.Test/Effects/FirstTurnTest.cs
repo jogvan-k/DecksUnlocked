@@ -6,7 +6,7 @@ using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

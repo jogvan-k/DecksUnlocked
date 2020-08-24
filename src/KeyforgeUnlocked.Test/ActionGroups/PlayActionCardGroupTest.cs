@@ -2,10 +2,8 @@ using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.ActionCards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace KeyforgeUnlockedTest.ActionGroups
 {

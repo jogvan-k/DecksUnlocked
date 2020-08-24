@@ -9,7 +9,7 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 using Reap = KeyforgeUnlocked.Actions.Reap;
 
 namespace KeyforgeUnlockedTest.Actions

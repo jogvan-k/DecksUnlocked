@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked.Creatures;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Util
 {

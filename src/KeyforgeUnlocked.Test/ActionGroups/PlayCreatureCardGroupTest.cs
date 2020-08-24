@@ -1,14 +1,12 @@
 using System.Collections.Immutable;
-using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.ActionGroups
 {

@@ -2,7 +2,6 @@ using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Effects
 {

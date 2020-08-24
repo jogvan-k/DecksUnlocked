@@ -5,7 +5,6 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlockedTest.Effects
 {

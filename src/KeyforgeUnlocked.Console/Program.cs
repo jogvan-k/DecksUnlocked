@@ -1,8 +1,8 @@
 ﻿using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedConsole.ConsoleGames;
+using UnlockedCore;
 using UnlockedCore.AI;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlockedConsole
 {

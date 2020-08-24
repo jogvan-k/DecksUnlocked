@@ -1,6 +1,5 @@
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
-using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 

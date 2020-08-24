@@ -2,12 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

@@ -1,14 +1,11 @@
 using System.Collections.Generic;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
-using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
-using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

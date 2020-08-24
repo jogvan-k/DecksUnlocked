@@ -1,6 +1,5 @@
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
 {

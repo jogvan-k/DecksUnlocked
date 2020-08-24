@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -8,7 +7,7 @@ using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {

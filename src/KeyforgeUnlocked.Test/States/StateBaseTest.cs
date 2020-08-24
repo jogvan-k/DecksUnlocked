@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using KeyforgeUnlocked;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -11,8 +9,7 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
-using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.States
 {

@@ -2,9 +2,10 @@ using System.Collections.Generic;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
+using UnlockedCore;
 using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlockedTest.Effects

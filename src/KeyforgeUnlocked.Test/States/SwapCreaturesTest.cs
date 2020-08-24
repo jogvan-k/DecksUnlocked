@@ -1,14 +1,10 @@
-using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using UnlockedCore.States;
 
 namespace KeyforgeUnlockedTest.States
 {

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
@@ -9,7 +8,7 @@ namespace KeyforgeUnlocked.ActionGroups
 {
   public class UseCreatureGroup : ActionGroupBase
   {
-    readonly IList<Creature> _opponentCreatures;
+    readonly IImmutableList<Creature> _opponentCreatures;
     public Creature Creature;
     readonly bool _allowOutOfHouseUse;
 

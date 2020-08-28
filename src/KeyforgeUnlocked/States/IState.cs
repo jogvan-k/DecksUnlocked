@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -20,15 +19,15 @@ namespace KeyforgeUnlocked.States
 
     IImmutableList<IActionGroup> ActionGroups { get; }
 
-    IImmutableDictionary<Player, Stack<Card>> Decks { get; }
+    IImmutableDictionary<Player, IImmutableStack<Card>> Decks { get; }
 
-    IImmutableDictionary<Player, ISet<Card>> Hands { get; }
+    IImmutableDictionary<Player, IImmutableSet<Card>> Hands { get; }
 
-    IImmutableDictionary<Player, ISet<Card>> Discards { get; }
+    IImmutableDictionary<Player, IImmutableSet<Card>> Discards { get; }
 
-    IImmutableDictionary<Player, ISet<Card>> Archives { get; }
+    IImmutableDictionary<Player, IImmutableSet<Card>> Archives { get; }
 
-    IImmutableDictionary<Player, IList<Creature>> Fields { get; }
+    IImmutableDictionary<Player, IImmutableList<Creature>> Fields { get; }
 
     ImmutableArray<IEffect> Effects { get; }
 

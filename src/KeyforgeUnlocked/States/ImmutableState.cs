@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -28,15 +27,15 @@ namespace KeyforgeUnlocked.States
 
     public IImmutableList<IActionGroup> ActionGroups { get; }
 
-    public IImmutableDictionary<Player, Stack<Card>> Decks { get; }
+    public IImmutableDictionary<Player, IImmutableStack<Card>> Decks { get; }
 
-    public IImmutableDictionary<Player, ISet<Card>> Hands { get; }
+    public IImmutableDictionary<Player, IImmutableSet<Card>> Hands { get; }
 
-    public IImmutableDictionary<Player, ISet<Card>> Discards { get; }
+    public IImmutableDictionary<Player, IImmutableSet<Card>> Discards { get; }
 
-    public IImmutableDictionary<Player, ISet<Card>> Archives { get; }
+    public IImmutableDictionary<Player, IImmutableSet<Card>> Archives { get; }
 
-    public IImmutableDictionary<Player, IList<Creature>> Fields { get; }
+    public IImmutableDictionary<Player, IImmutableList<Creature>> Fields { get; }
 
     public ImmutableArray<IEffect> Effects { get; }
 
@@ -53,11 +52,11 @@ namespace KeyforgeUnlocked.States
       IImmutableDictionary<Player, int> keys,
       IImmutableDictionary<Player, int> aember,
       IImmutableList<IActionGroup> actionGroups,
-      IImmutableDictionary<Player, Stack<Card>> decks,
-      IImmutableDictionary<Player, ISet<Card>> hands,
-      IImmutableDictionary<Player, ISet<Card>> discards,
-      IImmutableDictionary<Player, ISet<Card>> archives,
-      IImmutableDictionary<Player, IList<Creature>> fields,
+      IImmutableDictionary<Player, IImmutableStack<Card>> decks,
+      IImmutableDictionary<Player, IImmutableSet<Card>> hands,
+      IImmutableDictionary<Player, IImmutableSet<Card>> discards,
+      IImmutableDictionary<Player, IImmutableSet<Card>> archives,
+      IImmutableDictionary<Player, IImmutableList<Creature>> fields,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,
       Metadata metadata)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
@@ -25,7 +26,7 @@ namespace KeyforgeUnlocked.States
     }
 
     static bool TryFind<T>(
-      IEnumerable<KeyValuePair<Player, IList<T>>> toLookup,
+      IEnumerable<KeyValuePair<Player, IImmutableList<T>>> toLookup,
       string id,
       out Player owningPlayer,
       out T lookup) where T : IIdentifiable

@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -38,7 +40,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     }
 
     [Test]
-    public void Resolve_TargetIsElusiveAndAttackedCurrentTurn_NoDamageDealt()
+    public void Resolve_TargetIsElusiveAndAttackedCurrentTurn_ElusiveCreatureDead()
     {
       var foughtCreatureCard = new SampleCreatureCard(power: 3);
       var fightingCreatureCard = new SampleCreatureCard(power: 3);
@@ -62,7 +64,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 2);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3);
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureFought(expectedFightingCreature, expectedTargetCreature), new CreatureDied(expectedTargetCreature)};
-      var expectedState = startState.Extend(resolvedEffects: expectedResolvedEffects, fields: expectedField);
+      var expectedDiscards = TestUtil.Sets(Enumerable.Empty<Card>(), new []{targetCreatureCard});
+      var expectedState = startState.Extend(resolvedEffects: expectedResolvedEffects, fields: expectedField, discards: expectedDiscards);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

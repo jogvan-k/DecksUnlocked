@@ -43,15 +43,15 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
       new List<IActionGroup>().ToImmutableList(),
       new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}}
-        .ToImmutableDictionary(),
+        .ToImmutable(),
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
-        .ToImmutableDictionary(),
+        .ToImmutable(),
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
-        .ToImmutableDictionary(),
+        .ToImmutable(),
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
-        .ToImmutableDictionary(),
+        .ToImmutable(),
       new Dictionary<Player, IList<Creature>>
-        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}}.ToImmutableDictionary(),
+        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}}.ToImmutable(),
       ImmutableArray<IEffect>.Empty,
       new List<IResolvedEffect>().ToImmutableList(),
       null);
@@ -84,11 +84,11 @@ namespace KeyforgeUnlockedTest.Util
         keys ?? new Dictionary<Player, int>(state.Keys),
         aember ?? new Dictionary<Player, int>(state.Aember),
         actionGroups ?? new List<IActionGroup>(state.ActionGroups),
-        decks ?? new Dictionary<Player, Stack<Card>>(state.Decks),
-        hands ?? new Dictionary<Player, ISet<Card>>(state.Hands),
-        discards ?? new Dictionary<Player, ISet<Card>>(state.Discards),
-        archives ?? new Dictionary<Player, ISet<Card>>(state.Archives),
-        fields ?? new Dictionary<Player, IList<Creature>>(state.Fields),
+        decks ?? state.Decks.ToMutable(),
+        hands ?? state.Hands.ToMutable(),
+        discards ?? state.Discards.ToMutable(),
+        archives ?? state.Archives.ToMutable(),
+        fields ?? state.Fields.ToMutable(),
         effects ?? new StackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new List<IResolvedEffect>(state.ResolvedEffects),
         metadata ?? state.Metadata);

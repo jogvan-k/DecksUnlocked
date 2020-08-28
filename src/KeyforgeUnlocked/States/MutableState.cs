@@ -68,15 +68,15 @@ namespace KeyforgeUnlocked.States
 
     IImmutableList<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableList();
 
-    IImmutableDictionary<Player, Stack<Card>> IState.Decks => Decks.ToImmutableDictionary();
+    IImmutableDictionary<Player, IImmutableStack<Card>> IState.Decks => Decks.ToImmutable();
 
-    IImmutableDictionary<Player, ISet<Card>> IState.Hands => Hands.ToImmutableDictionary();
+    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Hands => Hands.ToImmutable();
 
-    IImmutableDictionary<Player, ISet<Card>> IState.Discards => Discards.ToImmutableDictionary();
+    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Discards => Discards.ToImmutable();
 
-    IImmutableDictionary<Player, ISet<Card>> IState.Archives => Archives.ToImmutableDictionary();
+    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Archives => Archives.ToImmutable();
 
-    IImmutableDictionary<Player, IList<Creature>> IState.Fields => Fields.ToImmutableDictionary();
+    IImmutableDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
 
     ImmutableArray<IEffect> IState.Effects => Effects.ToImmutableArray();
 
@@ -99,11 +99,11 @@ namespace KeyforgeUnlocked.States
       Keys = new Dictionary<Player, int>(state.Keys);
       Aember = new Dictionary<Player, int>(state.Aember);
       ActionGroups = new List<IActionGroup>(state.ActionGroups);
-      Decks = new Dictionary<Player, Stack<Card>>(state.Decks);
-      Hands = new Dictionary<Player, ISet<Card>>(state.Hands);
-      Discards = new Dictionary<Player, ISet<Card>>(state.Discards);
-      Archives = new Dictionary<Player, ISet<Card>>(state.Archives);
-      Fields = new Dictionary<Player, IList<Creature>>(state.Fields);
+      Decks = state.Decks.ToMutable();
+      Hands = state.Hands.ToMutable();
+      Discards = state.Discards.ToMutable();
+      Archives = state.Archives.ToMutable();
+      Fields = state.Fields.ToMutable();
       Effects = new StackQueue<IEffect>(state.Effects);
       ResolvedEffects = new List<IResolvedEffect>();
       Metadata = state.Metadata;

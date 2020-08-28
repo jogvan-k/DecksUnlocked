@@ -60,8 +60,8 @@ namespace KeyforgeUnlocked.States
              && ReferenceEquals(thisState.Metadata, other.Metadata);
     }
 
-    static bool SetEquals<T>(IImmutableDictionary<Player, ISet<T>> first,
-      IImmutableDictionary<Player, ISet<T>> second)
+    static bool SetEquals<T>(IImmutableDictionary<Player, IImmutableSet<T>> first,
+      IImmutableDictionary<Player, IImmutableSet<T>> second)
     {
       if (first.Count != second.Count)
         return false;
@@ -89,8 +89,8 @@ namespace KeyforgeUnlocked.States
     }
 
     // reduce and incorporate to above function?
-    internal static bool EqualContent(IImmutableDictionary<Player, IList<Creature>> first,
-      IImmutableDictionary<Player, IList<Creature>> second)
+    internal static bool EqualContent(IImmutableDictionary<Player, IImmutableList<Creature>> first,
+      IImmutableDictionary<Player, IImmutableList<Creature>> second)
     {
       if (first.Count != second.Count)
         return false;

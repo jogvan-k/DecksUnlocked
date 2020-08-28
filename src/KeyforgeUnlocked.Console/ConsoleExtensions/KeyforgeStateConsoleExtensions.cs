@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.ActionGroups;
@@ -54,7 +55,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintAmounts(IState state, Player fromPlayerPerspective)
     {
-      Console.Write($"[Deck]: {state.Decks[fromPlayerPerspective].Count} ");
+      Console.Write($"[Deck]: {state.Decks[fromPlayerPerspective].ToArray().Length} ");
       Console.Write($"[Dis]carde: {state.Discards[fromPlayerPerspective].Count} ");
       Console.WriteLine($"[Arc]hive: {state.Archives[fromPlayerPerspective].Count}");
     }
@@ -89,7 +90,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     }
 
     static void PrintField(IState state,
-      IList<Creature> creatures,
+      IImmutableList<Creature> creatures,
       Dictionary<string, IActionGroup> commands = null)
     {
       Console.WriteLine("Board: ");

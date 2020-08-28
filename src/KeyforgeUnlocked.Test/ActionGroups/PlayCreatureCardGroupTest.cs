@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void Actions_CreaturesOnBoard_ActionsOnlyOnFlank()
     {
-      IState state = StateTestUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState;
       for (int i = 0; i < 5; i++)
         state.Fields[Player.Player1].Add(new Creature(new SampleCreatureCard()));
       var sut = new PlayCreatureCardGroup(state, Card);

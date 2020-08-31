@@ -4,6 +4,10 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class NoAction : Action
   {
+    public NoAction(ImmutableState originState) : base(originState)
+    {
+    }
+
     internal override void DoActionNoResolve(MutableState state)
     {
     }

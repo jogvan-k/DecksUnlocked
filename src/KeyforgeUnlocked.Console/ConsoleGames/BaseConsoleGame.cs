@@ -45,7 +45,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       var command = ReadCommand();
       if (int.TryParse(command, out var i))
       {
-        _state = Commands["action"].Actions[i - 1].DoAction(_state);
+        _state = Commands["action"].Actions(_state.ToImmutable())[i - 1].DoAction(_state);
       }
       else
       {
@@ -62,7 +62,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         var command = Console.ReadLine().ToLower();
         if (Commands.Keys.Contains("action"))
         {
-          if (int.TryParse(command, out var i) && 0 < i && i <= Commands["action"].Actions.Count)
+          if (int.TryParse(command, out var i) && 0 < i && i <= Commands["action"].Actions(_state.ToImmutable()).Count)
             return command;
         }
         else if (HelperCommands.Keys.Contains(command))
@@ -76,12 +76,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
 
     void ResolveCommand(IActionGroup command)
     {
-      var actions = command.Actions;
+      var actions = command.Actions(_state.ToImmutable());
       if (actions.Count == 0)
         throw new InvalidOperationException("List /'IActionGroup.Actions/' must not be empty ");
       if (actions.Count == 1)
       {
-        _state = command.Actions.Single().DoAction(_state);
+        _state = actions.Single().DoAction(_state);
         return;
       }
 
@@ -95,7 +95,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
 
       int i = 1;
       var actions = new List<Action>();
-      foreach (var action in actionGroup.Actions)
+      foreach (var action in actionGroup.Actions(_state.ToImmutable()))
       {
         Console.WriteLine($"{i++}: {action.ToConsole()}");
         actions.Add(action);

@@ -5,13 +5,23 @@ using KeyforgeUnlocked.States;
 using UnlockedCore;
 
 [assembly: InternalsVisibleTo("KeyforgeUnlocked.Test")]
+
 namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action : ICoreAction
   {
-    public ICoreState DoCoreAction(ICoreState state)
+    private ImmutableState _originState;
+
+    public ICoreState Origin => _originState;
+
+    protected Action(ImmutableState originState)
     {
-      return DoAction((IState) state);
+      _originState = originState;
+    }
+
+    public ICoreState DoCoreAction()
+    {
+      return DoAction(_originState);
     }
 
     public IState DoAction(IState state)

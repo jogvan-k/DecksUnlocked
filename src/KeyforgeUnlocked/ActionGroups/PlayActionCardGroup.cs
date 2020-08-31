@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
@@ -12,12 +13,12 @@ namespace KeyforgeUnlocked.ActionGroups
     {
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
       return ImmutableList<Action>.Empty.AddRange(
         new[]
         {
-          (Action) new PlayActionCard(Card), new DiscardCard(Card)
+          (Action) new PlayActionCard(origin, Card), new DiscardCard(origin, Card)
         });
     }
   }

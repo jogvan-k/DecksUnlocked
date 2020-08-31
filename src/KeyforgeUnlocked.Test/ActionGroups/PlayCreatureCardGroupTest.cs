@@ -14,35 +14,36 @@ namespace KeyforgeUnlockedTest.ActionGroups
   class PlayCreatureCardGroupTest
   {
     static readonly CreatureCard Card = new SampleCreatureCard();
+    private ImmutableState _state = StateTestUtil.EmptyState;
 
     [Test]
     public void Actions_EmptyState()
     {
-      IState state = StateTestUtil.EmptyMutableState;
-      var sut = new PlayCreatureCardGroup(state, Card);
+      var sut = new PlayCreatureCardGroup(_state, Card);
 
-      var actions = sut.Actions;
+      var actions = sut.Actions(_state);
 
       var expectedAction =
-        ImmutableList<Action>.Empty.Add(new PlayCreatureCard(Card, 0)).Add(new DiscardCard(Card));
+        ImmutableList<Action>.Empty.Add(new PlayCreatureCard(_state, Card, 0)).Add(new DiscardCard(_state, Card));
       Assert.AreEqual(expectedAction, actions);
     }
 
     [Test]
     public void Actions_CreaturesOnBoard_ActionsOnlyOnFlank()
     {
-      var state = StateTestUtil.EmptyMutableState;
+      var mutableState = _state.ToMutable();
       for (int i = 0; i < 5; i++)
-        state.Fields[Player.Player1].Add(new Creature(new SampleCreatureCard()));
-      var sut = new PlayCreatureCardGroup(state, Card);
+        mutableState.Fields[Player.Player1].Add(new Creature(new SampleCreatureCard()));
+      var sut = new PlayCreatureCardGroup(mutableState, Card);
 
-      var actions = sut.Actions;
+      var immutableState = mutableState.ToImmutable();
+      var actions = sut.Actions(immutableState);
 
       var expectedActions =
         ImmutableList<Action>.Empty
-          .Add(new PlayCreatureCard(Card, 0))
-          .Add(new PlayCreatureCard(Card, 5))
-          .Add(new DiscardCard(Card));
+          .Add(new PlayCreatureCard(immutableState, Card, 0))
+          .Add(new PlayCreatureCard(immutableState, Card, 5))
+          .Add(new DiscardCard(immutableState, Card));
       Assert.AreEqual(expectedActions, actions);
     }
   }

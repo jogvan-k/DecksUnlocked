@@ -85,7 +85,7 @@ namespace KeyforgeUnlockedTest.Actions
         {Player.Player2, new List<Creature>()}
       };
       state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: _fields);
-      return new Reap(_creature, allowOutOfHouseUse);
+      return new Reap(null, _creature, allowOutOfHouseUse);
     }
 
     MutableState Expected(House activeHouse = ActiveHouse)

@@ -5,6 +5,10 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class EndTurn : BasicAction
   {
+    public EndTurn(ImmutableState originState) : base(originState)
+    {
+    }
+
     internal override void DoActionNoResolve(MutableState state)
     {
       state.Effects.Enqueue(new ReadyCardsAndRestoreArmor());

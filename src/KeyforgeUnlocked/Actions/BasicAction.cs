@@ -8,6 +8,10 @@ namespace KeyforgeUnlocked.Actions
   /// </summary>
   public abstract class BasicAction : Action
   {
+    protected BasicAction(ImmutableState originState) : base(originState)
+    {
+    }
+
     internal override void Validate(IState state)
     {
       ValidateNoUnresolvedEffects(state);

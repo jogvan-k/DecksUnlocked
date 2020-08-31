@@ -11,7 +11,8 @@ namespace KeyforgeUnlocked.States
   {
     public ICoreAction [] Actions()
     {
-      return ((IState) this).ActionGroups.SelectMany(a => a.Actions).Cast<ICoreAction>().ToArray();
+      var origin = ToImmutable();
+      return ((IState) this).ActionGroups.SelectMany(a => a.Actions(origin)).Cast<ICoreAction>().ToArray();
     }
 
 

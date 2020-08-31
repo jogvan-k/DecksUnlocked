@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
     readonly EffectOnCreature _effect;
     public readonly Creature Target;
 
-    public TargetCreature(EffectOnCreature effect, Creature target)
+    public TargetCreature(ImmutableState origin, EffectOnCreature effect, Creature target) : base(origin)
     {
       _effect = effect;
       Target = target;

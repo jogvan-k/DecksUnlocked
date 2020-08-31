@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class RemoveStun : UseCreature
   {
-    public RemoveStun(Creature creature, bool allowOutOfHouseUse = false) : base(creature, allowOutOfHouseUse)
+    public RemoveStun(ImmutableState origin, Creature creature, bool allowOutOfHouseUse = false) : base(origin, creature, allowOutOfHouseUse)
     {
     }
 

@@ -56,7 +56,7 @@ namespace KeyforgeUnlockedTest.Actions
         sampleCreatureCard, isReady: ready, state: stunned ? CreatureState.Stunned : CreatureState.None);
       fields = TestUtil.Lists(creature);
       state = StateTestUtil.EmptyState.New(activeHouse: House.Shadows, fields: fields);
-      return new UseCreatureAbility(creature);
+      return new UseCreatureAbility(null, creature);
     }
 
     MutableState Expected()

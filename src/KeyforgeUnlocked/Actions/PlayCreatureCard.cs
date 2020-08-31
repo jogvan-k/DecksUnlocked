@@ -11,8 +11,9 @@ namespace KeyforgeUnlocked.Actions
     public int Position { get; }
 
     public PlayCreatureCard(
+      ImmutableState origin,
       CreatureCard card,
-      int position)
+      int position) : base(origin)
     {
       Card = card;
       Position = position;

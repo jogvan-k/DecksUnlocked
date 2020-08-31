@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.States;
 using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
@@ -17,9 +18,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Houses = houses.ToImmutableHashSet();
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
-      return Houses.Select(h => new DeclareHouse(h)).ToImmutableList<Action>();
+      return Houses.Select(h => new DeclareHouse(origin, h)).ToImmutableList<Action>();
     }
 
     bool Equals(DeclareHouseGroup other)

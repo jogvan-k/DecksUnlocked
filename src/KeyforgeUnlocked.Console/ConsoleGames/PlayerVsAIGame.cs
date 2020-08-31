@@ -25,7 +25,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       }
       else
       {
-        _state = (IState) _gameAi.DetermineAction(_state).DoCoreAction(_state);
+        _state = (IState) _gameAi.DetermineAction(_state).DoCoreAction();
         _state.PrintAITurn();
         if (_state.PlayerTurn != _playingPlayer)
         {

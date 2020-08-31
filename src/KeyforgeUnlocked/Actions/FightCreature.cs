@@ -9,8 +9,10 @@ namespace KeyforgeUnlocked.Actions
   {
     public Creature Target { get; }
 
-    public FightCreature(Creature fighter,
-      Creature target, bool allowOutOfHouseUse = false) : base(fighter, allowOutOfHouseUse)
+    public FightCreature(
+      ImmutableState origin,
+      Creature fighter,
+      Creature target, bool allowOutOfHouseUse = false) : base(origin, fighter, allowOutOfHouseUse)
     {
       Target = target;
     }

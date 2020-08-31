@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
     public readonly Creature Creature;
     readonly bool _allowOutOfHouseUse;
 
-    public UseCreature(Creature creature, bool allowOutOfHouseUse)
+    public UseCreature(ImmutableState origin, Creature creature, bool allowOutOfHouseUse) : base(origin)
     {
       Creature = creature;
       _allowOutOfHouseUse = allowOutOfHouseUse;

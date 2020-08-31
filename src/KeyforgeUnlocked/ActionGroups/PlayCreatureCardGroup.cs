@@ -22,19 +22,19 @@ namespace KeyforgeUnlocked.ActionGroups
         throw new ArgumentNullException();
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
       var list = ImmutableList<Action>.Empty;
 
-      var leftPosition = new PlayCreatureCard(Card, 0);
+      var leftPosition = new PlayCreatureCard(origin, Card, 0);
       list = list.Add(leftPosition);
 
       if (BoardLength > 0)
       {
-        list = list.Add(new PlayCreatureCard(Card, BoardLength));
+        list = list.Add(new PlayCreatureCard(origin, Card, BoardLength));
       }
 
-      return list.Add(DiscardAction());
+      return list.Add(DiscardAction(origin));
     }
   }
 }

@@ -39,5 +39,7 @@ namespace KeyforgeUnlocked.States
     Metadata Metadata { get; }
 
     MutableState ToMutable();
+
+    ImmutableState ToImmutable();
   }
 }

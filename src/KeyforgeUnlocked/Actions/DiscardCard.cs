@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Actions
   {
     public Card Card { get; }
 
-    public DiscardCard(Card card)
+    public DiscardCard(ImmutableState origin, Card card) : base(origin)
     {
       Card = card;
     }

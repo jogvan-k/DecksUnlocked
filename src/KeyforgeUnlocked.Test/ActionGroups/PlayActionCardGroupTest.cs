@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -11,18 +12,19 @@ namespace KeyforgeUnlockedTest.ActionGroups
   sealed class PlayActionCardGroupTest
   {
     ActionCard sampleCard = new SampleActionCard();
+    private ImmutableState _state = StateTestUtil.EmptyState;
 
     [Test]
     public void Tests_EmptyState()
     {
       var sut = new PlayActionCardGroup(sampleCard);
 
-      var actions = sut.Actions;
+      var actions = sut.Actions(_state);
 
       var expectedActions = ImmutableList<Action>.Empty.AddRange(
         new[]
         {
-          (Action) new PlayActionCard(sampleCard), new DiscardCard(sampleCard)
+          (Action) new PlayActionCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
         });
       Assert.AreEqual(expectedActions, actions);
     }

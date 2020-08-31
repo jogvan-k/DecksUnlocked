@@ -13,7 +13,7 @@ namespace KeyforgeUnlockedTest.Actions
     public void Act_EmptyBoard()
     {
       var state = StateTestUtil.EmptyMutableState;
-      var sut = new EndTurn();
+      var sut = new EndTurn(null);
 
       var expectedEffects = new StackQueue<IEffect>();
       expectedEffects.Enqueue(new ReadyCardsAndRestoreArmor());

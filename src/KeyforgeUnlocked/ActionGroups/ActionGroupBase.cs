@@ -1,22 +1,21 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
   public abstract class ActionGroupBase : IActionGroup
   {
-    readonly System.Lazy<IImmutableList<Action>> _actions;
     public ActionType Type { get; }
 
-    public IImmutableList<Action> Actions => _actions.Value;
+    public IImmutableList<Action> Actions(ImmutableState origin) => InitiateActions(origin);
 
     public ActionGroupBase(ActionType type)
     {
       Type = type;
-      _actions = new System.Lazy<IImmutableList<Action>>(InitiateActions);
     }
 
-    protected abstract IImmutableList<Action> InitiateActions();
+    protected abstract IImmutableList<Action> InitiateActions(ImmutableState origin);
 
     protected bool Equals(ActionGroupBase other)
     {

@@ -30,7 +30,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       _fightingCreature = new Creature(FightingCreatureCard, isReady: true);
       _targetCreature = new Creature(TargetCreatureCard, isReady: true);
-      sut = new FightCreature(_fightingCreature, _targetCreature);
+      sut = new FightCreature(null, _fightingCreature, _targetCreature);
     }
 
     [Test]
@@ -99,7 +99,7 @@ namespace KeyforgeUnlockedTest.Actions
       var unreadyCreature = new Creature(FightingCreatureCard);
       var fields = TestUtil.Lists(unreadyCreature, _targetCreature);
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
-      var sut = new FightCreature(unreadyCreature, _targetCreature);
+      var sut = new FightCreature(null, unreadyCreature, _targetCreature);
 
       creatureNotReadyException = e => { Assert.AreEqual(unreadyCreature, e.Creature); };
 
@@ -112,7 +112,7 @@ namespace KeyforgeUnlockedTest.Actions
       var fightingCreature = new Creature(FightingCreatureCard, isReady: true, state: CreatureState.Stunned);
       var fields = TestUtil.Lists(fightingCreature, _targetCreature);
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
-      var sut = new FightCreature(fightingCreature, _targetCreature);
+      var sut = new FightCreature(null, fightingCreature, _targetCreature);
 
       creatureStunnedException = e => Assert.AreEqual(fightingCreature, e.Creature);
 

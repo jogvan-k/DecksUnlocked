@@ -22,7 +22,7 @@ namespace KeyforgeUnlocked.ActionGroups
       _allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
       var actions = ImmutableList<Action>.Empty;
       if (!Creature.IsReady)
@@ -30,22 +30,22 @@ namespace KeyforgeUnlocked.ActionGroups
 
       if (Creature.IsStunned())
       {
-        return actions.Add(new RemoveStun(Creature, _allowOutOfHouseUse));
+        return actions.Add(new RemoveStun(origin, Creature, _allowOutOfHouseUse));
       }
 
       for (int i = 0; i < _opponentCreatures.Count; i++)
       {
         var opponentCreature = _opponentCreatures[i];
         if (opponentCreature.HasTaunt() || !NeighboursHasTaunt(i))
-          actions = actions.Add(new FightCreature(Creature, opponentCreature, _allowOutOfHouseUse));
+          actions = actions.Add(new FightCreature(origin, Creature, opponentCreature, _allowOutOfHouseUse));
       }
 
       if (Creature.Card.CreatureAbility != null)
       {
-        actions = actions.Add(new UseCreatureAbility(Creature, _allowOutOfHouseUse));
+        actions = actions.Add(new UseCreatureAbility(origin, Creature, _allowOutOfHouseUse));
       }
 
-      actions = actions.Add(new Reap(Creature, _allowOutOfHouseUse));
+      actions = actions.Add(new Reap(origin, Creature, _allowOutOfHouseUse));
 
       return actions;
     }

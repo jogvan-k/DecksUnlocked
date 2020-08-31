@@ -7,7 +7,8 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class UseCreatureAbility : UseCreature
   {
-    public UseCreatureAbility(Creature creature, bool allowOutOfHouseUse = false) : base(creature, allowOutOfHouseUse)
+    public UseCreatureAbility(ImmutableState origin, Creature creature, bool allowOutOfHouseUse = false)
+      : base(origin, creature, allowOutOfHouseUse)
     {
     }
 

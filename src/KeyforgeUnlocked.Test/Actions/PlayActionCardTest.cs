@@ -13,7 +13,7 @@ namespace KeyforgeUnlockedTest.Actions
   sealed class PlayActionCardTest : ActionTestBase
   {
     static ActionCard sampleCard = new SampleActionCard();
-    static PlayActionCard _sut = new PlayActionCard(sampleCard);
+    static PlayActionCard _sut = new PlayActionCard(null, sampleCard);
     static IEffect unresolvedEffect = new EndTurn();
 
     [Test]

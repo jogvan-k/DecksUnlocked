@@ -1,5 +1,6 @@
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
@@ -13,9 +14,9 @@ namespace KeyforgeUnlocked.ActionGroups
       Card = card;
     }
 
-    protected Action DiscardAction()
+    protected Action DiscardAction(ImmutableState origin)
     {
-      return new DiscardCard(Card);
+      return new DiscardCard(origin, Card);
     }
   }
 }

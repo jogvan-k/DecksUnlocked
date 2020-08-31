@@ -56,12 +56,12 @@ namespace KeyforgeUnlockedTest.Util
       if (expected.PreviousState == null && actual.PreviousState != null)
       {
         AppendFieldName(sb, "PreviousState");
-        sb.AppendLine("Actual has previousState set to null whereas actual don't.");
+        sb.AppendLine("Expected has previousState set to null whereas actual don't.");
       }
       else if (actual.PreviousState == null && expected.PreviousState != null)
       {
         AppendFieldName(sb, "PreviousState");
-        sb.AppendLine("Expected has previousState set to null whereas actual don't.");
+        sb.AppendLine("Actual has previousState set to null whereas expected don't.");
       }
       else if (expected.PreviousState != null && expected.PreviousState.Equals(actual.PreviousState))
       {

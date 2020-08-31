@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Actions
   {
     public readonly ActionCard Card;
 
-    public PlayActionCard(ActionCard card)
+    public PlayActionCard(ImmutableState origin, ActionCard card) : base(origin)
     {
       Card = card;
     }

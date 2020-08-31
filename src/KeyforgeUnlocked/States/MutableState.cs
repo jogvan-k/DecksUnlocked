@@ -9,6 +9,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using Microsoft.VisualBasic;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -154,6 +155,8 @@ namespace KeyforgeUnlocked.States
       }
 
       ActionGroups.Add(new EndTurnGroup());
+      
+      var trialState = ToImmutable();
       foreach (var card in Hands[PlayerTurn])
       {
         if (card.House != activeHouse)
@@ -171,7 +174,7 @@ namespace KeyforgeUnlocked.States
             throw new NotImplementedException();
         }
 
-        if (actionGroup.Actions.Count != 0)
+        if (actionGroup.Actions(trialState).Count != 0)
           ActionGroups.Add(actionGroup);
       }
 
@@ -180,7 +183,7 @@ namespace KeyforgeUnlocked.States
         if (creature.IsReady && creature.Card.House == activeHouse)
         {
           var actionGroup = new UseCreatureGroup(this, creature);
-          if (actionGroup.Actions.Count != 0)
+          if (actionGroup.Actions(trialState).Count != 0)
             ActionGroups.Add(actionGroup);
         }
       }

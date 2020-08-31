@@ -28,8 +28,8 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedActionGroup = new TargetCreatureGroup(
         new[]
         {
-          new TargetCreature(effectOnCreature, playerTwoCreature),
-          new TargetCreature(effectOnCreature, playerOneCreature)
+          new TargetCreature(null, effectOnCreature, playerTwoCreature),
+          new TargetCreature(null, effectOnCreature, playerOneCreature)
         });
 
       var expectedState = Setup().New(actionGroups: new IActionGroup[]{expectedActionGroup});

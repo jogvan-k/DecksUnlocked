@@ -176,7 +176,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       {
         commands.Add("action", specialActions);
         int i = 1;
-        foreach (var action in specialActions.Actions)
+        var origin = state.ToImmutable();
+        foreach (var action in specialActions.Actions(origin))
         {
           Console.WriteLine($"{i++}: {action.ToConsole()}");
         }

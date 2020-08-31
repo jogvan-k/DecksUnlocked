@@ -1,5 +1,6 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
@@ -9,9 +10,9 @@ namespace KeyforgeUnlocked.ActionGroups
     {
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
-      return ImmutableList<Action>.Empty.Add(new NoAction());
+      return ImmutableList<Action>.Empty.Add(new NoAction(origin));
     }
   }
 }

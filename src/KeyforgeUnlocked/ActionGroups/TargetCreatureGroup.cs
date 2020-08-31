@@ -3,26 +3,28 @@ using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
   public sealed class TargetCreatureGroup : ResolveEffectActionGroup
   {
-    readonly IImmutableList<Action> actions;
+    private readonly EffectOnCreature _effect;
+    private readonly IList<Creature> _targets;
 
     public TargetCreatureGroup(EffectOnCreature effect, IList<Creature> targets) : base(ActionType.TargetCreature)
     {
-      actions = targets.Select(t => (Action) new TargetCreature(effect, t)).ToImmutableList();
+      _effect = effect;
+      _targets = targets;
     }
     internal TargetCreatureGroup(IEnumerable<Action> actions) : base(ActionType.TargetCreature)
     {
-      this.actions = actions.ToImmutableList();
     }
 
-    protected override IImmutableList<Action> InitiateActions()
+    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
     {
-      return actions;
+      return _targets.Select(t => (Action) new TargetCreature(origin, _effect, t)).ToImmutableList();
     }
   }
 }

@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new RandomMoveAI(), Player.Player1);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new MinimaxAI(new Evaluator(), 5), Player.Player1);
     }
     static IConsoleGame TwoPlayerGame()
     {

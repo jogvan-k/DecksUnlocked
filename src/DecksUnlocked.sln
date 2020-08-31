@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Test", "Ke
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore", "UnlockedCore\UnlockedCore.fsproj", "{3A4805DD-9F43-4E2E-9558-A365A2EFD044}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore.Test", "UnlockedCore.Test\UnlockedCore.Test.fsproj", "{27DDC334-5695-4757-B4A3-8D8C4DED321C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{3A4805DD-9F43-4E2E-9558-A365A2EFD044}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A4805DD-9F43-4E2E-9558-A365A2EFD044}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A4805DD-9F43-4E2E-9558-A365A2EFD044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

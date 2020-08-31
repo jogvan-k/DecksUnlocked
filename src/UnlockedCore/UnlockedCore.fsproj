@@ -8,6 +8,7 @@
     <ItemGroup>
         <Compile Include="Types.fs" />
         <Compile Include="AI.fs" />
+        <Compile Include="AITypes.fs" />
     </ItemGroup>
 
 </Project>

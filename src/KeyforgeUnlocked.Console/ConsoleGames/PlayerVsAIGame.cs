@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using UnlockedCore;
@@ -25,12 +26,19 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       }
       else
       {
-        _state = (IState) _gameAi.DetermineAction(_state).DoCoreAction();
-        _state.PrintAITurn();
-        if (_state.PlayerTurn != _playingPlayer)
+        var aiMoves = Array.Empty<int>();
+        while (_state.PlayerTurn != _playingPlayer)
         {
-          Console.WriteLine("Press any key to continue...");
-          Console.ReadLine();
+          if (aiMoves.Length == 0)
+            aiMoves = _gameAi.DetermineAction(_state);
+          _state = (IState) _state.Actions()[aiMoves[0]].DoCoreAction();
+          aiMoves = aiMoves.Skip(1).ToArray();
+          _state.PrintAITurn();
+          if (_state.PlayerTurn != _playingPlayer)
+          {
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadLine();
+          }
         }
       }
     }

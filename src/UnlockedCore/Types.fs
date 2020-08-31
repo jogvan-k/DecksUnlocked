@@ -7,7 +7,6 @@ type Player =
 type ICoreState =
     abstract PlayerTurn: Player
     abstract TurnNumber: int
-    abstract IsGameOver: bool
     abstract Actions: unit -> ICoreAction []
 
 and ICoreAction =
@@ -18,4 +17,4 @@ type IEvaluator =
     abstract Evaluate: ICoreState -> int
 
 type IGameAI =
-    abstract DetermineAction: ICoreState -> ICoreAction
+    abstract DetermineAction: ICoreState -> int[]

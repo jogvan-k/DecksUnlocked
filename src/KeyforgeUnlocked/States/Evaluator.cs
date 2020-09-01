@@ -17,10 +17,8 @@ namespace KeyforgeUnlocked.States
         return -1000;
       var value = 0;
 
-      value += 10 * state.Keys[Player.Player1];
-      value += state.Aember[Player.Player1];
-      value -= 10 * state.Keys[Player.Player2];
-      value -= state.Keys[Player.Player2];
+      value += 10 * (state.Keys[Player.Player1] - state.Keys[Player.Player2]);
+      value += state.Aember[Player.Player1] - state.Aember[Player.Player2];
       return value;
     }
   }

@@ -6,24 +6,19 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class FightCreature : IEffect
+  public sealed class FightCreature : UseCreature
   {
-    public Creature Fighter { get; }
-
     public Creature Target { get; }
 
     public FightCreature(Creature fighter,
-      Creature target)
+      Creature target) : base(fighter)
     {
-      Fighter = fighter;
       Target = target;
     }
 
-    public void Resolve(MutableState state)
+    protected override void SpecificResolve(MutableState state, Creature fighter)
     {
-      var fighter = Fighter;
       var target = Target;
-      fighter.IsReady = false;
       if (!target.Keywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(target.Id)))
       {
         int damageBeforeFight;
@@ -62,7 +57,7 @@ namespace KeyforgeUnlocked.Effects
 
     bool Equals(FightCreature other)
     {
-      return Equals(Fighter, other.Fighter) && Equals(Target, other.Target);
+      return Equals(Creature, other.Creature) && Equals(Target, other.Target);
     }
 
     public override bool Equals(object obj)
@@ -72,7 +67,7 @@ namespace KeyforgeUnlocked.Effects
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Fighter, Target);
+      return HashCode.Combine(Creature, Target);
     }
   }
 }

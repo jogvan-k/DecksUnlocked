@@ -120,7 +120,7 @@ namespace KeyforgeUnlockedTest.Effects
           }
         }
       };
-      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(_creature)};
+      var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(new Creature(_creature.Card))};
       var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: expectedResolvedEffects, aember: expectedAember);

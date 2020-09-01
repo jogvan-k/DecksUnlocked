@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -20,7 +22,8 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedDiscards = TestUtil.Sets<Card>(actionCard);
-      var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards);
+      var expectedResolvedEffects = new List<IResolvedEffect>{new ActionPlayed(actionCard)};
+      var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards, resolvedEffects: expectedResolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(playAbilityResolved);
     }

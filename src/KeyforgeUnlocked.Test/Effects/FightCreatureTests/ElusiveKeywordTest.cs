@@ -20,10 +20,10 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     {
       var fightingCreatureCard = new SampleCreatureCard(power: 3);
       var targetCreatureCard = new SampleCreatureCard(power: 2, keywords: Elusive);
-      var fightingCreature = new Creature(fightingCreatureCard);
+      var fightingCreature = new Creature(fightingCreatureCard, isReady: true);
       var targetCreature = new Creature(targetCreatureCard);
       var resolvedEffects = new[]
-        {(IResolvedEffect) new CreatureFought(fightingCreature, targetCreature)};
+        {(IResolvedEffect) new CreatureFought(new Creature(fightingCreature.Card), targetCreature)};
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
       var startState = StateTestUtil.EmptyState.New(
           turnNumber: 1,
@@ -35,7 +35,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       sut.Resolve(state);
 
-      var expectedState = startState.Extend(resolvedEffects: resolvedEffects);
+      var expectedFields = TestUtil.Lists(new Creature(fightingCreatureCard), targetCreature);
+      var expectedState = startState.Extend(resolvedEffects: resolvedEffects, fields: expectedFields);
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -46,7 +47,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var fightingCreatureCard = new SampleCreatureCard(power: 3);
       var targetCreatureCard = new SampleCreatureCard(power: 2, keywords: Elusive);
       var foughtCreature = new Creature(foughtCreatureCard);
-      var fightingCreature = new Creature(fightingCreatureCard);
+      var fightingCreature = new Creature(fightingCreatureCard, isReady: true);
       var targetCreature = new Creature(targetCreatureCard);
       IResolvedEffect[] resolvedEffects = {new CreatureFought(foughtCreature, targetCreature)};
       var fields = TestUtil.Lists(new[] {foughtCreature, fightingCreature}.AsEnumerable(), new[] {targetCreature});

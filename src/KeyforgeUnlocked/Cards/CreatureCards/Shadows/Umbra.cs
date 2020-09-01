@@ -18,7 +18,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
 
     public Umbra(House house) : base(
       house, power,
-      armor, creatureTypes, keywords, fightAbility)
+      armor, creatureTypes, keywords, fightAbility: fightAbility)
     {
     }
   }

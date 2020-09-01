@@ -17,12 +17,13 @@ namespace KeyforgeUnlocked.Effects
     {
       if(!Creature.IsReady)
         throw new CreatureNotReadyException(state, Creature);
-      SpecificResolve(state);
       var creature = state.FindCreature(Creature.Id, out _);
       creature.IsReady = false;
       state.SetCreature(creature);
+      
+      SpecificResolve(state, creature);
     }
 
-    protected abstract void SpecificResolve(MutableState state);
+    protected abstract void SpecificResolve(MutableState state, Creature creature);
   }
 }

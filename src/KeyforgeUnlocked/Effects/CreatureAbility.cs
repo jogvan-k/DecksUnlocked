@@ -3,18 +3,15 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class CreatureAbility : IEffect
+  public sealed class CreatureAbility : UseCreature
   {
-    public Creature Creature;
-
-    public CreatureAbility(Creature creature)
+    public CreatureAbility(Creature creature) : base(creature)
     {
-      Creature = creature;
     }
 
-    public void Resolve(MutableState state)
+    protected override void SpecificResolve(MutableState state, Creature creature)
     {
-      Creature.Card.CreatureAbility(state, Creature.Id);
+      creature.Card.CreatureAbility(state, creature.Id);
     }
 
     bool Equals(CreatureAbility other)

@@ -38,6 +38,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           {
             Console.WriteLine("Press any key to continue...");
             Console.ReadLine();
+            Console.Clear();
           }
         }
       }

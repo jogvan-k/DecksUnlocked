@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
@@ -14,6 +15,7 @@ namespace KeyforgeUnlocked.Effects
 
     public void Resolve(MutableState state)
     {
+      state.ResolvedEffects.Add(new ActionPlayed(Card));
       Card.PlayAbility?.Invoke(state, Card.Id);
       state.Discards[state.playerTurn].Add(Card);
     }

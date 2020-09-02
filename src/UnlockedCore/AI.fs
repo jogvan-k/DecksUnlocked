@@ -1,27 +1,50 @@
 module AIMethods
+
 open System
 open UnlockedCore
 
-let (|Node|Terminal|) (s : ICoreState) =
+type searchLimit =
+    | Until of turn: int
+    | Depth of remaining: int
+
+let reduce =
+    function
+    | Until turn -> Until turn
+    | Depth remaining -> Depth(remaining - 1)
+
+type nodeStates =
+    | Node
+    | Terminal
+    | SearchLimit
+
+let (|Node|Terminal|) (s: ICoreState) =
     let actions = s.Actions()
-    if(actions.Length = 0)
-        then Terminal
-        else Node (Array.map (fun (a : ICoreAction) -> a.DoCoreAction()) actions)
+    if (actions.Length = 0)
+    then Terminal 0
+    else Node(Array.map (fun (a: ICoreAction) -> a.DoCoreAction()) actions)
 
-let rec minimaxAI (evaluator : IEvaluator) (depth : int) (s : ICoreState) =
-   if(depth <= 0) then (evaluator.Evaluate(s), [])
-   else
-   match s with
-   | Terminal -> (evaluator.Evaluate(s), [])
-   | Node a ->
-       let evaluatedStates = a |> Array.mapi (fun i s ->
-           let eval = (minimaxAI evaluator (depth - 1) s)
-           (fst eval, i :: (snd eval)))
-       
-       if(s.PlayerTurn = Player.Player1)
-           then evaluatedStates |> Array.maxBy (fun r -> fst r)
-           else evaluatedStates |> Array.minBy (fun r -> fst r)
+let (|SearchLimit|_|) (limit: searchLimit) (s: ICoreState) =
+    match limit with
+    | Until (turn) when turn <= s.TurnNumber -> Some 0
+    | Depth (remaining) when remaining <= 0 -> Some 0
+    | _ -> None
 
-let randomMoveAI (rng : Random) (s :ICoreState) =
-            let actions = s.Actions()
-            rng.Next() % actions.Length
+
+let rec minimaxAI evaluator (depth: searchLimit) (s: ICoreState) =
+    match s with
+    | SearchLimit depth ex
+    | Terminal ex -> (evaluator s, [])
+    | Node a ->
+        let evaluatedStates = evaluate a evaluator depth
+        if (s.PlayerTurn = Player.Player1)
+        then evaluatedStates |> Array.maxBy (fun r -> fst r)
+        else evaluatedStates |> Array.minBy (fun r -> fst r)
+
+and evaluate a evaluator depth =
+    Array.mapi (fun i s ->
+        let eval = (minimaxAI evaluator (reduce depth) s)
+        (fst eval, i :: (snd eval))) a
+
+let randomMoveAI (rng: Random) (s: ICoreState) =
+    let actions = s.Actions()
+    rng.Next() % actions.Length

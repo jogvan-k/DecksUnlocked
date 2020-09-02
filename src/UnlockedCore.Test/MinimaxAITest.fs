@@ -6,9 +6,17 @@ open UnlockedCore.TestTypes
 
 [<TestFixture>]
 type TestCase () =
-    let evaluator = new evaluator()
     let player1 = Player.Player1
     let player2 = Player.Player2
+
+    let rec invertTree (t : node) =
+        let otherPlayer = if(t.playerTurn = player1) then player2 else player1
+        if(t.nodes.Length = 0)
+        then
+            node(otherPlayer, t.turnNumber, t.value)
+        else
+            let nodes = t.nodes |> Array.map invertTree
+            node(otherPlayer, t.turnNumber, t.value, nodes)
 
     let basicTree = node(player1, 0, 0, [|
         node(player2, 1, -10, 
@@ -28,18 +36,30 @@ type TestCase () =
             )
         |])
     
-    let rec invertTree (t : node) =
-        let otherPlayer = if(t.playerTurn = player1) then player2 else player1
-        if(t.nodes.Length = 0)
-        then
-            node(otherPlayer, t.turnNumber, t.value)
-        else
-            let nodes = t.nodes |> Array.map invertTree
-            node(otherPlayer, t.turnNumber, t.value, nodes)
-
+    let twoDepthsPerTurnTree = node(player1, 0, 0, [|
+        node(player1, 0, 20, [|
+            node(player2, 1, 20, [|
+                node(player2, 1, 0, [|
+                    node(player1, 2, -10)
+                |])
+            |])
+            node(player2, 1, 25, [|
+                node(player2, 1, 20, [|
+                    node(player1, 2, -20,[|
+                         node(player1, 2, 0, [|
+                             node(player2, 3, 30)
+                         |])
+                    |])
+                |])
+            |])
+        |])
+        node(player1, 0, 10)
+    |])
+    
     [<Test>]
     member this.NoDepth_BasicTree () =
-        let result = AIMethods.minimaxAI evaluator 0 basicTree
+        let d = AIMethods.Depth(0)
+        let result = AIMethods.minimaxAI evaluatorFunc d basicTree
         
         Assert.That(fst result, Is.EqualTo(0))
         Assert.That(snd result, Is.EqualTo([||]))
@@ -49,7 +69,8 @@ type TestCase () =
     [<TestCase(3, -40, [|0; 0; 0|])>]
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_BasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
-        let result = AIMethods.minimaxAI evaluator depth basicTree
+        let d = AIMethods.Depth(depth)
+        let result = AIMethods.minimaxAI evaluatorFunc d basicTree
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
         Assert.That(snd result, Is.EqualTo(List.ofArray expectedPath))
@@ -60,7 +81,19 @@ type TestCase () =
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_InvertedBasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
         let invertedTree = invertTree basicTree
-        let result = AIMethods.minimaxAI evaluator depth invertedTree
+        let d = AIMethods.Depth(depth)
+        let result = AIMethods.minimaxAI evaluatorFunc d invertedTree
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
         Assert.That(snd result, Is.EqualTo(List.ofArray expectedPath))
+        
+    [<TestCase(1, 25, [|0; 1|])>]
+    [<TestCase(2, 10, [|1|])>]
+    [<TestCase(3, 30, [|0; 1; 0; 0; 0; 0|])>]
+    member this.TurnDepthSearch (untilTurn : int) (expectedValue : int) (expectedPath : int[]) =
+        let d = AIMethods.Until(untilTurn)
+        
+        let result = AIMethods.minimaxAI evaluatorFunc d twoDepthsPerTurnTree
+        
+        Assert.That(fst result, Is.EqualTo(expectedValue))
+        Assert.That(snd result, Is.EqualTo(expectedPath))

@@ -27,4 +27,22 @@ and action(node) =
 type evaluator() =
     interface IEvaluator with
         member this.Evaluate s =
-            (s :?> node).value 
+            (s :?> node).value
+            
+let evaluator = evaluator()
+let evaluatorFunc (s : ICoreState) = (s :?> node).value
+// n: depth number
+// b: new branches after each depth
+// counter: tuple of given depth * given height
+let rec recComplexTree evalFun counter n b =
+    let (player, turnNo, value) = evalFun counter
+    let (d, h) = counter
+    if(d = n)
+    then node(player, turnNo, value)
+    else
+        //let currentHeight = 
+        let nodes = [|0..1..b-1|] |> Array.map (fun i -> recComplexTree evalFun (d + 1, b * h + i) n b)
+        node(player, turnNo, value, nodes)
+and complexTree evalFun n b =
+    let counter = (0, 0)
+    recComplexTree evalFun counter n b

@@ -2,6 +2,8 @@
 
 open UnlockedCore
 
+let p1 = Player.Player1
+let p2 = Player.Player2
 type node(playerTurn, turnNumber, value, nodes : node[]) =
     new(playerTurn, turnNumber, value, singleNode) = node(playerTurn, turnNumber, value, [|singleNode|])
     new(playerTurn, turnNumber, value) = node (playerTurn, turnNumber, value, Array.empty)
@@ -46,3 +48,12 @@ let rec recComplexTree evalFun counter n b =
 and complexTree evalFun n b =
     let counter = (0, 0)
     recComplexTree evalFun counter n b
+    
+let rec invertTree (t : node) =
+        let otherPlayer = if(t.playerTurn = p1) then p2 else p1
+        if(t.nodes.Length = 0)
+        then
+            node(otherPlayer, t.turnNumber, t.value)
+        else
+            let nodes = t.nodes |> Array.map invertTree
+            node(otherPlayer, t.turnNumber, t.value, nodes)

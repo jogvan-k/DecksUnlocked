@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using ClassLibrary1.AITypes;
+using UnlockedCore.AITypes;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using UnlockedCore;

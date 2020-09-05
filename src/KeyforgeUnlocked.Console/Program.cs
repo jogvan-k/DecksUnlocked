@@ -1,4 +1,4 @@
-﻿using ClassLibrary1.AITypes;
+﻿using UnlockedCore.AITypes;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedConsole.ConsoleGames;
@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new MinimaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, LoggingConfiguration.LogAll), Player.Player1);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new MinimaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll), Player.Player1);
     }
     static IConsoleGame TwoPlayerGame()
     {

@@ -1,24 +1,18 @@
-﻿namespace ClassLibrary1.AITypes
+﻿namespace UnlockedCore.AITypes
 
 open System
 open UnlockedCore
+open AIMethods
 
 type SearchDepthConfiguration =
     | node = 0
     | turn = 1
 
-[<Flags>]
-type LoggingConfiguration =
-    | NoLogging = 0
-    | LogEvaluatedStates = 1
-    | LogTime = 2
-    | LogAll = 3
-
 module UtilMethods =
     let toSearchLimit searchConfiguration depth tn =
                         match searchConfiguration with
-                        | SearchDepthConfiguration.node -> AIMethods.Depth depth
-                        | SearchDepthConfiguration.turn -> AIMethods.Until (tn + depth)
+                        | SearchDepthConfiguration.node -> Depth depth
+                        | SearchDepthConfiguration.turn -> Until (tn + depth, 0)
                         | _ ->  raise (ArgumentException("Undefined SearchDepthConfiguration"))
 
 [<Struct>]
@@ -29,12 +23,15 @@ type LogInfo =
 type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthConfiguration, loggingConfiguration : LoggingConfiguration) =
     
     [<DefaultValue>] val mutable logInfo: LogInfo
+    let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
+    let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
+    let timer = if(logTime)
+                then Some(System.Diagnostics.Stopwatch.StartNew())
+                else None
+
     interface IGameAI with
         member this.DetermineAction s =
             let d = UtilMethods.toSearchLimit searchConfiguration depth s.TurnNumber
-            
-            let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
-            let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
             
             let evaluate =
                 if(logEvaulatedStates)
@@ -43,12 +40,9 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthCo
                                  evaluator.Evaluate i
                 else evaluator.Evaluate
             
-            let timer = if(logTime)
-                        then Some(System.Diagnostics.Stopwatch.StartNew())
-                        else None
-            
-            let returnVal = AIMethods.minimaxAI evaluate d s |> snd |> List.toArray
-            
+            let accumulator = accumulator(evaluate, loggingConfiguration)
+            let returnVal = minimaxAI accumulator d s |> snd |> List.toArray
+
             this.logInfo.ElapsedTime <- if(timer.IsSome)
                                         then timer.Value.Stop()
                                              timer.Value.Elapsed

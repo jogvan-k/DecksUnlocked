@@ -16,6 +16,7 @@
     <ItemGroup>
         <Compile Include="TestTypes.fs" />
         <Compile Include="MinimaxAITest.fs" />
+        <Compile Include="AlphaBetaPruningTest.fs" />
         <Compile Include="BenchmarkTest.fs" />
     </ItemGroup>
 

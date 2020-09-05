@@ -1,6 +1,6 @@
 ﻿namespace UnlockedCore.Test.BenchmarkTest
 
-open ClassLibrary1.AITypes
+open UnlockedCore.AITypes
 open NUnit.Framework
 open UnlockedCore
 open UnlockedCore.TestTypes
@@ -19,7 +19,7 @@ type BenchmarkCases () =
         let tree = complexTree evalFun n b
         
         
-        let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn, LoggingConfiguration.LogAll)
+        let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll)
         
         let result = (cal :> IGameAI).DetermineAction tree
         let logInfo = cal.logInfo

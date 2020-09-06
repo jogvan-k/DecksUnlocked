@@ -36,8 +36,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
             aiMoves = _gameAi.DetermineAction(_state);
             if (_gameAi is MinimaxAI minimaxAi)
             {
-              if(minimaxAi.logInfo.NodesEvaluated > 0 && minimaxAi.logInfo.ElapsedTime.Ticks > 0)
-                aiLogString = $"{minimaxAi.logInfo.NodesEvaluated} states evaluated in {minimaxAi.logInfo.ElapsedTime.TotalMinutes} minutes.";
+              if(minimaxAi.logInfo.nodesEvaluated > 0 && minimaxAi.logInfo.elapsedTime.Ticks > 0)
+                aiLogString = $"{minimaxAi.logInfo.nodesEvaluated} states evaluated in {minimaxAi.logInfo.elapsedTime.TotalMinutes} minutes.";
             }
           }
 

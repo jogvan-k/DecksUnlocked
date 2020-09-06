@@ -1,6 +1,5 @@
 namespace UnlockedCore.Test
 open AIMethods
-open UnlockedCore
 
 open NUnit.Framework
 open UnlockedCore.TestTypes
@@ -8,42 +7,42 @@ open UnlockedCore.TestTypes
 [<TestFixture>]
 type TestCase () =
 
-    let basicTree = node(p1, 0, 0, [|
-        node(p2, 1, -10, 
-            node(p1, 2, 20,
-                 node(p2, 3, -40,[|
-                      node(p1, 4, 70)
-                      node(p1, 4, 80)|]
+    let basicTree = node(p1, 0, 0, 0, [|
+        node(p2, 1, -10, 1, 
+            node(p1, 2, 20, 2,
+                 node(p2, 3, -40, 3,[|
+                      node(p1, 4, 70, 4)
+                      node(p1, 4, 80, 5)|]
                       )
                  )
             )
-        node(p2, 1, -20,
-            node(p1, 2, 30,
-                 node(p2, 3, -50,
-                      node(p1, 4, 75)
+        node(p2, 1, -20, 6,
+            node(p1, 2, 30, 7,
+                 node(p2, 3, -50, 8,
+                      node(p1, 4, 75, 9)
                       )
                  )
             )
         |])
     
-    let twoDepthsPerTurnTree = node(p1, 0, 0, [|
-        node(p1, 0, 20, [|
-            node(p2, 1, 20, [|
-                node(p2, 1, 0, [|
-                    node(p1, 2, -10)
+    let twoDepthsPerTurnTree = node(p1, 0, 0, 0, [|
+        node(p1, 0, 20, 1, [|
+            node(p2, 1, 20, 2, [|
+                node(p2, 1, 0, 3, [|
+                    node(p1, 2, -10, 4)
                 |])
             |])
-            node(p2, 1, 25, [|
-                node(p2, 1, 20, [|
-                    node(p1, 2, -20,[|
-                         node(p1, 2, 0, [|
-                             node(p2, 3, 30)
+            node(p2, 1, 25, 5, [|
+                node(p2, 1, 20, 6, [|
+                    node(p1, 2, -20, 7,[|
+                         node(p1, 2, 0, 8, [|
+                             node(p2, 3, 30, 9)
                          |])
                     |])
                 |])
             |])
         |])
-        node(p1, 0, 10)
+        node(p1, 0, 10, 10)
     |])
     
     [<Test>]

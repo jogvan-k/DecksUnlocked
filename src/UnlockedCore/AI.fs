@@ -12,7 +12,7 @@ let reduce =
     function
     | Until (turn, depth) ->
         if(depth >= seachDepthLimit)
-              then failwith "search depth exceeded %i" seachDepthLimit
+              then failwith (sprintf "search depth exceeded %i" seachDepthLimit)
               else Until (turn, depth + 1)
     | Depth remaining -> Depth(remaining - 1)
 
@@ -36,53 +36,82 @@ let (|SearchLimit|_|) (limit: searchLimit) (s: ICoreState) =
     
 [<Flags>]
 type LoggingConfiguration =
-    | NoLogging          = 0x0
-    | LogEvaluatedStates = 0x1
-    | LogTime            = 0x2
-    | LogPrunedPaths     = 0x4
-    | LogAll             = 7
-    
+    | NoLogging                    = 0x0
+    | LogEvaluatedStates           = 0x1
+    | LogTime                      = 0x2
+    | LogSuccessfulHashMapLookup   = 0x4
+    | LogPrunedPaths               = 0x8
+    | LogAll                       = 0xf
+
+let logPrunedPaths (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogPrunedPaths)
+let logSuccessfulHashMapLookup (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogSuccessfulHashMapLookup)
+
 type accumulator(evaluator : ICoreState -> int, logConfig: LoggingConfiguration) =
     let mutable _prunedPaths = 0
+    let mutable _successfulHashMapLookups = 0
+    let mutable _hashMap = Map.empty
+    let _lookupHashMap: int -> (int * int list) option =
+        if(logSuccessfulHashMapLookup logConfig)
+        then fun hash -> let lookup = _hashMap.TryFind(hash)
+                         if(lookup.IsSome)
+                         then _successfulHashMapLookups <- _successfulHashMapLookups + 1
+                         lookup
+        else fun hash -> _hashMap.TryFind(hash)
+        
+    let _incrementPrunedPaths =
+        if(logPrunedPaths logConfig)
+        then fun () -> _prunedPaths <- _prunedPaths + 1
+        else fun () -> ()
+    member this.incrementPrunedPaths () = _incrementPrunedPaths ()
     member this.logConfig = logConfig
     member this.eval = evaluator
+    member this.addToHashMap hash value = _hashMap <- _hashMap.Add(hash, value)
+    member this.lookupHashMap hash = _lookupHashMap hash
     member this.prunedPaths
         with get() = _prunedPaths
-        and set v = _prunedPaths <- v
-    
-let logPrunedPaths (acc: accumulator) = acc.logConfig.HasFlag(LoggingConfiguration.LogPrunedPaths)
+    member this.successfulHashMapLookups
+        with get() = _successfulHashMapLookups
 
 let rec recMinimaxAI (acc: accumulator) (depth: searchLimit) alpha beta (s: ICoreState) =
     match s with
     | SearchLimit depth ex
     | Terminal ex -> (acc.eval s, [])
     | Node actions ->
-        let iter = actions.GetEnumerator()
-        let mutable i = 0
-        iter.MoveNext() |> ignore
-        let mutable currentBest = recMinimaxAI acc (reduce depth) alpha beta (iter.Current.DoCoreAction())
-        currentBest <- (fst currentBest, i :: snd currentBest)
-        if (s.PlayerTurn = Player.Player1)
-        then
-            let mutable alpha' = max alpha (fst currentBest)
-            while alpha' < beta && iter.MoveNext() do
-                i <- i + 1
-                let candidate = recMinimaxAI acc (reduce depth) alpha' beta (iter.Current.DoCoreAction())
-                if (fst candidate) > (fst currentBest)
-                then currentBest <- (fst candidate, i :: snd candidate)
-                     alpha' <- max alpha (fst candidate)
-            
+        let stateHash = s.GetHashCode()
+        let hashMapLookup = acc.lookupHashMap stateHash
+        if(hashMapLookup.IsSome)
+        then hashMapLookup.Value
         else
-            let mutable beta' = min beta (fst currentBest)
-            while beta' > alpha && iter.MoveNext() do
-                i <- i + 1
-                let candidate = recMinimaxAI acc (reduce depth) alpha beta' (iter.Current.DoCoreAction())
-                if (fst candidate) < (fst currentBest)
-                then currentBest <- (fst candidate, i :: snd candidate)
-                     beta' <- min beta (fst candidate)
-        if(logPrunedPaths acc) then
-            acc.prunedPaths <- acc.prunedPaths + 1
-        currentBest
+            let iter = actions.GetEnumerator()
+            iter.MoveNext() |> ignore
+            let mutable i = 0
+            let mutable currentBest = recMinimaxAI acc (reduce depth) alpha beta (iter.Current.DoCoreAction())
+            currentBest <- (fst currentBest, i :: snd currentBest)
+            if (s.PlayerTurn = Player.Player1)
+            then
+                let mutable alpha' = max alpha (fst currentBest)
+                while iter.MoveNext() do
+                    if(alpha' < beta)
+                    then i <- i + 1
+                         let candidate = recMinimaxAI acc (reduce depth) alpha' beta (iter.Current.DoCoreAction())
+                         if (fst candidate) > (fst currentBest)
+                         then currentBest <- (fst candidate, i :: snd candidate)
+                              alpha' <- max alpha (fst candidate)
+                    else acc.incrementPrunedPaths()
+            else
+                let mutable beta' = min beta (fst currentBest)
+                while iter.MoveNext() do
+                    if(beta' > alpha)
+                    then i <- i + 1
+                         let candidate = recMinimaxAI acc (reduce depth) alpha beta' (iter.Current.DoCoreAction())
+                         if (fst candidate) < (fst currentBest)
+                         then currentBest <- (fst candidate, i :: snd candidate)
+                              beta' <- min beta (fst candidate)
+                    else acc.incrementPrunedPaths()
+
+            acc.addToHashMap stateHash currentBest
+            currentBest
+
 let minimaxAI (acc: accumulator) (depth: searchLimit) (s: ICoreState) =
     recMinimaxAI acc depth Int32.MinValue Int32.MaxValue s
 

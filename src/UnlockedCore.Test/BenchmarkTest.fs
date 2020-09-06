@@ -1,5 +1,6 @@
 ﻿namespace UnlockedCore.Test.BenchmarkTest
 
+open System
 open UnlockedCore.AITypes
 open NUnit.Framework
 open UnlockedCore
@@ -8,17 +9,8 @@ open UnlockedCore.TestTypes
 [<TestFixture>]
 type BenchmarkCases () =
     
-    //let stringifyResult result = (fst result, (snd result) |> List.fold (fun r s -> r + s + ","))
-    
-    [<Explicit>]
-    [<Test>]
-    member this.AllUniqueNodes () =
-        let evalFun (d,h) = (Player.Player1, d, h)
-        let n = 8
-        let b = 6
+    let evaluate evalFun n b =
         let tree = complexTree evalFun n b
-        
-        
         let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll)
         
         let result = (cal :> IGameAI).DetermineAction tree
@@ -28,5 +20,48 @@ type BenchmarkCases () =
         let leafNodes = pown b n
         
         printfn "Searched tree of depth %i, branch width %i, %i total nodes and %i branch nodes " n b treeSize leafNodes
-        printfn "%i nodes evaluated in %i hours %i minutes and %i seconds %i milliseconds" logInfo.NodesEvaluated logInfo.ElapsedTime.Hours logInfo.ElapsedTime.Minutes logInfo.ElapsedTime.Seconds logInfo.ElapsedTime.Milliseconds
-        //printfn "Guaranteed minimum score of %i by following the path %s" (fst result) (snd result)
+        printfn "%i nodes evaluated in %i hours %i minutes and %i seconds %i milliseconds" logInfo.nodesEvaluated logInfo.elapsedTime.Hours logInfo.elapsedTime.Minutes logInfo.elapsedTime.Seconds logInfo.elapsedTime.Milliseconds
+        printfn "%i paths pruned and %i successful hash table lookups" cal.logInfo.prunedPaths cal.logInfo.successfulHashMapLookups
+        
+        logInfo
+    
+    [<Explicit>]
+    [<Test>]
+    member this.AllUniqueNodes () =
+        let rng = Random()
+        let evalFun (d,h) = (Player.Player1, d, h, rng.Next())
+        let n, b = 8, 6
+        
+        let logInfo = evaluate evalFun n b
+        
+        Assert.That(logInfo.nodesEvaluated, Is.EqualTo(pown b n))
+        Assert.That(logInfo.prunedPaths, Is.EqualTo(0))
+        Assert.That(logInfo.successfulHashMapLookups, Is.EqualTo(0))
+        
+    [<Explicit>]
+    [<Test>]
+    member this.PathsPruned () =
+        let rng = Random()
+        let evalFun (d,h) =
+            let playerTurn = if(d % 2 = 0) then p1 else p2
+            (playerTurn, d, rng.Next() / 100, rng.Next())
+        let n, b = 8, 6
+        
+        let logInfo = evaluate evalFun n b
+        
+        Assert.That(logInfo.nodesEvaluated, Is.GreaterThan(0))
+        Assert.That(logInfo.prunedPaths, Is.GreaterThan(0))
+        Assert.That(logInfo.successfulHashMapLookups, Is.EqualTo(0))
+        
+    [<Explicit>]
+    [<Test>]
+    member this.HashMapUsed () =
+        let rng = Random()
+        let evalFun (d,h) = (p1, d, h, rng.Next() / 100)
+        let n, b = 8, 6
+        
+        let logInfo = evaluate evalFun n b
+        
+        Assert.That(logInfo.nodesEvaluated, Is.GreaterThan(0))
+        Assert.That(logInfo.prunedPaths, Is.EqualTo(0))
+        Assert.That(logInfo.successfulHashMapLookups, Is.GreaterThan(0))

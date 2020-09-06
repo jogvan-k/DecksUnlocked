@@ -17,8 +17,10 @@ module UtilMethods =
 
 [<Struct>]
 type LogInfo =
-    { mutable NodesEvaluated: int
-      mutable ElapsedTime: TimeSpan }
+    { mutable nodesEvaluated: int
+      mutable elapsedTime: TimeSpan
+      mutable prunedPaths: int
+      mutable successfulHashMapLookups: int}
 
 type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthConfiguration, loggingConfiguration : LoggingConfiguration) =
     
@@ -36,17 +38,19 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthCo
             let evaluate =
                 if(logEvaulatedStates)
                 then
-                    function i-> this.logInfo.NodesEvaluated <- this.logInfo.NodesEvaluated + 1
+                    function i-> this.logInfo.nodesEvaluated <- this.logInfo.nodesEvaluated + 1
                                  evaluator.Evaluate i
                 else evaluator.Evaluate
             
             let accumulator = accumulator(evaluate, loggingConfiguration)
             let returnVal = minimaxAI accumulator d s |> snd |> List.toArray
 
-            this.logInfo.ElapsedTime <- if(timer.IsSome)
+            this.logInfo.elapsedTime <- if(timer.IsSome)
                                         then timer.Value.Stop()
                                              timer.Value.Elapsed
                                         else TimeSpan()
+            this.logInfo.prunedPaths <- accumulator.prunedPaths
+            this.logInfo.successfulHashMapLookups <- accumulator.successfulHashMapLookups
             
             returnVal
 

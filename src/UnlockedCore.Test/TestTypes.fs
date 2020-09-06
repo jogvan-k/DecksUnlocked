@@ -4,13 +4,15 @@ open UnlockedCore
 
 let p1 = Player.Player1
 let p2 = Player.Player2
-type node(playerTurn, turnNumber, value, nodes : node[]) =
-    new(playerTurn, turnNumber, value, singleNode) = node(playerTurn, turnNumber, value, [|singleNode|])
-    new(playerTurn, turnNumber, value) = node (playerTurn, turnNumber, value, Array.empty)
+type node(playerTurn, turnNumber, value, hash, nodes : node[]) =
+    new(playerTurn, turnNumber, value, hash, singleNode) = node(playerTurn, turnNumber, value, hash, [|singleNode|])
+    new(playerTurn, turnNumber, value, hash) = node (playerTurn, turnNumber, value, hash, Array.empty)
     member this.playerTurn = playerTurn
     member this.turnNumber = turnNumber
     member this.value = value
     member this.nodes = nodes
+    override this.GetHashCode () = hash
+    override this.Equals other = hash = other.GetHashCode()
 
     interface ICoreState with
         member this.PlayerTurn = playerTurn
@@ -22,7 +24,7 @@ type node(playerTurn, turnNumber, value, nodes : node[]) =
 and action(node) =
     interface ICoreAction with
         member this.Origin =
-            new node(Player.Player1, 0, 0) :> ICoreState
+            new node(Player.Player1, 0, 0, 0) :> ICoreState
 
         member this.DoCoreAction() = node :> ICoreState
 
@@ -37,15 +39,15 @@ let evaluatorFunc (s : ICoreState) = (s :?> node).value
 // b: new branches after each depth
 // counter: tuple of given depth * given height
 let rec recComplexTree evalFun counter n b =
-    let (player, turnNo, value) = evalFun counter
+    let (player, turnNo, value, hash) = evalFun counter
     let (d, h) = counter
     if(d = n)
-    then node(player, turnNo, value)
+    then node(player, turnNo, value, hash)
     else
         //let currentHeight = 
         let nodes = [|0..1..b-1|] |> Array.map (fun i -> recComplexTree evalFun (d + 1, b * h + i) n b)
-        node(player, turnNo, value, nodes)
-and complexTree evalFun n b =
+        node(player, turnNo, value, hash, nodes)
+let complexTree evalFun n b =
     let counter = (0, 0)
     recComplexTree evalFun counter n b
     
@@ -53,7 +55,7 @@ let rec invertTree (t : node) =
         let otherPlayer = if(t.playerTurn = p1) then p2 else p1
         if(t.nodes.Length = 0)
         then
-            node(otherPlayer, t.turnNumber, t.value)
+            node(otherPlayer, t.turnNumber, t.value, t.GetHashCode())
         else
             let nodes = t.nodes |> Array.map invertTree
-            node(otherPlayer, t.turnNumber, t.value, nodes)
+            node(otherPlayer, t.turnNumber, t.value, t.GetHashCode(), nodes)

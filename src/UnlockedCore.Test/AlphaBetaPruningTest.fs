@@ -8,14 +8,14 @@ open UnlockedCore.TestTypes
 [<TestFixture>]
 type alphaBetaPruningTest() =
 
-    let leaf =
-        node (p2, 1, 0, [|
-            node(p1, 2, 10, [||])
-            node(p1, 2, 30, [||])
-            node(p1, 2, 20, [||])
+    let leaf no =
+        node (p2, 1, 0, 1 * no, [|
+            node(p1, 2, 10, 10 * no, [||])
+            node(p1, 2, 30, 100 * no, [||])
+            node(p1, 2, 20, 1000 * no, [||])
         |])
     
-    let alphaBetaPruningTree = node(p1, 0, 0, [|leaf; leaf; leaf|])
+    let alphaBetaPruningTree = node(p1, 0, 0, 0, [|leaf 1; leaf 2; leaf 3|])
 
     [<Test>]
     member this.PruningOnMaximizingPlayer () =
@@ -26,7 +26,7 @@ type alphaBetaPruningTest() =
         
         Assert.That([|0; 0|], Is.EqualTo(Array.toList path))
         
-        Assert.AreEqual(5, sut.logInfo.NodesEvaluated)
+        Assert.AreEqual(5, sut.logInfo.nodesEvaluated)
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
@@ -37,4 +37,4 @@ type alphaBetaPruningTest() =
         
         Assert.That([|0; 1|], Is.EqualTo(Array.toList path))
         
-        Assert.AreEqual(7, sut.logInfo.NodesEvaluated)
+        Assert.AreEqual(7, sut.logInfo.nodesEvaluated)

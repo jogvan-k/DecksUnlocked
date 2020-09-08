@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -54,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureReadied(readiedCreature)};
       var expectedActionGroups = new List<IActionGroup> {new UseCreatureGroup(state, readiedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
-        fields: expectedFields, resolvedEffects: expectedResolvedEffects, actionGroups: expectedActionGroups);
+        fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), actionGroups: new LazyList<IActionGroup>(expectedActionGroups));
     }
   }
 }

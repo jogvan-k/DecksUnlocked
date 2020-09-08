@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -24,7 +25,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedFields = TestUtil.Lists(expectedCreature);
       var expectedResolvedEffects = new List<IResolvedEffect>{new StunRemoved(expectedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
-        fields: expectedFields, resolvedEffects: expectedResolvedEffects);
+        fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);
     }
   }

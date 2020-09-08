@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -28,7 +29,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var startState = StateTestUtil.EmptyState.New(
           turnNumber: 1,
           fields: fields,
-          resolvedEffects: resolvedEffects)
+          resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend(turnNumber: 2).ToImmutable();
       var state = startState.ToMutable();
       var sut = new FightCreature(fightingCreature, targetCreature);
@@ -36,7 +37,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       sut.Resolve(state);
 
       var expectedFields = TestUtil.Lists(new Creature(fightingCreatureCard), targetCreature);
-      var expectedState = startState.Extend(resolvedEffects: resolvedEffects, fields: expectedFields);
+      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), fields: expectedFields);
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -54,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var startState = StateTestUtil.EmptyState.New(
           turnNumber: 1,
           fields: fields,
-          resolvedEffects: resolvedEffects)
+          resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend().ToImmutable();
       var state = startState.ToMutable();
       var sut = new FightCreature(fightingCreature, targetCreature);
@@ -66,7 +67,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3);
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureFought(expectedFightingCreature, expectedTargetCreature), new CreatureDied(expectedTargetCreature)};
       var expectedDiscards = TestUtil.Sets(Enumerable.Empty<Card>(), new []{targetCreatureCard});
-      var expectedState = startState.Extend(resolvedEffects: expectedResolvedEffects, fields: expectedField, discards: expectedDiscards);
+      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), fields: expectedField, discards: expectedDiscards);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

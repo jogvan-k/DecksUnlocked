@@ -57,7 +57,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedHouses = playerTurn == Player.Player1 ? Player1Houses : Player2Houses;
       var expectedActionGroups = new List<IActionGroup> {new DeclareHouseGroup(expectedHouses)};
       var expectedState = StateTestUtil.EmptyState.New(
-        playerTurn: playerTurn, actionGroups: expectedActionGroups, metadata: metadata);
+        playerTurn: playerTurn, actionGroups: new LazyList<IActionGroup>(expectedActionGroups), metadata: metadata);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

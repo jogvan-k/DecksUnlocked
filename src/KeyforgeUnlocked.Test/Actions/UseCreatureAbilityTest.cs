@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedTest.Actions
   sealed class UseCreatureAbilityTest : ActionTestBase
   {
     Creature creature;
-    Dictionary<Player, IList<Creature>> fields;
+    Dictionary<Player, IMutableList<Creature>> fields;
 
     [Test]
     public void Resolve()

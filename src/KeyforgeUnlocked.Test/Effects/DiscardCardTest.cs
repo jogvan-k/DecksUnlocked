@@ -3,6 +3,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -33,7 +34,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateTestUtil.EmptyMutableState.New(
         discards: expectedDiscards,
         hands: expectedHands,
-        resolvedEffects: new List<IResolvedEffect> {new CardDiscarded(sampleCard)});
+        resolvedEffects: new LazyList<IResolvedEffect> {new CardDiscarded(sampleCard)});
       StateAsserter.StateEquals(expectedState, state);
     }
 

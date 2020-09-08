@@ -35,7 +35,7 @@ namespace KeyforgeUnlockedTest.Effects
           {{Player.Player1, aember - DefaultForgeCost}, {Player.Player2, aember}};
         var expectedResolvedEffects = new List<IResolvedEffect> {new KeyForged(DefaultForgeCost)};
         expectedstate = StateTestUtil.EmptyState.New(
-          keys: expectedKeys, aember: expectedAembers, resolvedEffects: expectedResolvedEffects);
+          keys: expectedKeys, aember: expectedAembers, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       }
 
       Assert.AreEqual(expectedstate, state);
@@ -61,7 +61,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedKeys = new Dictionary<Player, int> {{winningPlayer, KeysRequiredToWin}, {winningPlayer.Other(), 0}};
       var expectedResolvedEffects = new List<IResolvedEffect>{new KeyForged(DefaultForgeCost)};
-      var expectedState = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: expectedKeys, isGameOver: true, resolvedEffects: expectedResolvedEffects);
+      var expectedState = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: expectedKeys, isGameOver: true, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);
     }
   }

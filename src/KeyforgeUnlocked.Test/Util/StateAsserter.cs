@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using NUnit.Framework;
 using UnlockedCore;
 
@@ -142,7 +143,7 @@ namespace KeyforgeUnlockedTest.Util
           var ac = actual[key];
           if (ex is IEnumerable<object> e && ac is IEnumerable<object> a)
             WriteEntryError(sb, fieldName, key, e, a);
-          else if (ex is IList<Creature> exC && ac is IList<Creature> acC)
+          else if (ex is IMutableList<Creature> exC && ac is IMutableList<Creature> acC)
             WriteCreatureEntryError(sb, fieldName, key, exC, acC);
           else
             WriteEntryError(sb, fieldName, key, ex, ac);
@@ -153,8 +154,8 @@ namespace KeyforgeUnlockedTest.Util
     static void WriteCreatureEntryError(StringBuilder sb,
       string fieldName,
       Player entry,
-      IList<Creature> expected,
-      IList<Creature> actual)
+      IMutableList<Creature> expected,
+      IMutableList<Creature> actual)
     {
       if (expected.SequenceEqual(actual))
         return;

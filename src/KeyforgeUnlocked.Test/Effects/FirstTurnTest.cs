@@ -4,6 +4,7 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -45,7 +46,7 @@ namespace KeyforgeUnlockedTest.Effects
         new NoActionGroup()
       };
       var expectedState = StateTestUtil.EmptyState.New(
-        activeHouse: activeHouse, actionGroups: expectedActionGroups, hands: hands);
+        activeHouse: activeHouse, actionGroups: new LazyList<IActionGroup>(expectedActionGroups), hands: hands);
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -65,7 +66,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedActionGroups = new List<IActionGroup> {new NoActionGroup()};
       var expectedState = StateTestUtil.EmptyState.New(
-        activeHouse: activeHouse, actionGroups: expectedActionGroups, hands: hands);
+        activeHouse: activeHouse, actionGroups: new LazyList<IActionGroup>(expectedActionGroups), hands: hands);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

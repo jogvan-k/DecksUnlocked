@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 
 namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
@@ -54,7 +55,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       }
 
       return StateTestUtil.EmptyState.New(
-        fields: expectedFields, discards: expectedDiscards, resolvedEffects: resolvedEffects);
+        fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects));
     }
   }
 }

@@ -23,14 +23,14 @@ namespace KeyforgeUnlocked.States
     public House? activeHouse;
     public IDictionary<Player, int> Keys;
     public IDictionary<Player, int> Aember;
-    public IList<IActionGroup> ActionGroups;
+    public IMutableList<IActionGroup> ActionGroups;
     public IDictionary<Player, Stack<Card>> Decks;
     public IDictionary<Player, ISet<Card>> Hands;
     public IDictionary<Player, ISet<Card>> Discards;
     public IDictionary<Player, ISet<Card>> Archives;
-    public IDictionary<Player, IList<Creature>> Fields;
+    public IDictionary<Player, IMutableList<Creature>> Fields;
     public StackQueue<IEffect> Effects;
-    public IList<IResolvedEffect> ResolvedEffects;
+    public IMutableList<IResolvedEffect> ResolvedEffects;
     public Metadata metadata;
 
     public Player PlayerTurn
@@ -99,14 +99,14 @@ namespace KeyforgeUnlocked.States
       ActiveHouse = state.ActiveHouse;
       Keys = new Dictionary<Player, int>(state.Keys);
       Aember = new Dictionary<Player, int>(state.Aember);
-      ActionGroups = new List<IActionGroup>(state.ActionGroups);
+      ActionGroups = new LazyList<IActionGroup>(state.ActionGroups);
       Decks = state.Decks.ToMutable();
       Hands = state.Hands.ToMutable();
       Discards = state.Discards.ToMutable();
       Archives = state.Archives.ToMutable();
       Fields = state.Fields.ToMutable();
       Effects = new StackQueue<IEffect>(state.Effects);
-      ResolvedEffects = new List<IResolvedEffect>();
+      ResolvedEffects = new LazyList<IResolvedEffect>();
       Metadata = state.Metadata;
     }
 
@@ -118,14 +118,14 @@ namespace KeyforgeUnlocked.States
       House? activeHouse,
       IDictionary<Player, int> keys,
       IDictionary<Player, int> aember,
-      IList<IActionGroup> actionGroups,
+      IMutableList<IActionGroup> actionGroups,
       IDictionary<Player, Stack<Card>> decks,
       IDictionary<Player, ISet<Card>> hands,
       IDictionary<Player, ISet<Card>> discards,
       IDictionary<Player, ISet<Card>> archives,
-      IDictionary<Player, IList<Creature>> fields,
+      IDictionary<Player, IMutableList<Creature>> fields,
       StackQueue<IEffect> effects,
-      IList<IResolvedEffect> resolvedEffects,
+      IMutableList<IResolvedEffect> resolvedEffects,
       Metadata metadata)
     {
       PlayerTurn = playerTurn;
@@ -148,7 +148,7 @@ namespace KeyforgeUnlocked.States
 
     void RefreshBaseActions()
     {
-      ActionGroups = new List<IActionGroup>();
+      ActionGroups = new LazyList<IActionGroup>();
       if (IsGameOver)
       {
         return;

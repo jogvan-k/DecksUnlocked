@@ -11,9 +11,9 @@ namespace KeyforgeUnlocked.ActionGroups
   public sealed class TargetCreatureGroup : ResolveEffectActionGroup
   {
     private readonly EffectOnCreature _effect;
-    private readonly IList<Creature> _targets;
+    private readonly IMutableList<Creature> _targets;
 
-    public TargetCreatureGroup(EffectOnCreature effect, IList<Creature> targets) : base(ActionType.TargetCreature)
+    public TargetCreatureGroup(EffectOnCreature effect, IMutableList<Creature> targets) : base(ActionType.TargetCreature)
     {
       _effect = effect;
       _targets = targets;

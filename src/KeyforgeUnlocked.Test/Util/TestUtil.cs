@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using KeyforgeUnlocked.Types;
 using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Util
@@ -15,27 +16,27 @@ namespace KeyforgeUnlockedTest.Util
       };
     }
 
-    public static Dictionary<Player, IList<T>> Lists<T>(
+    public static Dictionary<Player, IMutableList<T>> Lists<T>(
       T player1Type)
     {
       return Lists(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
-    public static Dictionary<Player, IList<T>> Lists<T>(
+    public static Dictionary<Player, IMutableList<T>> Lists<T>(
       T player1Type,
       T player2Type)
     {
       return Lists<T>(new[] {player1Type}, new[] {player2Type});
     }
 
-    public static Dictionary<Player, IList<T>> Lists<T>(
+    public static Dictionary<Player, IMutableList<T>> Lists<T>(
       IEnumerable<T> player1Types,
       IEnumerable<T> player2Types)
     {
-      return new Dictionary<Player, IList<T>>
+      return new Dictionary<Player, IMutableList<T>>
       {
-        {Player.Player1, new List<T>(player1Types)},
-        {Player.Player2, new List<T>(player2Types)}
+        {Player.Player1, new LazyList<T>(player1Types)},
+        {Player.Player2, new LazyList<T>(player2Types)}
       };
     }
 

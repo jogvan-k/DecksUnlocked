@@ -130,7 +130,6 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(thisState.Aember);
       hashCode.Add(thisState.Decks);
       hashCode.Add(thisState.Hands);
-      hashCode.Add(thisState.Decks);
       hashCode.Add(thisState.Archives);
       hashCode.Add(thisState.Fields);
       hashCode.Add(thisState.Effects);

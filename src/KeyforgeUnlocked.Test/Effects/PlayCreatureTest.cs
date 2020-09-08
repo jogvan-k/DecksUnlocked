@@ -126,7 +126,7 @@ namespace KeyforgeUnlockedTest.Effects
       var creature2 = new Creature(CreatureCardOnBoard2);
 
       var state = TestState(playingPlayer);
-      state.Fields[Player.Player2] = new List<Creature> {creature1, creature2};
+      state.Fields[Player.Player2] = new LazyList<Creature> {creature1, creature2};
       return state;
     }
   }

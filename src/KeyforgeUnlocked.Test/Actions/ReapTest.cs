@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Actions
     const House ActiveHouse = House.Logos;
     readonly CreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
     Creature _creature;
-    Dictionary<Player, IList<Creature>> _fields;
+    Dictionary<Player, IMutableList<Creature>> _fields;
 
     [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
@@ -79,10 +79,10 @@ namespace KeyforgeUnlockedTest.Actions
     Reap Setup(bool ready, House activeHouse, bool stunned, out MutableState state, bool allowOutOfHouseUse = false)
     {
       _creature = new Creature(_creatureCard, isReady: ready, state: stunned ? CreatureState.Stunned : CreatureState.None);
-      _fields = new Dictionary<Player, IList<Creature>>
+      _fields = new Dictionary<Player, IMutableList<Creature>>
       {
-        {Player.Player1, new List<Creature> {_creature}},
-        {Player.Player2, new List<Creature>()}
+        {Player.Player1, new LazyList<Creature> {_creature}},
+        {Player.Player2, new LazyList<Creature>()}
       };
       state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: _fields);
       return new Reap(null, _creature, allowOutOfHouseUse);

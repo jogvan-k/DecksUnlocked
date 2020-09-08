@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedTest.Effects
           new TargetCreature(null, effectOnCreature, playerOneCreature)
         });
 
-      var expectedState = Setup().New(actionGroups: new IActionGroup[]{expectedActionGroup});
+      var expectedState = Setup().New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup});
 
       StateAsserter.StateEquals(expectedState, state);
     }

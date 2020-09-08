@@ -33,14 +33,14 @@ namespace KeyforgeUnlocked.States
           null,
           EmptyValues(),
           EmptyValues(),
-          new List<IActionGroup>(),
+          new LazyList<IActionGroup>(),
           decks,
           EmptySet(),
           EmptySet(),
           EmptySet(),
           EmptyField(),
           effects,
-          new List<IResolvedEffect>(),
+          new LazyList<IResolvedEffect>(),
           metadata)
         .ResolveEffects();
     }
@@ -92,11 +92,11 @@ namespace KeyforgeUnlocked.States
       };
     }
 
-    static Dictionary<Player, IList<Card>> EmptyDeck<T>()
+    static Dictionary<Player, IMutableList<Card>> EmptyDeck<T>()
     {
-      return new Dictionary<Player, IList<Card>>
+      return new Dictionary<Player, IMutableList<Card>>
       {
-        {Player.Player1, new List<Card>()}, {Player.Player2, new List<Card>()}
+        {Player.Player1, new LazyList<Card>()}, {Player.Player2, new LazyList<Card>()}
       };
     }
 
@@ -108,11 +108,11 @@ namespace KeyforgeUnlocked.States
       };
     }
 
-    static Dictionary<Player, IList<Creature>> EmptyField()
+    static Dictionary<Player, IMutableList<Creature>> EmptyField()
     {
-      return new Dictionary<Player, IList<Creature>>
+      return new Dictionary<Player, IMutableList<Creature>>
       {
-        {Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}
+        {Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}
       };
     }
   }

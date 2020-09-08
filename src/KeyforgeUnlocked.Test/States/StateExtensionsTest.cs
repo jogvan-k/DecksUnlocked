@@ -28,7 +28,7 @@ namespace KeyforgeUnlockedTest.States
       if (expectedStolen > 0)
         expectedResolvedEffects.Add(new AemberStolen(Player.Player1, expectedStolen));
       var expectedState = StateTestUtil.EmptyState.New(
-        aember: expectedAember, resolvedEffects: expectedResolvedEffects);
+        aember: expectedAember, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -38,26 +38,26 @@ namespace KeyforgeUnlockedTest.States
     {
       var returnedCreature = new Creature(new SampleCreatureCard());
       var otherCreature = new Creature(new SampleCreatureCard());
-      var fields = new Dictionary<Player, IList<Creature>>
+      var fields = new Dictionary<Player, IMutableList<Creature>>
       {
-        {player, new List<Creature> {returnedCreature}},
-        {player.Other(), new List<Creature> {otherCreature}}
+        {player, new LazyList<Creature> {returnedCreature}},
+        {player.Other(), new LazyList<Creature> {otherCreature}}
       };
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
       state.ReturnCreatureToHand(returnedCreature);
 
-      var expectedFields = new Dictionary<Player, IList<Creature>>
+      var expectedFields = new Dictionary<Player, IMutableList<Creature>>
       {
-        {player, new List<Creature>()},
-        {player.Other(), new List<Creature> {otherCreature}}
+        {player, new LazyList<Creature>()},
+        {player.Other(), new LazyList<Creature> {otherCreature}}
       };
       var expectedHands = new Dictionary<Player, ISet<Card>>
       {
         {player, new HashSet<Card> {returnedCreature.Card}},
         {player.Other(), new HashSet<Card>()}
       };
-      var resolvedEffects = new List<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
+      var resolvedEffects = new LazyList<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
         fields: expectedFields, hands: expectedHands, resolvedEffects: resolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
@@ -72,7 +72,7 @@ namespace KeyforgeUnlockedTest.States
       state.LoseAember(Player.Player1, amount);
 
       var expectedLost = Math.Min(amount, 2);
-      var expectedResolvedEffects = new List<IResolvedEffect>();
+      var expectedResolvedEffects = new LazyList<IResolvedEffect>();
       if (expectedLost > 0)
         expectedResolvedEffects.Add(new AemberLost(Player.Player1, expectedLost));
       var expectedState = StateTestUtil.EmptyState.New(aember: aember, resolvedEffects: expectedResolvedEffects);
@@ -94,7 +94,7 @@ namespace KeyforgeUnlockedTest.States
       var expectedAember = TestUtil.Ints(2, 2 - expectedCapture);
       creature.Aember += expectedCapture;
       var expectedFields = TestUtil.Lists(creature, opponentCreature);
-      var expectedResolvedEffects = new List<IResolvedEffect>();
+      var expectedResolvedEffects = new LazyList<IResolvedEffect>();
       if (expectedCapture > 0)
         expectedResolvedEffects.Add(new AemberCaptured(creature, expectedCapture));
       var expectedState = StateTestUtil.EmptyState.New(
@@ -114,7 +114,7 @@ namespace KeyforgeUnlockedTest.States
 
       var expectedDiscards = TestUtil.Sets<Card>(creatureCard);
       var expectedAember = TestUtil.Ints(0, aemberOnCreature);
-      var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureDied(creature)};
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> {new CreatureDied(creature)};
       if (aemberOnCreature > 0)
         expectedResolvedEffects.Add(new AemberClaimed(Player.Player2, aemberOnCreature));
       var expectedState = StateTestUtil.EmptyState.New(

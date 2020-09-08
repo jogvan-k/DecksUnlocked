@@ -19,15 +19,15 @@ namespace KeyforgeUnlocked.Types
     }
 
     public static IImmutableDictionary<T1, IImmutableList<T2>> ToImmutable<T1, T2>(
-      this IDictionary<T1, IList<T2>> mutable)
+      this IDictionary<T1, IMutableList<T2>> mutable)
     {
-      return mutable.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableList<T2>) kv.Value.ToImmutableList());
+      return mutable.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.Immutable());
     }
 
-    public static IDictionary<T1, IList<T2>> ToMutable<T1, T2>(
+    public static IDictionary<T1, IMutableList<T2>> ToMutable<T1, T2>(
       this IImmutableDictionary<T1, IImmutableList<T2>> immutable)
     {
-      return immutable.ToDictionary(kv => kv.Key, kv => (IList<T2>) kv.Value.ToList());
+      return immutable.ToDictionary(kv => kv.Key, kv => (IMutableList<T2>) new LazyList<T2>(kv.Value));
     }
 
     public static IDictionary<T1, ISet<T2>> ToMutable<T1, T2>(

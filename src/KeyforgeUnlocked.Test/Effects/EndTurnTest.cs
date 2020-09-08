@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateTestUtil.EmptyMutableState.New(
         playerTurn.Other(),
         turnNumberStart + 1,
-        resolvedEffects: new List<IResolvedEffect> {new TurnEnded()},
+        resolvedEffects: new LazyList<IResolvedEffect> {new TurnEnded()},
         effects: expectedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 using UnlockedCore;
 
 [assembly: InternalsVisibleTo("KeyforgeUnlocked.Test")]
@@ -28,7 +29,7 @@ namespace KeyforgeUnlocked.Actions
     {
       Validate(state);
       var mutableState = state.ToMutable();
-      mutableState.ActionGroups = new List<IActionGroup>();
+      mutableState.ActionGroups = new LazyList<IActionGroup>();
       DoActionNoResolve(mutableState);
       return mutableState.ResolveEffects();
     }

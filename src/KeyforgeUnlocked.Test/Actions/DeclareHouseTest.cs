@@ -64,7 +64,7 @@ namespace KeyforgeUnlockedTest.Actions
       var declaredHouse = House.Shadows;
       var sut = new DeclareHouse(null, declaredHouse);
 
-      var expectedResolvedEffects = new List<IResolvedEffect> {new HouseDeclared(declaredHouse)};
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> {new HouseDeclared(declaredHouse)};
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: declaredHouse, metadata: metadata, resolvedEffects: expectedResolvedEffects);
       

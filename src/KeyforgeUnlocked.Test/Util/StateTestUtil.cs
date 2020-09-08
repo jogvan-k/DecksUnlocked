@@ -22,15 +22,15 @@ namespace KeyforgeUnlockedTest.Util
       null,
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new List<IActionGroup>(),
+      new LazyList<IActionGroup>(),
       new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, IList<Creature>>
-        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}},
+      new Dictionary<Player, IMutableList<Creature>>
+        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}},
       new StackQueue<IEffect>(),
-      new List<IResolvedEffect>(),
+      new LazyList<IResolvedEffect>(),
       null);
 
     public static ImmutableState EmptyState => new ImmutableState(
@@ -50,8 +50,8 @@ namespace KeyforgeUnlockedTest.Util
         .ToImmutable(),
       new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
         .ToImmutable(),
-      new Dictionary<Player, IList<Creature>>
-        {{Player.Player1, new List<Creature>()}, {Player.Player2, new List<Creature>()}}.ToImmutable(),
+      new Dictionary<Player, IMutableList<Creature>>
+        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToImmutable(),
       ImmutableArray<IEffect>.Empty,
       new List<IResolvedEffect>().ToImmutableList(),
       null);
@@ -65,14 +65,14 @@ namespace KeyforgeUnlockedTest.Util
       IDictionary<Player, int> aember = null,
       IState previousstate = null,
       House? activeHouse = null,
-      IList<IActionGroup> actionGroups = null,
+      IMutableList<IActionGroup> actionGroups = null,
       IDictionary<Player, Stack<Card>> decks = null,
       IDictionary<Player, ISet<Card>> hands = null,
       IDictionary<Player, ISet<Card>> discards = null,
       IDictionary<Player, ISet<Card>> archives = null,
-      IDictionary<Player, IList<Creature>> fields = null,
+      IDictionary<Player, IMutableList<Creature>> fields = null,
       StackQueue<IEffect> effects = null,
-      IList<IResolvedEffect> resolvedEffects = null,
+      IMutableList<IResolvedEffect> resolvedEffects = null,
       Metadata metadata = null)
     {
       return new MutableState(
@@ -83,14 +83,14 @@ namespace KeyforgeUnlockedTest.Util
         activeHouse ?? state.ActiveHouse,
         keys ?? new Dictionary<Player, int>(state.Keys),
         aember ?? new Dictionary<Player, int>(state.Aember),
-        actionGroups ?? new List<IActionGroup>(state.ActionGroups),
+        actionGroups ?? new LazyList<IActionGroup>(state.ActionGroups),
         decks ?? state.Decks.ToMutable(),
         hands ?? state.Hands.ToMutable(),
         discards ?? state.Discards.ToMutable(),
         archives ?? state.Archives.ToMutable(),
         fields ?? state.Fields.ToMutable(),
         effects ?? new StackQueue<IEffect>(state.Effects),
-        resolvedEffects ?? new List<IResolvedEffect>(state.ResolvedEffects),
+        resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
         metadata ?? state.Metadata);
     }
 
@@ -106,20 +106,20 @@ namespace KeyforgeUnlockedTest.Util
       IDictionary<Player, int> keys = null,
       IDictionary<Player, int> aember = null,
       House? activeHouse = null,
-      IList<IActionGroup> actionGroups = null,
+      IMutableList<IActionGroup> actionGroups = null,
       IDictionary<Player, Stack<Card>> decks = null,
       IDictionary<Player, ISet<Card>> hands = null,
       IDictionary<Player, ISet<Card>> discards = null,
       IDictionary<Player, ISet<Card>> archives = null,
-      IDictionary<Player, IList<Creature>> fields = null,
-      IList<IResolvedEffect> resolvedEffects = null,
+      IDictionary<Player, IMutableList<Creature>> fields = null,
+      IMutableList<IResolvedEffect> resolvedEffects = null,
       StackQueue<IEffect> effects = null,
       Metadata metadata = null)
     {
       return state.New(
         playerTurn, turnNumber, isGameOver, keys, aember, state,
         activeHouse, actionGroups, decks, hands, discards, archives,
-        fields, effects, resolvedEffects ?? new List<IResolvedEffect>(), metadata);
+        fields, effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), metadata);
     }
 
     static Stack<Card> EmptyDeck => new Stack<Card>();

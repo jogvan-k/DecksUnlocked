@@ -34,10 +34,10 @@ namespace KeyforgeUnlockedTest.States
       {Player.Player2, new Stack<Card>(new[] {new SampleCreatureCard()})}
     };
 
-    readonly Dictionary<Player, IList<Creature>> _simpleField = new Dictionary<Player, IList<Creature>>
+    readonly Dictionary<Player, IMutableList<Creature>> _simpleField = new Dictionary<Player, IMutableList<Creature>>
     {
-      {Player.Player1, new List<Creature>()},
-      {Player.Player2, new List<Creature>(new[] {new Creature(new SampleCreatureCard())})}
+      {Player.Player1, new LazyList<Creature>()},
+      {Player.Player2, new LazyList<Creature>(new[] {new Creature(new SampleCreatureCard())})}
     };
 
     [Test]
@@ -64,14 +64,14 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(emptyState.New(activeHouse: House.Dis).Equals(emptyState));
       Assert.False(emptyState.New(keys: _simpleValues).Equals(emptyState));
       Assert.False(emptyState.New(aember: _simpleValues).Equals(emptyState));
-      Assert.False(emptyState.New(actionGroups: new List<IActionGroup> {new EndTurnGroup()}).Equals(emptyState));
+      Assert.False(emptyState.New(actionGroups: new LazyList<IActionGroup> {new EndTurnGroup()}).Equals(emptyState));
       Assert.False(emptyState.New(decks: _simpleStack).Equals(emptyState));
       Assert.False(emptyState.New(hands: _simpleSet).Equals(emptyState));
       Assert.False(emptyState.New(discards: _simpleSet).Equals(emptyState));
       Assert.False(emptyState.New(archives: _simpleSet).Equals(emptyState));
       Assert.False(emptyState.New(fields: _simpleField).Equals(emptyState));
       Assert.False(emptyState.New(effects: new StackQueue<IEffect>(new[] {new EndTurn()})).Equals(emptyState));
-      Assert.False(emptyState.New(resolvedEffects: new List<IResolvedEffect> {new TurnEnded()}).Equals(emptyState));
+      Assert.False(emptyState.New(resolvedEffects: new LazyList<IResolvedEffect> {new TurnEnded()}).Equals(emptyState));
       Assert.False(
         emptyState.New(
             metadata: new Metadata(

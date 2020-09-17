@@ -10,7 +10,7 @@ namespace KeyforgeUnlockedConsole
   {
     static void Main(string[] args)
     {
-      var consoleGame = PlayerVsAiGame();
+      var consoleGame = AiVsAiGame();
       consoleGame.StartGame();
     }
 
@@ -25,6 +25,14 @@ namespace KeyforgeUnlockedConsole
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");
       return new TwoPlayerGame(StateFactory.Initiate(player1Deck, player2Deck));
+    }
+
+    static IConsoleGame AiVsAiGame()
+    {
+      
+      var player1Deck = Deck.LoadDeckFromFile("");
+      var player2Deck = Deck.LoadDeckFromFile("");
+      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new MinimaxAI(new Evaluator(), 3, SearchDepthConfiguration.actions, AIMethods.LoggingConfiguration.LogAll));
     }
   }
 }

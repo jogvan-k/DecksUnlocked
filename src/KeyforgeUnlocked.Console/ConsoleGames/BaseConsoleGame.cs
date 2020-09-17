@@ -6,6 +6,8 @@ using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using KeyforgeUnlockedConsole.PrintCommands;
+using UnlockedCore;
+using UnlockedCore.AITypes;
 using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole.ConsoleGames
@@ -53,6 +55,38 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       }
     }
 
+
+    protected void AdvanceStateOnAITurn(Player aiPlayer, IGameAI gameAi)
+    {
+      var aiMoves = Array.Empty<int>();
+      while (_state.PlayerTurn == aiPlayer)
+      {
+        var aiLogString = "";
+        if (aiMoves.Length == 0)
+        {
+          aiMoves = gameAi.DetermineAction(_state);
+          if (gameAi is MinimaxAI minimaxAi)
+          {
+            if (minimaxAi.LatestLogInfo.nodesEvaluated > 0 && minimaxAi.LatestLogInfo.elapsedTime.Ticks > 0)
+              aiLogString =
+                $"{minimaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {minimaxAi.LatestLogInfo.elapsedTime.TotalMinutes} minutes.";
+          }
+        }
+
+        _state = (IState) _state.Actions()[aiMoves[0]].DoCoreAction();
+        aiMoves = aiMoves.Skip(1).ToArray();
+        _state.PrintAITurn();
+
+        if (!string.IsNullOrEmpty(aiLogString))
+          Console.WriteLine(aiLogString);
+        if (_state.PlayerTurn == aiPlayer)
+        {
+          Console.WriteLine("Press any key to continue...");
+          Console.ReadLine();
+          Console.Clear();
+        }
+      }
+    }
 
     string ReadCommand()
     {

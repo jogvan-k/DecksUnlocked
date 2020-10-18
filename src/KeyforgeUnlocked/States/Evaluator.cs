@@ -15,6 +15,7 @@ namespace KeyforgeUnlocked.States
     const int CreatureEnraged = -5;
     const int CreatureStunned = -8;
     const int CreatureWarded = 8;
+    const int capturedAember = -4;
 
     public int Evaluate(ICoreState state)
     {
@@ -57,6 +58,7 @@ namespace KeyforgeUnlocked.States
         value += CreatureStunned;
       if ((creature.State & CreatureState.Warded) != 0)
         value += CreatureWarded;
+      value += capturedAember * creature.Aember;
       return value;
     }
   }

@@ -26,11 +26,7 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedHands = SampleSets.SampleHands;
-      var expectedDiscards = new Dictionary<Player, ISet<Card>>
-      {
-        {Player.Player1, new HashSet<Card> {sampleCard}},
-        {Player.Player2, new HashSet<Card>()}
-      };
+      var expectedDiscards = TestUtil.Sets(sampleCard);
       var expectedState = StateTestUtil.EmptyMutableState.New(
         discards: expectedDiscards,
         hands: expectedHands,

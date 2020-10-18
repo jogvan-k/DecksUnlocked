@@ -25,12 +25,12 @@ namespace KeyforgeUnlockedTest.Actions
     public void Act_EmptyBoard()
     {
       var hands = TestUtil.Sets<Card>(new[] {Card, otherCard1}, new[] {otherCard2, otherCard3});
-      var effects = new StackQueue<IEffect>(new[] {unresolvedEffect});
+      var effects = new LazyStackQueue<IEffect>(new[] {unresolvedEffect});
       var state = StateTestUtil.EmptyState.New(hands: hands, effects: effects);
       var sut = new PlayCreatureCard(null, Card, 0);
 
       var expectedHands = TestUtil.Sets<Card>(new[] {otherCard1}, new[] {otherCard2, otherCard3});
-      var expectedEffects = new StackQueue<IEffect>(new[]
+      var expectedEffects = new LazyStackQueue<IEffect>(new[]
         {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayCreatureCard(Card, 0)});
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects, hands: expectedHands);
 

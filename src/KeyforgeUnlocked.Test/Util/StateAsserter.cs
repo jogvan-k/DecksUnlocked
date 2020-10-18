@@ -121,8 +121,8 @@ namespace KeyforgeUnlockedTest.Util
     static void CheckAndWriteFieldErrorMessage<T>(
       StringBuilder sb,
       string fieldName,
-      IImmutableDictionary<Player, T> expected,
-      IImmutableDictionary<Player, T> actual)
+      IReadOnlyDictionary<Player, T> expected,
+      IReadOnlyDictionary<Player, T> actual)
     {
       foreach (var key in expected.Keys.Union(actual.Keys))
       {

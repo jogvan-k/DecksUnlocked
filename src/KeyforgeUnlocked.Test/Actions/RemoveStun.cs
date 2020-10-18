@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -16,7 +17,7 @@ namespace KeyforgeUnlockedTest.Actions
   sealed class RemoveStun : ActionTestBase
   {
     Creature creature;
-    Dictionary<Player, IMutableList<Creature>> fields;
+    IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
 
     [Test]
     public void Resolve()
@@ -60,7 +61,7 @@ namespace KeyforgeUnlockedTest.Actions
 
     MutableState Expected()
     {
-      var expectedEffects = new StackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.RemoveStun(creature)});
+      var expectedEffects = new LazyStackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.RemoveStun(creature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
       return expectedState;

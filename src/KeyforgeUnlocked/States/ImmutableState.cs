@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -12,33 +13,19 @@ namespace KeyforgeUnlocked.States
   public sealed class ImmutableState : StateBase, IState
   {
     public Player PlayerTurn { get; }
-
     public int TurnNumber { get; }
-
     public bool IsGameOver { get; }
-
     public IState PreviousState { get; }
-
     public House? ActiveHouse { get; }
-
-    public IImmutableDictionary<Player, int> Keys { get; }
-
-    public IImmutableDictionary<Player, int> Aember { get; }
-
+    public IReadOnlyDictionary<Player, int> Keys { get; }
+    public IReadOnlyDictionary<Player, int> Aember { get; }
     public IImmutableList<IActionGroup> ActionGroups { get; }
-
-    public IImmutableDictionary<Player, IImmutableStack<Card>> Decks { get; }
-
-    public IImmutableDictionary<Player, IImmutableSet<Card>> Hands { get; }
-
-    public IImmutableDictionary<Player, IImmutableSet<Card>> Discards { get; }
-
-    public IImmutableDictionary<Player, IImmutableSet<Card>> Archives { get; }
-
-    public IImmutableDictionary<Player, IImmutableList<Creature>> Fields { get; }
-
+    public IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Archives { get; }
+    public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     public ImmutableArray<IEffect> Effects { get; }
-
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 
     public Metadata Metadata { get; }
@@ -49,14 +36,14 @@ namespace KeyforgeUnlocked.States
       bool isGameOver,
       IState previousState,
       House? activeHouse,
-      IImmutableDictionary<Player, int> keys,
-      IImmutableDictionary<Player, int> aember,
+      LookupReadOnly<Player, int> keys,
+      LookupReadOnly<Player, int> aember,
       IImmutableList<IActionGroup> actionGroups,
-      IImmutableDictionary<Player, IImmutableStack<Card>> decks,
-      IImmutableDictionary<Player, IImmutableSet<Card>> hands,
-      IImmutableDictionary<Player, IImmutableSet<Card>> discards,
-      IImmutableDictionary<Player, IImmutableSet<Card>> archives,
-      IImmutableDictionary<Player, IImmutableList<Creature>> fields,
+      LookupReadOnly<Player, IImmutableStack<Card>> decks,
+      LookupReadOnly<Player, IImmutableSet<Card>> hands,
+      LookupReadOnly<Player, IImmutableSet<Card>> discards,
+      LookupReadOnly<Player, IImmutableSet<Card>> archives,
+      LookupReadOnly<Player, IImmutableList<Creature>> fields,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,
       Metadata metadata)

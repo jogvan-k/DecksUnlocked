@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.States
 
       var metadata = new Metadata(initialDecks, houses);
 
-      var effects = new StackQueue<IEffect>(new[] {(IEffect) new InitiateGame()});
+      var effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new InitiateGame()});
 
       return new MutableState(
           Player.Player1,
@@ -63,14 +63,14 @@ namespace KeyforgeUnlocked.States
       return player1Deck.Cards.Select(c => c.House).Distinct().ToImmutableHashSet();
     }
 
-    static Dictionary<Player, Stack<Card>> ToDecks(Deck player1Deck,
+    static LookupReadOnly<Player, IMutableStackQueue<Card>> ToDecks(Deck player1Deck,
       Deck player2Deck)
     {
-      return new Dictionary<Player, Stack<Card>>
+      return new LookupReadOnly<Player, IMutableStackQueue<Card>>(new Dictionary<Player, IMutableStackQueue<Card>>
       {
-        {Player.Player1, new Stack<Card>(player1Deck.Cards)},
-        {Player.Player2, new Stack<Card>(player2Deck.Cards)}
-      };
+        {Player.Player1, new LazyStackQueue<Card>(player1Deck.Cards)},
+        {Player.Player2, new LazyStackQueue<Card>(player2Deck.Cards)}
+      });
     }
 
     static ImmutableDictionary<Player, Deck> ToInitialDecks(Deck player1Deck,
@@ -84,12 +84,12 @@ namespace KeyforgeUnlocked.States
         });
     }
 
-    static Dictionary<Player, int> EmptyValues()
+    static Types.Lookup<Player, int> EmptyValues()
     {
-      return new Dictionary<Player, int>
+      return new Types.Lookup<Player, int>(new Dictionary<Player, int>
       {
         {Player.Player1, 0}, {Player.Player2, 0}
-      };
+      });
     }
 
     static Dictionary<Player, IMutableList<Card>> EmptyDeck<T>()
@@ -100,20 +100,20 @@ namespace KeyforgeUnlocked.States
       };
     }
 
-    static Dictionary<Player, ISet<Card>> EmptySet()
+    static LookupReadOnly<Player, IMutableSet<Card>> EmptySet()
     {
-      return new Dictionary<Player, ISet<Card>>
+      return new LookupReadOnly<Player, IMutableSet<Card>>(new Dictionary<Player, IMutableSet<Card>>()
       {
-        {Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}
-      };
+        {Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}
+      });
     }
 
-    static Dictionary<Player, IMutableList<Creature>> EmptyField()
+    static LookupReadOnly<Player, IMutableList<Creature>> EmptyField()
     {
-      return new Dictionary<Player, IMutableList<Creature>>
+      return new LookupReadOnly<Player, IMutableList<Creature>>(new Dictionary<Player, IMutableList<Creature>>
       {
         {Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}
-      };
+      });
     }
   }
 }

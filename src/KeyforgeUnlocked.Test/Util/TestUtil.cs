@@ -7,29 +7,29 @@ namespace KeyforgeUnlockedTest.Util
 {
   public static class TestUtil
   {
-    public static Dictionary<Player, int> Ints(int player1Int, int player2Int)
+    public static KeyforgeUnlocked.Types.Lookup<Player, int> Ints(int player1Int, int player2Int)
     {
       return new Dictionary<Player, int>
       {
         {Player.Player1, player1Int},
         {Player.Player2, player2Int}
-      };
+      }.ToLookup();
     }
 
-    public static Dictionary<Player, IMutableList<T>> Lists<T>(
+    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
       T player1Type)
     {
       return Lists(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
-    public static Dictionary<Player, IMutableList<T>> Lists<T>(
+    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
       T player1Type,
       T player2Type)
     {
       return Lists<T>(new[] {player1Type}, new[] {player2Type});
     }
 
-    public static Dictionary<Player, IMutableList<T>> Lists<T>(
+    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
       IEnumerable<T> player1Types,
       IEnumerable<T> player2Types)
     {
@@ -37,31 +37,48 @@ namespace KeyforgeUnlockedTest.Util
       {
         {Player.Player1, new LazyList<T>(player1Types)},
         {Player.Player2, new LazyList<T>(player2Types)}
-      };
+      }.ToReadOnly();
     }
 
-    public static IDictionary<Player, ISet<T>> Sets<T>(
+    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>(
+      IEnumerable<T> player1Type)
+    {
+      return Stacks(player1Type, Enumerable.Empty<T>());
+    }
+
+    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>(
+      IEnumerable<T> player1Type,
+      IEnumerable<T> player2Type)
+    {
+      return new Dictionary<Player, IMutableStackQueue<T>>
+      {
+        {Player.Player1, new LazyStackQueue<T>(player1Type)},
+        {Player.Player2, new LazyStackQueue<T>(player2Type)}
+      }.ToReadOnly();
+    }
+
+    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
       T player1Type)
     {
       return Sets<T>(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
-    public static IDictionary<Player, ISet<T>> Sets<T>(
+    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
       T player1Type,
       T player2Type)
     {
-      return Sets<T>(new []{player1Type}, new []{player2Type});
+      return Sets<T>(new[] {player1Type}, new[] {player2Type});
     }
 
-    public static IDictionary<Player, ISet<T>> Sets<T>(
+    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
       IEnumerable<T> player1Types,
       IEnumerable<T> player2Types)
     {
-      return new Dictionary<Player, ISet<T>>
+      return new Dictionary<Player, IMutableSet<T>>
       {
-        {Player.Player1, new HashSet<T>(player1Types)},
-        {Player.Player2, new HashSet<T>(player2Types)}
-      };
+        {Player.Player1, new LazySet<T>(player1Types)},
+        {Player.Player2, new LazySet<T>(player2Types)}
+      }.ToReadOnly();
     }
   }
 }

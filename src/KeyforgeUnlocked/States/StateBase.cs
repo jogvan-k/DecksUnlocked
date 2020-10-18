@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
-using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -45,67 +44,22 @@ namespace KeyforgeUnlocked.States
       return thisState.IsGameOver == other.IsGameOver
              && thisState.TurnNumber == other.TurnNumber
              && thisState.PlayerTurn == other.PlayerTurn
-             && (thisState.PreviousState == null && other.PreviousState == null ||
-                 (thisState.PreviousState != null && thisState.PreviousState.Equals(other.PreviousState)))
              && thisState.ActiveHouse == other.ActiveHouse
              && EqualValues(thisState.Keys, other.Keys)
              && EqualValues(thisState.Aember, other.Aember)
-             && thisState.ActionGroups.SequenceEqual(other.ActionGroups)
-             && EqualContent(thisState.Decks, other.Decks)
-             && SetEquals(thisState.Hands, other.Hands)
-             && SetEquals(thisState.Discards, other.Discards)
-             && SetEquals(thisState.Archives, other.Archives)
-             && EqualContent(thisState.Fields, other.Fields)
+             && EqualityComparer.Equals(thisState.ActionGroups, other.ActionGroups)
+             && EqualityComparer.Equals(thisState.Decks, other.Decks)
+             && EqualityComparer.Equals(thisState.Hands, other.Hands)
+             && EqualityComparer.Equals(thisState.Discards, other.Discards)
+             && EqualityComparer.Equals(thisState.Archives, other.Archives)
+             && EqualityComparer.Equals(thisState.Fields, other.Fields)
              && thisState.Effects.SequenceEqual(other.Effects)
              && thisState.ResolvedEffects.SequenceEqual(other.ResolvedEffects)
              && ReferenceEquals(thisState.Metadata, other.Metadata);
     }
 
-    static bool SetEquals<T>(IImmutableDictionary<Player, IImmutableSet<T>> first,
-      IImmutableDictionary<Player, IImmutableSet<T>> second)
-    {
-      if (first.Count != second.Count)
-        return false;
-      foreach (var key in first.Keys)
-      {
-        if (!second.ContainsKey(key) || !first[key].SetEquals(second[key]))
-          return false;
-      }
-
-      return true;
-    }
-
-    static bool EqualContent<T>(IImmutableDictionary<Player, T> first,
-      IImmutableDictionary<Player, T> second) where T : IEnumerable<object>
-    {
-      if (first.Count != second.Count)
-        return false;
-      foreach (var key in first.Keys)
-      {
-        if (!second.ContainsKey(key) || !first[key].SequenceEqual(second[key]))
-          return false;
-      }
-
-      return true;
-    }
-
-    // reduce and incorporate to above function?
-    internal static bool EqualContent(IImmutableDictionary<Player, IImmutableList<Creature>> first,
-      IImmutableDictionary<Player, IImmutableList<Creature>> second)
-    {
-      if (first.Count != second.Count)
-        return false;
-      foreach (var key in first.Keys)
-      {
-        if (!second.ContainsKey(key) || !first[key].SequenceEqual(second[key]))
-          return false;
-      }
-
-      return true;
-    }
-
-    static bool EqualValues<T>(IImmutableDictionary<Player, T> first,
-      IImmutableDictionary<Player, T> second) where T : struct
+    static bool EqualValues<T>(IReadOnlyDictionary<Player, T> first,
+      IReadOnlyDictionary<Player, T> second) where T : struct
     {
       if (first.Count != second.Count)
         return false;
@@ -126,14 +80,16 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(thisState.TurnNumber);
       hashCode.Add(thisState.IsGameOver);
       hashCode.Add(thisState.ActiveHouse);
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.ActionGroups));
       hashCode.Add(thisState.Keys);
       hashCode.Add(thisState.Aember);
-      hashCode.Add(thisState.Decks);
-      hashCode.Add(thisState.Hands);
-      hashCode.Add(thisState.Archives);
-      hashCode.Add(thisState.Fields);
-      hashCode.Add(thisState.Effects);
-      hashCode.Add(thisState.ResolvedEffects);
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Decks));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Hands));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Discards));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Archives));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Fields));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.Effects));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.ResolvedEffects));
       hashCode.Add(thisState.Metadata);
       return hashCode.ToHashCode();
     }

@@ -20,10 +20,10 @@ namespace KeyforgeUnlockedTest.Actions
     public void Act()
     {
       var hands = TestUtil.Sets<Card>(sampleCard);
-      var effects = new StackQueue<IEffect>(new []{unresolvedEffect});
+      var effects = new LazyStackQueue<IEffect>(new []{unresolvedEffect});
       var state = StateTestUtil.EmptyMutableState.New(hands: hands, effects: effects);
 
-      var expectedEffects = new StackQueue<IEffect>(new[] {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayActionCard(sampleCard)});
+      var expectedEffects = new LazyStackQueue<IEffect>(new[] {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayActionCard(sampleCard)});
       var expectedState = StateTestUtil.EmptyState.New(effects: expectedEffects);
       Act(_sut, state, expectedState);
     }

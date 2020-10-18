@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
@@ -42,7 +44,7 @@ namespace KeyforgeUnlockedTest.States
       {
         {player, new LazyList<Creature> {returnedCreature}},
         {player.Other(), new LazyList<Creature> {otherCreature}}
-      };
+      }.ToImmutableDictionary();
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
       state.ReturnCreatureToHand(returnedCreature);
@@ -51,12 +53,12 @@ namespace KeyforgeUnlockedTest.States
       {
         {player, new LazyList<Creature>()},
         {player.Other(), new LazyList<Creature> {otherCreature}}
-      };
-      var expectedHands = new Dictionary<Player, ISet<Card>>
+      }.ToImmutableDictionary();
+      var expectedHands = new Dictionary<Player, IMutableSet<Card>>
       {
-        {player, new HashSet<Card> {returnedCreature.Card}},
-        {player.Other(), new HashSet<Card>()}
-      };
+        {player, new LazySet<Card> {returnedCreature.Card}},
+        {player.Other(), new LazySet<Card>()}
+      }.ToImmutableDictionary();
       var resolvedEffects = new LazyList<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
         fields: expectedFields, hands: expectedHands, resolvedEffects: resolvedEffects);

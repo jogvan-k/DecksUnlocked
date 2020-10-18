@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState;
       var sut = new EndTurn(null);
 
-      var expectedEffects = new StackQueue<IEffect>();
+      var expectedEffects = new LazyStackQueue<IEffect>();
       expectedEffects.Enqueue(new ReadyCardsAndRestoreArmor());
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.EndTurn());

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -12,25 +13,16 @@ namespace KeyforgeUnlocked.States
   public interface IState : ICoreState
   {
     IState PreviousState { get; }
-    
     bool IsGameOver { get; }
     House? ActiveHouse { get; }
-
-    IImmutableDictionary<Player, int> Keys { get; }
-    IImmutableDictionary<Player, int> Aember { get; }
-
+    IReadOnlyDictionary<Player, int> Keys { get; }
+    IReadOnlyDictionary<Player, int> Aember { get; }
     IImmutableList<IActionGroup> ActionGroups { get; }
-
-    IImmutableDictionary<Player, IImmutableStack<Card>> Decks { get; }
-
-    IImmutableDictionary<Player, IImmutableSet<Card>> Hands { get; }
-
-    IImmutableDictionary<Player, IImmutableSet<Card>> Discards { get; }
-
-    IImmutableDictionary<Player, IImmutableSet<Card>> Archives { get; }
-
-    IImmutableDictionary<Player, IImmutableList<Creature>> Fields { get; }
-
+    IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> Archives { get; }
+    IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     ImmutableArray<IEffect> Effects { get; }
 
     /// <summary>

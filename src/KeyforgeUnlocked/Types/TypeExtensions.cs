@@ -6,40 +6,41 @@ namespace KeyforgeUnlocked.Types
 {
   public static class TypeExtensions
   {
-    public static IImmutableDictionary<T1, IImmutableStack<T2>> ToImmutable<T1, T2>(
-      this IDictionary<T1, Stack<T2>> mutable)
+    public static LookupReadOnly<T1, IImmutableStack<T2>> ToImmutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IMutableStackQueue<T2>> mutable)
     {
-      return mutable.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableStack<T2>) ImmutableStack.Create<T2>(kv.Value.ToArray()));
+      
+      return mutable.ToReadOnly(kv => (IImmutableStack<T2>) ImmutableStack.Create(kv.Value.ToArray()));
     }
 
-    public static IImmutableDictionary<T1, IImmutableSet<T2>> ToImmutable<T1, T2>(
-      this IDictionary<T1, ISet<T2>> mutable)
+    public static LookupReadOnly<T1, IImmutableSet<T2>> ToImmutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IMutableSet<T2>> mutable)
     {
-      return mutable.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableSet<T2>) kv.Value.ToImmutableHashSet());
+      return mutable.ToReadOnly(kv => kv.Value.Immutable());
     }
 
-    public static IImmutableDictionary<T1, IImmutableList<T2>> ToImmutable<T1, T2>(
-      this IDictionary<T1, IMutableList<T2>> mutable)
+    public static LookupReadOnly<T1, IImmutableList<T2>> ToImmutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IMutableList<T2>> mutable)
     {
-      return mutable.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.Immutable());
+      return mutable.ToReadOnly(kv => kv.Value.Immutable());
     }
 
-    public static IDictionary<T1, IMutableList<T2>> ToMutable<T1, T2>(
-      this IImmutableDictionary<T1, IImmutableList<T2>> immutable)
+    public static LookupReadOnly<T1, IMutableList<T2>> ToMutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IImmutableList<T2>> immutable)
     {
-      return immutable.ToDictionary(kv => kv.Key, kv => (IMutableList<T2>) new LazyList<T2>(kv.Value));
+      return immutable.ToReadOnly(kv => (IMutableList<T2>) new LazyList<T2>(kv.Value));
     }
 
-    public static IDictionary<T1, ISet<T2>> ToMutable<T1, T2>(
-      this IImmutableDictionary<T1, IImmutableSet<T2>> immutable)
+    public static LookupReadOnly<T1, IMutableSet<T2>> ToMutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IImmutableSet<T2>> immutable)
     {
-      return immutable.ToDictionary(kv => kv.Key, kv => (ISet<T2>) kv.Value.ToHashSet());
+      return immutable.ToReadOnly(kv => (IMutableSet<T2>)new LazySet<T2>(kv.Value));
     }
 
-    public static IDictionary<T1, Stack<T2>> ToMutable<T1, T2>(
-      this IImmutableDictionary<T1, IImmutableStack<T2>> immutable)
+    public static LookupReadOnly<T1, IMutableStackQueue<T2>> ToMutable<T1, T2>(
+      this IReadOnlyDictionary<T1, IImmutableStack<T2>> immutable)
     {
-      return immutable.ToDictionary(kv => kv.Key, kv => new Stack<T2>(kv.Value));
+      return immutable.ToReadOnly(kv => (IMutableStackQueue<T2>)new LazyStackQueue<T2>(kv.Value));
     }
   }
 }

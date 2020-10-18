@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
@@ -112,11 +113,11 @@ namespace KeyforgeUnlockedTest.Effects
 
     MutableState TestState(Player playingPlayer)
     {
-      var hands = new Dictionary<Player, ISet<Card>>
+      var hands = new Dictionary<Player, IMutableSet<Card>>
       {
-        {playingPlayer, new HashSet<Card> {otherCards[0]}},
-        {playingPlayer.Other(), new HashSet<Card> {otherCards[1], otherCards[2]}}
-      };
+        {playingPlayer, new LazySet<Card> {otherCards[0]}},
+        {playingPlayer.Other(), new LazySet<Card> {otherCards[1], otherCards[2]}}
+      }.ToImmutableDictionary();
       return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
 
@@ -126,7 +127,9 @@ namespace KeyforgeUnlockedTest.Effects
       var creature2 = new Creature(CreatureCardOnBoard2);
 
       var state = TestState(playingPlayer);
-      state.Fields[Player.Player2] = new LazyList<Creature> {creature1, creature2};
+      state.Fields[Player.Player2].Clear();
+      state.Fields[Player.Player2].Add(creature1);
+      state.Fields[Player.Player2].Add(creature2);
       return state;
     }
   }

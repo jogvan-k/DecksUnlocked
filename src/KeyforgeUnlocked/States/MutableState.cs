@@ -9,7 +9,6 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
-using Microsoft.VisualBasic;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -21,15 +20,15 @@ namespace KeyforgeUnlocked.States
     public bool isGameOver;
     public IState previousState;
     public House? activeHouse;
-    public IDictionary<Player, int> Keys;
-    public IDictionary<Player, int> Aember;
+    public Lookup<Player, int> Keys;
+    public Lookup<Player, int> Aember;
     public IMutableList<IActionGroup> ActionGroups;
-    public IDictionary<Player, Stack<Card>> Decks;
-    public IDictionary<Player, ISet<Card>> Hands;
-    public IDictionary<Player, ISet<Card>> Discards;
-    public IDictionary<Player, ISet<Card>> Archives;
-    public IDictionary<Player, IMutableList<Creature>> Fields;
-    public StackQueue<IEffect> Effects;
+    public IReadOnlyDictionary<Player, IMutableStackQueue<Card>> Decks;
+    public IReadOnlyDictionary<Player, IMutableSet<Card>> Hands;
+    public IReadOnlyDictionary<Player, IMutableSet<Card>> Discards;
+    public IReadOnlyDictionary<Player, IMutableSet<Card>> Archives;
+    public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields;
+    public IMutableStackQueue<IEffect> Effects;
     public IMutableList<IResolvedEffect> ResolvedEffects;
     public Metadata metadata;
 
@@ -63,23 +62,23 @@ namespace KeyforgeUnlocked.States
       set => activeHouse = value;
     }
 
-    IImmutableDictionary<Player, int> IState.Keys => Keys.ToImmutableDictionary();
+    IReadOnlyDictionary<Player, int> IState.Keys => Keys.ToReadOnly();
 
-    IImmutableDictionary<Player, int> IState.Aember => Aember.ToImmutableDictionary();
+    IReadOnlyDictionary<Player, int> IState.Aember => Aember.ToReadOnly();
 
     IImmutableList<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableList();
 
-    IImmutableDictionary<Player, IImmutableStack<Card>> IState.Decks => Decks.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableStack<Card>> IState.Decks => Decks.ToImmutable();
 
-    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Hands => Hands.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Hands => Hands.ToImmutable();
 
-    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Discards => Discards.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Discards => Discards.ToImmutable();
 
-    IImmutableDictionary<Player, IImmutableSet<Card>> IState.Archives => Archives.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Archives => Archives.ToImmutable();
 
-    IImmutableDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
 
-    ImmutableArray<IEffect> IState.Effects => Effects.ToImmutableArray();
+    ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
 
     IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
 
@@ -97,15 +96,15 @@ namespace KeyforgeUnlocked.States
       IsGameOver = state.IsGameOver;
       PreviousState = state;
       ActiveHouse = state.ActiveHouse;
-      Keys = new Dictionary<Player, int>(state.Keys);
-      Aember = new Dictionary<Player, int>(state.Aember);
+      Keys = state.Keys.ToLookup();
+      Aember = state.Aember.ToLookup();
       ActionGroups = new LazyList<IActionGroup>(state.ActionGroups);
       Decks = state.Decks.ToMutable();
       Hands = state.Hands.ToMutable();
       Discards = state.Discards.ToMutable();
       Archives = state.Archives.ToMutable();
       Fields = state.Fields.ToMutable();
-      Effects = new StackQueue<IEffect>(state.Effects);
+      Effects = new LazyStackQueue<IEffect>(state.Effects);
       ResolvedEffects = new LazyList<IResolvedEffect>();
       Metadata = state.Metadata;
     }
@@ -116,15 +115,15 @@ namespace KeyforgeUnlocked.States
       bool isGameOver,
       IState previousState,
       House? activeHouse,
-      IDictionary<Player, int> keys,
-      IDictionary<Player, int> aember,
+      Lookup<Player, int> keys,
+      Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
-      IDictionary<Player, Stack<Card>> decks,
-      IDictionary<Player, ISet<Card>> hands,
-      IDictionary<Player, ISet<Card>> discards,
-      IDictionary<Player, ISet<Card>> archives,
-      IDictionary<Player, IMutableList<Creature>> fields,
-      StackQueue<IEffect> effects,
+      IReadOnlyDictionary<Player, IMutableStackQueue<Card>> decks,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> hands,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> discards,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> archives,
+      IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
+      IMutableStackQueue<IEffect> effects,
       IMutableList<IResolvedEffect> resolvedEffects,
       Metadata metadata)
     {
@@ -191,7 +190,7 @@ namespace KeyforgeUnlocked.States
 
     public ImmutableState ResolveEffects()
     {
-      while (ActionGroups.Count == 0 && Effects.Count != 0)
+      while (ActionGroups.Count == 0 && Effects.Length != 0)
         Effects.Dequeue().Resolve(this);
 
       if (ActionGroups.Count == 0)

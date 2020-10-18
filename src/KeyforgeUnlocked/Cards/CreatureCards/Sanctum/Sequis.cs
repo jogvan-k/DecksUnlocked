@@ -18,7 +18,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Sanctum
 
     public Sequis(House house) : base(
       house, power, armor, types, keywords, null,
-      null, null, reapAbility, null)
+      null, null, null, reapAbility, null)
     {
     }
   }

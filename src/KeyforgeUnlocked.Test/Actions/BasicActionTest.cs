@@ -21,7 +21,7 @@ namespace KeyforgeUnlockedTest.Actions
     Action<UnresolvedEffectsException> _asserts = e => { };
 
     private readonly IState _expected = StateTestUtil.EmptyMutableState.New(
-      turnNumber: 2, effects: new StackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.EndTurn()})).Extend();
+      turnNumber: 2, effects: new LazyStackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.EndTurn()})).Extend();
 
     static IEnumerable<TestCaseData> testCases => new List<TestCaseData>
     {

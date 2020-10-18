@@ -26,7 +26,7 @@ type alphaBetaPruningTest() =
         
         Assert.That([|0; 0|], Is.EqualTo(Array.toList path))
         
-        Assert.AreEqual(5, sut.logInfo.nodesEvaluated)
+        Assert.AreEqual(5, sut.LatestLogInfo.nodesEvaluated)
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
@@ -37,4 +37,4 @@ type alphaBetaPruningTest() =
         
         Assert.That([|0; 1|], Is.EqualTo(Array.toList path))
         
-        Assert.AreEqual(7, sut.logInfo.nodesEvaluated)
+        Assert.AreEqual(7, sut.LatestLogInfo.nodesEvaluated)

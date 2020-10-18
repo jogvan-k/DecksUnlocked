@@ -83,9 +83,9 @@ namespace KeyforgeUnlockedTest.Benchmark
       Console.WriteLine("//Excluding first run");
       var reducedRunTimes = runTimes.GetRange(1, numberOfGames - 1);
       Console.WriteLine($"Average runtime: {reducedRunTimes.Average()}");
-      Console.WriteLine();
       Console.WriteLine($"Fastest run: {reducedRunTimes.Min()})");
       Console.WriteLine($"Slowest run: {reducedRunTimes.Max()})");
+      Console.WriteLine();
 
       for (int i = 1; i <= runTimes.Count(); i++)
       {

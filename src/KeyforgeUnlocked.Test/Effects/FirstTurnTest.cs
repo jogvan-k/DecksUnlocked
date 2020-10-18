@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
@@ -26,14 +27,14 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_DifferentHouses_OnlyActionGroupsOnActiveHouse()
     {
       var activeHouse = House.Logos;
-      var hands = new Dictionary<Player, ISet<Card>>
+      var hands = new Dictionary<Player, IMutableSet<Card>>
       {
         {
           Player.Player1,
-          new HashSet<Card>(LogosCreatureCards.Concat(StarAllianceCreatureCards).Concat(UntamedCreatureCards))
+          new LazySet<Card>(LogosCreatureCards.Concat(StarAllianceCreatureCards).Concat(UntamedCreatureCards))
         },
-        {Player.Player2, new HashSet<Card>()}
-      };
+        {Player.Player2, new LazySet<Card>()}
+      }.ToImmutableDictionary();
       var state = StateTestUtil.EmptyMutableState.New(activeHouse: activeHouse, hands: hands);
       var sut = new FirstTurn();
 
@@ -54,11 +55,11 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_NoCardOfActiveHouse_OnlyNoActionGroup()
     {
       var activeHouse = House.Brobnar;
-      var hands = new Dictionary<Player, ISet<Card>>
+      var hands = new Dictionary<Player, IMutableSet<Card>>
       {
-        {Player.Player1, new HashSet<Card> {new SampleCreatureCard(house: House.StarAlliance)}},
-        {Player.Player2, new HashSet<Card>()}
-      };
+        {Player.Player1, new LazySet<Card> {new SampleCreatureCard(house: House.StarAlliance)}},
+        {Player.Player2, new LazySet<Card>()}
+      }.ToImmutableDictionary();
       var state = StateTestUtil.EmptyMutableState.New(activeHouse: activeHouse, hands: hands);
       var sut = new FirstTurn();
 

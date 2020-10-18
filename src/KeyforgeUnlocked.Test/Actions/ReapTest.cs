@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
@@ -20,7 +21,7 @@ namespace KeyforgeUnlockedTest.Actions
     const House ActiveHouse = House.Logos;
     readonly CreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
     Creature _creature;
-    Dictionary<Player, IMutableList<Creature>> _fields;
+    IImmutableDictionary<Player, IMutableList<Creature>> _fields;
 
     [Test]
     public void Resolve_CreatureNotReady_CreatureNotReadyException()
@@ -83,14 +84,14 @@ namespace KeyforgeUnlockedTest.Actions
       {
         {Player.Player1, new LazyList<Creature> {_creature}},
         {Player.Player2, new LazyList<Creature>()}
-      };
+      }.ToImmutableDictionary();
       state = StateTestUtil.EmptyState.New(activeHouse: activeHouse, fields: _fields);
       return new Reap(null, _creature, allowOutOfHouseUse);
     }
 
     MutableState Expected(House activeHouse = ActiveHouse)
     {
-      var expectedEffects = new StackQueue<IEffect>();
+      var expectedEffects = new LazyStackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(_creature));
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, fields: _fields, effects: expectedEffects);

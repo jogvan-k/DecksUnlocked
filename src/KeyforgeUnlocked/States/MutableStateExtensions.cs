@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.States
     public static bool Draw(this MutableState state,
       Player player)
     {
-      if (state.Decks[player].TryPop(out var card))
+      if (state.Decks[player].TryDequeue(out var card))
       {
         state.Hands[player].Add(card);
         return true;
@@ -176,7 +176,7 @@ namespace KeyforgeUnlocked.States
       throw new CreatureNotPresentException(state, creature.Id);
     }
 
-    static bool TryRemove<T>(IDictionary<Player, ISet<T>> toLookup,
+    static bool TryRemove<T>(IReadOnlyDictionary<Player, IMutableSet<T>> toLookup,
       string id,
       out Player owningPlayer,
       out T lookup) where T : IIdentifiable

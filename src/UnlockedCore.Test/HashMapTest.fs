@@ -28,4 +28,4 @@ type hashMapTest() =
         let path = (sut :> IGameAI).DetermineAction tree
         
         Assert.That(path, Is.EqualTo(Seq.toArray [|0; 0|]))
-        Assert.That(sut.logInfo.successfulHashMapLookups, Is.EqualTo(2))
+        Assert.That(sut.LatestLogInfo.successfulHashMapLookups, Is.EqualTo(2))

@@ -22,7 +22,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       sut.Resolve(state);
 
-      var expectedEffects = new StackQueue<IEffect>(new[] {(IEffect) new DeclareHouse(), new TryForge()});
+      var expectedEffects = new LazyStackQueue<IEffect>(new[] {(IEffect) new DeclareHouse(), new TryForge()});
       var expectedState = StateTestUtil.EmptyMutableState.New(
         playerTurn.Other(),
         turnNumberStart + 1,

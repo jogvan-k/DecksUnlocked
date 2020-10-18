@@ -20,16 +20,16 @@ namespace KeyforgeUnlockedTest.Util
       false,
       null,
       null,
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}},
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToLookup(),
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToLookup(),
       new LazyList<IActionGroup>(),
-      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}},
+      new Dictionary<Player, IMutableStackQueue<Card>> {{Player.Player1, new LazyStackQueue<Card>()}, {Player.Player2, new LazyStackQueue<Card>()}}.ToReadOnly(),
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToReadOnly(),
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToReadOnly(),
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToReadOnly(),
       new Dictionary<Player, IMutableList<Creature>>
-        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}},
-      new StackQueue<IEffect>(),
+        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToReadOnly(),
+      new LazyStackQueue<IEffect>(),
       new LazyList<IResolvedEffect>(),
       null);
 
@@ -39,19 +39,19 @@ namespace KeyforgeUnlockedTest.Util
       false,
       null,
       null,
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToImmutableDictionary(),
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
+      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
       new List<IActionGroup>().ToImmutableList(),
-      new Dictionary<Player, Stack<Card>> {{Player.Player1, new Stack<Card>()}, {Player.Player2, new Stack<Card>()}}
+      new Dictionary<Player, IMutableStackQueue<Card>> {{Player.Player1, new LazyStackQueue<Card>()}, {Player.Player2, new LazyStackQueue<Card>()}}.ToReadOnly()
         .ToImmutable(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToImmutableDictionary()
         .ToImmutable(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToImmutableDictionary()
         .ToImmutable(),
-      new Dictionary<Player, ISet<Card>> {{Player.Player1, new HashSet<Card>()}, {Player.Player2, new HashSet<Card>()}}
+      new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToImmutableDictionary()
         .ToImmutable(),
       new Dictionary<Player, IMutableList<Creature>>
-        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToImmutable(),
+        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToImmutableDictionary().ToImmutable(),
       ImmutableArray<IEffect>.Empty,
       new List<IResolvedEffect>().ToImmutableList(),
       null);
@@ -61,17 +61,17 @@ namespace KeyforgeUnlockedTest.Util
       Player? playerTurn = null,
       int? turnNumber = null,
       bool isGameOver = false,
-      IDictionary<Player, int> keys = null,
-      IDictionary<Player, int> aember = null,
+      KeyforgeUnlocked.Types.Lookup<Player, int> keys = null,
+      KeyforgeUnlocked.Types.Lookup<Player, int> aember = null,
       IState previousstate = null,
       House? activeHouse = null,
       IMutableList<IActionGroup> actionGroups = null,
-      IDictionary<Player, Stack<Card>> decks = null,
-      IDictionary<Player, ISet<Card>> hands = null,
-      IDictionary<Player, ISet<Card>> discards = null,
-      IDictionary<Player, ISet<Card>> archives = null,
-      IDictionary<Player, IMutableList<Creature>> fields = null,
-      StackQueue<IEffect> effects = null,
+      IReadOnlyDictionary<Player, IMutableStackQueue<Card>> decks = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> hands = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> discards = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> archives = null,
+      IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
+      IMutableStackQueue<IEffect> effects = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
       Metadata metadata = null)
     {
@@ -81,15 +81,15 @@ namespace KeyforgeUnlockedTest.Util
         isGameOver || state.IsGameOver,
         previousstate ?? state.PreviousState,
         activeHouse ?? state.ActiveHouse,
-        keys ?? new Dictionary<Player, int>(state.Keys),
-        aember ?? new Dictionary<Player, int>(state.Aember),
+        keys ?? new Dictionary<Player, int>(state.Keys).ToLookup(),
+        aember ?? new Dictionary<Player, int>(state.Aember).ToLookup(),
         actionGroups ?? new LazyList<IActionGroup>(state.ActionGroups),
         decks ?? state.Decks.ToMutable(),
         hands ?? state.Hands.ToMutable(),
         discards ?? state.Discards.ToMutable(),
         archives ?? state.Archives.ToMutable(),
         fields ?? state.Fields.ToMutable(),
-        effects ?? new StackQueue<IEffect>(state.Effects),
+        effects ?? new LazyStackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
         metadata ?? state.Metadata);
     }
@@ -103,17 +103,17 @@ namespace KeyforgeUnlockedTest.Util
       Player? playerTurn = null,
       int? turnNumber = null,
       bool isGameOver = false,
-      IDictionary<Player, int> keys = null,
-      IDictionary<Player, int> aember = null,
+      KeyforgeUnlocked.Types.Lookup<Player, int> keys = null,
+      KeyforgeUnlocked.Types.Lookup<Player, int> aember = null,
       House? activeHouse = null,
       IMutableList<IActionGroup> actionGroups = null,
-      IDictionary<Player, Stack<Card>> decks = null,
-      IDictionary<Player, ISet<Card>> hands = null,
-      IDictionary<Player, ISet<Card>> discards = null,
-      IDictionary<Player, ISet<Card>> archives = null,
-      IDictionary<Player, IMutableList<Creature>> fields = null,
+      IReadOnlyDictionary<Player, IMutableStackQueue<Card>> decks = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> hands = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> discards = null,
+      IReadOnlyDictionary<Player, IMutableSet<Card>> archives = null,
+      IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
-      StackQueue<IEffect> effects = null,
+      IMutableStackQueue<IEffect> effects = null,
       Metadata metadata = null)
     {
       return state.New(

@@ -1,21 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Types
 {
-  public class LazyList<T> : IMutableList<T>
+  public sealed class LazyList<T> : IMutableList<T>
   {
-    readonly IImmutableList<T> _initial;
-    IList<T> _innerList;
-
-    public IList<T> Mutable()
-    {
-      if (_innerList == null)
-        _innerList = _initial.ToList();
-      return _innerList;
-    }
+    [NotNull] readonly IImmutableList<T> _initial;
+    List<T> _innerList;
 
     public IImmutableList<T> Immutable()
     {
@@ -24,16 +19,25 @@ namespace KeyforgeUnlocked.Types
       return _initial;
     }
 
+    List<T> Mutable()
+    {
+      if (_innerList == null)
+        _innerList = _initial.ToList();
+      return _innerList;
+    }
+
+    bool Initialized => _innerList != null;
+
     public LazyList()
     {
       _initial = ImmutableList<T>.Empty;
     }
 
-    public LazyList(IEnumerable<T> initial)
+    public LazyList([NotNull]IEnumerable<T> initial)
     {
       _initial = initial.ToImmutableList();
     }
-    public LazyList(IImmutableList<T> initial)
+    public LazyList([NotNull]IImmutableList<T> initial)
     {
       _initial = initial;
     }
@@ -64,7 +68,7 @@ namespace KeyforgeUnlocked.Types
     }
 
     public int Count => Immutable().Count;
-    public bool IsReadOnly => Mutable().IsReadOnly;
+    public bool IsReadOnly => false;
 
     public int IndexOf(T item)
     {
@@ -95,6 +99,34 @@ namespace KeyforgeUnlocked.Types
     IEnumerator IEnumerable.GetEnumerator()
     {
       return GetEnumerator();
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != this.GetType()) return false;
+      return Equals((LazyList<T>) obj);
+    }
+
+    bool Equals(LazyList<T> other)
+    {
+      var first = Initialized ? (IEnumerable<T>) _innerList : _initial;
+      var second = other.Initialized ? (IEnumerable<T>) other._innerList : other._initial;
+
+      return first.SequenceEqual(second);
+    }
+
+    public override int GetHashCode()
+    {
+      var hash = PrimeHashBase;
+      var entries = Initialized ? (IEnumerable<T>) _innerList : _initial;
+      foreach (var entry in entries)
+      {
+        hash += PrimeHashBase * entry.GetHashCode();
+      }
+      
+      return hash;
     }
   }
 }

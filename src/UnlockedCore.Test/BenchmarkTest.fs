@@ -14,14 +14,14 @@ type BenchmarkCases () =
         let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll)
         
         let result = (cal :> IGameAI).DetermineAction tree
-        let logInfo = cal.logInfo
+        let logInfo = cal.LatestLogInfo
         
         let treeSize = ((pown b (n + 1)) - 1) / (b - 1)
         let leafNodes = pown b n
         
         printfn "Searched tree of depth %i, branch width %i, %i total nodes and %i branch nodes " n b treeSize leafNodes
         printfn "%i nodes evaluated in %i hours %i minutes and %i seconds %i milliseconds" logInfo.nodesEvaluated logInfo.elapsedTime.Hours logInfo.elapsedTime.Minutes logInfo.elapsedTime.Seconds logInfo.elapsedTime.Milliseconds
-        printfn "%i paths pruned and %i successful hash table lookups" cal.logInfo.prunedPaths cal.logInfo.successfulHashMapLookups
+        printfn "%i paths pruned and %i successful hash table lookups" cal.LatestLogInfo.prunedPaths cal.LatestLogInfo.successfulHashMapLookups
         
         logInfo
     

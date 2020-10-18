@@ -1,17 +1,21 @@
 using System;
+using System.Globalization;
 using System.Reflection;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
 {
-  public abstract class Card : IIdentifiable
+  public abstract class Card : IIdentifiable, IComparable<Card>, IComparable
   {
+    static readonly StringComparer nameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
+
+    // TODO reconsider use of Id
     public string Id { get; }
 
     public House House { get; }
 
 
-    Lazy<string> _name;
+    readonly Lazy<string> _name;
     public string Name => _name.Value;
 
     public CardType CardType { get; }
@@ -40,7 +44,8 @@ namespace KeyforgeUnlocked.Cards
 
     protected bool Equals(Card other)
     {
-      return Id == other.Id;
+      return Id.Equals(other.Id);
+      //return House.Equals(other.House);
     }
 
     public override bool Equals(object obj)
@@ -56,9 +61,24 @@ namespace KeyforgeUnlocked.Cards
       return Name;
     }
 
+    public int CompareTo(object obj)
+    {
+      if (obj == null)
+        return 1;
+      return CompareTo((Card) obj);
+    }
+
+    public int CompareTo(Card other)
+    {
+      return nameComparer.Compare(Id, other.Id);
+    }
+
     public override int GetHashCode()
     {
       return Id.GetHashCode();
+      // var hash = GetType().GetHashCode();
+      // hash += Constants.PrimeHashBase * House.GetHashCode();
+      // return hash;
     }
   }
 }

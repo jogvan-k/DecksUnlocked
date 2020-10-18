@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -60,7 +61,7 @@ namespace KeyforgeUnlockedTest.Effects
             new LazyList<Creature> {new Creature(_creatureCard)}
           },
           {Player.Player2, new LazyList<Creature>()}
-        });
+        }.ToImmutableDictionary());
       var sut = new Reap(new Creature(_creatureCard));
 
       try
@@ -98,7 +99,7 @@ namespace KeyforgeUnlockedTest.Effects
               new Creature(OtherCreatureCard2, isReady: true)
             }
           }
-        });
+        }.ToImmutableDictionary());
 
       _sut.Resolve(state);
 
@@ -119,9 +120,9 @@ namespace KeyforgeUnlockedTest.Effects
             new Creature(OtherCreatureCard2, isReady: true)
           }
         }
-      };
+      }.ToImmutableDictionary();
       var expectedResolvedEffects = new List<IResolvedEffect> {new Reaped(new Creature(_creature.Card))};
-      var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}};
+      var expectedAember = new Dictionary<Player, int> {{Player.Player1, 1}, {Player.Player2, 0}}.ToLookup();
       var expectedState = StateTestUtil.EmptyMutableState.New(
         fields: expectedField, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), aember: expectedAember);
 

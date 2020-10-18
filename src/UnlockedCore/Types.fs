@@ -1,7 +1,5 @@
 ﻿namespace UnlockedCore
 
-open System
-
 type Player =
     | Player1 = 1
     | Player2 = 2

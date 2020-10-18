@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -17,7 +18,7 @@ namespace KeyforgeUnlockedTest.Actions
   sealed class UseCreatureAbilityTest : ActionTestBase
   {
     Creature creature;
-    Dictionary<Player, IMutableList<Creature>> fields;
+    IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
 
     [Test]
     public void Resolve()
@@ -61,7 +62,7 @@ namespace KeyforgeUnlockedTest.Actions
 
     MutableState Expected()
     {
-      var expectedEffects = new StackQueue<IEffect>(new[] {new CreatureAbility(creature)});
+      var expectedEffects = new LazyStackQueue<IEffect>(new[] {new CreatureAbility(creature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Shadows, fields: fields, effects: expectedEffects);
       return expectedState;

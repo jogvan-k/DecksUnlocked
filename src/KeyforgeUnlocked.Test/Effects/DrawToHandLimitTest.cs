@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -13,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DrawToHandLimitTest
   {
-    static Card[] sampleCards = Enumerable.Range(0, 8).Select(c => new SampleCreatureCard()).ToArray();
+    static readonly Card[] sampleCards = Enumerable.Range(0, 8).Select(c => new SampleCreatureCard()).ToArray();
 
     [Test]
     public void Resolve_EmptyState()
@@ -43,28 +45,27 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedHands = StateWithCardsInHand(cardsInHand);
       var expectedDecks = InitializeDeck();
       for (var i = 0; i < expectedDraws; i++)
-        expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Pop());
+        expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Dequeue());
       var expectedState = StateTestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
       if (expectedDraws > 0)
         expectedState.ResolvedEffects.Add(new CardsDrawn(expectedDraws));
       StateAsserter.StateEquals(expectedState, state);
     }
 
-    static Dictionary<Player, Stack<Card>> InitializeDeck()
+    static IImmutableDictionary<Player, IMutableStackQueue<Card>> InitializeDeck()
     {
-      return new Dictionary<Player, Stack<Card>>
-        {{Player.Player1, SampleSets.SampleDeck}, {Player.Player2, new Stack<Card>()}};
+      return TestUtil.Stacks(SampleSets.SampleDeck).ToImmutableDictionary();
     }
 
-    static Dictionary<Player, ISet<Card>> StateWithCardsInHand(int cardsInHand)
+    static IImmutableDictionary<Player, IMutableSet<Card>> StateWithCardsInHand(int cardsInHand)
     {
-      return new Dictionary<Player, ISet<Card>>
+      return new Dictionary<Player, IMutableSet<Card>>
       {
         {
           Player.Player1,
-          new HashSet<Card>(sampleCards[new Range(0, cardsInHand)])
+          new LazySet<Card>(sampleCards[new Range(0, cardsInHand)])
         }
-      };
+      }.ToImmutableDictionary();
     }
   }
 }

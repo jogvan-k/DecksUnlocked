@@ -23,7 +23,9 @@ type LogInfo =
         val mutable successfulHashMapLookups: int
     end
 
-type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthConfiguration, loggingConfiguration : LoggingConfiguration) =
+type MinimaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConfiguration, ?searchConfig0: SearchConfiguration, ?loggingConfiguration0 : LoggingConfiguration) =
+    let searchConfig = defaultArg searchConfig0 SearchConfiguration.NoRestrictions
+    let loggingConfiguration = defaultArg loggingConfiguration0 LoggingConfiguration.LogAll
     let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
     let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
     let mutable _logInfos: LogInfo list = List.empty
@@ -39,7 +41,7 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthCo
                         then Some(System.Diagnostics.Stopwatch.StartNew())
                         else None
             
-            let d = UtilMethods.toSearchLimit searchConfiguration depth s.TurnNumber
+            let d = UtilMethods.toSearchLimit searchDepthConfig depth s.TurnNumber
             
             let evaluate =
                 if(logEvaulatedStates)
@@ -48,7 +50,7 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchConfiguration: SearchDepthCo
                                  evaluator.Evaluate i
                 else evaluator.Evaluate
             
-            let accumulator = accumulator(evaluate, loggingConfiguration)
+            let accumulator = accumulator(evaluate, loggingConfiguration, searchConfig)
             let returnVal = minimaxAI accumulator d s |> snd |> List.toArray
 
             logInfo.elapsedTime <- if(timer.IsSome)

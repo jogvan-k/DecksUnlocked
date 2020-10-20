@@ -1,5 +1,6 @@
 ﻿module UnlockedCore.Test.AlphaBetaPruningTest
 
+open AIMethods
 open NUnit.Framework
 open UnlockedCore
 open UnlockedCore.AITypes
@@ -19,7 +20,7 @@ type alphaBetaPruningTest() =
 
     [<Test>]
     member this.PruningOnMaximizingPlayer () =
-        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogEvaluatedStates)
+        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
         
         let path = (sut :> IGameAI).DetermineAction alphaBetaPruningTree
         
@@ -30,7 +31,7 @@ type alphaBetaPruningTest() =
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
-        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogEvaluatedStates)
+        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
         
         let invertedTree = invertTree alphaBetaPruningTree
         let path = (sut :> IGameAI).DetermineAction invertedTree

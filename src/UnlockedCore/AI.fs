@@ -7,6 +7,11 @@ let seachDepthLimit = 100
 type searchLimit =
     | Until of turn: int * depth: int
     | Depth of remaining: int
+    
+type SearchConfiguration =
+    | NoRestrictions = 0
+    | NoHashTable = 1
+
 
 let reduce =
     function
@@ -44,9 +49,11 @@ type LoggingConfiguration =
     | LogAll                       = 0xf
 
 let logPrunedPaths (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogPrunedPaths)
+let avoidHashMap (searchConfig: SearchConfiguration) = searchConfig.HasFlag(SearchConfiguration.NoHashTable)
 let logSuccessfulHashMapLookup (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogSuccessfulHashMapLookup)
 
-type accumulator(evaluator : ICoreState -> int, logConfig: LoggingConfiguration) =
+type accumulator(evaluator : ICoreState -> int, logConfig: LoggingConfiguration, ?searchConfig0: SearchConfiguration) =
+    let searchConfig = defaultArg searchConfig0 SearchConfiguration.NoRestrictions
     let mutable _prunedPaths = 0
     let mutable _successfulHashMapLookups = 0
     let mutable _hashMap = Map.empty
@@ -62,10 +69,15 @@ type accumulator(evaluator : ICoreState -> int, logConfig: LoggingConfiguration)
         if(logPrunedPaths logConfig)
         then fun () -> _prunedPaths <- _prunedPaths + 1
         else fun () -> ()
+        
+    let _addToHashMap =
+        if(avoidHashMap searchConfig)
+        then fun (hash, value) -> ()
+        else fun (hash, value) -> _hashMap <- _hashMap.Add(hash, value)
     member this.incrementPrunedPaths () = _incrementPrunedPaths ()
     member this.logConfig = logConfig
     member this.eval = evaluator
-    member this.addToHashMap hash value = _hashMap <- _hashMap.Add(hash, value)
+    member this.addToHashMap hash value = _addToHashMap(hash, value)
     member this.lookupHashMap hash = _lookupHashMap hash
     member this.prunedPaths
         with get() = _prunedPaths

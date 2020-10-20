@@ -14,6 +14,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class KeyforgeStateConsoleExtensions
   {
+    static IEvaluator _evaluator = new Evaluator();
+    
     public static void Print(this IState state,
       out Dictionary<string, IActionGroup> commands)
     {
@@ -38,6 +40,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Dictionary<string, IActionGroup> commands = null)
     {
       Console.WriteLine($"Current player: {state.PlayerTurn}");
+      Console.WriteLine($"Board value: {_evaluator.Evaluate(state)}");
       PrintAmounts(state, fromPlayerPerspective);
       PrintActiveHouse(state);
       PrintField(state, fromPlayerPerspective, commands);

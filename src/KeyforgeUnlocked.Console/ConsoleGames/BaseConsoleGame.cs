@@ -17,6 +17,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     protected IState _state;
     protected IDictionary<string, IActionGroup> Commands;
     protected IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
+    protected IEvaluator _evaluator = new Evaluator();
 
     public BaseConsoleGame(IState state)
     {

@@ -23,7 +23,7 @@ type hashMapTest() =
     
     [<Test>]
     member this.SearchWithHashTableLookup () =
-        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll)
+        let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn)
         
         let path = (sut :> IGameAI).DetermineAction tree
         

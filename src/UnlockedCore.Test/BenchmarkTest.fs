@@ -11,7 +11,7 @@ type BenchmarkCases () =
     
     let evaluate evalFun n b =
         let tree = complexTree evalFun n b
-        let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll)
+        let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn)
         
         let result = (cal :> IGameAI).DetermineAction tree
         let logInfo = cal.LatestLogInfo

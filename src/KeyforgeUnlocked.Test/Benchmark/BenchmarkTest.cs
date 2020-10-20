@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Timers;
+using System.Linq;  
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
-using KeyforgeUnlockedConsole.ConsoleGames;
 using KeyforgeUnlockedTest.Util;
-using Microsoft.FSharp.Collections;
 using NUnit.Framework;
 using UnlockedCore;
 using UnlockedCore.AITypes;
@@ -45,7 +42,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     public void MinimaxAIRun()
     {
       _state = SetupStartState();
-      var ai = new MinimaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.LoggingConfiguration.LogAll);
+      var ai = new MinimaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -59,7 +56,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var logInfo = RunSingleGame(4, SearchDepthConfiguration.actions);
+      var logInfo = RunSingleGame(2, SearchDepthConfiguration.turn);
 
       Console.WriteLine(
         $"Evaluated {logInfo.Sum(l => l.nodesEvaluated)} end states over {logInfo.Count()} calls in {logInfo.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -96,7 +93,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     IEnumerable<LogInfo> RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
       _state = SetupStartState();
-      var ai = new MinimaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.LoggingConfiguration.LogAll);
+      var ai = new MinimaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
 
       var playerTurn = _state.PlayerTurn;
       while (!_state.IsGameOver)
@@ -123,7 +120,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     // Evaluated 264535 end states over 60 calls in 65,9268776 seconds.
     // 0 successful hash map lookups and 7368 paths pruned.
 
-    ImmutableState SetupStartState()
+    internal static ImmutableState SetupStartState()
     {
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");

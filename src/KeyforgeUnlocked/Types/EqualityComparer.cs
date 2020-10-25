@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.Types
         return hash;
       foreach (var entry in sequence)
       {
-        hash += PrimeHashBase * entry.GetHashCode();
+        hash += PrimeHashBase * hash + entry.GetHashCode();
       }
 
       return hash;
@@ -58,8 +58,8 @@ namespace KeyforgeUnlocked.Types
 
       foreach (var kv in x)
       {
-        hash += PrimeHashBase * kv.Key.GetHashCode();
-        hash += PrimeHashBase * GetHashCode(kv.Value);
+        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
+        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
       }
 
       return hash;
@@ -81,8 +81,8 @@ namespace KeyforgeUnlocked.Types
 
       foreach (var kv in x)
       {
-        hash += PrimeHashBase * kv.Key.GetHashCode();
-        hash += PrimeHashBase * GetHashCode(kv.Value);
+        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
+        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
       }
 
       return hash;
@@ -111,8 +111,8 @@ namespace KeyforgeUnlocked.Types
 
       foreach (var kv in x)
       {
-        hash += PrimeHashBase * kv.Key.GetHashCode();
-        hash += PrimeHashBase * GetHashCode(kv.Value);
+        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
+        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
       }
 
       return hash;

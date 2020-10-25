@@ -123,7 +123,7 @@ namespace KeyforgeUnlocked.Types
       var entries = Initialized ? (IEnumerable<T>) _innerList : _initial;
       foreach (var entry in entries)
       {
-        hash += PrimeHashBase * entry.GetHashCode();
+        hash += PrimeHashBase * hash + entry.GetHashCode();
       }
       
       return hash;

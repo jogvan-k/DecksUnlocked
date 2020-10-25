@@ -9,8 +9,8 @@ namespace KeyforgeUnlocked.States
   public class Evaluator : IEvaluator
   {
     const int GameWon = 1000;
-    const int Key = 100;
-    const int Aember = 10;
+    const int Key = 200;
+    const int Aember = 20;
     const int Creature = 10;
     const int CreatureEnraged = -5;
     const int CreatureStunned = -8;

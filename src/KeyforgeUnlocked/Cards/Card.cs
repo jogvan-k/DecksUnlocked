@@ -76,9 +76,6 @@ namespace KeyforgeUnlocked.Cards
     public override int GetHashCode()
     {
       return Id.GetHashCode();
-      // var hash = GetType().GetHashCode();
-      // hash += Constants.PrimeHashBase * House.GetHashCode();
-      // return hash;
     }
   }
 }

@@ -20,8 +20,8 @@ namespace KeyforgeUnlocked.Types
       var hash = 0;
       foreach (var keyValue in Dictionary)
       {
-        hash += PrimeHashBase * keyValue.Key.GetHashCode();
-        hash += PrimeHashBase * keyValue.Value.GetHashCode();
+        hash += PrimeHashBase * hash + keyValue.Key.GetHashCode();
+        hash += PrimeHashBase * hash + keyValue.Value.GetHashCode();
       }
 
       return hash;

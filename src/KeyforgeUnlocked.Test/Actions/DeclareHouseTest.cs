@@ -43,7 +43,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseNotAvailable_ThrowException()
     {
-      var metadata = new Metadata(null, AvailableHouses);
+      var metadata = new Metadata(null, AvailableHouses, 40);
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var sut = new DeclareHouse(null, House.Brobnar);
 
@@ -59,7 +59,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseAvailable()
     {
-      var metadata = new Metadata(null, AvailableHouses);
+      var metadata = new Metadata(null, AvailableHouses, 40);
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var declaredHouse = House.Shadows;
       var sut = new DeclareHouse(null, declaredHouse);

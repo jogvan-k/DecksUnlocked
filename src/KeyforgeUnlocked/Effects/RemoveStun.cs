@@ -4,7 +4,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class RemoveStun : IEffect
+  public sealed class RemoveStun : EffectBase<RemoveStun>
   {
     public Creature Creature { get; }
 
@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.Effects
       Creature = creature;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       var creature = Creature;
       creature.State = creature.State & ~CreatureState.Stunned;
@@ -22,19 +22,14 @@ namespace KeyforgeUnlocked.Effects
       state.ResolvedEffects.Add(new StunRemoved(creature));
     }
 
-    bool Equals(RemoveStun other)
+    protected override bool Equals(RemoveStun other)
     {
-      return Creature.Equals(other.Creature);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is RemoveStun other && Equals(other);
+      return base.Equals(other);
     }
 
     public override int GetHashCode()
     {
-      return Creature.GetHashCode();
+      return base.GetHashCode() * Constants.PrimeHashBase + Creature.GetHashCode();
     }
   }
 }

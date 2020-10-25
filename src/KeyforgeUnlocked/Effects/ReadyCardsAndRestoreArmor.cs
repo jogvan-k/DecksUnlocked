@@ -4,9 +4,9 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class ReadyCardsAndRestoreArmor : IEffect
+  public sealed class ReadyCardsAndRestoreArmor : EffectBase<ReadyCardsAndRestoreArmor>
   {
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       var field = state.Fields[state.PlayerTurn];
       for (int i = 0; i < field.Count; i++)
@@ -28,21 +28,6 @@ namespace KeyforgeUnlocked.Effects
         creature.BrokenArmor = 0;
         field[i] = creature;
       }
-    }
-
-    bool Equals(ReadyCardsAndRestoreArmor other)
-    {
-      return true;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is ReadyCardsAndRestoreArmor other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return typeof(ReadyCardsAndRestoreArmor).GetHashCode();
     }
   }
 }

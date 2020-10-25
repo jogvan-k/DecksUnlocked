@@ -76,7 +76,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.False(
         emptyState.New(
             metadata: new Metadata(
-              ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty))
+              ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 0))
           .Equals(emptyState));
     }
 

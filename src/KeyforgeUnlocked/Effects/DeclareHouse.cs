@@ -4,9 +4,9 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class DeclareHouse : IEffect
+  public sealed class DeclareHouse : EffectBase<DeclareHouse>
   {
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       var Metadata = state.Metadata;
       if (Metadata == null)
@@ -14,21 +14,6 @@ namespace KeyforgeUnlocked.Effects
 
       var availableHouses = Metadata.Houses[state.PlayerTurn];
       state.ActionGroups.Add(new DeclareHouseGroup(availableHouses));
-    }
-
-    bool Equals(DeclareHouse other)
-    {
-      return true;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is DeclareHouse other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return 1;
     }
   }
 }

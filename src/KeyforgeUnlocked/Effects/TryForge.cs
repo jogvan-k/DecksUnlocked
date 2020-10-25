@@ -4,9 +4,9 @@ using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public class TryForge : IEffect
+  public class TryForge : EffectBase<TryForge>
   {
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       var playerTurn = state.PlayerTurn;
       if (state.Aember[playerTurn] >= DefaultForgeCost)
@@ -17,24 +17,6 @@ namespace KeyforgeUnlocked.Effects
         if (state.Keys[playerTurn] >= KeysRequiredToWin)
           state.IsGameOver = true;
       }
-    }
-
-    protected bool Equals(TryForge other)
-    {
-      return true;
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((TryForge) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return typeof(TryForge).GetHashCode();
     }
   }
 }

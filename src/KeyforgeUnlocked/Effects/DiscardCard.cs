@@ -5,7 +5,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class DiscardCard : IEffect
+  public sealed class DiscardCard : EffectBase<DiscardCard>
   {
     public Card Card { get; }
 
@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Effects
       Card = card;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card.Id);
@@ -22,22 +22,14 @@ namespace KeyforgeUnlocked.Effects
       state.ResolvedEffects.Add(new CardDiscarded(Card));
     }
 
-    public override bool Equals(object obj)
+    protected override bool Equals(DiscardCard other)
     {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((DiscardCard) obj);
-    }
-
-    bool Equals(DiscardCard other)
-    {
-      return Equals(Card, other.Card);
+      return Card.Equals(other.Card);
     }
 
     public override int GetHashCode()
     {
-      return (Card != null ? Card.GetHashCode() : 0);
+      return base.GetHashCode() * Constants.PrimeHashBase + Card.GetHashCode();
     }
   }
 }

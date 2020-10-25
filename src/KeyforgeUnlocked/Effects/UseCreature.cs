@@ -4,7 +4,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public abstract class UseCreature : IEffect
+  public abstract class UseCreature<T> : EffectBase<T> where T : UseCreature<T>
   {
     public readonly Creature Creature;
 
@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.Effects
       Creature = creature;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       if(!Creature.IsReady)
         throw new CreatureNotReadyException(state, Creature);
@@ -25,5 +25,15 @@ namespace KeyforgeUnlocked.Effects
     }
 
     protected abstract void SpecificResolve(MutableState state, Creature creature);
+
+    protected override bool Equals(T other)
+    {
+      return Creature.Equals(other.Creature);
+    }
+
+    public override int GetHashCode()
+    {
+      return base.GetHashCode() * Constants.PrimeHashBase + Creature.GetHashCode();
+    }
   }
 }

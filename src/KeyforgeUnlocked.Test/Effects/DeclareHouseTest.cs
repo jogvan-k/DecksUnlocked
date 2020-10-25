@@ -49,7 +49,7 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(Player.Player2)]
     public void StateWithMetadata(Player playerTurn)
     {
-      var metadata = new Metadata(null, Houses);
+      var metadata = new Metadata(null, Houses, 0);
       var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, metadata: metadata);
 
       Sut.Resolve(state);

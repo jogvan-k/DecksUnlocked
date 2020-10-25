@@ -4,23 +4,28 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class TargetAllCreatures : IEffect
+  public sealed class TargetAllCreatures : EffectBase<TargetAllCreatures>
   {
-    EffectOnCreature _effect;
-    ValidOn _validOn;
+    EffectOnCreature effect;
+    ValidOn validOn;
 
     public TargetAllCreatures(EffectOnCreature effect, ValidOn validOn)
     {
-      _effect = effect;
-      _validOn = validOn;
+      this.effect = effect;
+      this.validOn = validOn;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
-      foreach (var creature in state.Fields.SelectMany(f => f.Value).Where(c => _validOn(state, c)).ToList())
+      foreach (var creature in state.Fields.SelectMany(f => f.Value).Where(c => validOn(state, c)).ToList())
       {
-        _effect(state, creature);
+        effect(state, creature);
       }
+    }
+
+    protected override bool Equals(TargetAllCreatures other)
+    {
+      return effect.Equals(other.effect) && validOn.Equals(other.validOn);
     }
   }
 }

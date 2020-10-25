@@ -6,7 +6,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class FightCreature : UseCreature
+  public sealed class FightCreature : UseCreature<FightCreature>
   {
     public Creature Target { get; }
 
@@ -55,19 +55,9 @@ namespace KeyforgeUnlocked.Effects
       return re => re is CreatureFought cf && cf.Target.Id.Equals(creatureId);
     }
 
-    bool Equals(FightCreature other)
+    protected override bool Equals(FightCreature other)
     {
-      return Equals(Creature, other.Creature) && Equals(Target, other.Target);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is FightCreature other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Creature, Target);
+      return base.Equals(other) && Target.Equals(other.Target);
     }
   }
 }

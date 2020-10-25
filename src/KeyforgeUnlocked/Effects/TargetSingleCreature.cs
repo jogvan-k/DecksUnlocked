@@ -6,26 +6,40 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class TargetSingleCreature : IEffect
+  public sealed class TargetSingleCreature : EffectBase<TargetSingleCreature>
   {
-    EffectOnCreature _effect;
-    ValidOn _validOn;
+    EffectOnCreature effect;
+    ValidOn validOn;
 
     public TargetSingleCreature(EffectOnCreature effect, ValidOn validOn)
     {
-      _effect = effect;
-      _validOn = validOn;
+      this.effect = effect;
+      this.validOn = validOn;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       var validTargets = state.Fields[state.PlayerTurn.Other()].Concat(state.Fields[state.PlayerTurn])
-        .Where(c => _validOn(state, c)).ToList();
+        .Where(c => validOn(state, c)).ToList();
 
       if (validTargets.Count > 1)
-        state.ActionGroups.Add(new TargetCreatureGroup(_effect, new LazyList<Creature>(validTargets)));
+        state.ActionGroups.Add(new TargetCreatureGroup(effect, new LazyList<Creature>(validTargets)));
       else if (validTargets.Count == 1)
-        _effect(state, validTargets.Single());
+        effect(state, validTargets.Single());
+    }
+
+    protected override bool Equals(TargetSingleCreature other)
+    {
+      return effect.Equals(other.effect) && validOn.Equals(other.validOn);
+    }
+
+    public override int GetHashCode()
+    {
+      var hash = base.GetHashCode();
+      hash = hash * Constants.PrimeHashBase + effect.GetHashCode();
+      hash = hash * Constants.PrimeHashBase + validOn.GetHashCode();
+
+      return hash;
     }
   }
 }

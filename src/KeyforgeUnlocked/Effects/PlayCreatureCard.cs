@@ -6,7 +6,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayCreatureCard : IEffect
+  public sealed class PlayCreatureCard : EffectBase<PlayCreatureCard>
   {
     public readonly CreatureCard Card;
     public readonly int Position;
@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Effects
       Position = position;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       ValidatePosition(state);
       var creature = Card.InsantiateCreature();
@@ -36,19 +36,18 @@ namespace KeyforgeUnlocked.Effects
         throw new InvalidBoardPositionException(state, Position);
     }
 
-    bool Equals(PlayCreatureCard other)
+    protected override bool Equals(PlayCreatureCard other)
     {
-      return Equals(Card, other.Card) && Position == other.Position;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is PlayCreatureCard other && Equals(other);
+      return Card.Equals(other.Card) && Position.Equals(other.Position);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Card, Position);
+      var hash = base.GetHashCode();
+      hash = hash * Constants.PrimeHashBase + Card.GetHashCode();
+      hash = hash * Constants.PrimeHashBase + Position.GetHashCode();
+      
+      return hash;
     }
   }
 }

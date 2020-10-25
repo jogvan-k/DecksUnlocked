@@ -56,7 +56,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var logInfo = RunSingleGame(2, SearchDepthConfiguration.turn);
+      var logInfo = RunSingleGame(4, SearchDepthConfiguration.actions);
 
       Console.WriteLine(
         $"Evaluated {logInfo.Sum(l => l.nodesEvaluated)} end states over {logInfo.Count()} calls in {logInfo.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -112,7 +112,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     }
 
     // Log
-    // Commit 2a66ec65 depth 4
+    // Commit 2a66ec65 depth 4 actions
     
     // Evaluated 178971 end states over 54 calls in 76,89423450000001 seconds.
     // 0 successful hash map lookups and 5881 paths pruned.
@@ -120,6 +120,9 @@ namespace KeyforgeUnlockedTest.Benchmark
     // Evaluated 264535 end states over 60 calls in 65,9268776 seconds.
     // 0 successful hash map lookups and 7368 paths pruned.
 
+    // Commit a4b57123 depth 4 actions
+    // Evaluated 651991 end states over 68 calls in 46,986610899999995 seconds.
+    // 21650 successful hash map lookups and 10086 paths pruned.
     internal static ImmutableState SetupStartState()
     {
       var player1Deck = Deck.LoadDeckFromFile("");

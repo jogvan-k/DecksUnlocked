@@ -4,7 +4,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayActionCard : IEffect
+  public sealed class PlayActionCard : EffectBase<PlayActionCard>
   {
     public readonly ActionCard Card;
 
@@ -13,26 +13,11 @@ namespace KeyforgeUnlocked.Effects
       Card = card;
     }
 
-    public void Resolve(MutableState state)
+    protected override void ResolveImpl(MutableState state)
     {
       state.ResolvedEffects.Add(new ActionPlayed(Card));
       Card.PlayAbility?.Invoke(state, Card.Id);
       state.Discards[state.playerTurn].Add(Card);
-    }
-
-    bool Equals(PlayActionCard other)
-    {
-      return Equals(Card, other.Card);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is PlayActionCard other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return (Card != null ? Card.GetHashCode() : 0);
     }
   }
 }

@@ -78,6 +78,11 @@ namespace KeyforgeUnlocked.Types
       return true;
     }
 
+    public void Clear()
+    {
+      Mutable().Clear();
+    }
+
     public IEnumerator<T> GetEnumerator()
     {
       return Mutable().GetEnumerator();

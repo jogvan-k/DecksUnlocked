@@ -11,5 +11,7 @@ namespace KeyforgeUnlocked.Types
     public void Push(T item);
     public T Dequeue();
     bool TryDequeue(out T value);
+
+    void Clear();
   }
 }

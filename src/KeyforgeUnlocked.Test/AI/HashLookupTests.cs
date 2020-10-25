@@ -11,24 +11,42 @@ namespace KeyforgeUnlockedTest.AI
   [TestFixture]
   sealed class HashLookupTests
   {
-    MinimaxAI ai;
+    MinimaxAI noHashTableAi;
+    MinimaxAI hashTableAi;
+    SearchDepthConfiguration _searchDepthConfiguration = SearchDepthConfiguration.turn;
+    static readonly int Depth = 2;
+    IState state = BenchmarkTest.SetupStartState();
+
+    int[] noHashMapResult, hashMapResult;
+
     [Test]
+    [Explicit]
     public void MinimaxAIWithAndWithoutHashtableLookupYieldSameResult()
     {
-      var state = BenchmarkTest.SetupStartState();
-      ai = new MinimaxAI(new Evaluator(), 3, SearchDepthConfiguration.turn, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
-      var noHashMapResult = ((IGameAI)ai).DetermineAction(state);
-      
-      Assert.That(ai.LatestLogInfo.successfulHashMapLookups, Is.EqualTo(0));
-      
-      ai = new MinimaxAI(new Evaluator(), 3, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
-      
-      var hashMapResult = ((IGameAI)ai).DetermineAction(state);
+      noHashTableAi = new MinimaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      hashTableAi = new MinimaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
 
-      var successfulHashMapLookups = ai.LatestLogInfo.successfulHashMapLookups;
-      Console.WriteLine($"{successfulHashMapLookups} successful hash map lookups");
+      while (!state.IsGameOver)
+      {
+        noHashMapResult = ((IGameAI)noHashTableAi).DetermineAction(state);
+        hashMapResult = ((IGameAI) hashTableAi).DetermineAction(state);
+
+        AssertAndWriteFindings();
+
+        var currentTurn = state.TurnNumber;
+        for (int i = 0; state.TurnNumber == currentTurn; i++)
+          state = (IState) state.Actions()[hashMapResult[i]].DoCoreAction();
+      }
+    }
+
+    void AssertAndWriteFindings()
+    {
+      Console.WriteLine($"Turn {state.TurnNumber}");
+      Console.WriteLine($"{hashTableAi.LatestLogInfo.successfulHashMapLookups} successful hash table lookups");
+      
+      Assert.That(noHashTableAi.LatestLogInfo.successfulHashMapLookups, Is.EqualTo(0));
+      var successfulHashMapLookups = hashTableAi.LatestLogInfo.successfulHashMapLookups;
       Assert.That(successfulHashMapLookups, Is.GreaterThan(0));
-
       Assert.That(hashMapResult, Is.EqualTo(noHashMapResult));
     }
   }

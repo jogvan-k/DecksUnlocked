@@ -26,6 +26,9 @@ type nodeStates =
     | Terminal
     | SearchLimit
 
+let changingPlayer (s: ICoreState) =
+    s.PreviousState.IsSome && s.PlayerTurn <> s.PreviousState.Value.PlayerTurn
+    
 let (|Node|Terminal|) (s: ICoreState) =
     let actions = s.Actions()
     if (actions.Length = 0)
@@ -84,11 +87,11 @@ type accumulator(evaluator : ICoreState -> int, logConfig: LoggingConfiguration,
     member this.successfulHashMapLookups
         with get() = _successfulHashMapLookups
 
-let rec recMinimaxAI (acc: accumulator) (depth: searchLimit) alpha beta (s: ICoreState) =
+let rec recMinimaxAI alpha beta (acc: accumulator) (depth: searchLimit) (s: ICoreState) color =
     match s with
-    | SearchLimit depth ex
-    | Terminal ex -> (acc.eval s, [])
-    | Node actions ->
+    | SearchLimit depth _
+    | Terminal _ -> (color * acc.eval s, [])
+    | Node (actions) ->
         let stateHash = s.GetHashCode()
         let hashMapLookup = acc.lookupHashMap stateHash
         if(hashMapLookup.IsSome)
@@ -97,35 +100,28 @@ let rec recMinimaxAI (acc: accumulator) (depth: searchLimit) alpha beta (s: ICor
             let iter = actions.GetEnumerator()
             iter.MoveNext() |> ignore
             let mutable i = 0
-            let mutable currentBest = recMinimaxAI acc (reduce depth) alpha beta (iter.Current.DoCoreAction())
+            let mutable currentBest = nextCandidate alpha beta acc (reduce depth) (iter.Current.DoCoreAction()) color
             currentBest <- (fst currentBest, i :: snd currentBest)
-            if (s.PlayerTurn = Player.Player1)
-            then
-                let mutable alpha' = max alpha (fst currentBest)
-                while iter.MoveNext() do
-                    if(alpha' < beta)
-                    then i <- i + 1
-                         let candidate = recMinimaxAI acc (reduce depth) alpha' beta (iter.Current.DoCoreAction())
-                         if (fst candidate) > (fst currentBest)
-                         then currentBest <- (fst candidate, i :: snd candidate)
-                              alpha' <- max alpha (fst candidate)
-                    else acc.incrementPrunedPaths()
-            else
-                let mutable beta' = min beta (fst currentBest)
-                while iter.MoveNext() do
-                    if(beta' > alpha)
-                    then i <- i + 1
-                         let candidate = recMinimaxAI acc (reduce depth) alpha beta' (iter.Current.DoCoreAction())
-                         if (fst candidate) < (fst currentBest)
-                         then currentBest <- (fst candidate, i :: snd candidate)
-                              beta' <- min beta (fst candidate)
-                    else acc.incrementPrunedPaths()
+            let mutable alpha' = max alpha (fst currentBest)
+            while iter.MoveNext() do
+                i <- i + 1
+                if(alpha' < beta)
+                then let candidate = nextCandidate alpha' beta acc (reduce depth) (iter.Current.DoCoreAction()) color
+                     if (fst candidate) > (fst currentBest)
+                     then currentBest <- (fst candidate, i :: snd candidate)
+                          alpha' <- max alpha' (fst candidate)
+                else acc.incrementPrunedPaths()
 
             acc.addToHashMap stateHash currentBest
             currentBest
+and nextCandidate alpha beta acc depth s color =
+    if(changingPlayer s)
+        then let (fs, sn) = recMinimaxAI (-1 * beta) (-1 * alpha) acc depth s (-color)
+             (-fs, sn)
+        else recMinimaxAI alpha beta acc depth s color
 
-let minimaxAI (acc: accumulator) (depth: searchLimit) (s: ICoreState) =
-    recMinimaxAI acc depth Int32.MinValue Int32.MaxValue s
+let minimaxAI (acc: accumulator) (depth: searchLimit) =
+    recMinimaxAI (Int32.MinValue + 1) Int32.MaxValue acc depth
 
 let randomMoveAI (rng: Random) (s: ICoreState) =
     let actions = s.Actions()

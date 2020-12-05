@@ -80,7 +80,9 @@ namespace KeyforgeUnlocked.States
       {
         if (currentState.TurnNumber <= maxTurnNumber && currentState.ResolvedEffects.Any(re => predicate(re)))
           return true;
-        currentState = currentState.PreviousState;
+        if (currentState.PreviousState == null)
+          return false;
+        currentState = (IState) currentState.PreviousState.Value;
       }
 
       return false;

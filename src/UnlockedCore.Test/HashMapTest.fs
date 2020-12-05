@@ -8,18 +8,13 @@ open UnlockedCore.TestTypes
 [<TestFixture>]
 type hashMapTest() =
     
-    let tree =
-        node(p1, 0, 0, 1234, [|
-            node(p2, 1, 0, 4321, [|
-                node(p1, 2, 100, 1111)
-            |]);
-            node(p2, 1, 0, 4321, [|
-                node(p1, 2, 100, 1111)
-            |]);
-            node(p2, 1, 0, 4321, [|
-                node(p1, 2, 100, 1111);
-            |])
-        |])
+    let tree = nb(p1, 0, 0, 1234)
+                    .addChildren([
+                        nb(p2, 1, 0, 4321, [nb(p1, 2, 100, 1111)])
+                        nb(p2, 1, 0, 4321, [nb(p1, 2, 100, 1111)])
+                        nb(p2, 1, 0, 4321, [nb(p1, 2, 100, 1111)])
+                    ])
+                    .build()
     
     [<Test>]
     member this.SearchWithHashTableLookup () =

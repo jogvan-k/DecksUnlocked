@@ -51,7 +51,8 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConf
                 else evaluator.Evaluate
             
             let accumulator = accumulator(evaluate, loggingConfiguration, searchConfig)
-            let returnVal = minimaxAI accumulator d s |> snd |> List.toArray
+            let color = if(s.PlayerTurn = Player.Player1) then 1 else -1
+            let returnVal = minimaxAI accumulator d s color |> snd |> List.toArray
 
             logInfo.elapsedTime <- if(timer.IsSome)
                                         then timer.Value.Stop()

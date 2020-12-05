@@ -80,10 +80,10 @@ namespace KeyforgeUnlockedTest.Util
     static int GetStateDepth(IState state)
     {
       int depth = 0;
-      var currentState = state;
+      ICoreState currentState = state;
       while (currentState.PreviousState != null)
       {
-        currentState = currentState.PreviousState;
+        currentState = currentState.PreviousState.Value;
         depth++;
         if (depth > 10000)
           throw new Exception("Circular reference in state's previousState");

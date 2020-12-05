@@ -12,7 +12,6 @@ namespace KeyforgeUnlocked.States
 {
   public interface IState : ICoreState
   {
-    IState PreviousState { get; }
     bool IsGameOver { get; }
     House? ActiveHouse { get; }
     IReadOnlyDictionary<Player, int> Keys { get; }

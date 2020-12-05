@@ -56,12 +56,12 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var logInfo = RunSingleGame(4, SearchDepthConfiguration.actions);
+      var result = RunSingleGame(4, SearchDepthConfiguration.actions);
 
       Console.WriteLine(
-        $"Evaluated {logInfo.Sum(l => l.nodesEvaluated)} end states over {logInfo.Count()} calls in {logInfo.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
+        $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
       Console.WriteLine(
-        $"{logInfo.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {logInfo.Sum(l => l.prunedPaths)} paths pruned.");
+        $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
     }
 
     [Test]
@@ -69,28 +69,51 @@ namespace KeyforgeUnlockedTest.Benchmark
     public void RunGameSample()
     {
       int numberOfGames = 10;
-      var runTimes = new List<TimeSpan>();
+      var runTimes = new List<(TimeSpan, int)>();
 
       for (int i = 0; i < numberOfGames; i++)
       {
-        runTimes.Add(RunSingleGame(4, SearchDepthConfiguration.actions).Select(l => l.elapsedTime).Total());
+        var results = RunSingleGame(4, SearchDepthConfiguration.actions);
+        runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
       }
       
-      Console.WriteLine($"{numberOfGames} evaluated in {runTimes.Total()}");
+      Console.WriteLine($"{numberOfGames} evaluated in {runTimes.Select(r => r.Item1).Total()}");
+      if (numberOfGames < 1)
+        return;
+      
       Console.WriteLine("//Excluding first run");
+      
       var reducedRunTimes = runTimes.GetRange(1, numberOfGames - 1);
-      Console.WriteLine($"Average runtime: {reducedRunTimes.Average()}");
-      Console.WriteLine($"Fastest run: {reducedRunTimes.Min()})");
-      Console.WriteLine($"Slowest run: {reducedRunTimes.Max()})");
+      Console.WriteLine($"Average runtime: {reducedRunTimes.Select(r => r.Item1).Average()}");
+      Console.WriteLine($"Fastest run: {reducedRunTimes.Select(r => r.Item1).Min()})");
+      Console.WriteLine($"Slowest run: {reducedRunTimes.Select(r => r.Item1).Max()})");
       Console.WriteLine();
 
       for (int i = 1; i <= runTimes.Count(); i++)
       {
-        Console.WriteLine($"{i}: {runTimes[i - 1]}");
+        Console.WriteLine($"{i}: {runTimes[i - 1].Item1}, turns: {runTimes[i - 1].Item2}");
       }
     }
+    
+    // 10 evaluated in 00:06:20.9513549
+       //Excluding first run
+    // Average runtime: 00:00:37.5480825
+    // Fastest run: 00:00:25.9903145)
+    // Slowest run: 00:00:54.4068430)
 
-    IEnumerable<LogInfo> RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
+    // 1: 00:00:43.0186122, turns: 26
+    // 2: 00:00:26.8844595, turns: 25
+    // 3: 00:00:37.9773853, turns: 24
+    // 4: 00:00:34.2471220, turns: 28
+    // 5: 00:00:31.9901223, turns: 24
+    // 6: 00:00:54.4068430, turns: 31
+    // 7: 00:00:42.5163147, turns: 27
+    // 8: 00:00:42.2375371, turns: 27
+    // 9: 00:00:25.9903145, turns: 25
+    // 10: 00:00:41.6826443, turns: 27
+
+
+    (IEnumerable<LogInfo> logInfos, int turns) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
       _state = SetupStartState();
       var ai = new MinimaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
@@ -108,7 +131,7 @@ namespace KeyforgeUnlockedTest.Benchmark
         playerTurn = playerTurn.Other();
       }
 
-      return ai.logInfos;
+      return (ai.logInfos, _state.TurnNumber);
     }
 
     // Log

@@ -18,7 +18,6 @@ namespace KeyforgeUnlocked.States
     public Player playerTurn;
     public int turnNumber;
     public bool isGameOver;
-    public IState previousState;
     public House? activeHouse;
     public Lookup<Player, int> Keys;
     public Lookup<Player, int> Aember;

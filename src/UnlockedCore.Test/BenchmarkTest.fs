@@ -13,7 +13,7 @@ type BenchmarkCases () =
         let tree = complexTree evalFun n b
         let cal = MinimaxAI(evaluator, n, SearchDepthConfiguration.turn)
         
-        let result = (cal :> IGameAI).DetermineAction tree
+        let result = (cal :> IGameAI).DetermineAction (tree.build())
         let logInfo = cal.LatestLogInfo
         
         let treeSize = ((pown b (n + 1)) - 1) / (b - 1)

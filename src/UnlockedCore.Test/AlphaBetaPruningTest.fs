@@ -9,33 +9,29 @@ open UnlockedCore.TestTypes
 [<TestFixture>]
 type alphaBetaPruningTest() =
 
-    let leaf no =
-        node (p2, 1, 0, 1 * no, [|
-            node(p1, 2, 10, 10 * no, [||])
-            node(p1, 2, 30, 100 * no, [||])
-            node(p1, 2, 20, 1000 * no, [||])
-        |])
+    let leaf no = nb(p2, 1, 0, 1 * no)
+                      .addChildren([nb(p1, 2, 10 + no, 10 * no);
+                                 nb(p1, 2, 30 + no, 100 * no);
+                                 nb(p1, 2, 20 + no, 1000 * no)])
     
-    let alphaBetaPruningTree = node(p1, 0, 0, 0, [|leaf 1; leaf 2; leaf 3|])
+    let alphaBetaPruningTree = nb(p1, 0, 0, 0).addChildren([leaf 3; leaf 1; leaf 2])
 
     [<Test>]
     member this.PruningOnMaximizingPlayer () =
         let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
+        let path = (sut :> IGameAI).DetermineAction (alphaBetaPruningTree.build())
         
-        let path = (sut :> IGameAI).DetermineAction alphaBetaPruningTree
+        Assert.That(path, Is.EqualTo([|0; 0|]))
         
-        
-        Assert.That([|0; 0|], Is.EqualTo(Array.toList path))
-        
-        Assert.AreEqual(5, sut.LatestLogInfo.nodesEvaluated)
+        Assert.That(sut.LatestLogInfo.nodesEvaluated, Is.EqualTo(5))
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
         let sut = MinimaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
         
         let invertedTree = invertTree alphaBetaPruningTree
-        let path = (sut :> IGameAI).DetermineAction invertedTree
+        let path = (sut :> IGameAI).DetermineAction (invertedTree.build())
         
-        Assert.That([|0; 1|], Is.EqualTo(Array.toList path))
+        Assert.That(path, Is.EqualTo([|1; 1|]))
         
-        Assert.AreEqual(7, sut.LatestLogInfo.nodesEvaluated)
+        Assert.That(sut.LatestLogInfo.nodesEvaluated, Is.EqualTo(8))

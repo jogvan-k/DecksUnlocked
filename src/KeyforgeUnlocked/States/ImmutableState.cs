@@ -15,7 +15,6 @@ namespace KeyforgeUnlocked.States
     public Player PlayerTurn { get; }
     public int TurnNumber { get; }
     public bool IsGameOver { get; }
-    public IState PreviousState { get; }
     public House? ActiveHouse { get; }
     public IReadOnlyDictionary<Player, int> Keys { get; }
     public IReadOnlyDictionary<Player, int> Aember { get; }
@@ -51,7 +50,7 @@ namespace KeyforgeUnlocked.States
       PlayerTurn = playerTurn;
       TurnNumber = turnNumber;
       IsGameOver = isGameOver;
-      PreviousState = previousState;
+      this.previousState = previousState;
       ActiveHouse = activeHouse;
       Keys = keys;
       Aember = aember;
@@ -71,7 +70,7 @@ namespace KeyforgeUnlocked.States
       PlayerTurn = state.PlayerTurn;
       TurnNumber = state.TurnNumber;
       IsGameOver = state.IsGameOver;
-      PreviousState = state.PreviousState;
+      previousState = ((StateBase)state).previousState;
       ActiveHouse = state.ActiveHouse;
       Keys = state.Keys;
       Aember = state.Aember;

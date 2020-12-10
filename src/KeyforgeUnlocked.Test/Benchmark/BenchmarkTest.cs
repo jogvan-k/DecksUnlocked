@@ -14,6 +14,7 @@ namespace KeyforgeUnlockedTest.Benchmark
   [TestFixture]
   sealed class BenchmarkTest
   {
+    readonly IState _startState = SetupStartState();
     IState _state;
 
     [Test]
@@ -21,7 +22,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     public void StateRun()
     {
       var i = 0;
-      _state = SetupStartState();
+      _state = _startState;
 
       var stopwatch = Stopwatch.StartNew();
       while (!_state.IsGameOver && ++i > -1)
@@ -39,10 +40,10 @@ namespace KeyforgeUnlockedTest.Benchmark
 
     [Test]
     [Explicit]
-    public void MinimaxAIRun()
+    public void NegamaxAIRun()
     {
-      _state = SetupStartState();
-      var ai = new MinimaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
+      _state = _startState;
+      var ai = new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -70,11 +71,13 @@ namespace KeyforgeUnlockedTest.Benchmark
     {
       int numberOfGames = 10;
       var runTimes = new List<(TimeSpan, int)>();
+      var moves = new List<int[]>();
 
       for (int i = 0; i < numberOfGames; i++)
       {
         var results = RunSingleGame(4, SearchDepthConfiguration.actions);
         runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
+        moves.Add(results.movesTaken);
       }
       
       Console.WriteLine($"{numberOfGames} evaluated in {runTimes.Select(r => r.Item1).Total()}");
@@ -92,6 +95,7 @@ namespace KeyforgeUnlockedTest.Benchmark
       for (int i = 1; i <= runTimes.Count(); i++)
       {
         Console.WriteLine($"{i}: {runTimes[i - 1].Item1}, turns: {runTimes[i - 1].Item2}");
+        Console.WriteLine($"Moves: " + moves[i - 1].Select(m => m.ToString()).Aggregate((f, s) => f + ',' + s));
       }
     }
     
@@ -113,10 +117,11 @@ namespace KeyforgeUnlockedTest.Benchmark
     // 10: 00:00:41.6826443, turns: 27
 
 
-    (IEnumerable<LogInfo> logInfos, int turns) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
+    (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
-      _state = SetupStartState();
-      var ai = new MinimaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
+      _state = _startState;
+      var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
+      var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;
       while (!_state.IsGameOver)
@@ -124,14 +129,16 @@ namespace KeyforgeUnlockedTest.Benchmark
         var moves = ((IGameAI) ai).DetermineAction(_state);
         while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
         {
-          _state = (IState) _state.Actions()[moves[0]].DoCoreAction();
+          var move = moves[0];
+          _state = (IState) _state.Actions()[move].DoCoreAction();
           moves = moves.Skip(1).ToArray();
+          movesTaken = movesTaken.Append(move);
         }
 
         playerTurn = playerTurn.Other();
       }
 
-      return (ai.logInfos, _state.TurnNumber);
+      return (ai.logInfos, _state.TurnNumber, movesTaken.ToArray());
     }
 
     // Log

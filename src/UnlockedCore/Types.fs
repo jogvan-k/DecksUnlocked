@@ -1,5 +1,7 @@
 ﻿namespace UnlockedCore
 
+open System
+
 type Player =
     | Player1 = 1
     | Player2 = 2
@@ -13,6 +15,7 @@ type ICoreState =
 and ICoreAction =
     abstract Origin: ICoreState
     abstract DoCoreAction: unit -> ICoreState
+    inherit IComparable
 
 type IEvaluator =
     abstract Evaluate: ICoreState -> int

@@ -17,6 +17,11 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Push(new Effects.DiscardCard(Card));
     }
 
+    public override string Identity()
+    {
+      return Card.Id;
+    }
+
     public override bool Equals(object obj)
     {
       return ReferenceEquals(this, obj) || obj is DiscardCard other && Equals(other);

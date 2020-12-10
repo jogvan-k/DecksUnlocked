@@ -55,7 +55,7 @@ namespace KeyforgeUnlocked.States
       string creatureId,
       int amount = 1)
     {
-      var creature = state.FindCreature(creatureId, out var controllingPlayer);
+      var creature = state.FindCreature(creatureId, out var controllingPlayer, out _);
       var toCapture = Math.Min(state.Aember[controllingPlayer.Other()], amount);
       if (toCapture < 1) return;
       state.Aember[controllingPlayer.Other()] -= toCapture;

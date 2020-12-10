@@ -8,4 +8,8 @@
         <ProjectReference Include="..\UnlockedCore\UnlockedCore.fsproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Attributes" />
+    </ItemGroup>
+
 </Project>

@@ -1,5 +1,6 @@
 ﻿module UnlockedCore.TestTypes
 
+open System
 open UnlockedCore
 
 let p1 = Player.Player1
@@ -33,6 +34,8 @@ and action(node) =
             new node(Player.Player1, 0, 0, 0) :> ICoreState
 
         member this.DoCoreAction() = node :> ICoreState
+    interface IComparable with
+        member this.CompareTo _ = 0
 
 type nb(playerTurn, turnNumber, value, hash, children) =
     new(playerTurn, turnNumber, value, hash) = nb(playerTurn, turnNumber, value, hash, list.Empty)

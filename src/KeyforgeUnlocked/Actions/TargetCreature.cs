@@ -21,6 +21,12 @@ namespace KeyforgeUnlocked.Actions
       _effect(state, Target);
     }
 
+    public override string Identity()
+    {
+      _origin.FindCreature(Target.Id, out var player, out var index);
+      return player.ToString() + index;
+    }
+
     bool Equals(TargetCreature other)
     {
       return Equals(_effect, other._effect) && Target.Equals(other.Target);

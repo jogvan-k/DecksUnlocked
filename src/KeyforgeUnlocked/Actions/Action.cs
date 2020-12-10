@@ -11,18 +11,18 @@ namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action : ICoreAction
   {
-    private ImmutableState _originState;
+    protected ImmutableState _origin;
+    static Comparer<Action> _comparer = new ActionStrengthComparer();
+    public ICoreState Origin => _origin;
 
-    public ICoreState Origin => _originState;
-
-    protected Action(ImmutableState originState)
+    protected Action(ImmutableState origin)
     {
-      _originState = originState;
+      _origin = origin;
     }
 
     public ICoreState DoCoreAction()
     {
-      return DoAction(_originState);
+      return DoAction(_origin);
     }
 
     public IState DoAction(IState state)
@@ -39,5 +39,25 @@ namespace KeyforgeUnlocked.Actions
     }
 
     internal abstract void DoActionNoResolve(MutableState state);
+
+    /// <summary>
+    /// Gives a string-based identity of the action. Used to compare actions to ensure the same ordering. The identity
+    /// should therefore be different from action's identity of the same type for a given <see cref="Origin"/>.
+    /// </summary>
+    /// <returns></returns>
+    public virtual string Identity()
+    {
+      return "";
+    }
+
+    public int CompareTo(object other)
+    {
+      return CompareTo((Action) other);
+    }
+
+    int CompareTo(Action other)
+    {
+      return _comparer.Compare(this, other);
+    }
   }
 }

@@ -38,14 +38,14 @@ namespace KeyforgeUnlocked.Types
     {
       if (c == t.Id)
         return false;
-      s.FindCreature(c, out var cControllingPlayer);
-      s.FindCreature(t.Id, out var tControllingPlayer);
+      s.FindCreature(c, out var cControllingPlayer, out _);
+      s.FindCreature(t.Id, out var tControllingPlayer, out _);
       return cControllingPlayer == tControllingPlayer;
     };
 
     public static ValidOn AlliesOf(Player player) => (s, t) =>
     {
-      s.FindCreature(t.Id, out var controllingPlayer);
+      s.FindCreature(t.Id, out var controllingPlayer, out _);
       return controllingPlayer == player;
     };
 

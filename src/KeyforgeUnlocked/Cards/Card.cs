@@ -27,7 +27,7 @@ namespace KeyforgeUnlocked.Cards
       CardType cardType,
       Callback playAbility = null)
     {
-      Id = Guid.NewGuid().ToString("N");
+      Id = IdGenerator.GetNextInt().ToString();//Guid.NewGuid().ToString("N");
       House = house;
       _name = new Lazy<string>(GetName);
       CardType = cardType;
@@ -45,7 +45,6 @@ namespace KeyforgeUnlocked.Cards
     protected bool Equals(Card other)
     {
       return Id.Equals(other.Id);
-      //return House.Equals(other.House);
     }
 
     public override bool Equals(object obj)

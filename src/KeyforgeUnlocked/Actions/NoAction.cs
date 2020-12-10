@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class NoAction : Action
   {
-    public NoAction(ImmutableState originState) : base(originState)
+    public NoAction(ImmutableState origin) : base(origin)
     {
     }
 

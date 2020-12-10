@@ -11,8 +11,8 @@ namespace KeyforgeUnlockedTest.AI
   [TestFixture]
   sealed class HashLookupTests
   {
-    MinimaxAI noHashTableAi;
-    MinimaxAI hashTableAi;
+    NegamaxAI noHashTableAi;
+    NegamaxAI hashTableAi;
     SearchDepthConfiguration _searchDepthConfiguration = SearchDepthConfiguration.turn;
     static readonly int Depth = 2;
     IState state = BenchmarkTest.SetupStartState();
@@ -21,10 +21,10 @@ namespace KeyforgeUnlockedTest.AI
 
     [Test]
     [Explicit]
-    public void MinimaxAIWithAndWithoutHashtableLookupYieldSameResult()
+    public void NegamaxAIWithAndWithoutHashtableLookupYieldSameResult()
     {
-      noHashTableAi = new MinimaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
-      hashTableAi = new MinimaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      noHashTableAi = new NegamaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      hashTableAi = new NegamaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
 
       while (!state.IsGameOver)
       {

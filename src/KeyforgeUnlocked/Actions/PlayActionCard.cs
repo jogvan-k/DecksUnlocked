@@ -21,6 +21,11 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Push(new Effects.PlayActionCard(Card));
     }
 
+    public override string Identity()
+    {
+      return Card.Id;
+    }
+
     bool Equals(PlayActionCard other)
     {
       return Equals(Card, other.Card);

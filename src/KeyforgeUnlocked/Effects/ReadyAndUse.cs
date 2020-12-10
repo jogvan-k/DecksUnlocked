@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Effects
 
     protected override void ResolveImpl(MutableState state)
     {
-      var target = state.FindCreature(this.target.Id, out var controllingPlayer);
+      var target = state.FindCreature(this.target.Id, out var controllingPlayer, out _);
       if (state.playerTurn != controllingPlayer)
         throw new InvalidTargetException(state, this.target.Id);
       if (!target.IsReady)

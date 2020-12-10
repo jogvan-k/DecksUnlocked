@@ -66,12 +66,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         if (aiMoves.Length == 0)
         {
           aiMoves = gameAi.DetermineAction(_state);
-          if (gameAi is MinimaxAI minimaxAi)
+          if (gameAi is NegamaxAI negamaxAi)
           {
-            if (minimaxAi.LatestLogInfo.nodesEvaluated > 0 && minimaxAi.LatestLogInfo.elapsedTime.Ticks > 0)
+            if (negamaxAi.LatestLogInfo.nodesEvaluated > 0 && negamaxAi.LatestLogInfo.elapsedTime.Ticks > 0)
               aiLogString =
-                $"{minimaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {minimaxAi.LatestLogInfo.elapsedTime.TotalMinutes} minutes. \n" +
-                $"{minimaxAi.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
+                $"{negamaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {negamaxAi.LatestLogInfo.elapsedTime.TotalMinutes} minutes. \n" +
+                $"{negamaxAi.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
           }
         }
 

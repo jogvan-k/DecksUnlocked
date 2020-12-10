@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.Effects
     {
       if(!Creature.IsReady)
         throw new CreatureNotReadyException(state, Creature);
-      var creature = state.FindCreature(Creature.Id, out _);
+      var creature = state.FindCreature(Creature.Id, out _, out _);
       creature.IsReady = false;
       state.SetCreature(creature);
       

@@ -29,6 +29,11 @@ namespace KeyforgeUnlocked.Actions
       state.ResolvedEffects.Add(new HouseDeclared(House));
     }
 
+    public override string Identity()
+    {
+      return House.ToString();
+    }
+
     bool Equals(DeclareHouse other)
     {
       return House == other.House;

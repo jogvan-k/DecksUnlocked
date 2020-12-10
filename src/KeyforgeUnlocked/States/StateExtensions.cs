@@ -15,9 +15,9 @@ namespace KeyforgeUnlocked.States
     public static Creature FindCreature(
       this IState state,
       string creatureId,
-      out Player controllingPlayer)
+      out Player controllingPlayer, out int index)
     {
-      if (TryFind(state.Fields, creatureId, out controllingPlayer, out var creature))
+      if (TryFind(state.Fields, creatureId, out controllingPlayer, out index, out var creature))
       {
         return creature;
       }
@@ -29,11 +29,12 @@ namespace KeyforgeUnlocked.States
       IEnumerable<KeyValuePair<Player, IImmutableList<T>>> toLookup,
       string id,
       out Player owningPlayer,
+      out int index,
       out T lookup) where T : IIdentifiable
     {
       foreach (var keyValue in toLookup)
       {
-        if (TryFind(keyValue.Value, id, out lookup))
+        if (TryFind(keyValue.Value, id, out index, out lookup))
         {
           owningPlayer = keyValue.Key;
           return true;
@@ -41,14 +42,17 @@ namespace KeyforgeUnlocked.States
       }
 
       owningPlayer = default;
+      index = default;
       lookup = default;
       return false;
     }
 
     static bool TryFind<T>(IEnumerable<T> toLookup,
       string id,
+      out int index,
       out T lookup) where T : IIdentifiable
     {
+      index = 0;
       foreach (var entry in toLookup)
       {
         if (entry.Id.Equals(id))
@@ -56,6 +60,8 @@ namespace KeyforgeUnlocked.States
           lookup = entry;
           return true;
         }
+
+        index++;
       }
 
       lookup = default;
@@ -64,7 +70,7 @@ namespace KeyforgeUnlocked.States
 
     public static Player ControllingPlayer(this IState state, Creature creature)
     {
-      state.FindCreature(creature.Id, out var controllingPlayer);
+      state.FindCreature(creature.Id, out var controllingPlayer, out _);
       return controllingPlayer;
     }
 

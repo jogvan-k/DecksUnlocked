@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
 
     static readonly Callback afterKillAbility = (s, i) =>
     {
-      s.FindCreature(i, out var controllingPlayer);
+      s.FindCreature(i, out var controllingPlayer, out _);
       s.LoseAember(controllingPlayer.Other());
     };
 

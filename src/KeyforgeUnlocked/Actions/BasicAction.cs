@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Actions
   /// </summary>
   public abstract class BasicAction : Action
   {
-    protected BasicAction(ImmutableState originState) : base(originState)
+    protected BasicAction(ImmutableState origin) : base(origin)
     {
     }
 

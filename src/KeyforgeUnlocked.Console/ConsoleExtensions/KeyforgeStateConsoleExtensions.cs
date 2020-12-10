@@ -145,7 +145,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
-      foreach (var card in state.Hands[fromPlayerPerspective])
+      foreach (var card in state.Hands[fromPlayerPerspective].OrderBy(c => c.House != state.ActiveHouse).ThenBy(c => c.House).ThenBy(c => c.Name))
       {
         if (commands != null)
         {

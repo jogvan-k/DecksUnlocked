@@ -30,6 +30,11 @@ namespace KeyforgeUnlocked.Actions
           Position));
     }
 
+    public override string Identity()
+    {
+      return Card.Id + Position;
+    }
+
     public override bool Equals(object obj)
     {
       if (ReferenceEquals(null, obj)) return false;

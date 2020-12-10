@@ -34,6 +34,13 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Enqueue(new Effects.FightCreature(Creature, Target));
     }
 
+    public override string Identity()
+    {
+      _origin.FindCreature(Target.Id, out _, out var index);
+
+      return base.Identity() + ';' + index;
+    }
+
     bool Equals(FightCreature other)
     {
       return Creature.Equals(other.Creature) && Target.Equals(other.Target);

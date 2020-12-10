@@ -23,7 +23,7 @@ type LogInfo =
         val mutable successfulHashMapLookups: int
     end
 
-type MinimaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConfiguration, ?searchConfig0: SearchConfiguration, ?loggingConfiguration0 : LoggingConfiguration) =
+type NegamaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConfiguration, ?searchConfig0: SearchConfiguration, ?loggingConfiguration0 : LoggingConfiguration) =
     let searchConfig = defaultArg searchConfig0 SearchConfiguration.NoRestrictions
     let loggingConfiguration = defaultArg loggingConfiguration0 LoggingConfiguration.LogAll
     let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
@@ -52,7 +52,7 @@ type MinimaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConf
             
             let accumulator = accumulator(evaluate, loggingConfiguration, searchConfig)
             let color = if(s.PlayerTurn = Player.Player1) then 1 else -1
-            let returnVal = minimaxAI accumulator d s color |> snd |> List.toArray
+            let returnVal = negamaxAI accumulator d s color |> snd |> List.toArray
 
             logInfo.elapsedTime <- if(timer.IsSome)
                                         then timer.Value.Stop()

@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll), Player.Player1);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
     }
     static IConsoleGame TwoPlayerGame()
     {
@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedConsole
       
       var player1Deck = Deck.LoadDeckFromFile("");
       var player2Deck = Deck.LoadDeckFromFile("");
-      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 3, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll));
+      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 3, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll));
     }
   }
 }

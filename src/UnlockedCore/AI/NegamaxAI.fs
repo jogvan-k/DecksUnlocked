@@ -2,7 +2,8 @@
 
 open System
 open UnlockedCore
-open AIMethods
+open UnlockedCore.Algorithms.Accumulator
+open UnlockedCore.Algorithms.Negamax
 
 type SearchDepthConfiguration =
     | actions = 0
@@ -51,8 +52,7 @@ type NegamaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConf
                 else evaluator.Evaluate
             
             let accumulator = accumulator(evaluate, loggingConfiguration, searchConfig)
-            let color = if(s.PlayerTurn = Player.Player1) then 1 else -1
-            let returnVal = negamaxAI accumulator d s color |> snd |> List.toArray
+            let returnVal = negamax d s accumulator |> snd |> List.toArray
 
             logInfo.elapsedTime <- if(timer.IsSome)
                                         then timer.Value.Stop()
@@ -63,10 +63,3 @@ type NegamaxAI(evaluator : IEvaluator, depth, searchDepthConfig: SearchDepthConf
             
             _logInfos <- logInfo :: _logInfos
             returnVal
-
-type RandomMoveAI() =
-    let rng = Random()
-
-    interface IGameAI with
-        member this.DetermineAction s =
-            randomMoveAI rng s |> Array.singleton

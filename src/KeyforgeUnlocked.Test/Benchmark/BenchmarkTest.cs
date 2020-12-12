@@ -43,7 +43,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     public void NegamaxAIRun()
     {
       _state = _startState;
-      var ai = new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -57,13 +57,17 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(4, SearchDepthConfiguration.actions);
+      var result = RunSingleGame(3, SearchDepthConfiguration.turn);
 
       Console.WriteLine(
-        $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
+        $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
       Console.WriteLine(
         $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
     }
+    
+    // 3 turns search depth
+    // Evaluated 1430498 end states over 39 calls and 40 turns in 245,0023509 seconds.
+    // 2407768 successful hash map lookups and 613184 paths pruned.
 
     [Test]
     [Explicit]
@@ -75,7 +79,7 @@ namespace KeyforgeUnlockedTest.Benchmark
 
       for (int i = 0; i < numberOfGames; i++)
       {
-        var results = RunSingleGame(4, SearchDepthConfiguration.actions);
+        var results = RunSingleGame(3, SearchDepthConfiguration.turn);
         runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
         moves.Add(results.movesTaken);
       }
@@ -99,29 +103,30 @@ namespace KeyforgeUnlockedTest.Benchmark
       }
     }
     
-//     10 evaluated in 00:00:15.0800982
+//     10 evaluated in 00:42:56.8945246
 //     //Excluding first run
-//     Average runtime: 00:00:01.4681861
-//     Fastest run: 00:00:01.4337248)
-//     Slowest run: 00:00:01.4919142)
+//     Average runtime: 00:04:17.5786628
+//     Fastest run: 00:04:16.1845258)
+//     Slowest run: 00:04:19.0438433)
 //
-//     1: 00:00:01.8664230, turns: 28
-//     2: 00:00:01.4919142, turns: 28
-//     3: 00:00:01.4775390, turns: 28
-//     4: 00:00:01.4809409, turns: 28
-//     5: 00:00:01.4598053, turns: 28
-//     6: 00:00:01.4908373, turns: 28
-//     7: 00:00:01.4337248, turns: 28
-//     8: 00:00:01.4737241, turns: 28
-//     9: 00:00:01.4701686, turns: 28
-//     10: 00:00:01.4350210, turns: 28
+//     1: 00:04:18.6865590, turns: 36
+//     2: 00:04:17.6396834, turns: 36
+//     3: 00:04:19.0438433, turns: 36
+//     4: 00:04:17.4457475, turns: 36
+//     5: 00:04:17.0111973, turns: 36
+//     6: 00:04:17.9375555, turns: 36
+//     7: 00:04:17.1669185, turns: 36
+//     8: 00:04:18.0719094, turns: 36
+//     9: 00:04:17.7065849, turns: 36
+//     10: 00:04:16.1845258, turns: 36
+
 
 
 
     (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
       _state = _startState;
-      var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, AIMethods.SearchConfiguration.NoRestrictions, AIMethods.LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
       var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;

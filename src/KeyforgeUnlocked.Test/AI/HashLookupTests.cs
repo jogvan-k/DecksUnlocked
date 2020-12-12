@@ -4,7 +4,6 @@ using KeyforgeUnlockedTest.Benchmark;
 using NUnit.Framework;
 using UnlockedCore;
 using UnlockedCore.AITypes;
-using static AIMethods;
 
 namespace KeyforgeUnlockedTest.AI
 {

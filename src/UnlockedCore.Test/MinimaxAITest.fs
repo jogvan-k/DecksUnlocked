@@ -1,5 +1,8 @@
 namespace UnlockedCore.Test
-open AIMethods
+
+open UnlockedCore
+open UnlockedCore.Algorithms.Accumulator
+open UnlockedCore.Algorithms.Negamax
 
 open NUnit.Framework
 open UnlockedCore.TestTypes
@@ -29,7 +32,7 @@ type TestCase () =
     [<Test>]
     member this.NoDepth_BasicTree () =
         let d = Depth(0)
-        let result = negamaxAI (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) d (basicTree.build()) 1
+        let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(fst result, Is.EqualTo(0))
         Assert.That(Array.ofList(snd result), Is.EqualTo([]))
@@ -40,7 +43,7 @@ type TestCase () =
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_BasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
         let d = Depth(depth)
-        let result = negamaxAI (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) d (basicTree.build()) 1
+        let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
         Assert.That(Array.ofList (snd result), Is.EqualTo(expectedPath))
@@ -52,7 +55,7 @@ type TestCase () =
     member this.VariousDepth_InvertedBasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
         let invertedTree = invertTree basicTree
         let d = Depth(depth)
-        let result = negamaxAI (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) d (invertedTree.build()) -1
+        let result = negamax d (invertedTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(- fst result, Is.EqualTo(expectedValue))
         Assert.That(Array.ofList(snd result), Is.EqualTo(expectedPath))
@@ -63,7 +66,7 @@ type TestCase () =
     member this.TurnDepthSearch (untilTurn : int) (expectedValue : int) (expectedPath : int[]) =
         let d = Until(untilTurn, 0)
         
-        let result = negamaxAI (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) d twoDepthsPerTurnTree 1
+        let result = negamax d twoDepthsPerTurnTree (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
         Assert.That(Array.ofList(snd result), Is.EqualTo(expectedPath))

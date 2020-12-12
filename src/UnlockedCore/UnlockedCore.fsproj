@@ -2,13 +2,19 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>ClassLibrary1</RootNamespace>
+        <RootNamespace>UnlockedCore</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
         <Compile Include="Types.fs" />
-        <Compile Include="AI.fs" />
-        <Compile Include="AITypes.fs" />
+        <Compile Include="Algorithms\AISupportTypes.fs" />
+        <Compile Include="Algorithms\Accumulator.fs" />
+        <Compile Include="Algorithms\UtilityMethods.fs" />
+        <Compile Include="Algorithms\Negamax.fs" />
+        <Compile Include="Algorithms\PVS.fs" />
+        <Compile Include="Algorithms\RandomMove.fs" />
+        <Compile Include="AI\NegamaxAI.fs" />
+        <Compile Include="AI\RandomMove.fs" />
     </ItemGroup>
 
 </Project>

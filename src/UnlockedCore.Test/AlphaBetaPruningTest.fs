@@ -1,6 +1,5 @@
 ﻿module UnlockedCore.Test.AlphaBetaPruningTest
 
-open AIMethods
 open NUnit.Framework
 open UnlockedCore
 open UnlockedCore.AITypes

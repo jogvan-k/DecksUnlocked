@@ -19,23 +19,20 @@ type node(playerTurn, turnNumber, value, hash, parent : ICoreState option) =
             _children <- value
     override this.GetHashCode () = hash
     override this.Equals other = hash = other.GetHashCode()
-
     interface ICoreState with
         member this.PlayerTurn = playerTurn
         member this.TurnNumber = turnNumber
-
-        member this.Actions() =
-            Array.map (fun n -> action (n) :> ICoreAction) (Array.ofList _children)
+        member this.Actions() = Array.map (fun n -> action (n) :> ICoreAction) (Array.ofList _children)
         member this.PreviousState = parent
 
 and action(node) =
     interface ICoreAction with
-        member this.Origin =
-            new node(Player.Player1, 0, 0, 0) :> ICoreState
-
+        member this.Origin = new node(Player.Player1, 0, 0, 0) :> ICoreState
         member this.DoCoreAction() = node :> ICoreState
     interface IComparable with
         member this.CompareTo _ = 0
+    override this.Equals other = node.Equals other
+    override this.GetHashCode() = node.GetHashCode()
 
 type nb(playerTurn, turnNumber, value, hash, children) =
     new(playerTurn, turnNumber, value, hash) = nb(playerTurn, turnNumber, value, hash, list.Empty)

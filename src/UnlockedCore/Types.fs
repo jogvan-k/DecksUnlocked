@@ -22,3 +22,20 @@ type IEvaluator =
 
 type IGameAI =
     abstract DetermineAction: ICoreState -> int[]
+    
+type searchLimit =
+    | Until of turn: int * depth: int
+    | Depth of remaining: int
+    
+type SearchConfiguration =
+    | NoRestrictions = 0
+    | NoHashTable = 1
+    
+[<Flags>]
+type LoggingConfiguration =
+    | NoLogging                    = 0x0
+    | LogEvaluatedStates           = 0x1
+    | LogTime                      = 0x2
+    | LogSuccessfulHashMapLookup   = 0x4
+    | LogPrunedPaths               = 0x8
+    | LogAll                       = 0xf

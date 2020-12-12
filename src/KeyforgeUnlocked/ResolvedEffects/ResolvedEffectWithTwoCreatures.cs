@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithTwoCreatures : ResolvedEffectWithCreature
+  public abstract class ResolvedEffectWithTwoCreatures<T> : ResolvedEffectWithCreature<T> where T : ResolvedEffectWithTwoCreatures<T>
   {
     public Creature Target;
 
@@ -12,17 +12,9 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Target = target;
     }
 
-    protected bool Equals(ResolvedEffectWithTwoCreatures other)
+    protected override bool Equals(T other)
     {
       return base.Equals(other) && Target.Equals(other.Target);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((ResolvedEffectWithTwoCreatures) obj);
     }
 
     public override int GetHashCode()

@@ -21,20 +21,5 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Enqueue(new Effects.RemoveStun(Creature));
     }
-
-    bool Equals(RemoveStun other)
-    {
-      return Creature.Equals(other.Creature);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is RemoveStun other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return 21 * Creature.GetHashCode();
-    }
   }
 }

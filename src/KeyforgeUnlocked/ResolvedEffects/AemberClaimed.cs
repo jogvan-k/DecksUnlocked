@@ -1,9 +1,10 @@
 using System;
+using KeyforgeUnlocked.Types;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class AemberClaimed : IResolvedEffect
+  public sealed class AemberClaimed : Equatable<AemberClaimed>, IResolvedEffect
   {
     public readonly Player Player;
     public readonly int Aember;
@@ -14,19 +15,15 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Aember = aember;
     }
 
-    bool Equals(AemberClaimed other)
+    protected override bool Equals(AemberClaimed other)
     {
       return Player == other.Player && Aember == other.Aember;
     }
 
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is AemberClaimed other && Equals(other);
-    }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(GetType(), (int) Player, Aember);
+      return HashCode.Combine(base.GetHashCode(), Player, Aember);
     }
 
     public override string ToString()

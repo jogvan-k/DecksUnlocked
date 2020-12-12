@@ -21,10 +21,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(_state);
 
-      var expectedActions = ImmutableList<Action>.Empty.AddRange(
+      var expectedActions = ImmutableList<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new PlayActionCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
+          (IAction) new PlayActionCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
         });
       Assert.AreEqual(expectedActions, actions);
     }

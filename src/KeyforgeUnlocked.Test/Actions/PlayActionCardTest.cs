@@ -10,7 +10,7 @@ using PlayActionCard = KeyforgeUnlocked.Actions.PlayActionCard;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class PlayActionCardTest : ActionTestBase
+  sealed class PlayActionCardTest : ActionTestBase<PlayActionCard>
   {
     static ActionCard sampleCard = new SampleActionCard();
     static PlayActionCard _sut = new PlayActionCard(null, sampleCard);

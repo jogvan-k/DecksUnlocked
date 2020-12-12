@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreaturePlayed : ResolvedEffectWithCreature
+  public sealed class CreaturePlayed : ResolvedEffectWithCreature<CreaturePlayed>
   {
     public readonly int Position;
 
@@ -13,18 +13,11 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Position = position;
     }
 
-    bool Equals(CreaturePlayed other)
+    protected override bool Equals(CreaturePlayed other)
     {
       return base.Equals(other) && Position == other.Position;
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((CreaturePlayed) obj);
-    }
 
     public override string ToString()
     {

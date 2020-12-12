@@ -5,7 +5,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class PlayActionCardGroup : PlayCardGroup
+  public sealed class PlayActionCardGroup : PlayCardGroup<PlayActionCardGroup>
   {
     public new ActionCard Card => (ActionCard) base.Card;
 
@@ -13,12 +13,12 @@ namespace KeyforgeUnlocked.ActionGroups
     {
     }
 
-    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
+    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      return ImmutableList<Action>.Empty.AddRange(
+      return ImmutableList<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new PlayActionCard(origin, Card), new DiscardCard(origin, Card)
+          (IAction) new PlayActionCard(origin, Card), new DiscardCard(origin, Card)
         });
     }
   }

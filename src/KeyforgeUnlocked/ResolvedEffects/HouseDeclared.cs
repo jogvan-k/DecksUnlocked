@@ -1,9 +1,10 @@
 using System;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class HouseDeclared : IResolvedEffect
+  public class HouseDeclared : Equatable<HouseDeclared>, IResolvedEffect
   {
     public readonly House House;
 
@@ -12,22 +13,14 @@ namespace KeyforgeUnlocked.ResolvedEffects
       House = house;
     }
 
-    protected bool Equals(HouseDeclared other)
+    protected override bool Equals(HouseDeclared other)
     {
       return House == other.House;
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((HouseDeclared) obj);
-    }
-
     public override int GetHashCode()
     {
-      return HashCode.Combine(GetType(), House);
+      return HashCode.Combine(base.GetHashCode(), House);
     }
 
     public override string ToString()

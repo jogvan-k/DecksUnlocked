@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
@@ -16,9 +15,9 @@ using Reap = KeyforgeUnlocked.Actions.Reap;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  public class BasicActionTest : ActionTestBase
+  public class BasicActionTest : ActionTestBase<BasicAction>
   {
-    Action<UnresolvedEffectsException> _asserts = e => { };
+    System.Action<UnresolvedEffectsException> _asserts = e => { };
 
     private readonly IState _expected = StateTestUtil.EmptyMutableState.New(
       turnNumber: 2, effects: new LazyStackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.EndTurn()})).Extend();

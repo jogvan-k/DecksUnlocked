@@ -5,7 +5,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class TargetCreature : Action
+  public sealed class TargetCreature : Action<TargetCreature>
   {
     readonly EffectOnCreature _effect;
     public readonly Creature Target;
@@ -27,7 +27,7 @@ namespace KeyforgeUnlocked.Actions
       return player.ToString() + index;
     }
 
-    bool Equals(TargetCreature other)
+    protected override bool Equals(TargetCreature other)
     {
       return Equals(_effect, other._effect) && Target.Equals(other.Target);
     }

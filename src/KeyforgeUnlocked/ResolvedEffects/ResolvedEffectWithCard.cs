@@ -1,9 +1,10 @@
 ﻿using System;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithCard : IResolvedEffect
+  public abstract class ResolvedEffectWithCard<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithCard<T>
   {
     protected readonly Card _card;
 
@@ -12,22 +13,14 @@ namespace KeyforgeUnlocked.ResolvedEffects
       _card = card;
     }
 
-    protected bool Equals(ResolvedEffectWithCard other)
+    protected override bool Equals(T other)
     {
       return Equals(_card, other._card);
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((ResolvedEffectWithCard) obj);
-    }
-
     public override int GetHashCode()
     {
-      return HashCode.Combine(GetType(), _card);
+      return HashCode.Combine(base.GetHashCode(), _card);
     }
   }
 }

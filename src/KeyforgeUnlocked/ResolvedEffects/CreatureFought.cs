@@ -2,7 +2,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureFought : ResolvedEffectWithTwoCreatures
+  public sealed class CreatureFought : ResolvedEffectWithTwoCreatures<CreatureFought>
   {
     public CreatureFought(Creature fighter,
       Creature target) : base(fighter, target)

@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
@@ -7,7 +8,7 @@ using EndTurn = KeyforgeUnlocked.Actions.EndTurn;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class EndTurnTest : ActionTestBase
+  class EndTurnTest : ActionTestBase<BasicAction>
   {
     [Test]
     public void Act_EmptyBoard()

@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class AemberCaptured : ResolvedEffectWithCreature
+  public sealed class AemberCaptured : ResolvedEffectWithCreature<AemberCaptured>
   {
     public readonly int Captured;
     public AemberCaptured(Creature creature, int captured) : base(creature)
@@ -11,9 +11,9 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Captured = captured;
     }
 
-    protected override bool Equals(ResolvedEffectWithCreature other)
+    protected override bool Equals(AemberCaptured other)
     {
-      return base.Equals(other) && Captured == ((AemberCaptured)other).Captured;
+      return base.Equals(other) && Captured == other.Captured;
     }
 
     public override int GetHashCode()

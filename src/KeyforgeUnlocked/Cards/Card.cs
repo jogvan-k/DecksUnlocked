@@ -5,7 +5,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
 {
-  public abstract class Card : IIdentifiable, IComparable<Card>, IComparable
+  public abstract class Card : Equatable<Card>, IIdentifiable, IComparable<Card>, IComparable
   {
     static readonly StringComparer nameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
 
@@ -42,17 +42,9 @@ namespace KeyforgeUnlocked.Cards
       return (string) fieldInfo.GetValue(null);
     }
 
-    protected bool Equals(Card other)
+    protected override bool Equals(Card other)
     {
       return Id.Equals(other.Id);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((Card) obj);
     }
 
     public override string ToString()

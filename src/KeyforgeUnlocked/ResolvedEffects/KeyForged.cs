@@ -1,8 +1,9 @@
 using System;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class KeyForged : IResolvedEffect
+  public sealed class KeyForged : Equatable<KeyForged>, IResolvedEffect
   {
     public readonly int KeyCost;
 
@@ -11,22 +12,14 @@ namespace KeyforgeUnlocked.ResolvedEffects
       KeyCost = keyCost;
     }
 
-    bool Equals(KeyForged other)
+    protected override bool Equals(KeyForged other)
     {
       return KeyCost == other.KeyCost;
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((KeyForged) obj);
-    }
-
     public override int GetHashCode()
     {
-      return HashCode.Combine(GetType(), KeyCost);
+      return HashCode.Combine(base.GetHashCode(), KeyCost);
     }
 
     public override string ToString()

@@ -5,11 +5,10 @@ using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class DeclareHouseGroup : ActionGroupBase
+  public sealed class DeclareHouseGroup : ActionGroupBase<DeclareHouseGroup>
   {
     public IImmutableSet<House> Houses;
 
@@ -18,22 +17,14 @@ namespace KeyforgeUnlocked.ActionGroups
       Houses = houses.ToImmutableHashSet();
     }
 
-    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
+    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      return Houses.Select(h => new DeclareHouse(origin, h)).ToImmutableList<Action>();
+      return Houses.Select(h => new DeclareHouse(origin, h)).ToImmutableList<IAction>();
     }
 
-    bool Equals(DeclareHouseGroup other)
+    protected override bool Equals(DeclareHouseGroup other)
     {
-      return base.Equals(other) && Houses.SetEquals(other.Houses);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((DeclareHouseGroup) obj);
+      return Houses.SetEquals(other.Houses);
     }
 
     public override int GetHashCode()

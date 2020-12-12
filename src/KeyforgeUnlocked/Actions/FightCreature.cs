@@ -41,19 +41,14 @@ namespace KeyforgeUnlocked.Actions
       return base.Identity() + ';' + index;
     }
 
-    bool Equals(FightCreature other)
+    protected override bool Equals(BasicAction other)
     {
-      return Creature.Equals(other.Creature) && Target.Equals(other.Target);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is FightCreature other && Equals(other);
+      return base.Equals(other) && Target.Equals(((FightCreature)other).Target);
     }
 
     public override int GetHashCode()
     {
-      return 13 * HashCode.Combine(Creature, Target);
+      return HashCode.Combine(base.GetHashCode(), Target);
     }
   }
 }

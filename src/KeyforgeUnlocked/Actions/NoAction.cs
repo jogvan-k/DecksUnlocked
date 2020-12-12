@@ -2,7 +2,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class NoAction : Action
+  public sealed class NoAction : Action<NoAction>
   {
     public NoAction(ImmutableState origin) : base(origin)
     {
@@ -10,24 +10,6 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-    }
-
-    bool Equals(NoAction other)
-    {
-      return true;
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((NoAction) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return typeof(NoAction).GetHashCode();
     }
   }
 }

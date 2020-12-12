@@ -35,22 +35,15 @@ namespace KeyforgeUnlocked.Actions
       return Card.Id + Position;
     }
 
-    public override bool Equals(object obj)
+    protected override bool Equals(BasicAction other)
     {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((PlayCreatureCard) obj);
-    }
-
-    bool Equals(PlayCreatureCard other)
-    {
-      return Equals(Card, other.Card) && Position == other.Position;
+      var otherAction = (PlayCreatureCard) other;
+      return Equals(Card, otherAction.Card) && Position == otherAction.Position;
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Card, Position);
+      return HashCode.Combine(base.GetHashCode(), Card, Position);
     }
   }
 }

@@ -6,7 +6,6 @@ namespace KeyforgeUnlocked.ActionGroups
 {
   public interface IActionGroup
   {
-
-    public IImmutableList<Action> Actions(ImmutableState state);
+    public IImmutableList<IAction> Actions(ImmutableState state);
   }
 }

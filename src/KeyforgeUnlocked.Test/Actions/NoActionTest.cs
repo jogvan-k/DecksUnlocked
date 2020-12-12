@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlockedTest.Actions;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -5,7 +6,7 @@ using NUnit.Framework;
 namespace KeyforgeUnlockedTest.Effects
 {
   [TestFixture]
-  class NoAction : ActionTestBase
+  class NoActionTest : ActionTestBase<NoAction>
   {
     [Test]
     public void Resolve_EmptyState()
@@ -14,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedState = StateTestUtil.EmptyState;
 
-      Act(new KeyforgeUnlocked.Actions.NoAction(null), state, expectedState);
+      Act(new NoAction(null), state, expectedState);
     }
   }
 }

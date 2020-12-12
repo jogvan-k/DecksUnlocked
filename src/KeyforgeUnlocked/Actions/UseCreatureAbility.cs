@@ -23,20 +23,5 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Push(new CreatureAbility(Creature));
     }
-
-    bool Equals(UseCreatureAbility other)
-    {
-      return Creature.Equals(other.Creature);
-    }
-
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is UseCreatureAbility other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return 7 * Creature.GetHashCode();
-    }
   }
 }

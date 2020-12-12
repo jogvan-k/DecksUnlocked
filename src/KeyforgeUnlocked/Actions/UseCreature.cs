@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
@@ -34,6 +35,16 @@ namespace KeyforgeUnlocked.Actions
       var house = state.ActiveHouse;
       if (!_allowOutOfHouseUse && Creature.Card.House != house)
         throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
+    }
+
+    protected override bool Equals(BasicAction other)
+    {
+      return Equals(Creature, ((UseCreature)other).Creature);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(base.GetHashCode(), Creature);
     }
   }
 }

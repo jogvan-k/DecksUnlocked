@@ -15,23 +15,5 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Enqueue(new DrawToHandLimit());
       state.Effects.Enqueue(new Effects.EndTurn());
     }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((EndTurn) obj);
-    }
-
-    bool Equals(EndTurn other)
-    {
-      return true;
-    }
-
-    public override int GetHashCode()
-    {
-      return typeof(EndTurn).GetHashCode();
-    }
   }
 }

@@ -9,10 +9,10 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public abstract class Action : ICoreAction
+  public abstract class Action<T> : Equatable<T>, IAction where T : Action<T>
   {
     protected ImmutableState _origin;
-    static Comparer<Action> _comparer = new ActionStrengthComparer();
+    static Comparer<IAction> _comparer = new ActionStrengthComparer();
     public ICoreState Origin => _origin;
 
     protected Action(ImmutableState origin)
@@ -23,6 +23,11 @@ namespace KeyforgeUnlocked.Actions
     public ICoreState DoCoreAction()
     {
       return DoAction(_origin);
+    }
+
+    public virtual string Identity()
+    {
+      return "";
     }
 
     public IState DoAction(IState state)
@@ -40,22 +45,12 @@ namespace KeyforgeUnlocked.Actions
 
     internal abstract void DoActionNoResolve(MutableState state);
 
-    /// <summary>
-    /// Gives a string-based identity of the action. Used to compare actions to ensure the same ordering. The identity
-    /// should therefore be different from action's identity of the same type for a given <see cref="Origin"/>.
-    /// </summary>
-    /// <returns></returns>
-    public virtual string Identity()
-    {
-      return "";
-    }
-
     public int CompareTo(object other)
     {
-      return CompareTo((Action) other);
+      return CompareTo((IAction) other);
     }
 
-    int CompareTo(Action other)
+    int CompareTo(IAction other)
     {
       return _comparer.Compare(this, other);
     }

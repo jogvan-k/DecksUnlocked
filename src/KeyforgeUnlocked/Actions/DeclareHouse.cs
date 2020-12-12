@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -5,7 +6,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class DeclareHouse : Action
+  public sealed class DeclareHouse : Action<DeclareHouse>
   {
     public House House { get; }
 
@@ -34,22 +35,14 @@ namespace KeyforgeUnlocked.Actions
       return House.ToString();
     }
 
-    bool Equals(DeclareHouse other)
+    protected override bool Equals(DeclareHouse other)
     {
       return House == other.House;
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((DeclareHouse) obj);
-    }
-
     public override int GetHashCode()
     {
-      return (int) House;
+      return HashCode.Combine(base.GetHashCode(), House);
     }
   }
 }

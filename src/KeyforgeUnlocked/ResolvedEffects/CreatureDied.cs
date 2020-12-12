@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureDied : ResolvedEffectWithCreature
+  public sealed class CreatureDied : ResolvedEffectWithCreature<CreatureDied>
   {
 
     public CreatureDied(Creature creature) : base(creature)

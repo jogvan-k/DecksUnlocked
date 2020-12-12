@@ -1,4 +1,4 @@
-using System;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
@@ -6,14 +6,15 @@ using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
+using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
 using PlayCreatureCard = KeyforgeUnlocked.Actions.PlayCreatureCard;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class PlayCreatureTest : ActionTestBase
+  class PlayCreatureCardTest : ActionTestBase<BasicAction>
   {
-    Action<CardNotPresentException> assert;
+    System.Action<CardNotPresentException> assert;
 
     static readonly CreatureCard Card = new SampleCreatureCard();
     static readonly CreatureCard otherCard1 = new SampleCreatureCard();

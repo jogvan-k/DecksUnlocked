@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class TargetCreatureGroup : ResolveEffectActionGroup
+  public sealed class TargetCreatureGroup : ResolveEffectActionGroup<TargetCreatureGroup>
   {
     readonly EffectOnCreature _effect;
     readonly IMutableList<Creature> _targets;
@@ -21,14 +19,19 @@ namespace KeyforgeUnlocked.ActionGroups
       _targets = targets;
     }
 
-    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
+    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      return _targets.Select(t => (Action) new TargetCreature(origin, _effect, t)).ToImmutableList();
+      return _targets.Select(t => (IAction) new TargetCreature(origin, _effect, t)).ToImmutableList();
+    }
+
+    protected override bool Equals(TargetCreatureGroup other)
+    {
+      return Equals(_effect, other._effect) && Equals(_targets, other._targets);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(base.GetHashCode(), _effect.GetHashCode());
+      return HashCode.Combine(base.GetHashCode(), _effect.GetHashCode(), _targets);
     }
   }
 }

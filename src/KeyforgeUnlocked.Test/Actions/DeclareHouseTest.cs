@@ -13,7 +13,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class DeclareHouseTest : ActionTestBase
+  sealed class DeclareHouseTest : ActionTestBase<DeclareHouse>
   {
     static readonly IImmutableSet<House> Player1AvailableHouses =
       new[] {House.Mars, House.Dis, House.Shadows}.ToImmutableHashSet();
@@ -35,7 +35,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New();
       var sut = new DeclareHouse(null, House.Mars);
 
-      Action<NoMetadataException> asserts = e => { };
+      System.Action<NoMetadataException> asserts = e => { };
 
       ActExpectException(sut, state, asserts);
     }
@@ -47,7 +47,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var sut = new DeclareHouse(null, House.Brobnar);
 
-      Action<DeclaredHouseNotAvailableException> asserts = e =>
+      System.Action<DeclaredHouseNotAvailableException> asserts = e =>
       {
         Assert.AreEqual(state, e.State);
         Assert.AreEqual(House.Brobnar, e.House);

@@ -21,7 +21,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var result = sut.Actions(_state);
 
-      var expectedActions = Enumerable.Empty<Action>();
+      var expectedActions = Enumerable.Empty<IAction>();
       Assert.AreEqual(expectedActions, result);
     }
 

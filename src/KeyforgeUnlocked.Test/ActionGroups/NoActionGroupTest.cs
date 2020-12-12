@@ -19,7 +19,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(_state);
 
-      var expectedActions = ImmutableHashSet<Action>.Empty.Add(new NoAction(_state));
+      var expectedActions = ImmutableHashSet<IAction>.Empty.Add(new NoAction(_state));
       Assert.AreEqual(expectedActions, actions);
     }
   }

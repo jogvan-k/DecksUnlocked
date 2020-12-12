@@ -1,12 +1,11 @@
 using System;
 using KeyforgeUnlocked.Actions;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
   public static class ActionConsoleExtensions
   {
-    public static string ToConsole(this Action action)
+    public static string ToConsole(this IAction action)
     {
       switch (action)
       {

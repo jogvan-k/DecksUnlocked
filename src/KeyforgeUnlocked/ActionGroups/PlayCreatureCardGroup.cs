@@ -3,11 +3,10 @@ using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.States;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class PlayCreatureCardGroup : PlayCardGroup
+  public sealed class PlayCreatureCardGroup : PlayCardGroup<PlayCreatureCardGroup>
   {
     public new CreatureCard Card => (CreatureCard) base.Card;
 
@@ -22,9 +21,9 @@ namespace KeyforgeUnlocked.ActionGroups
         throw new ArgumentNullException();
     }
 
-    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
+    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      var list = ImmutableList<Action>.Empty;
+      var list = ImmutableList<IAction>.Empty;
 
       var leftPosition = new PlayCreatureCard(origin, Card, 0);
       list = list.Add(leftPosition);

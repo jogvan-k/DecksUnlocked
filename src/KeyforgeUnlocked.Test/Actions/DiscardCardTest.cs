@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class DiscardCardTest : ActionTestBase
+  class DiscardCardTest : ActionTestBase<BasicAction>
   {
     readonly Card sampleCard = new SampleCreatureCard();
 

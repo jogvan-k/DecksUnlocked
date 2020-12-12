@@ -1,10 +1,11 @@
+using System;
 using KeyforgeUnlocked.Cards.ActionCards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class PlayActionCard : Action
+  public sealed class PlayActionCard : Action<PlayActionCard>
   {
     public readonly ActionCard Card;
 
@@ -26,19 +27,14 @@ namespace KeyforgeUnlocked.Actions
       return Card.Id;
     }
 
-    bool Equals(PlayActionCard other)
+    protected override bool Equals(PlayActionCard other)
     {
       return Equals(Card, other.Card);
     }
 
-    public override bool Equals(object obj)
-    {
-      return ReferenceEquals(this, obj) || obj is PlayActionCard other && Equals(other);
-    }
-
     public override int GetHashCode()
     {
-      return (Card != null ? Card.GetHashCode() : 0);
+      return HashCode.Combine(base.GetHashCode(), Card);
     }
   }
 }

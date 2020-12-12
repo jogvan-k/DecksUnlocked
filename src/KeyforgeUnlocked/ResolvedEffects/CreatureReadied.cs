@@ -2,7 +2,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureReadied : ResolvedEffectWithCreature
+  public sealed class CreatureReadied : ResolvedEffectWithCreature<CreatureReadied>
   {
     public CreatureReadied(Creature creature) : base(creature)
     {

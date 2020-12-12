@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
@@ -13,7 +13,7 @@ using FightCreature = KeyforgeUnlocked.Actions.FightCreature;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class FightCreatureTest : ActionTestBase
+  sealed class FightCreatureTest : ActionTestBase<BasicAction>
   {
     static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard(house: House.Brobnar);
     static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard();
@@ -21,10 +21,10 @@ namespace KeyforgeUnlockedTest.Actions
     static readonly Creature _targetCreature;
     static readonly FightCreature sut;
 
-    Action<CreatureNotPresentException> creatureNotPresentAsserts;
-    Action<InvalidFightException> invalidFightException;
-    Action<CreatureNotReadyException> creatureNotReadyException;
-    Action<CreatureStunnedException> creatureStunnedException;
+    System.Action<CreatureNotPresentException> creatureNotPresentAsserts;
+    System.Action<InvalidFightException> invalidFightException;
+    System.Action<CreatureNotReadyException> creatureNotReadyException;
+    System.Action<CreatureStunnedException> creatureStunnedException;
 
     static FightCreatureTest()
     {

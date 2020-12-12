@@ -2,7 +2,7 @@ using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class StunRemoved : ResolvedEffectWithCreature
+  public sealed class StunRemoved : ResolvedEffectWithCreature<StunRemoved>
   {
     public StunRemoved(Creature creature) : base(creature)
     {

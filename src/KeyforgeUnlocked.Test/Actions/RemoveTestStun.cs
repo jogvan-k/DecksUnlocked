@@ -1,6 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -10,11 +9,12 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
+using RemoveStun = KeyforgeUnlocked.Actions.RemoveStun;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class RemoveStun : ActionTestBase
+  sealed class RemoveStunTest : ActionTestBase<BasicAction>
   {
     Creature creature;
     IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
@@ -34,7 +34,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(false, true, out var state);
 
-      Action<CreatureNotStunnedException> asserts = e => e.Equals(creature);
+      System.Action<CreatureNotStunnedException> asserts = e => e.Equals(creature);
 
       ActExpectException(sut, state, asserts);
     }
@@ -44,7 +44,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(true, false, out var state);
 
-      Action<CreatureNotReadyException> asserts = e => e.Equals(creature);
+      System.Action<CreatureNotReadyException> asserts = e => e.Equals(creature);
 
       ActExpectException(sut, state, asserts);
     }

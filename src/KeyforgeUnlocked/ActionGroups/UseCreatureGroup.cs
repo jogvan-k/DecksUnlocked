@@ -4,11 +4,10 @@ using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public class UseCreatureGroup : ActionGroupBase
+  public sealed class UseCreatureGroup : ActionGroupBase<UseCreatureGroup>
   {
     readonly IImmutableList<Creature> _opponentCreatures;
     public Creature Creature;
@@ -24,9 +23,9 @@ namespace KeyforgeUnlocked.ActionGroups
       _allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
-    protected override IImmutableList<Action> InitiateActions(ImmutableState origin)
+    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      var actions = ImmutableList<Action>.Empty;
+      var actions = ImmutableList<IAction>.Empty;
       if (!Creature.IsReady)
         return actions;
 
@@ -60,6 +59,11 @@ namespace KeyforgeUnlocked.ActionGroups
     bool ExistsAndHasTaunt(int i)
     {
       return i >= 0 && i < _opponentCreatures.Count && _opponentCreatures[i].HasTaunt();
+    }
+
+    protected override bool Equals(UseCreatureGroup other)
+    {
+      return Equals(Creature, other.Creature);
     }
 
     public override int GetHashCode()

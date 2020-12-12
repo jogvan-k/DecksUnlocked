@@ -1,28 +1,10 @@
 ﻿using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public abstract class EffectBase<T> : IEffect where T : EffectBase<T>
+  public abstract class EffectBase<T> : Equatable<T>, IEffect
   {
-
-    protected virtual bool Equals(T other)
-    {
-      return true;
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != GetType()) return false;
-      return Equals((T) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return GetType().GetHashCode();
-    }
-
     public void Resolve(MutableState state)
     {
       ResolveImpl(state);

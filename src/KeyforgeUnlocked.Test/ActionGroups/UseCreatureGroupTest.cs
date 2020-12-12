@@ -42,7 +42,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(state);
 
-      Assert.AreEqual(ImmutableList<Action>.Empty, actions);
+      Assert.AreEqual(ImmutableList<IAction>.Empty, actions);
     }
 
     [Test]
@@ -54,10 +54,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(state);
 
-      var expectedActions = ImmutableArray<Action>.Empty.AddRange(
+      var expectedActions = ImmutableArray<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new FightCreature(state, creature, _opponentCreature1),
+          (IAction) new FightCreature(state, creature, _opponentCreature1),
           new FightCreature(state, creature, _opponentCreature2),
           new Reap(state, creature)
         });
@@ -76,10 +76,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(state);
 
-      var expectedActions = ImmutableArray<Action>.Empty.AddRange(
+      var expectedActions = ImmutableArray<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new FightCreature(state, creature, _opponentCreatureWithTaunt1),
+          (IAction) new FightCreature(state, creature, _opponentCreatureWithTaunt1),
           new FightCreature(state, creature, _opponentCreatureWithTaunt2),
           new FightCreature(state, creature, _opponentCreature3),
           new Reap(state, creature)
@@ -96,10 +96,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(state);
 
-      var expectedActions = ImmutableArray<Action>.Empty.AddRange(
+      var expectedActions = ImmutableArray<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new FightCreature(state, creature, _opponentCreature1),
+          (IAction) new FightCreature(state, creature, _opponentCreature1),
           new FightCreature(state, creature, _opponentCreature2),
           new UseCreatureAbility(state, creature),
           new Reap(state, creature)
@@ -116,10 +116,10 @@ namespace KeyforgeUnlockedTest.ActionGroups
 
       var actions = sut.Actions(state);
 
-      var expectedActions = ImmutableArray<Action>.Empty.AddRange(
+      var expectedActions = ImmutableArray<IAction>.Empty.AddRange(
         new[]
         {
-          (Action) new RemoveStun(state, creature)
+          (IAction) new RemoveStun(state, creature)
         });
       Assert.AreEqual(expectedActions, actions);
     }

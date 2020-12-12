@@ -1,9 +1,10 @@
 using System;
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithCreature : IResolvedEffect
+  public abstract class ResolvedEffectWithCreature<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithCreature<T>
   {
     public Creature Creature;
 
@@ -12,22 +13,14 @@ namespace KeyforgeUnlocked.ResolvedEffects
       Creature = creature;
     }
 
-    protected virtual bool Equals(ResolvedEffectWithCreature other)
+    protected override bool Equals(T other)
     {
       return Creature.Equals(other.Creature);
     }
 
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((ResolvedEffectWithCreature) obj);
-    }
-
     public override int GetHashCode()
     {
-      return HashCode.Combine(GetType(), Creature.GetHashCode());
+      return HashCode.Combine(base.GetHashCode(), Creature.GetHashCode());
     }
   }
 }

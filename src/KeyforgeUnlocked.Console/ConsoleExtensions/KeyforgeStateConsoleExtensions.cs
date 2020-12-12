@@ -206,16 +206,21 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsSpecialActionGroup(this IActionGroup group)
     {
-      return group is ResolveEffectActionGroup;
+      return group.GetType().BaseType.Name == typeof(ResolveEffectActionGroup<>).Name;
     }
 
     static bool IsActionsRelatedToCard(
       this IActionGroup group,
       Card card)
     {
-      if (group is PlayCardGroup playCardGroup)
+      if (group is PlayActionCardGroup PlayActionCardGroup)
       {
-        return playCardGroup.Card.Equals(card);
+        return PlayActionCardGroup.Card.Equals(card);
+      }
+      
+      if (group is PlayCreatureCardGroup PlayCreatureCardGroup)
+      {
+        return PlayCreatureCardGroup.Card.Equals(card);
       }
 
       return false;

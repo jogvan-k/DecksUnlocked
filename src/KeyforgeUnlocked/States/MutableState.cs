@@ -49,7 +49,7 @@ namespace KeyforgeUnlocked.States
       set => isGameOver = value;
     }
 
-    public IState PreviousState
+    public new IState PreviousState
     {
       get => previousState;
       set => previousState = value;

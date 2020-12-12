@@ -5,9 +5,9 @@ namespace KeyforgeUnlocked.Actions
   /// <summary>
   /// Sorts a sequence of actions by an estimated best-first approach according to an evaluation defined in this class.
   /// </summary>
-  public class ActionStrengthComparer : Comparer<Action>
+  public class ActionStrengthComparer : Comparer<IAction>
   {
-    public override int Compare(Action fst, Action snd)
+    public override int Compare(IAction fst, IAction snd)
     {
       return new ActionStrengthComparerBuilder(fst, snd)
         .ThenByPriority()
@@ -19,10 +19,10 @@ namespace KeyforgeUnlocked.Actions
 
   class ActionStrengthComparerBuilder
   {
-    readonly Action first, second;
+    readonly IAction first, second;
     public int ComparedValue;
 
-    public ActionStrengthComparerBuilder(Action first, Action second)
+    public ActionStrengthComparerBuilder(IAction first, IAction second)
     {
       this.first = first;
       this.second = second;
@@ -64,7 +64,7 @@ namespace KeyforgeUnlocked.Actions
       return this;
     }
     
-    static Priority GetPriority(Action action)
+    static Priority GetPriority(IAction action)
     {
       return action switch
       {

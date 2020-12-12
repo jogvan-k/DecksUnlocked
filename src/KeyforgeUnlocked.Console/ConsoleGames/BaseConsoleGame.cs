@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using KeyforgeUnlockedConsole.PrintCommands;
 using UnlockedCore;
 using UnlockedCore.AITypes;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlockedConsole.ConsoleGames
 {
@@ -125,12 +125,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       _state = action.DoAction(_state);
     }
 
-    Action WriteAndReadActions(IActionGroup actionGroup)
+    IAction WriteAndReadActions(IActionGroup actionGroup)
     {
       Console.WriteLine(actionGroup.ToConsole());
 
       int i = 1;
-      var actions = new List<Action>();
+      var actions = new List<IAction>();
       foreach (var action in actionGroup.Actions(_state.ToImmutable()))
       {
         Console.WriteLine($"{i++}: {action.ToConsole()}");

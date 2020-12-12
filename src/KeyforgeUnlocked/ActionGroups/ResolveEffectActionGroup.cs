@@ -2,7 +2,7 @@ using KeyforgeUnlocked.Actions;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public abstract class ResolveEffectActionGroup : ActionGroupBase
+  public abstract class ResolveEffectActionGroup<T> : ActionGroupBase<T>
   {
   }
 }

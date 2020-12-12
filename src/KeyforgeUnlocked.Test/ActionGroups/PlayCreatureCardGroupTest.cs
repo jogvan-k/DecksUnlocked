@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
       var actions = sut.Actions(_state);
 
       var expectedAction =
-        ImmutableList<Action>.Empty.Add(new PlayCreatureCard(_state, Card, 0)).Add(new DiscardCard(_state, Card));
+        ImmutableList<IAction>.Empty.Add(new PlayCreatureCard(_state, Card, 0)).Add(new DiscardCard(_state, Card));
       Assert.AreEqual(expectedAction, actions);
     }
 
@@ -40,7 +40,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
       var actions = sut.Actions(immutableState);
 
       var expectedActions =
-        ImmutableList<Action>.Empty
+        ImmutableList<IAction>.Empty
           .Add(new PlayCreatureCard(immutableState, Card, 0))
           .Add(new PlayCreatureCard(immutableState, Card, 5))
           .Add(new DiscardCard(immutableState, Card));

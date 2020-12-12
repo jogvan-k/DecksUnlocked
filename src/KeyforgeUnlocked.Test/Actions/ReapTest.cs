@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
@@ -16,7 +16,7 @@ using Reap = KeyforgeUnlocked.Actions.Reap;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class ReapTest : ActionTestBase
+  class ReapTest : ActionTestBase<BasicAction>
   {
     const House ActiveHouse = House.Logos;
     readonly CreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
@@ -28,7 +28,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(false, ActiveHouse, false, out var state);
 
-      Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(_creature, e.Creature);
+      System.Action<CreatureNotReadyException> asserts = e => Assert.AreEqual(_creature, e.Creature);
 
       ActExpectException(sut, state, asserts);
     }
@@ -58,7 +58,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(true, House.Dis, false, out var state);
 
-      Action<NotFromActiveHouseException> asserts = e =>
+      System.Action<NotFromActiveHouseException> asserts = e =>
       {
         Assert.AreEqual(_creature.Card, e.Card);
         Assert.AreEqual(House.Dis, e.House);
@@ -72,7 +72,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(true, ActiveHouse, true, out var state);
 
-      Action<CreatureStunnedException> asserts = e => Assert.AreEqual(_creature, e.Creature);
+      System.Action<CreatureStunnedException> asserts = e => Assert.AreEqual(_creature, e.Creature);
 
       ActExpectException(sut, state, asserts);
     }

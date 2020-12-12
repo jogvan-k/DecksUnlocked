@@ -15,7 +15,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class UseCreatureAbilityTest : ActionTestBase
+  sealed class UseCreatureAbilityTest : ActionTestBase<BasicAction>
   {
     Creature creature;
     IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
@@ -35,7 +35,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(false, false, out var state);
 
-      Action<CreatureNotReadyException> asserts = e => e.Creature.Equals(creature);
+      System.Action<CreatureNotReadyException> asserts = e => e.Creature.Equals(creature);
 
       ActExpectException(sut, state, asserts);
     }
@@ -45,7 +45,7 @@ namespace KeyforgeUnlockedTest.Actions
     {
       var sut = Setup(true, true, out var state);
 
-      Action<CreatureStunnedException> asserts = e => e.Creature.Equals(creature);
+      System.Action<CreatureStunnedException> asserts = e => e.Creature.Equals(creature);
 
       ActExpectException(sut, state, asserts);
     }

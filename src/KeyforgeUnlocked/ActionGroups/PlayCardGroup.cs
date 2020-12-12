@@ -2,11 +2,10 @@ using System;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
-using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public abstract class PlayCardGroup : ActionGroupBase
+  public abstract class PlayCardGroup<T> : ActionGroupBase<T> where T : PlayCardGroup<T>
   {
     public Card Card { get; }
 
@@ -15,9 +14,14 @@ namespace KeyforgeUnlocked.ActionGroups
       Card = card;
     }
 
-    protected Action DiscardAction(ImmutableState origin)
+    protected IAction DiscardAction(ImmutableState origin)
     {
       return new DiscardCard(origin, Card);
+    }
+
+    protected override bool Equals(T other)
+    {
+      return Equals(Card, other.Card);
     }
 
     public override int GetHashCode()

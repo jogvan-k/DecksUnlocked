@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 
@@ -22,19 +23,14 @@ namespace KeyforgeUnlocked.Actions
       return Card.Id;
     }
 
-    public override bool Equals(object obj)
+    protected override bool Equals(BasicAction other)
     {
-      return ReferenceEquals(this, obj) || obj is DiscardCard other && Equals(other);
-    }
-
-    bool Equals(DiscardCard other)
-    {
-      return Equals(Card, other.Card);
+      return Equals(Card, ((DiscardCard)other).Card);
     }
 
     public override int GetHashCode()
     {
-      return (Card != null ? Card.GetHashCode() : 0);
+      return HashCode.Combine(base.GetHashCode(), Card);
     }
   }
 }

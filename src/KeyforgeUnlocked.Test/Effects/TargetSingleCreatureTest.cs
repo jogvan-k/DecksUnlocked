@@ -1,5 +1,4 @@
 using KeyforgeUnlocked.ActionGroups;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
@@ -25,12 +24,8 @@ namespace KeyforgeUnlockedTest.Effects
 
       sut.Resolve(state);
 
-      var expectedActionGroup = new TargetCreatureGroup(
-        new[]
-        {
-          new TargetCreature(null, effectOnCreature, playerTwoCreature),
-          new TargetCreature(null, effectOnCreature, playerOneCreature)
-        });
+      var expectedActionGroup = new TargetCreatureGroup(effectOnCreature,
+        new LazyList<Creature>(new[] {playerTwoCreature, playerOneCreature}));
 
       var expectedState = Setup().New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup});
 

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
@@ -15,7 +17,7 @@ namespace KeyforgeUnlocked.ActionGroups
     public UseCreatureGroup(
       IState state,
       Creature creature,
-      bool allowOutOfHouseUse = false) : base(ActionType.UseCreature)
+      bool allowOutOfHouseUse = false)
     {
       _opponentCreatures = state.Fields[state.PlayerTurn.Other()];
       Creature = creature;
@@ -58,6 +60,11 @@ namespace KeyforgeUnlocked.ActionGroups
     bool ExistsAndHasTaunt(int i)
     {
       return i >= 0 && i < _opponentCreatures.Count && _opponentCreatures[i].HasTaunt();
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(base.GetHashCode(), Creature);
     }
   }
 }

@@ -1,6 +1,8 @@
+using System;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
+using Action = KeyforgeUnlocked.Actions.Action;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
@@ -8,8 +10,7 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public Card Card { get; }
 
-    protected PlayCardGroup(
-      Card card) : base(ActionType.PlayCard)
+    protected PlayCardGroup(Card card)
     {
       Card = card;
     }
@@ -17,6 +18,11 @@ namespace KeyforgeUnlocked.ActionGroups
     protected Action DiscardAction(ImmutableState origin)
     {
       return new DiscardCard(origin, Card);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(base.GetHashCode(), Card);
     }
   }
 }

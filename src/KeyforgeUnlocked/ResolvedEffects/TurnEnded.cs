@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return 1;
+      return GetType().GetHashCode();
     }
 
     public override string ToString()

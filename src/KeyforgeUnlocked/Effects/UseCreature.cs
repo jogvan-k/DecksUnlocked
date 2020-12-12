@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
@@ -33,7 +34,7 @@ namespace KeyforgeUnlocked.Effects
 
     public override int GetHashCode()
     {
-      return base.GetHashCode() * Constants.PrimeHashBase + Creature.GetHashCode();
+      return HashCode.Combine(base.GetHashCode(), Creature);
     }
   }
 }

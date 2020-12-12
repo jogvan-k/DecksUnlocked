@@ -8,11 +8,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
     }
 
-    public override int GetHashCode()
-    {
-      return base.GetHashCode();
-    }
-
     public override string ToString()
     {
       return $"{_card.Name} played";

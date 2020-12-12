@@ -95,26 +95,27 @@ namespace KeyforgeUnlockedTest.Benchmark
       for (int i = 1; i <= runTimes.Count(); i++)
       {
         Console.WriteLine($"{i}: {runTimes[i - 1].Item1}, turns: {runTimes[i - 1].Item2}");
-        Console.WriteLine($"Moves: " + moves[i - 1].Select(m => m.ToString()).Aggregate((f, s) => f + ',' + s));
+        //Console.WriteLine($"Moves: " + moves[i - 1].Select(m => m.ToString()).Aggregate((f, s) => f + ',' + s));
       }
     }
     
-    // 10 evaluated in 00:06:20.9513549
-       //Excluding first run
-    // Average runtime: 00:00:37.5480825
-    // Fastest run: 00:00:25.9903145)
-    // Slowest run: 00:00:54.4068430)
+//     10 evaluated in 00:00:15.0800982
+//     //Excluding first run
+//     Average runtime: 00:00:01.4681861
+//     Fastest run: 00:00:01.4337248)
+//     Slowest run: 00:00:01.4919142)
+//
+//     1: 00:00:01.8664230, turns: 28
+//     2: 00:00:01.4919142, turns: 28
+//     3: 00:00:01.4775390, turns: 28
+//     4: 00:00:01.4809409, turns: 28
+//     5: 00:00:01.4598053, turns: 28
+//     6: 00:00:01.4908373, turns: 28
+//     7: 00:00:01.4337248, turns: 28
+//     8: 00:00:01.4737241, turns: 28
+//     9: 00:00:01.4701686, turns: 28
+//     10: 00:00:01.4350210, turns: 28
 
-    // 1: 00:00:43.0186122, turns: 26
-    // 2: 00:00:26.8844595, turns: 25
-    // 3: 00:00:37.9773853, turns: 24
-    // 4: 00:00:34.2471220, turns: 28
-    // 5: 00:00:31.9901223, turns: 24
-    // 6: 00:00:54.4068430, turns: 31
-    // 7: 00:00:42.5163147, turns: 27
-    // 8: 00:00:42.2375371, turns: 27
-    // 9: 00:00:25.9903145, turns: 25
-    // 10: 00:00:41.6826443, turns: 27
 
 
     (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)

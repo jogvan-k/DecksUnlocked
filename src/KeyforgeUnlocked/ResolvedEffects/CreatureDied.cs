@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
@@ -7,11 +8,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public CreatureDied(Creature creature) : base(creature)
     {
-    }
-
-    public override int GetHashCode()
-    {
-      return 7 * Creature.GetHashCode();
     }
 
     public override string ToString()

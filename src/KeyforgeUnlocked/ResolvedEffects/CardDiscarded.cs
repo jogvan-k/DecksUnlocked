@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.ResolvedEffects
@@ -23,7 +24,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return (Card != null ? Card.GetHashCode() : 0);
+      return HashCode.Combine(GetType(), Card);
     }
 
     public override string ToString()

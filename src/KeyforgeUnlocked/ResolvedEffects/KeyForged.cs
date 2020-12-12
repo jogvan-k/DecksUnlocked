@@ -1,3 +1,5 @@
+using System;
+
 namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class KeyForged : IResolvedEffect
@@ -24,7 +26,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return KeyCost;
+      return HashCode.Combine(GetType(), KeyCost);
     }
 
     public override string ToString()

@@ -26,7 +26,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return HashCode.Combine((int) Player, Aember);
+      return HashCode.Combine(GetType(), (int) Player, Aember);
     }
 
     public override string ToString()

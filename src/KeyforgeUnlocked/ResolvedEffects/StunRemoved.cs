@@ -8,11 +8,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
     }
 
-    public override int GetHashCode()
-    {
-      return 2 * base.GetHashCode();
-    }
-
     public override string ToString()
     {
       return $"Stun removed from {Creature.Card.Name}";

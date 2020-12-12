@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.ActionGroups
   {
     public IImmutableSet<House> Houses;
 
-    public DeclareHouseGroup(IEnumerable<House> houses) : base(ActionType.DeclareHouse)
+    public DeclareHouseGroup(IEnumerable<House> houses)
     {
       Houses = houses.ToImmutableHashSet();
     }

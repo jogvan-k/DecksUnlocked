@@ -20,7 +20,7 @@ namespace KeyforgeUnlocked.Effects
 
     public override int GetHashCode()
     {
-      return typeof(T).GetHashCode();
+      return GetType().GetHashCode();
     }
 
     public void Resolve(MutableState state)

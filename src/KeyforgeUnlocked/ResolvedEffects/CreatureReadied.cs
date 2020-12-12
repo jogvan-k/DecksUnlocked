@@ -8,11 +8,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
     {
     }
 
-    public override int GetHashCode()
-    {
-      return 13 * base.GetHashCode();
-    }
-
     public override string ToString()
     {
       return $"{Creature.Card.Name} ready";

@@ -26,11 +26,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
       return Equals((CreaturePlayed) obj);
     }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Creature, Position);
-    }
-
     public override string ToString()
     {
       return $"Played {Creature.Card.Name} on position {Position}";

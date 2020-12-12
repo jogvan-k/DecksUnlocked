@@ -1,4 +1,5 @@
-﻿using KeyforgeUnlocked.Cards;
+﻿using System;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
@@ -26,7 +27,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return (_card != null ? _card.GetHashCode() : 0);
+      return HashCode.Combine(GetType(), _card);
     }
   }
 }

@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return NoDrawn;
+      return HashCode.Combine(GetType(), NoDrawn);
     }
 
     public override string ToString()

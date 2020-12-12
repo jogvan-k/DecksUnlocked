@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.ResolvedEffects
@@ -26,7 +27,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override int GetHashCode()
     {
-      return Creature.GetHashCode();
+      return HashCode.Combine(GetType(), Creature.GetHashCode());
     }
   }
 }

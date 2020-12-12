@@ -95,7 +95,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Archives));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Fields));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Effects));
-      hashCode.Add(EqualityComparer.GetHashCode(thisState.ResolvedEffects));
+      //hashCode.Add(EqualityComparer.GetHashCode(thisState.ResolvedEffects)); //Should this be part of the hash?
       hashCode.Add(thisState.Metadata);
       return hashCode.ToHashCode();
     }

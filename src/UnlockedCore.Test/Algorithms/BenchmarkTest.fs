@@ -4,7 +4,7 @@ open System
 open UnlockedCore.AITypes
 open NUnit.Framework
 open UnlockedCore
-open UnlockedCore.TestTypes
+open UnlockedCoreTest.TestTypes
 
 [<TestFixture>]
 type BenchmarkCases () =
@@ -13,7 +13,7 @@ type BenchmarkCases () =
         let tree = complexTree evalFun n b
         let cal = NegamaxAI(evaluator, n, SearchDepthConfiguration.turn)
         
-        let result = (cal :> IGameAI).DetermineAction (tree.build())
+        ignore ((cal :> IGameAI).DetermineAction (tree.build()))
         let logInfo = cal.LatestLogInfo
         
         let treeSize = ((pown b (n + 1)) - 1) / (b - 1)
@@ -28,8 +28,12 @@ type BenchmarkCases () =
     [<Explicit>]
     [<Test>]
     member this.AllUniqueNodes () =
-        let rng = Random()
-        let evalFun (d,h) = (Player.Player1, d, h, rng.Next())
+        let mutable nextHash = 0
+        let genNextHash= fun () ->
+            nextHash <- nextHash + 1
+            nextHash
+        
+        let evalFun (d,h) = (Player.Player1, d, h, genNextHash())
         let n, b = 8, 6
         
         let logInfo = evaluate evalFun n b

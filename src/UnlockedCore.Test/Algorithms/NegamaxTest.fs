@@ -5,10 +5,10 @@ open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.Negamax
 
 open NUnit.Framework
-open UnlockedCore.TestTypes
+open UnlockedCoreTest.TestTypes
 
 [<TestFixture>]
-type TestCase () =
+type NegamaxTest () =
 
     let basicTree = nb(p1, 0, 0 ,0, [
                         nb(p2, 1, -10, 1)
@@ -31,7 +31,7 @@ type TestCase () =
     
     [<Test>]
     member this.NoDepth_BasicTree () =
-        let d = Depth(0)
+        let d = Ply(0)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(fst result, Is.EqualTo(0))
@@ -42,7 +42,7 @@ type TestCase () =
     [<TestCase(3, -40, [|0; 0; 0|])>]
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_BasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
-        let d = Depth(depth)
+        let d = Ply(depth)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
@@ -54,7 +54,7 @@ type TestCase () =
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_InvertedBasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
         let invertedTree = invertTree basicTree
-        let d = Depth(depth)
+        let d = Ply(depth)
         let result = negamax d (invertedTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         
         Assert.That(- fst result, Is.EqualTo(expectedValue))
@@ -64,7 +64,7 @@ type TestCase () =
     [<TestCase(2, 10, [|1|])>]
     [<TestCase(3, 30, [|0; 1; 0; 0; 0; 0|])>]
     member this.TurnDepthSearch (untilTurn : int) (expectedValue : int) (expectedPath : int[]) =
-        let d = Until(untilTurn, 0)
+        let d = Turn(untilTurn, 0)
         
         let result = negamax d twoDepthsPerTurnTree (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging))
         

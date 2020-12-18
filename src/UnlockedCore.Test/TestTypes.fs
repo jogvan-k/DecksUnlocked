@@ -1,4 +1,4 @@
-﻿module UnlockedCore.TestTypes
+﻿module UnlockedCoreTest.TestTypes
 
 open System
 open UnlockedCore
@@ -69,10 +69,9 @@ let rec recComplexTree evalFun counter n b =
     if(d = n)
     then nb(player, turnNo, value, hash)
     else let nodes = [0..1..b-1] |> List.map (fun i -> recComplexTree evalFun (d + 1, b * h + i) n b)
-         let nb = nb(player, turnNo, value, hash, nodes)
-         nb.addChildren(nodes)
+         nb(player, turnNo, value, hash, nodes)
          
-let complexTree evalFun n b =
+let complexTree (evalFun: int * int -> Player * int * int * int) (n: int) (b: int) =
     let counter = (0, 0)
     recComplexTree evalFun counter n b
     

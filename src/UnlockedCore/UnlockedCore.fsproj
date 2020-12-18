@@ -9,11 +9,14 @@
         <Compile Include="Types.fs" />
         <Compile Include="Algorithms\AISupportTypes.fs" />
         <Compile Include="Algorithms\Accumulator.fs" />
+        <Compile Include="Algorithms\TranspositionTable.fs" />
         <Compile Include="Algorithms\UtilityMethods.fs" />
         <Compile Include="Algorithms\Negamax.fs" />
-        <Compile Include="Algorithms\PVS.fs" />
+        <Compile Include="Algorithms\PrincipalVariationSearch.fs" />
         <Compile Include="Algorithms\RandomMove.fs" />
+        <Compile Include="AI\AIBase.fs" />
         <Compile Include="AI\NegamaxAI.fs" />
+        <Compile Include="AI\PvsAI.fs" />
         <Compile Include="AI\RandomMove.fs" />
     </ItemGroup>
 

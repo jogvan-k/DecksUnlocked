@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
+using UnlockedCore.AI;
 using UnlockedCore.AITypes;
 
 namespace KeyforgeUnlockedTest.Benchmark
@@ -57,7 +58,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(3, SearchDepthConfiguration.turn);
+      var result = RunSingleGame(2, SearchDepthConfiguration.turn);
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -73,7 +74,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void RunGameSample()
     {
-      int numberOfGames = 10;
+      int numberOfGames = 2;
       var runTimes = new List<(TimeSpan, int)>();
       var moves = new List<int[]>();
 
@@ -103,22 +104,22 @@ namespace KeyforgeUnlockedTest.Benchmark
       }
     }
     
-//     10 evaluated in 00:42:56.8945246
+//     10 evaluated in 00:00:27.9838499
 //     //Excluding first run
-//     Average runtime: 00:04:17.5786628
-//     Fastest run: 00:04:16.1845258)
-//     Slowest run: 00:04:19.0438433)
+//     Average runtime: 00:00:02.7561327
+//     Fastest run: 00:00:02.7282601)
+//     Slowest run: 00:00:02.7739614)
 //
-//     1: 00:04:18.6865590, turns: 36
-//     2: 00:04:17.6396834, turns: 36
-//     3: 00:04:19.0438433, turns: 36
-//     4: 00:04:17.4457475, turns: 36
-//     5: 00:04:17.0111973, turns: 36
-//     6: 00:04:17.9375555, turns: 36
-//     7: 00:04:17.1669185, turns: 36
-//     8: 00:04:18.0719094, turns: 36
-//     9: 00:04:17.7065849, turns: 36
-//     10: 00:04:16.1845258, turns: 36
+//     1: 00:00:03.1786552, turns: 40
+//     2: 00:00:02.7711728, turns: 40
+//     3: 00:00:02.7634663, turns: 40
+//     4: 00:00:02.7739614, turns: 40
+//     5: 00:00:02.7544971, turns: 40
+//     6: 00:00:02.7619887, turns: 40
+//     7: 00:00:02.7660368, turns: 40
+//     8: 00:00:02.7282601, turns: 40
+//     9: 00:00:02.7412833, turns: 40
+//     10: 00:00:02.7445282, turns: 40
 
 
 
@@ -126,7 +127,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
       _state = _startState;
-      var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new PvsAI.PvsAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogTime);
       var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;

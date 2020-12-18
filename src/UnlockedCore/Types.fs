@@ -24,9 +24,13 @@ type IGameAI =
     abstract DetermineAction: ICoreState -> int[]
     
 type searchLimit =
-    | Until of turn: int * depth: int
-    | Depth of remaining: int
-    
+    | Ply of plies: int
+    | Turn of turns: int * plyLimit: int
+
+type SearchDepthConfiguration =
+    | actions = 0
+    | turn = 1
+
 type SearchConfiguration =
     | NoRestrictions = 0
     | NoHashTable = 1
@@ -39,3 +43,11 @@ type LoggingConfiguration =
     | LogSuccessfulHashMapLookup   = 0x4
     | LogPrunedPaths               = 0x8
     | LogAll                       = 0xf
+
+type LogInfo =
+    struct
+        val mutable nodesEvaluated: int
+        val mutable elapsedTime: TimeSpan
+        val mutable prunedPaths: int
+        val mutable successfulHashMapLookups: int
+    end

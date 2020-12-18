@@ -1,37 +1,55 @@
 ﻿module UnlockedCore.Algorithms.UtilityMethods
 
+open System
 open UnlockedCore
 
-let searchDepthLimit = 100
+let plyLimit = 1000
 
 let changingPlayer (s: ICoreState) =
     s.PreviousState.IsSome
     && s.PlayerTurn
     <> s.PreviousState.Value.PlayerTurn
 
+let toSearchLimit searchConfiguration depth tn =
+                        match searchConfiguration with
+                        | SearchDepthConfiguration.actions -> Ply depth
+                        | SearchDepthConfiguration.turn -> Turn (tn + depth, 0)
+                        | _ ->  raise (ArgumentException("Undefined SearchDepthConfiguration"))
 let reduceSearchLimit =
     function
-    | Until (turn, depth) ->
-        if (depth >= searchDepthLimit)
-        then failwith (sprintf "search depth exceeded %i" searchDepthLimit)
-        else Until(turn, depth + 1)
-    | Depth remaining -> Depth(remaining - 1)
+    | Turn (turn, depth) ->
+        if (depth >= plyLimit)
+        then failwith (sprintf "search depth exceeded %i" plyLimit)
+        else Turn(turn, depth + 1)
+    | Ply remaining -> Ply(remaining - 1)
 
 let increaseSearchLimit =
     function
-    | Until (turn, _) -> Until(turn + 1, 0)
-    | Depth remaining -> Depth(remaining + 1)
+    | Turn (turn, _) -> Turn(turn + 1, 0)
+    | Ply remaining -> Ply(remaining + 1)
 
-let nextCandidate f alpha beta color (state: ICoreState) depth =
-    let nextDepth = reduceSearchLimit depth
-    if (changingPlayer state) then
-        fun acc ->
-            let (fs, sn) =
-                f (-1 * beta) (-1 * alpha) (-color) nextDepth state acc
+let startSearchLimit (s: ICoreState) =
+    function
+    | Turn _ -> Turn(s.TurnNumber, plyLimit)
+    | Ply _ -> Ply(0)
+    
+let isDepthReached current target =
+    match current with
+    | Turn (turn, _) ->
+        match target with
+        | Turn (t, _) -> turn >= t
+        | Ply _ -> raise (ArgumentException "Type mismatch") 
+    | Ply (remaining) ->
+        match target with
+        | Ply (r) -> remaining >= r
+        | Turn _ -> raise (ArgumentException "Type mismatch")
 
-            (-fs, sn)
-    else
-        f alpha beta color depth state
+let flipValue v = (-fst v, snd v)
 
 let startColor =
     fun (s: ICoreState) -> if (s.PlayerTurn = Player.Player1) then 1 else -1
+
+let nextPvAction pv actions =
+    let nextMove = pv |> List.head
+    let pvAction = Seq.find (fun e -> (snd e) = nextMove) actions
+    (fst pvAction, snd pvAction, List.skip 1 pv)

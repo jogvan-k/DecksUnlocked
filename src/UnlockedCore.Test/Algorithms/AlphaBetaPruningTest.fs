@@ -3,7 +3,7 @@
 open NUnit.Framework
 open UnlockedCore
 open UnlockedCore.AITypes
-open UnlockedCore.TestTypes
+open UnlockedCoreTest.TestTypes
 
 [<TestFixture>]
 type alphaBetaPruningTest() =

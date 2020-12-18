@@ -16,6 +16,6 @@ let (|Node|Terminal|) (s: ICoreState) =
 
 let (|SearchLimit|_|) (limit: searchLimit) (s: ICoreState) =
     match limit with
-    | Until (turn, _) when turn <= s.TurnNumber -> Some 0
-    | Depth (remaining) when remaining <= 0 -> Some 0
+    | Turn (turn, _) when turn <= s.TurnNumber -> Some 0
+    | Ply (remaining) when remaining <= 0 -> Some 0
     | _ -> None

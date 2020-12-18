@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>UnlockedCoreTest</RootNamespace>
 
         <IsPackable>false</IsPackable>
         <GenerateProgramFile>false</GenerateProgramFile>
@@ -15,10 +16,11 @@
 
     <ItemGroup>
         <Compile Include="TestTypes.fs" />
-        <Compile Include="MinimaxAITest.fs" />
-        <Compile Include="AlphaBetaPruningTest.fs" />
-        <Compile Include="HashMapTest.fs" />
-        <Compile Include="BenchmarkTest.fs" />
+        <Compile Include="Algorithms\AlphaBetaPruningTest.fs" />
+        <Compile Include="Algorithms\BenchmarkTest.fs" />
+        <Compile Include="Algorithms\PrincipalVariationSearchTest.fs" />
+        <Compile Include="Algorithms\HashMapTest.fs" />
+        <Compile Include="Algorithms\NegamaxTest.fs" />
     </ItemGroup>
 
     <ItemGroup>

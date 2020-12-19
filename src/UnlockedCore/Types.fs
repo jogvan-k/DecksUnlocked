@@ -32,8 +32,9 @@ type SearchDepthConfiguration =
     | turn = 1
 
 type SearchConfiguration =
-    | NoRestrictions = 0
-    | NoHashTable = 1
+    | NoRestrictions    = 0x0
+    | NoHashTable       = 0x1
+    | IncrementalSearch = 0x2
     
 [<Flags>]
 type LoggingConfiguration =

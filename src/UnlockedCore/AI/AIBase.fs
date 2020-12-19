@@ -11,14 +11,12 @@ type BaseAI(evaluator: IEvaluator,
             searchDepthConfig: SearchDepthConfiguration,
             searchConfig: SearchConfiguration,
             loggingConfiguration: LoggingConfiguration) =
-    let logEvaulatedStates =
-        loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
-
-    let logTime =
-        loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
-
+    let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
+    let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
+    let incrementalSearch = searchConfig.HasFlag(SearchConfiguration.IncrementalSearch)
     let mutable _logInfos: LogInfo list = List.empty
-    abstract AICall: searchLimit -> ICoreState -> accumulator -> int array
+    abstract AICall: searchLimit -> ICoreState -> accumulator -> int list -> int * int list
+    
     member this.logInfos = _logInfos
     member this.LatestLogInfo = this.logInfos.Head
 
@@ -44,7 +42,10 @@ type BaseAI(evaluator: IEvaluator,
                     evaluator.Evaluate
 
             let accumulator = accumulator (evaluate, loggingConfiguration, searchConfig)
-            let returnVal = this.AICall d s accumulator
+            
+            let returnVal = if(incrementalSearch)
+                            then doIncrementalSearch this.AICall d s accumulator
+                            else snd (this.AICall d s accumulator [])
 
             logInfo.elapsedTime <-
                 match timer with
@@ -57,4 +58,4 @@ type BaseAI(evaluator: IEvaluator,
             logInfo.successfulHashMapLookups <- accumulator.successfulHashMapLookups
 
             _logInfos <- logInfo :: _logInfos
-            returnVal
+            returnVal |> List.toArray

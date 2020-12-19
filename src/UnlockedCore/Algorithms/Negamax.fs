@@ -7,8 +7,8 @@ open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.TranspositionTable
 open UnlockedCore.Algorithms.UtilityMethods
 
-let rec recNegamax alpha beta color (depth: searchLimit) (s: ICoreState) (acc: accumulator) (tTable: ITranspositionTable)=
-    match s with
+let rec recNegamax alpha beta color (depth: searchLimit) (s: ICoreState) (acc: accumulator) (tTable: ITranspositionTable) pv =
+    match (s, pv) with
     | SearchLimit depth _
     | Terminal _ -> (color * acc.eval s, [])
     | Node (actions) ->
@@ -19,26 +19,26 @@ let rec recNegamax alpha beta color (depth: searchLimit) (s: ICoreState) (acc: a
         else
             let mutable alpha' = alpha
             let mutable currentBest = (Int32.MinValue, [])
-            for a in actions do
+            for (a, i, p) in actions do
                 if(alpha' < beta)
-                then let candidate = nextCandidate alpha' beta color ((fst a).DoCoreAction()) depth acc tTable
+                then let candidate = nextCandidate alpha' beta color (a.DoCoreAction()) depth acc tTable p
                      if (fst candidate) > (fst currentBest)
-                     then currentBest <- (fst candidate, (snd a) :: snd candidate)
+                     then currentBest <- (fst candidate, i :: snd candidate)
                           alpha' <- max alpha' (fst candidate)
                 else acc.incrementPrunedPaths()
 
             tTable.add stateHash currentBest
             currentBest
-and nextCandidate alpha beta color (state: ICoreState) depth acc tTable =
+and nextCandidate alpha beta color (state: ICoreState) depth acc tTable pv =
     let nextDepth = reduceSearchLimit depth
     if (changingPlayer state)
     then
-        recNegamax (-1 * beta) (-1 * alpha) (-color) nextDepth state acc tTable |> flipValue
+        recNegamax (-1 * beta) (-1 * alpha) (-color) nextDepth state acc tTable pv |> flipValue
     else
-        recNegamax alpha beta color depth state acc tTable
+        recNegamax alpha beta color depth state acc tTable pv
 
-let negamax (depth: searchLimit) (s: ICoreState) (acc: accumulator) =
+let negamax (depth: searchLimit) (s: ICoreState) (acc: accumulator) pv =
     let transpositionTable = new transpositionTable(acc.logConfig, acc)
-    let result = recNegamax -Int32.MaxValue Int32.MaxValue (startColor s) depth s acc transpositionTable
+    let result = recNegamax -Int32.MaxValue Int32.MaxValue (startColor s) depth s acc transpositionTable pv
     acc.successfulHashMapLookups <- (transpositionTable :> ITranspositionTable).successfulLookups
     result

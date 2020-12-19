@@ -2,6 +2,8 @@
 
 open System
 open UnlockedCore
+open UnlockedCore.Algorithms.Accumulator
+open UnlockedCore.Algorithms.TranspositionTable
 
 let plyLimit = 1000
 
@@ -53,3 +55,16 @@ let nextPvAction pv actions =
     let nextMove = pv |> List.head
     let pvAction = Seq.find (fun e -> (snd e) = nextMove) actions
     (fst pvAction, snd pvAction, List.skip 1 pv)
+    
+let doIncrementalSearch
+    (aiAlgorithm: searchLimit -> ICoreState -> accumulator -> int list -> int * int list)
+    (targetLimit: searchLimit)
+    (s: ICoreState)
+    (acc: accumulator)=
+    let mutable currentLimit = startSearchLimit s targetLimit
+    let mutable previousResult = (-Int32.MaxValue, List<int>.Empty)
+    while(not (isDepthReached currentLimit targetLimit)) do
+        currentLimit <- increaseSearchLimit currentLimit
+        previousResult <- aiAlgorithm currentLimit s acc (snd previousResult)
+        
+    snd previousResult

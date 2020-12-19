@@ -21,6 +21,7 @@
         <Compile Include="Algorithms\PrincipalVariationSearchTest.fs" />
         <Compile Include="Algorithms\HashMapTest.fs" />
         <Compile Include="Algorithms\NegamaxTest.fs" />
+        <Compile Include="program.fs" />
     </ItemGroup>
 
     <ItemGroup>

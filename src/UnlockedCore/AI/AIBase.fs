@@ -21,7 +21,8 @@ type BaseAI(evaluator: IEvaluator,
     member this.LatestLogInfo = this.logInfos.Head
 
     interface IGameAI with
-        member this.DetermineAction s =
+        member this.DetermineAction (s: ICoreState) = (this :> IGameAI).DetermineActionWithVariation s Array.empty
+        member this.DetermineActionWithVariation (s: ICoreState) (v: int[]) =
             let mutable logInfo = LogInfo()
 
             let timer =
@@ -29,8 +30,7 @@ type BaseAI(evaluator: IEvaluator,
                 then Some(System.Diagnostics.Stopwatch.StartNew())
                 else None
 
-            let d =
-                toSearchLimit searchDepthConfig depth s.TurnNumber
+            let d = toSearchLimit searchDepthConfig depth s.TurnNumber
 
             let evaluate =
                 if (logEvaulatedStates) then
@@ -45,7 +45,7 @@ type BaseAI(evaluator: IEvaluator,
             
             let returnVal = if(incrementalSearch)
                             then doIncrementalSearch this.AICall d s accumulator
-                            else snd (this.AICall d s accumulator [])
+                            else snd (this.AICall d s accumulator (v |> Array.toList))
 
             logInfo.elapsedTime <-
                 match timer with
@@ -59,3 +59,4 @@ type BaseAI(evaluator: IEvaluator,
 
             _logInfos <- logInfo :: _logInfos
             returnVal |> List.toArray
+            

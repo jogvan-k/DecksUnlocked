@@ -10,3 +10,5 @@ type RandomMoveAI() =
     interface IGameAI with
         member this.DetermineAction s =
             randomMoveAI rng s |> Array.singleton
+        member this.DetermineActionWithVariation s _ =
+            (this :> IGameAI).DetermineAction(s)

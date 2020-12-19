@@ -74,7 +74,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void RunGameSample()
     {
-      int numberOfGames = 2;
+      var numberOfGames = 10;
       var runTimes = new List<(TimeSpan, int)>();
       var moves = new List<int[]>();
 
@@ -104,36 +104,54 @@ namespace KeyforgeUnlockedTest.Benchmark
       }
     }
     
-//     10 evaluated in 00:00:27.9838499
-//     //Excluding first run
-//     Average runtime: 00:00:02.7561327
-//     Fastest run: 00:00:02.7282601)
-//     Slowest run: 00:00:02.7739614)
-//
-//     1: 00:00:03.1786552, turns: 40
-//     2: 00:00:02.7711728, turns: 40
-//     3: 00:00:02.7634663, turns: 40
-//     4: 00:00:02.7739614, turns: 40
-//     5: 00:00:02.7544971, turns: 40
-//     6: 00:00:02.7619887, turns: 40
-//     7: 00:00:02.7660368, turns: 40
-//     8: 00:00:02.7282601, turns: 40
-//     9: 00:00:02.7412833, turns: 40
-//     10: 00:00:02.7445282, turns: 40
+//       2 turn evaluation
+//       10 evaluated in 00:00:25.3878356
+//       //Excluding first run
+//       Average runtime: 00:00:02.4998651
+//       Fastest run: 00:00:02.4656404)
+//       Slowest run: 00:00:02.5894956)
+//      
+//       1: 00:00:02.8890493, turns: 40
+//       2: 00:00:02.5149706, turns: 40
+//       3: 00:00:02.4882552, turns: 40
+//       4: 00:00:02.4833789, turns: 40
+//       5: 00:00:02.4656404, turns: 40
+//       6: 00:00:02.4706355, turns: 40
+//       7: 00:00:02.5894956, turns: 40
+//       8: 00:00:02.4828141, turns: 40
+//       9: 00:00:02.5221628, turns: 40
+//       10: 00:00:02.4814332, turns: 40
 
-
+//       3 turn evaluation
+//       10 evaluated in 00:43:29.3554156
+//       //Excluding first run
+//       Average runtime: 00:04:20.9823475
+//       Fastest run: 00:04:18.0877844)
+//       Slowest run: 00:04:27.3948984)
+//      
+//       1: 00:04:20.5142882, turns: 34
+//       2: 00:04:22.4435152, turns: 34
+//       3: 00:04:19.6126273, turns: 34
+//       4: 00:04:27.3948984, turns: 34
+//       5: 00:04:18.0877844, turns: 34
+//       6: 00:04:18.9856982, turns: 34
+//       7: 00:04:23.0101861, turns: 34
+//       8: 00:04:19.5938859, turns: 34
+//       9: 00:04:19.8103471, turns: 34
+//       10: 00:04:19.9021848, turns: 34
 
 
     (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
       _state = _startState;
       var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var moves = new int[0];
       var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;
       while (!_state.IsGameOver)
       {
-        var moves = ((IGameAI) ai).DetermineAction(_state);
+        moves = ((IGameAI) ai).DetermineActionWithVariation(_state, moves);
         while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
         {
           var move = moves[0];

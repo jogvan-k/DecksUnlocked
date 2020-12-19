@@ -21,7 +21,12 @@ type IEvaluator =
     abstract Evaluate: ICoreState -> int
 
 type IGameAI =
-    abstract DetermineAction: ICoreState -> int[]
+    // Calculates the best path for a given state.
+    abstract DetermineAction: state: ICoreState -> int[]
+    // Calculates the best path for a given state. A sub part can be provided from previous calculations to speed up
+    // calculation time.
+    abstract DetermineActionWithVariation: state: (ICoreState ) -> variation: int[] -> int[]
+
     
 type searchLimit =
     | Ply of plies: int

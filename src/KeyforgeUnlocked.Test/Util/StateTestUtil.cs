@@ -41,7 +41,7 @@ namespace KeyforgeUnlockedTest.Util
       null,
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
-      new List<IActionGroup>().ToImmutableList(),
+      new HashSet<IActionGroup>().ToImmutableHashSet(),
       new Dictionary<Player, IMutableStackQueue<Card>> {{Player.Player1, new LazyStackQueue<Card>()}, {Player.Player2, new LazyStackQueue<Card>()}}.ToReadOnly()
         .ToImmutable(),
       new Dictionary<Player, IMutableSet<Card>> {{Player.Player1, new LazySet<Card>()}, {Player.Player2, new LazySet<Card>()}}.ToImmutableDictionary()

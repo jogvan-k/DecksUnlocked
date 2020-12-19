@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.States
     House? ActiveHouse { get; }
     IReadOnlyDictionary<Player, int> Keys { get; }
     IReadOnlyDictionary<Player, int> Aember { get; }
-    IImmutableList<IActionGroup> ActionGroups { get; } // TODO change to set
+    IImmutableSet<IActionGroup> ActionGroups { get; }
     IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
     IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
     IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }

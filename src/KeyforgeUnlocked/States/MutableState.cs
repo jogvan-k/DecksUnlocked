@@ -65,7 +65,7 @@ namespace KeyforgeUnlocked.States
 
     IReadOnlyDictionary<Player, int> IState.Aember => Aember.ToReadOnly();
 
-    IImmutableList<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableList();
+    IImmutableSet<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableHashSet();
 
     IReadOnlyDictionary<Player, IImmutableStack<Card>> IState.Decks => Decks.ToImmutable();
 

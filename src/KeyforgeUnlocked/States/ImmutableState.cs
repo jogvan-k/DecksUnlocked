@@ -18,7 +18,7 @@ namespace KeyforgeUnlocked.States
     public House? ActiveHouse { get; }
     public IReadOnlyDictionary<Player, int> Keys { get; }
     public IReadOnlyDictionary<Player, int> Aember { get; }
-    public IImmutableList<IActionGroup> ActionGroups { get; }
+    public IImmutableSet<IActionGroup> ActionGroups { get; }
     public IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }
@@ -37,7 +37,7 @@ namespace KeyforgeUnlocked.States
       House? activeHouse,
       LookupReadOnly<Player, int> keys,
       LookupReadOnly<Player, int> aember,
-      IImmutableList<IActionGroup> actionGroups,
+      IImmutableSet<IActionGroup> actionGroups,
       LookupReadOnly<Player, IImmutableStack<Card>> decks,
       LookupReadOnly<Player, IImmutableSet<Card>> hands,
       LookupReadOnly<Player, IImmutableSet<Card>> discards,

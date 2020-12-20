@@ -147,18 +147,16 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
     SampleCreatureCard InstantiateFightingCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
     {
-      return new SampleCreatureCard(
-        power: power, armor: armor, fightAbility: _fightingCreatureFightAbility,
-        afterKillAbility: _fightingCreatureAfterKillAbility,
-        destroyedAbility: _fightingCreatureDestroyedAbility, keywords: keywords);
+      return new SampleCreatureCard(power: power, armor: armor, fightAbility: _fightingCreatureFightAbility,
+        afterKillAbility: _fightingCreatureAfterKillAbility, destroyedAbility: _fightingCreatureDestroyedAbility,
+        keywords: keywords);
     }
 
     SampleCreatureCard InstantiateTargetCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
     {
-      return new SampleCreatureCard(
-        power: power, armor: armor, fightAbility: _targetCreatureFightAbility,
-        afterKillAbility: _targetCreatureAfterKillAbility,
-        destroyedAbility: _targetCreatureDestroyedAbility, keywords: keywords);
+      return new SampleCreatureCard(power: power, armor: armor, fightAbility: _targetCreatureFightAbility,
+        afterKillAbility: _targetCreatureAfterKillAbility, destroyedAbility: _targetCreatureDestroyedAbility,
+        keywords: keywords);
     }
 
     void Assert(IState expectedState, IState actualState, bool expectedFighterDead,

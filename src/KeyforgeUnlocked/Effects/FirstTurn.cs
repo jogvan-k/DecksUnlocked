@@ -1,8 +1,7 @@
 using System;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.ActionCards;
-using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects

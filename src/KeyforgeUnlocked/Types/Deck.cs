@@ -10,8 +10,6 @@ namespace KeyforgeUnlocked.Types
 {
   public class Deck
   {
-    static Lazy<IEnumerable<Type>> allCards = new Lazy<IEnumerable<Type>>(GetAllCards);
-    public static IEnumerable<Type> AllCards => allCards.Value;
     public static Deck Empty => new Deck(new List<Card>());
     public ImmutableList<Card> Cards { get; }
 
@@ -20,14 +18,15 @@ namespace KeyforgeUnlocked.Types
       Cards = cards.ToImmutableList();
     }
 
-    public static Deck LoadDeckFromFile(string filename)
+    public static Deck LoadDeckFromFile(Assembly assembly, string filename)
     {
       var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", "Sample.txt");
       var deckString = File.ReadLines(path);
+      var allCards = GetAllCards(assembly);
       var cards = new List<Card>();
       foreach (var cardString in deckString)
       {
-        var cardType = AllCards.Single(t => IsCard(t, cardString));
+        var cardType = allCards.Single(t => IsCard(t, cardString));
         cards.Add((Card) cardType.GetConstructor(new Type[0]).Invoke(new object[0]));
       }
 
@@ -43,9 +42,8 @@ namespace KeyforgeUnlocked.Types
       return cardString.Equals(name);
     }
 
-    static IEnumerable<Type> GetAllCards()
+    static IEnumerable<Type> GetAllCards(Assembly assembly)
     {
-      var assembly = AppDomain.CurrentDomain.GetAssemblies().Single(a => a.GetName().Name == "KeyforgeUnlocked");
       return from type in assembly.GetTypes()
         where typeof(Card).IsAssignableFrom(type)
         select type;

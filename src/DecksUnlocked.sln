@@ -10,6 +10,10 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore", "UnlockedCor
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore.Test", "UnlockedCore.Test\UnlockedCore.Test.fsproj", "{27DDC334-5695-4757-B4A3-8D8C4DED321C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Cards", "KeyforgeUnlocked.Cards\KeyforgeUnlocked.Cards.csproj", "{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.IntegrationTest", "KeyforgeUnlocked.IntegrationTest\KeyforgeUnlocked.IntegrationTest.csproj", "{496B0389-E0DE-460B-8C84-3101253DA88D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27DDC334-5695-4757-B4A3-8D8C4DED321C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{496B0389-E0DE-460B-8C84-3101253DA88D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{496B0389-E0DE-460B-8C84-3101253DA88D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{496B0389-E0DE-460B-8C84-3101253DA88D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{496B0389-E0DE-460B-8C84-3101253DA88D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

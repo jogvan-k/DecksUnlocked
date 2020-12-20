@@ -1,6 +1,6 @@
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.ActionCards
+namespace KeyforgeUnlocked.Cards
 {
   public abstract class ActionCard : Card
   {

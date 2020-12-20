@@ -1,7 +1,9 @@
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.CreatureCards
+namespace KeyforgeUnlocked.CreatureCards
 {
   public abstract class CreatureCard : Card
   {

@@ -1,7 +1,7 @@
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.ActionCards.Brobnar
+namespace KeyforgeUnlocked.Cards.Brobnar.Actions
 {
   public sealed class BurnTheStockpile : ActionCard
   {

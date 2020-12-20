@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.ActionCards.Sanctum;
-using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Cards.CreatureCards.Brobnar;
-using KeyforgeUnlocked.Cards.CreatureCards.Sanctum;
-using KeyforgeUnlocked.Cards.CreatureCards.Shadows;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
@@ -146,22 +142,22 @@ namespace KeyforgeUnlockedTest.States
       return state;
     }
     
-    static CreatureCard _sampleCard = new Krump();
+    static CreatureCard _sampleCard = new SampleCreatureCard();
     
-    static IEnumerable<Card> _player1Deck = new[] {(Card) new Umbra(), new Smaaash(), new Francus()};
-    static IEnumerable<Card> _player2Deck = new[] {(Card) new Umbra(), new Smaaash(), new Francus()};
+    static IEnumerable<Card> _player1Deck = new[] {(Card) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
+    static IEnumerable<Card> _player2Deck = new[] {(Card) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
 
-    static IEnumerable<Card> _player1Hand = new[] {(Card) new MacisAsp(), new Smaaash()};
-    static IEnumerable<Card> _player2Hand = new[] {(Card) new MacisAsp(), new Smaaash()};
+    static IEnumerable<Card> _player1Hand = new[] {(Card) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
+    static IEnumerable<Card> _player2Hand = new[] {(Card) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
 
-    static Card _player1Discard = new Inspiration();
-    static Card _player2Discard = new Inspiration();
+    static Card _player1Discard = new SampleActionCard();
+    static Card _player2Discard = new SampleActionCard();
 
-    static IEnumerable<Card> _player1Archives = new[] {(Card) new BadPenny(), new Umbra()};
-    static IEnumerable<Card> _player2Archives = new[] {(Card) new BadPenny(), new Umbra()};
+    static IEnumerable<Card> _player1Archives = new[] {(Card) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
+    static IEnumerable<Card> _player2Archives = new[] {(Card) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
     
-    static CreatureCard _player1Field = new NoddyTheThief();
-    static CreatureCard _player2Field = new NoddyTheThief();
+    static CreatureCard _player1Field = new SampleCreatureCard(House.Untamed);
+    static CreatureCard _player2Field = new SampleCreatureCard(House.Untamed);
   }
 
   enum StateField

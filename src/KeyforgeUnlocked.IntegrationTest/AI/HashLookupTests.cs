@@ -1,11 +1,11 @@
 ﻿using System;
+using KeyforgeUnlocked.IntegrationTest.Benchmark;
 using KeyforgeUnlocked.States;
-using KeyforgeUnlockedTest.Benchmark;
 using NUnit.Framework;
 using UnlockedCore;
 using UnlockedCore.AITypes;
 
-namespace KeyforgeUnlockedTest.AI
+namespace KeyforgeUnlocked.IntegrationTest.AI
 {
   [TestFixture]
   sealed class HashLookupTests

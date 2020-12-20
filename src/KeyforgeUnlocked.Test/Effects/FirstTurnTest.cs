@@ -4,6 +4,7 @@ using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;

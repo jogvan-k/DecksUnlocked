@@ -1,7 +1,7 @@
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.ActionCards.Sanctum
+namespace KeyforgeUnlocked.Cards.Sanctum.Actions
 {
   public sealed class Inspiration : ActionCard
   {

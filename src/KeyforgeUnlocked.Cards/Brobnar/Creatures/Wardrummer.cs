@@ -1,8 +1,10 @@
+using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 using static KeyforgeUnlocked.Types.Delegates;
 
-namespace KeyforgeUnlocked.Cards.CreatureCards.Brobnar
+namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
   public sealed class Wardrummer : CreatureCard
   {

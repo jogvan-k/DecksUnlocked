@@ -1,5 +1,5 @@
 using System;
-using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 

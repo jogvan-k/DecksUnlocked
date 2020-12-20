@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups

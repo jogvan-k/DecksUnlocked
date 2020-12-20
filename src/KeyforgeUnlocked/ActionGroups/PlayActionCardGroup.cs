@@ -1,6 +1,6 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups

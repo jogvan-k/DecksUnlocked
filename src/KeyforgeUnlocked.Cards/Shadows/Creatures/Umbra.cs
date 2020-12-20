@@ -1,8 +1,10 @@
+using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.CreatureCards.Shadows
+namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
   public sealed class Umbra : CreatureCard
   {

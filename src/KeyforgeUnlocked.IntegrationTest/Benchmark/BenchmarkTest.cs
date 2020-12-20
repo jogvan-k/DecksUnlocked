@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;  
+using System.Linq;
+using System.Reflection;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
-using UnlockedCore.AI;
 using UnlockedCore.AITypes;
 
-namespace KeyforgeUnlockedTest.Benchmark
+namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 {
   [TestFixture]
   sealed class BenchmarkTest
   {
-    readonly IState _startState = SetupStartState();
     IState _state;
 
     [Test]
@@ -23,7 +22,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     public void StateRun()
     {
       var i = 0;
-      _state = _startState;
+      _state = SetupStartState();
 
       var stopwatch = Stopwatch.StartNew();
       while (!_state.IsGameOver && ++i > -1)
@@ -43,7 +42,7 @@ namespace KeyforgeUnlockedTest.Benchmark
     [Explicit]
     public void NegamaxAIRun()
     {
-      _state = _startState;
+      _state = SetupStartState();
       var ai = new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
@@ -143,13 +142,13 @@ namespace KeyforgeUnlockedTest.Benchmark
 
     (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
     {
-      _state = _startState;
+      _state = SetupStartState();
       var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
       var moves = new int[0];
       var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;
-      while (!_state.IsGameOver)
+      while (!_state.IsGameOver && _state.TurnNumber < 7)
       {
         moves = ((IGameAI) ai).DetermineActionWithVariation(_state, moves);
         while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
@@ -180,8 +179,8 @@ namespace KeyforgeUnlockedTest.Benchmark
     // 21650 successful hash map lookups and 10086 paths pruned.
     internal static ImmutableState SetupStartState()
     {
-      var player1Deck = Deck.LoadDeckFromFile("");
-      var player2Deck = Deck.LoadDeckFromFile("");
+      var player1Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),"");
+      var player2Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"), "");
       return StateFactory.Initiate(player1Deck, player2Deck);
     }
   }

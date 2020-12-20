@@ -1,7 +1,9 @@
+using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.Cards.CreatureCards.Sanctum
+namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 {
   public sealed class Francus : CreatureCard
   {

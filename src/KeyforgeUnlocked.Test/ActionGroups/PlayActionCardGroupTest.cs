@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards.ActionCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;

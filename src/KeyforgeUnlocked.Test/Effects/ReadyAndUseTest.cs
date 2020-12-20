@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards.CreatureCards;
+using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Shadows\Actions" />
+    </ItemGroup>
+
+</Project>

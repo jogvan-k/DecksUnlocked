@@ -30,7 +30,7 @@ type BaseAI(evaluator: IEvaluator,
                 then Some(System.Diagnostics.Stopwatch.StartNew())
                 else None
 
-            let d = toRemainingSearch depth s.TurnNumber
+            let (searchLimit, timeLimit) = toRemainingSearch depth s.TurnNumber
 
             let evaluate =
                 if (logEvaulatedStates) then
@@ -41,11 +41,11 @@ type BaseAI(evaluator: IEvaluator,
                 else
                     evaluator.Evaluate
 
-            let accumulator = accumulator (evaluate, loggingConfiguration, searchConfig)
+            let accumulator = accumulator(evaluate, timeLimit, loggingConfiguration, searchConfig)
             
             let returnVal = if(incrementalSearch)
-                            then doIncrementalSearch this.AICall d s accumulator
-                            else snd (this.AICall d s accumulator (v |> Array.toList))
+                            then doIncrementalSearch this.AICall searchLimit s accumulator
+                            else snd (this.AICall searchLimit s accumulator (v |> Array.toList))
 
             logInfo.elapsedTime <-
                 match timer with

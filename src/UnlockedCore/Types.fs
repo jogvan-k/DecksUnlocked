@@ -27,9 +27,15 @@ type IGameAI =
     // calculation time.
     abstract DetermineActionWithVariation: state: (ICoreState ) -> variation: int[] -> int[]
 
+type searchTime =
+    | Unlimited
+    | Minutes of int
+    | Seconds of int
+    | MilliSeconds of int
+
 type searchLimit =
-    | Ply of plies: int
-    | Turn of turns: int
+    | Ply of plies: int * searchTime: searchTime
+    | Turn of turns: int * searchTime: searchTime
 
 type SearchDepthConfiguration =
     | actions = 0

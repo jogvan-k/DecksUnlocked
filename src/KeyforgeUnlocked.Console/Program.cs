@@ -10,7 +10,7 @@ namespace KeyforgeUnlockedConsole
   {
     static void Main(string[] args)
     {
-      var consoleGame = PlayerVsAiGame();
+      var consoleGame = AiVsAiGame();
       consoleGame.StartGame();
     }
 
@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = DeckLoader.LoadDeck("");
       var player2Deck = DeckLoader.LoadDeck("");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(2, searchTime.Unlimited), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
     }
     static IConsoleGame TwoPlayerGame()
     {
@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedConsole
       
       var player1Deck = DeckLoader.LoadDeck("");
       var player2Deck = DeckLoader.LoadDeck("");
-      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), 3, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll));
+      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.NewSeconds(5)), SearchConfiguration.IncrementalSearch, LoggingConfiguration.LogAll));
     }
   }
 }

@@ -33,7 +33,7 @@ type PrincipalVariationSearchTest () =
             evaluatorFunc s
         let tTable = transpositionTable(LoggingConfiguration.LogAll)
         
-        let acc = accumulator(evalFuncWithEvalCount, LoggingConfiguration.LogAll)
+        let acc = accumulator(evalFuncWithEvalCount, searchTime.Unlimited, LoggingConfiguration.LogAll)
         let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable bestPath
         
         Assert.That(fst result, Is.EqualTo(10))
@@ -49,7 +49,7 @@ type PrincipalVariationSearchTest () =
         let tTable = transpositionTable(LoggingConfiguration.LogAll)
         let pv = [0;0;1;0]
 
-        let acc = accumulator(evalFuncWithEvalCount, LoggingConfiguration.LogAll)
+        let acc = accumulator(evalFuncWithEvalCount, searchTime.Unlimited, LoggingConfiguration.LogAll)
         let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable pv
         
         Assert.That(fst result, Is.EqualTo(10))

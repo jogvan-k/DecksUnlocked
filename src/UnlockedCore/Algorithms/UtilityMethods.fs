@@ -15,8 +15,8 @@ let changingPlayer (s: ICoreState) =
 
 let toRemainingSearch (depth: searchLimit) tn =
                         match depth with
-                        | searchLimit.Ply(plies) -> Plies plies
-                        | searchLimit.Turn(turns) -> Turns (tn + turns, 0)
+                        | searchLimit.Ply(plies, timeLimit) -> (Plies plies, timeLimit)
+                        | searchLimit.Turn(turns, timeLimit) -> (Turns (tn + turns, 0), timeLimit)
 let reduceRemainingSearch =
     function
     | Turns (turn, depth) ->

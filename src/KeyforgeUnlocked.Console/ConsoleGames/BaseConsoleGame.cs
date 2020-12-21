@@ -70,7 +70,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           {
             if (negamaxAi.LatestLogInfo.nodesEvaluated > 0 && negamaxAi.LatestLogInfo.elapsedTime.Ticks > 0)
               aiLogString =
-                $"{negamaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {negamaxAi.LatestLogInfo.elapsedTime.TotalMinutes} minutes. \n" +
+                $"{negamaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {negamaxAi.LatestLogInfo.elapsedTime.TotalSeconds} seconds. \n" +
                 $"{negamaxAi.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
           }
         }

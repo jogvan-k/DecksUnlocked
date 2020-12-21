@@ -9,10 +9,13 @@ namespace KeyforgeUnlocked.States
 {
   public abstract class StateBase
   {
-    public ICoreAction [] Actions()
+    public ICoreAction[] Actions()
     {
       var origin = ToImmutable();
-      return ((IState) this).ActionGroups.SelectMany(a => a.Actions(origin)).Cast<ICoreAction>().ToArray();
+      return ((IState) this).ActionGroups
+        .SelectMany(a => a.Actions(origin))
+        .OrderBy(a => a.Identity())
+        .ToArray();
     }
 
     protected internal IState previousState;

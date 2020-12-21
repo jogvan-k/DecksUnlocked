@@ -19,7 +19,9 @@ let rec recNegamax alpha beta color (depth: remainingSearch) (s: ICoreState) (ac
         else
             let mutable alpha' = alpha
             let mutable currentBest = (Int32.MinValue, [])
-            for (a, i, p) in actions do
+            let iter = actions.GetEnumerator()
+            while(iter.MoveNext() && not acc.isTimeLimitReached) do
+                let (a, i, p) = iter.Current
                 if(alpha' < beta)
                 then let candidate = nextCandidate alpha' beta color (a.DoCoreAction()) depth acc tTable p
                      if (fst candidate) > (fst currentBest)
@@ -38,6 +40,7 @@ and nextCandidate alpha beta color (state: ICoreState) depth acc tTable pv =
         recNegamax alpha beta color nextDepth state acc tTable pv
 
 let negamax (depth: remainingSearch) (s: ICoreState) (acc: accumulator) pv =
+    acc.startTimer
     let transpositionTable = new transpositionTable(acc.logConfig, acc)
     let result = recNegamax -Int32.MaxValue Int32.MaxValue (startColor s) depth s acc transpositionTable pv
     acc.successfulHashMapLookups <- (transpositionTable :> ITranspositionTable).successfulLookups

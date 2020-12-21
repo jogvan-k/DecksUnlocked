@@ -43,7 +43,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     public void NegamaxAIRun()
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.Unlimited), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -57,7 +57,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(searchLimit.NewTurn(1));
+      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.Unlimited));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -79,7 +79,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 
       for (int i = 0; i < numberOfGames; i++)
       {
-        var results = RunSingleGame(searchLimit.NewTurn(3));
+        var results = RunSingleGame(searchLimit.NewTurn(3, searchTime.Unlimited));
         runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
         moves.Add(results.movesTaken);
       }

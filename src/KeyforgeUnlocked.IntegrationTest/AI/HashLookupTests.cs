@@ -12,8 +12,7 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
   {
     NegamaxAI noHashTableAi;
     NegamaxAI hashTableAi;
-    SearchDepthConfiguration _searchDepthConfiguration = SearchDepthConfiguration.turn;
-    static readonly searchLimit Depth = searchLimit.NewTurn(3);
+    static readonly searchLimit Depth = searchLimit.NewTurn(3, searchTime.Unlimited);
     IState state = BenchmarkTest.SetupStartState();
 
     int[] noHashMapResult, hashMapResult;

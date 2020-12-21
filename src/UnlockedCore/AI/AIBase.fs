@@ -2,20 +2,20 @@
 
 open System
 open UnlockedCore
+open UnlockedCore.Algorithms.AISupportTypes
 open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.UtilityMethods
 
 [<AbstractClass>]
 type BaseAI(evaluator: IEvaluator,
-            depth,
-            searchDepthConfig: SearchDepthConfiguration,
+            depth: searchLimit,
             searchConfig: SearchConfiguration,
             loggingConfiguration: LoggingConfiguration) =
     let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
     let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
     let incrementalSearch = searchConfig.HasFlag(SearchConfiguration.IncrementalSearch)
     let mutable _logInfos: LogInfo list = List.empty
-    abstract AICall: searchLimit -> ICoreState -> accumulator -> int list -> int * int list
+    abstract AICall: remainingSearch -> ICoreState -> accumulator -> int list -> int * int list
     
     member this.logInfos = _logInfos
     member this.LatestLogInfo = this.logInfos.Head
@@ -30,7 +30,7 @@ type BaseAI(evaluator: IEvaluator,
                 then Some(System.Diagnostics.Stopwatch.StartNew())
                 else None
 
-            let d = toSearchLimit searchDepthConfig depth s.TurnNumber
+            let d = toRemainingSearch depth s.TurnNumber
 
             let evaluate =
                 if (logEvaulatedStates) then

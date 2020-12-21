@@ -18,7 +18,7 @@ type hashMapTest() =
     
     [<Test>]
     member this.SearchWithHashTableLookup () =
-        let sut = NegamaxAI(evaluator, 4, SearchDepthConfiguration.turn)
+        let sut = NegamaxAI(evaluator, searchLimit.Turn(4))
         
         let path = (sut :> IGameAI).DetermineAction tree
         

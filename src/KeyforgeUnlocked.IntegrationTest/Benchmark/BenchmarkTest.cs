@@ -43,7 +43,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     public void NegamaxAIRun()
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), 2, SearchDepthConfiguration.turn, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -57,7 +57,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(2, SearchDepthConfiguration.turn);
+      var result = RunSingleGame(searchLimit.NewTurn(1));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -79,7 +79,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 
       for (int i = 0; i < numberOfGames; i++)
       {
-        var results = RunSingleGame(3, SearchDepthConfiguration.turn);
+        var results = RunSingleGame(searchLimit.NewTurn(3));
         runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
         moves.Add(results.movesTaken);
       }
@@ -140,15 +140,15 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 //       10: 00:04:19.9021848, turns: 34
 
 
-    (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(int depth, SearchDepthConfiguration searchDepthConfiguration)
+    (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(searchLimit depth)
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), depth, searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), depth, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
       var moves = new int[0];
       var movesTaken = Enumerable.Empty<int>();
 
       var playerTurn = _state.PlayerTurn;
-      while (!_state.IsGameOver && _state.TurnNumber < 7)
+      while (!_state.IsGameOver)
       {
         moves = ((IGameAI) ai).DetermineActionWithVariation(_state, moves);
         while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)

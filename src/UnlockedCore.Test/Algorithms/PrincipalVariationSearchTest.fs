@@ -8,6 +8,7 @@ open UnlockedCore
 open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.PVS
 open UnlockedCore.Algorithms.TranspositionTable
+open UnlockedCore.Algorithms.AISupportTypes
 open UnlockedCoreTest.TestTypes
 
 [<TestFixture>]
@@ -33,7 +34,7 @@ type PrincipalVariationSearchTest () =
         let tTable = transpositionTable(LoggingConfiguration.LogAll)
         
         let acc = accumulator(evalFuncWithEvalCount, LoggingConfiguration.LogAll)
-        let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Ply 10) state acc tTable bestPath
+        let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable bestPath
         
         Assert.That(fst result, Is.EqualTo(10))
         Assert.That(snd result, Is.EqualTo(bestPath))
@@ -49,7 +50,7 @@ type PrincipalVariationSearchTest () =
         let pv = [0;0;1;0]
 
         let acc = accumulator(evalFuncWithEvalCount, LoggingConfiguration.LogAll)
-        let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Ply 10) state acc tTable pv
+        let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable pv
         
         Assert.That(fst result, Is.EqualTo(10))
         Assert.That(snd result, Is.EqualTo(bestPath))

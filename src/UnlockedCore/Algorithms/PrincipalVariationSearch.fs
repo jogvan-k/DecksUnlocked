@@ -10,7 +10,7 @@ open UnlockedCore.Algorithms.Negamax
 
 let noTranspositionTable = noTranspositionTable()
 
-let rec recPVS alpha beta color (depth: searchLimit) (s: ICoreState) (acc: accumulator) (tTable: ITranspositionTable) pv =
+let rec recPVS alpha beta color (depth: remainingSearch) (s: ICoreState) (acc: accumulator) (tTable: ITranspositionTable) pv =
     match (s, pv) with
     | SearchLimit depth _
     | Terminal _ -> (color * acc.eval s, [])
@@ -45,14 +45,14 @@ and nullWindowSearch alpha beta color (state: ICoreState) depth acc tTable =
     candidate
 
 and nextCandidate alpha beta color (state: ICoreState) depth acc tTable p =
-    let nextDepth = reduceSearchLimit depth
+    let nextDepth = reduceRemainingSearch depth
     if (changingPlayer state)
     then
         recPVS (-1 * beta) (-1 * alpha) (-color) nextDepth state acc tTable p |> flipValue
     else
-        recPVS alpha beta color depth state acc tTable p
+        recPVS alpha beta color nextDepth state acc tTable p
 
-let pvs (targetLimit: searchLimit) (s: ICoreState) (acc: accumulator) (pv: int list) =
+let pvs (targetLimit: remainingSearch) (s: ICoreState) (acc: accumulator) (pv: int list) =
     let transpositionTable = transpositionTable(acc.logConfig, acc)
     let result = recPVS -Int32.MaxValue Int32.MaxValue (startColor s) targetLimit s acc transpositionTable pv
     acc.successfulHashMapLookups <- acc.successfulHashMapLookups + (transpositionTable :> ITranspositionTable).successfulLookups

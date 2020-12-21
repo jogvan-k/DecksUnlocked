@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
     NegamaxAI noHashTableAi;
     NegamaxAI hashTableAi;
     SearchDepthConfiguration _searchDepthConfiguration = SearchDepthConfiguration.turn;
-    static readonly int Depth = 3;
+    static readonly searchLimit Depth = searchLimit.NewTurn(3);
     IState state = BenchmarkTest.SetupStartState();
 
     int[] noHashMapResult, hashMapResult;
@@ -22,8 +22,8 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
     [Explicit]
     public void NegamaxAIWithAndWithoutHashtableLookupYieldSameResult()
     {
-      noHashTableAi = new NegamaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
-      hashTableAi = new NegamaxAI(new Evaluator(), Depth, _searchDepthConfiguration, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      noHashTableAi = new NegamaxAI(new Evaluator(), Depth, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      hashTableAi = new NegamaxAI(new Evaluator(), Depth, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
 
       while (!state.IsGameOver)
       {

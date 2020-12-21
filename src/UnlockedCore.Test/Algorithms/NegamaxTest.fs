@@ -1,6 +1,7 @@
 namespace UnlockedCore.Test
 
 open UnlockedCore
+open UnlockedCore.Algorithms.AISupportTypes
 open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.Negamax
 
@@ -31,7 +32,7 @@ type NegamaxTest () =
     
     [<Test>]
     member this.NoDepth_BasicTree () =
-        let d = Ply(0)
+        let d = Plies(0)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) []
         
         Assert.That(fst result, Is.EqualTo(0))
@@ -42,7 +43,7 @@ type NegamaxTest () =
     [<TestCase(3, -40, [|0; 0; 0|])>]
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_BasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
-        let d = Ply(depth)
+        let d = Plies(depth)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) []
         
         Assert.That(fst result, Is.EqualTo(expectedValue))
@@ -54,7 +55,7 @@ type NegamaxTest () =
     [<TestCase(4, 75, [|1; 0; 0; 0|])>]
     member this.VariousDepth_InvertedBasicTree (depth : int) (expectedValue : int) (expectedPath : int[]) =
         let invertedTree = invertTree basicTree
-        let d = Ply(depth)
+        let d = Plies(depth)
         let result = negamax d (invertedTree.build()) (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) []
         
         Assert.That(- fst result, Is.EqualTo(expectedValue))
@@ -64,7 +65,7 @@ type NegamaxTest () =
     [<TestCase(2, 10, [|1|])>]
     [<TestCase(3, 30, [|0; 1; 0; 0; 0; 0|])>]
     member this.TurnDepthSearch (untilTurn : int) (expectedValue : int) (expectedPath : int[]) =
-        let d = Turn(untilTurn, 0)
+        let d = Turns(untilTurn, 0)
         
         let result = negamax d twoDepthsPerTurnTree (accumulator(evaluatorFunc, LoggingConfiguration.NoLogging)) []
         

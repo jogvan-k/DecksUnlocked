@@ -11,7 +11,7 @@ type BenchmarkCases () =
     
     let evaluate evalFun n b =
         let tree = complexTree evalFun n b
-        let cal = NegamaxAI(evaluator, n, SearchDepthConfiguration.turn)
+        let cal = NegamaxAI(evaluator, searchLimit.Turn(n))
         
         ignore ((cal :> IGameAI).DetermineAction (tree.build()))
         let logInfo = cal.LatestLogInfo

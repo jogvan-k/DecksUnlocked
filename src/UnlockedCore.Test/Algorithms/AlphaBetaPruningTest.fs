@@ -17,7 +17,7 @@ type alphaBetaPruningTest() =
 
     [<Test>]
     member this.PruningOnMaximizingPlayer () =
-        let sut = NegamaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
+        let sut = NegamaxAI(evaluator, searchLimit.Turn(4), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
         let path = (sut :> IGameAI).DetermineAction (alphaBetaPruningTree.build())
         
         Assert.That(path, Is.EqualTo([|0; 0|]))
@@ -26,7 +26,7 @@ type alphaBetaPruningTest() =
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
-        let sut = NegamaxAI(evaluator, 4, SearchDepthConfiguration.turn, loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
+        let sut = NegamaxAI(evaluator, searchLimit.Turn(4), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
         
         let invertedTree = invertTree alphaBetaPruningTree
         let path = (sut :> IGameAI).DetermineAction (invertedTree.build())

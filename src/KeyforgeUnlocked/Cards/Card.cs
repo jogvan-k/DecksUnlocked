@@ -1,6 +1,6 @@
 using System;
 using System.Globalization;
-using System.Reflection;
+using System.Linq;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
@@ -20,7 +20,7 @@ namespace KeyforgeUnlocked.Cards
 
     public CardType CardType { get; }
 
-    public Callback PlayAbility { get; }
+    public Callback CardPlayAbility { get; }
 
     protected Card(
       House house,
@@ -31,15 +31,38 @@ namespace KeyforgeUnlocked.Cards
       House = house;
       _name = new Lazy<string>(GetName);
       CardType = cardType;
-      PlayAbility = playAbility;
+      CardPlayAbility = playAbility;
     }
 
     string GetName()
     {
-      var fieldInfo = GetType().GetField("SpecialName", BindingFlags.Public | BindingFlags.Static);
-      if (fieldInfo == null)
-        return GetType().Name;
-      return (string) fieldInfo.GetValue(null);
+      return GetName(GetType());
+    }
+
+    public static string GetName(Type card)
+    {
+      var nameAttribute = Attribute.GetCustomAttribute(card, typeof(CardNameAttribute));
+      if (nameAttribute != null)
+        return ((CardNameAttribute) nameAttribute).cardName;
+      return ToProperCase(card.Name);
+    }
+
+    static string ToProperCase(string str)
+    {
+      if (str == null) return null;
+      if (str.Length < 2) return str.ToUpper();
+
+      var properStr = str.Substring(0, 1).ToUpper();
+
+      foreach (var c in str.Skip(1))
+      {
+        if (char.IsUpper(c))
+          properStr += ' ';
+        
+        properStr += c;
+      }
+
+      return properStr;
     }
 
     protected override bool Equals(Card other)

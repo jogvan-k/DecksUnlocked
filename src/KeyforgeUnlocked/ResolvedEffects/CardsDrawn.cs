@@ -14,7 +14,9 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override string ToString()
     {
-      return $"{_player} drew {_int} cards";
+      var str = $"{_player} drew {_int} card";
+      if (_int > 1) str += 's';
+      return str;
     }
   }
 }

@@ -27,7 +27,8 @@ namespace KeyforgeUnlockedTest.States
         player.IsPlayer1()
           ? TestUtil.Ints(2 + amount, 2)
           : TestUtil.Ints(2, 2 + amount);
-      var expectedResolvedEffects = new List<IResolvedEffect> {new AemberGained(player, amount)};
+      var expectedResolvedEffects = new List<IResolvedEffect>();
+      if(amount > 0) expectedResolvedEffects.Add(new AemberGained(player, amount));
       var expectedState = StateTestUtil.EmptyState.New(
         aember: expectedAember, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);

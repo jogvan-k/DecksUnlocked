@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Effects
 
     protected override void SpecificResolve(MutableState state, Creature creature)
     {
-      creature.Card.CreatureAbility(state, creature.Id);
+      creature.Card.CardCreatureAbility(state, creature.Id);
     }
   }
 }

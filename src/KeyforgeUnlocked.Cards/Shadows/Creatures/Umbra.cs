@@ -8,19 +8,19 @@ namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
   public sealed class Umbra : CreatureCard
   {
-    const int power = 2;
-    const int armor = 0;
-    static CreatureType[] creatureTypes = {CreatureType.Elf, CreatureType.Thief};
-    static Keyword[] keywords = {Keyword.Skirmish};
-    static Callback fightAbility = (s, id) => s.StealAember(s.playerTurn);
+    const int Power = 2;
+    const int Armor = 0;
+    static readonly CreatureType[] CreatureTypes = {CreatureType.Elf, CreatureType.Thief};
+    static readonly Keyword[] Keywords = {Keyword.Skirmish};
+    static readonly Callback FightAbility = (s, _) => s.StealAember(s.playerTurn);
 
     public Umbra() : this(House.Shadows)
     {
     }
 
     public Umbra(House house) : base(
-      house, power,
-      armor, creatureTypes, keywords, fightAbility: fightAbility)
+      house, Power,
+      Armor, CreatureTypes, Keywords, fightAbility: FightAbility)
     {
     }
   }

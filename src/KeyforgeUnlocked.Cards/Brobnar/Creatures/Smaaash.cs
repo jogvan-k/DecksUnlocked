@@ -7,10 +7,10 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
   public sealed class Smaaash : CreatureCard
   {
-    const int power = 5;
-    const int armor = 0;
-    static CreatureType[] creatureTypes = {CreatureType.Giant};
-    static Callback playAbility = (s, id) =>
+    const int Power = 5;
+    const int Armor = 0;
+    static readonly CreatureType[] CreatureTypes = {CreatureType.Giant};
+    static readonly Callback PlayAbility = (s, _) =>
     {
       s.Effects.Push(new TargetSingleCreature(Delegates.StunCreature, Delegates.All));
     };
@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     {
     }
 
-    public Smaaash(House house) : base(house, power, armor, creatureTypes, playAbility: playAbility)
+    public Smaaash(House house) : base(house, Power, Armor, CreatureTypes, playAbility: PlayAbility)
     {
     }
   }

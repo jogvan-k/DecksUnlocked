@@ -41,7 +41,7 @@ namespace KeyforgeUnlocked.ActionGroups
           actions = actions.Add(new FightCreature(origin, Creature, opponentCreature, _allowOutOfHouseUse));
       }
 
-      if (Creature.Card.CreatureAbility != null)
+      if (Creature.Card.CardCreatureAbility != null)
       {
         actions = actions.Add(new UseCreatureAbility(origin, Creature, _allowOutOfHouseUse));
       }

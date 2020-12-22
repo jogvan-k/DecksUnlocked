@@ -30,19 +30,17 @@ namespace KeyforgeUnlocked.States
       int amount = 1)
     {
       var toSteal = Math.Min(amount, state.Aember[stealingPlayer.Other()]);
-      if (toSteal > 0)
-      {
-        state.Aember[stealingPlayer] += toSteal;
-        state.Aember[stealingPlayer.Other()] -= toSteal;
-        state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
-      }
+      if (toSteal < 1) return; 
+      state.Aember[stealingPlayer] += toSteal;
+      state.Aember[stealingPlayer.Other()] -= toSteal;
+      state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
     }
     public static void GainAember(
       this MutableState state,
       Player player,
       int amount = 1)
     {
-      if (amount < 0) return;
+      if (amount < 1) return;
       state.Aember[player] += amount;
       state.ResolvedEffects.Add(new AemberGained(player, amount));
     }

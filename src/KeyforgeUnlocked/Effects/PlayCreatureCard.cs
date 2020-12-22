@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.Effects
       state.Fields[state.PlayerTurn].Insert(Position, creature);
       state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
-      CreatureCard.PlayAbility?.Invoke(state, CreatureCard.Id);
+      CreatureCard.CardPlayAbility?.Invoke(state, CreatureCard.Id);
     }
 
     void ValidatePosition(IState state)

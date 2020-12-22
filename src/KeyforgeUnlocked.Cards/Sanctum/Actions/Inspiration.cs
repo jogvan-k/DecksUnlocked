@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
 {
   public sealed class Inspiration : ActionCard
   {
-    static readonly Callback _playAbility = (s, i) =>
+    static readonly Callback PlayAbility = (s, i) =>
     {
       s.Effects.Push(
         new TargetSingleCreature(
@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
     {
     }
 
-    public Inspiration(House house) : base(house, _playAbility)
+    public Inspiration(House house) : base(house, PlayAbility)
     {
     }
   }

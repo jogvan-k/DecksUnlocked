@@ -7,16 +7,16 @@ namespace KeyforgeUnlocked.CreatureCards
 {
   public abstract class CreatureCard : Card
   {
-    public int Power;
-    public int Armor;
-    public Keyword[] Keywords;
+    public readonly int CardPower;
+    public readonly int CardArmor;
+    public readonly Keyword[] CardKeywords;
 
-    public CreatureType[] Types;
-    public Callback FightAbility;
-    public Callback AfterKillAbility;
-    public Callback CreatureAbility;
-    public readonly Callback ReapAbility;
-    public Callback DestroyedAbility;
+    public readonly CreatureType[] CardTypes;
+    public readonly Callback CardFightAbility;
+    public readonly Callback CardAfterKillAbility;
+    public readonly Callback CardCreatureAbility;
+    public readonly Callback CardReapAbility;
+    public readonly Callback CardDestroyedAbility;
 
     protected CreatureCard(
       House house,
@@ -31,20 +31,20 @@ namespace KeyforgeUnlocked.CreatureCards
       Callback reapAbility = null,
       Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
     {
-      Power = power;
-      Armor = armor;
-      Keywords = keywords ?? new Keyword[0];
-      Types = types ?? new CreatureType[0];
-      FightAbility = fightAbility;
-      AfterKillAbility = afterKillAbility;
-      CreatureAbility = creatureAbility;
-      ReapAbility = reapAbility;
-      DestroyedAbility = destroyedAbility;
+      CardPower = power;
+      CardArmor = armor;
+      CardKeywords = keywords ?? new Keyword[0];
+      CardTypes = types ?? new CreatureType[0];
+      CardFightAbility = fightAbility;
+      CardAfterKillAbility = afterKillAbility;
+      CardCreatureAbility = creatureAbility;
+      CardReapAbility = reapAbility;
+      CardDestroyedAbility = destroyedAbility;
     }
 
     public Creature InsantiateCreature()
     {
-      return new Creature(this);
+      return new (this);
     }
   }
 }

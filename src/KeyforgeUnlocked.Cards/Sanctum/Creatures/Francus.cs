@@ -7,16 +7,16 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 {
   public sealed class Francus : CreatureCard
   {
-    const int power = 6;
-    const int armor = 1;
-    static readonly CreatureType[] types = {CreatureType.Knight, CreatureType.Spirit};
-    static readonly Callback afterKillAbility = (s, i) => { s.CaptureAember(i); };
+    const int Power = 6;
+    const int Armor = 1;
+    static readonly CreatureType[] Types = {CreatureType.Knight, CreatureType.Spirit};
+    static readonly Callback AfterKillAbility = (s, i) => { s.CaptureAember(i); };
 
     public Francus() : this(House.Sanctum)
     {
     }
 
-    public Francus(House house) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
+    public Francus(House house) : base(house, Power, Armor, Types, afterKillAbility: AfterKillAbility)
     {
     }
   }

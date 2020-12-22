@@ -30,8 +30,8 @@ namespace KeyforgeUnlockedConsole
     static IConsoleGame AiVsAiGame()
     {
       
-      var player1Deck = DeckLoader.LoadDeck("");
-      var player2Deck = DeckLoader.LoadDeck("");
+      var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
+      var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.NewSeconds(5)), SearchConfiguration.IncrementalSearch, LoggingConfiguration.LogAll));
     }
   }

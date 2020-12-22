@@ -7,11 +7,11 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
   public sealed class Krump : CreatureCard
   {
-    const int power = 6;
-    const int armor = 0;
-    static readonly CreatureType[] types = {CreatureType.Giant};
+    const int Power = 6;
+    const int Armor = 0;
+    static readonly CreatureType[] Types = {CreatureType.Giant};
 
-    static readonly Callback afterKillAbility = (s, i) =>
+    static readonly Callback AfterKillAbility = (s, i) =>
     {
       s.FindCreature(i, out var controllingPlayer, out _);
       s.LoseAember(controllingPlayer.Other());
@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     {
     }
 
-    public Krump(House house) : base(house, power, armor, types, afterKillAbility: afterKillAbility)
+    public Krump(House house) : base(house, Power, Armor, Types, afterKillAbility: AfterKillAbility)
     {
     }
   }

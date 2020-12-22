@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.Creatures
     
     public static bool HasTaunt(this Creature creature)
     {
-      return creature.Card.Keywords.Contains(Keyword.Taunt);
+      return creature.Card.CardKeywords.Contains(Keyword.Taunt);
     }
   }
 }

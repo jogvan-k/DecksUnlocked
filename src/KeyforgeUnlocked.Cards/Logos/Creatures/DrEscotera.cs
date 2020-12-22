@@ -5,25 +5,24 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
 {
+  [CardName("Dr. Escotera")]
   public class DrEscotera : CreatureCard
   {
-    const int power = 4;
-    const int armor = 0;
-    static CreatureType[] creatureTypes = {CreatureType.Cyborg, CreatureType.Scientist};
-    static Callback playAbility = (s, id) =>
+    const int Power = 4;
+    const int Armor = 0;
+    static readonly CreatureType[] CreatureTypes = {CreatureType.Cyborg, CreatureType.Scientist};
+    static readonly Callback PlayAbility = (s, id) =>
     {
       var player = s.playerTurn;
       var opponentKeys = s.Keys[player.Other()];
       s.GainAember(player, opponentKeys);
     };
-    
-    public static string SpecialName = "Dr. Escotera";
 
     public DrEscotera() : this(House.Logos)
     {
     }
 
-    public DrEscotera(House house) : base(house, power, armor, creatureTypes, playAbility: playAbility)
+    public DrEscotera(House house) : base(house, Power, Armor, CreatureTypes, playAbility: PlayAbility)
     {
       
     }

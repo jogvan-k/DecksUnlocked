@@ -6,18 +6,16 @@ namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
   public sealed class MacisAsp : CreatureCard
   {
-    const int power = 3;
-    const int armor = 0;
-    static readonly CreatureType[] _creatureTypes = {CreatureType.Beast};
-    static readonly Keyword[] _keywords = {Keyword.Skirmish, Keyword.Poison};
-
-    public static string SpecialName = "Macis Asp";
+    const int Power = 3;
+    const int Armor = 0;
+    static readonly CreatureType[] CreatureTypes = {CreatureType.Beast};
+    static readonly Keyword[] Keywords = {Keyword.Skirmish, Keyword.Poison};
 
     public MacisAsp() : this(House.Shadows)
     {
     }
 
-    public MacisAsp(House house) : base(house, power, armor, _creatureTypes, _keywords)
+    public MacisAsp(House house) : base(house, Power, Armor, CreatureTypes, Keywords)
     {
     }
   }

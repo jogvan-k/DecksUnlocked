@@ -11,6 +11,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     Thief,
     Knight,
     Cyborg,
-    Scientist
+    Scientist,
+    Faerie
   }
 }

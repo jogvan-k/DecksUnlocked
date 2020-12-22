@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Effects
     protected override void ResolveImpl(MutableState state)
     {
       state.ResolvedEffects.Add(new ActionPlayed(Card));
-      Card.PlayAbility?.Invoke(state, Card.Id);
+      Card.CardPlayAbility?.Invoke(state, Card.Id);
       state.Discards[state.playerTurn].Add(Card);
     }
   }

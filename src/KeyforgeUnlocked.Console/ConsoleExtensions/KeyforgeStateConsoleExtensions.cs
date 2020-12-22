@@ -116,7 +116,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         if (creature.Armor > 0) sb.Append($", Armor: {creature.Armor}");
         if (creature.Damage > 0) sb.Append($", Damage: {creature.Damage}");
         if (creature.Aember > 0) sb.Append($", Aember: {creature.Aember}");
-        if (creature.Keywords.Any()) sb.Append($", Keywords: ({KeywordsReadable(creature.Keywords)})");
+        if (creature.CardKeywords.Any()) sb.Append($", Keywords: ({KeywordsReadable(creature.CardKeywords)})");
         if (creature.IsWarded()) sb.Append(", Warded");
         if (creature.IsStunned()) sb.Append(", Stunned");
         if (creature.IsEnraged()) sb.Append(", Enraged");

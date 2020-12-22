@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Effects
     {
       state.Aember[state.PlayerTurn]++;
       state.ResolvedEffects.Add(new Reaped(creature));
-      creature.Card.ReapAbility?.Invoke(state, creature.Id);
+      creature.Card.CardReapAbility?.Invoke(state, creature.Id);
     }
   }
 }

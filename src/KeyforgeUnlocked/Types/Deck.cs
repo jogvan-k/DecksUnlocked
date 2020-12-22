@@ -20,14 +20,14 @@ namespace KeyforgeUnlocked.Types
 
     public static Deck LoadDeckFromFile(Assembly assembly, string filename)
     {
-      var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", "Sample.txt");
+      var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", filename);
       var deckString = File.ReadLines(path);
-      var allCards = GetAllCards(assembly);
+      var cardsDictionary = CardsDictionary(assembly);
       var cards = new List<Card>();
       foreach (var cardString in deckString)
       {
-        var cardType = allCards.Single(t => IsCard(t, cardString));
-        cards.Add((Card) cardType.GetConstructor(new Type[0]).Invoke(new object[0]));
+        var card = (Card) cardsDictionary[cardString].GetConstructor(new Type[0]).Invoke(new object[0]);
+        cards.Add(card);
       }
 
       return new Deck(cards);
@@ -42,11 +42,13 @@ namespace KeyforgeUnlocked.Types
       return cardString.Equals(name);
     }
 
-    static IEnumerable<Type> GetAllCards(Assembly assembly)
+    static IDictionary<string, Type> CardsDictionary(Assembly assembly)
     {
-      return from type in assembly.GetTypes()
+      var allCardTypes =  from type in assembly.GetTypes()
         where typeof(Card).IsAssignableFrom(type)
         select type;
+
+      return allCardTypes.ToDictionary(t => Card.GetName(t), t => t);
     }
   }
 }

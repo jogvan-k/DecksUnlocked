@@ -16,17 +16,17 @@ namespace KeyforgeUnlocked.Creatures
     public CreatureState State;
 
     public string Id => Card.Id;
-    public int BasePower => Card.Power;
-    public int BaseArmor => Card.Armor;
+    public int BasePower => Card.CardPower;
+    public int BaseCardArmor => Card.CardArmor;
     public int Power => BasePower + PowerCounters;
-    public int Armor => BaseArmor - BrokenArmor;
+    public int Armor => BaseCardArmor - BrokenArmor;
     public int Health => Power - Damage;
     public bool IsDead => Health <= 0;
-    public Callback FightAbility => Card.FightAbility;
-    public Callback AfterKillAbility => Card.AfterKillAbility;
-    public Callback DestroyedAbility => Card.DestroyedAbility;
-    public Keyword[] Keywords => Card.Keywords;
-    public CreatureType[] Types => Card.Types;
+    public Callback FightAbility => Card.CardFightAbility;
+    public Callback AfterKillAbility => Card.CardAfterKillAbility;
+    public Callback DestroyedAbility => Card.CardDestroyedAbility;
+    public Keyword[] CardKeywords => Card.CardKeywords;
+    public CreatureType[] CardTypes => Card.CardTypes;
 
     public Creature(
       CreatureCard card,

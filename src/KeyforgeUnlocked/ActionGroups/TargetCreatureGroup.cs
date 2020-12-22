@@ -31,7 +31,7 @@ namespace KeyforgeUnlocked.ActionGroups
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(base.GetHashCode(), _effect.GetHashCode(), _targets);
+      return HashCode.Combine(base.GetHashCode(), _effect, _targets);
     }
   }
 }

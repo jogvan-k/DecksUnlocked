@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
@@ -6,22 +7,20 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class ReadyAndUse : EffectBase<ReadyAndUse>
+  public sealed class ReadyAndUse : EffectWithCreature<ReadyAndUse>
   {
-    readonly Creature target;
     readonly bool allowOutOfHouseUse;
 
-    public ReadyAndUse(Creature target, bool allowOutOfHouseUse)
+    public ReadyAndUse(Creature creature, bool allowOutOfHouseUse) : base(creature)
     {
-      this.target = target;
       this.allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
     protected override void ResolveImpl(MutableState state)
     {
-      var target = state.FindCreature(this.target.Id, out var controllingPlayer, out _);
+      var target = state.FindCreature(Creature.Id, out var controllingPlayer, out _);
       if (state.playerTurn != controllingPlayer)
-        throw new InvalidTargetException(state, this.target.Id);
+        throw new InvalidTargetException(state, Creature.Id);
       if (!target.IsReady)
       {
         target.IsReady = true;
@@ -34,16 +33,12 @@ namespace KeyforgeUnlocked.Effects
 
     protected override bool Equals(ReadyAndUse other)
     {
-      return target.Equals(other.target) && allowOutOfHouseUse.Equals(other.allowOutOfHouseUse);
+      return base.Equals(other) && allowOutOfHouseUse.Equals(other.allowOutOfHouseUse);
     }
 
     public override int GetHashCode()
     {
-      var hash = base.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + target.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + allowOutOfHouseUse.GetHashCode();
-
-      return hash;
+      return HashCode.Combine(base.GetHashCode(), allowOutOfHouseUse);
     }
   }
 }

@@ -6,6 +6,9 @@ using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Types
 {
+  /// <summary>
+  /// Dictionary-like class that allows manipulation of existing entries, but not to add new entries.
+  /// </summary>
   public sealed class Lookup<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : notnull
   {
     Dictionary<TKey, TValue> _dictionary;
@@ -44,14 +47,14 @@ namespace KeyforgeUnlocked.Types
 
     public override int GetHashCode()
     {
-      var hash = 0;
+      var hc = new HashCode();
       foreach (var keyValue in _dictionary)
       {
-        hash += PrimeHashBase * hash + keyValue.Key.GetHashCode();
-        hash += PrimeHashBase * hash + keyValue.Value.GetHashCode();
+        hc.Add(keyValue.Key);
+        hc.Add(keyValue.Value);
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
     
     bool Equals(Lookup<TKey, TValue> other)

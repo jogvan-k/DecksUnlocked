@@ -4,13 +4,11 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayActionCard : EffectBase<PlayActionCard>
+  public sealed class PlayActionCard : EffectWithCard<PlayActionCard>
   {
-    public readonly ActionCard Card;
 
-    public PlayActionCard(ActionCard card)
+    public PlayActionCard(ActionCard card) : base(card)
     {
-      Card = card;
     }
 
     protected override void ResolveImpl(MutableState state)

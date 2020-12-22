@@ -65,6 +65,12 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
         $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
     }
     
+    // Evaluated 745853 end states over 19 calls and 20 turns in 383,9004011000002 seconds.
+    // 4435705 successful hash map lookups and 0 paths pruned.
+    
+    // Evaluated 774770 end states over 19 calls and 20 turns in 428,71984790000016 seconds.
+    // 4608404 successful hash map lookups and 0 paths pruned.
+    
     // 3 turns search depth
     // Evaluated 1430498 end states over 39 calls and 40 turns in 245,0023509 seconds.
     // 2407768 successful hash map lookups and 613184 paths pruned.

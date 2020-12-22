@@ -1,10 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Types
 {
+  /// <summary>
+  /// Read-only equivalent of <see cref="Lookup{TKey,TValue}"/>.
+  /// </summary>
   public sealed class LookupReadOnly<TKey, TValue> : ReadOnlyDictionary<TKey, TValue>
   {
     public LookupReadOnly(IDictionary<TKey, TValue> dictionary) : base(dictionary)
@@ -17,14 +21,14 @@ namespace KeyforgeUnlocked.Types
     
     public override int GetHashCode()
     {
-      var hash = 0;
+      var hc = new HashCode();
       foreach (var keyValue in Dictionary)
       {
-        hash += PrimeHashBase * hash + keyValue.Key.GetHashCode();
-        hash += PrimeHashBase * hash + keyValue.Value.GetHashCode();
+        hc.Add(keyValue.Key);
+        hc.Add(keyValue.Value);
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
     bool Equals(LookupReadOnly<TKey, TValue> other)
     {

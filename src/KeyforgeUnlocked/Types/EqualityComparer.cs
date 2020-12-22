@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -18,18 +17,19 @@ namespace KeyforgeUnlocked.Types
 
     public static int GetHashCode<T>(IEnumerable<T> sequence)
     {
-      var hash = PrimeHashBase;
-      if (sequence == null)
-        return hash;
-      foreach (var entry in sequence)
+      var hc = new HashCode();
+      if (sequence != null)
       {
-        hash += PrimeHashBase * hash + entry.GetHashCode();
+        foreach (var entry in sequence)
+        {
+          hc.Add(entry);
+        }
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
 
-    static int GetHashCode<T>(IImmutableSet<T> setSequence) where T : IComparable
+    public static int GetHashCode<T>(IImmutableSet<T> setSequence) where T : IComparable
     {
       return GetHashCode(setSequence.OrderBy(x => x));
     }
@@ -52,17 +52,17 @@ namespace KeyforgeUnlocked.Types
 
     public static int GetHashCode<T1, T2>(IReadOnlyDictionary<T1, IImmutableStack<T2>> x)
     {
-      var hash = PrimeHashBase;
-      if (x == null)
-        return hash;
-
-      foreach (var kv in x)
+      var hc = new HashCode();
+      if (x != null)
       {
-        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
-        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
+        foreach (var kv in x)
+        {
+          hc.Add(kv.Key);
+          hc.Add(GetHashCode(kv.Value));
+        }
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
 
     public static bool Equals<T1, T2>(IReadOnlyDictionary<T1, IImmutableSet<T2>> x,
@@ -75,17 +75,17 @@ namespace KeyforgeUnlocked.Types
 
     public static int GetHashCode<T1, T2>(IReadOnlyDictionary<T1, IImmutableSet<T2>> x) where T2 : IComparable
     {
-      var hash = PrimeHashBase;
-      if (x == null)
-        return hash;
-
-      foreach (var kv in x)
+      var hc = new HashCode();
+      if (x != null)
       {
-        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
-        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
+        foreach (var kv in x)
+        {
+          hc.Add(kv.Key);
+          hc.Add(GetHashCode(kv.Value));
+        }
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
 
     public static bool Equals<T1, T2>(IReadOnlyDictionary<T1, IImmutableList<T2>> x,
@@ -105,17 +105,15 @@ namespace KeyforgeUnlocked.Types
 
     public static int GetHashCode<T1, T2>(IReadOnlyDictionary<T1, IImmutableList<T2>> x)
     {
-      var hash = PrimeHashBase;
-      if (x == null)
-        return hash;
 
+      var hc = new HashCode();
       foreach (var kv in x)
       {
-        hash += PrimeHashBase * hash + kv.Key.GetHashCode();
-        hash += PrimeHashBase * hash + GetHashCode(kv.Value);
+        hc.Add(kv.Key);
+        hc.Add(GetHashCode(kv.Value));
       }
 
-      return hash;
+      return hc.ToHashCode();
     }
 
     static bool SetEquals<T1, T2>(IReadOnlyDictionary<T1, IImmutableSet<T2>> first,

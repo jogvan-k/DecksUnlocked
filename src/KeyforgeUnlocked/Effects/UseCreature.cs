@@ -5,13 +5,10 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public abstract class UseCreature<T> : EffectBase<T> where T : UseCreature<T>
+  public abstract class UseCreature<T> : EffectWithCreature<T> where T : UseCreature<T>
   {
-    public readonly Creature Creature;
-
-    public UseCreature(Creature creature)
+    public UseCreature(Creature creature) : base(creature)
     {
-      Creature = creature;
     }
 
     protected override void ResolveImpl(MutableState state)
@@ -26,15 +23,5 @@ namespace KeyforgeUnlocked.Effects
     }
 
     protected abstract void SpecificResolve(MutableState state, Creature creature);
-
-    protected override bool Equals(T other)
-    {
-      return Creature.Equals(other.Creature);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Creature);
-    }
   }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Creatures;
@@ -35,11 +36,7 @@ namespace KeyforgeUnlocked.Effects
 
     public override int GetHashCode()
     {
-      var hash = base.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + effect.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + validOn.GetHashCode();
-
-      return hash;
+      return HashCode.Combine(effect, validOn);
     }
   }
 }

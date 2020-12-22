@@ -1,3 +1,4 @@
+using System;
 using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -5,27 +6,24 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayCreatureCard : EffectBase<PlayCreatureCard>
+  public sealed class PlayCreatureCard : EffectWithCard<PlayCreatureCard>
   {
-    public readonly CreatureCard Card;
+    public CreatureCard CreatureCard => (CreatureCard) Card;
     public readonly int Position;
 
-    public PlayCreatureCard(
-      CreatureCard card,
-      int position)
+    public PlayCreatureCard(CreatureCard card, int position) : base(card)
     {
-      Card = card;
       Position = position;
     }
 
     protected override void ResolveImpl(MutableState state)
     {
       ValidatePosition(state);
-      var creature = Card.InsantiateCreature();
+      var creature = CreatureCard.InsantiateCreature();
       state.Fields[state.PlayerTurn].Insert(Position, creature);
       state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
-      Card.PlayAbility?.Invoke(state, Card.Id);
+      CreatureCard.PlayAbility?.Invoke(state, CreatureCard.Id);
     }
 
     void ValidatePosition(IState state)
@@ -37,16 +35,12 @@ namespace KeyforgeUnlocked.Effects
 
     protected override bool Equals(PlayCreatureCard other)
     {
-      return Card.Equals(other.Card) && Position.Equals(other.Position);
+      return base.Equals(other) && Position.Equals(other.Position);
     }
 
     public override int GetHashCode()
     {
-      var hash = base.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + Card.GetHashCode();
-      hash = hash * Constants.PrimeHashBase + Position.GetHashCode();
-      
-      return hash;
+      return HashCode.Combine(base.GetHashCode(), Position);
     }
   }
 }

@@ -5,13 +5,11 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class DiscardCard : EffectBase<DiscardCard>
+  public sealed class DiscardCard : EffectWithCard<DiscardCard>
   {
-    public Card Card { get; }
 
-    public DiscardCard(Card card)
+    public DiscardCard(Card card) : base(card)
     {
-      Card = card;
     }
 
     protected override void ResolveImpl(MutableState state)
@@ -20,16 +18,6 @@ namespace KeyforgeUnlocked.Effects
         throw new CardNotPresentException(state, Card.Id);
       state.Discards[state.PlayerTurn].Add(Card);
       state.ResolvedEffects.Add(new CardDiscarded(Card));
-    }
-
-    protected override bool Equals(DiscardCard other)
-    {
-      return Card.Equals(other.Card);
-    }
-
-    public override int GetHashCode()
-    {
-      return base.GetHashCode() * Constants.PrimeHashBase + Card.GetHashCode();
     }
   }
 }

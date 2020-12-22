@@ -13,10 +13,5 @@ namespace KeyforgeUnlocked.Effects
     {
       creature.Card.CreatureAbility(state, creature.Id);
     }
-
-    protected override bool Equals(CreatureAbility other)
-    {
-      return Creature.Equals(other.Creature);
-    }
   }
 }

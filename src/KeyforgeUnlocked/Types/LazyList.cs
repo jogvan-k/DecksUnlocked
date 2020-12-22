@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
@@ -119,14 +120,14 @@ namespace KeyforgeUnlocked.Types
 
     public override int GetHashCode()
     {
-      var hash = PrimeHashBase;
+      var hc = new HashCode();
       var entries = Initialized ? (IEnumerable<T>) _innerList : _initial;
       foreach (var entry in entries)
       {
-        hash += PrimeHashBase * hash + entry.GetHashCode();
+        hc.Add(entry);
       }
       
-      return hash;
+      return hc.ToHashCode();
     }
   }
 }

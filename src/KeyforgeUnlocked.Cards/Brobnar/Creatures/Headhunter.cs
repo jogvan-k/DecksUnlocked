@@ -1,6 +1,5 @@
 ﻿using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.CreatureCards;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 

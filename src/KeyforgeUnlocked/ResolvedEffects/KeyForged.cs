@@ -1,30 +1,19 @@
 using System;
 using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class KeyForged : Equatable<KeyForged>, IResolvedEffect
+  public sealed class KeyForged : ResolvedEffectWithPlayerAndInt<KeyForged>
   {
-    public readonly int KeyCost;
 
-    public KeyForged(int keyCost)
+    public KeyForged(Player player, int keyCost) : base(player, keyCost)
     {
-      KeyCost = keyCost;
-    }
-
-    protected override bool Equals(KeyForged other)
-    {
-      return KeyCost == other.KeyCost;
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), KeyCost);
     }
 
     public override string ToString()
     {
-      return $"Key forged for {KeyCost} Æmber";
+      return $"{_player} forged a key for {_int} Æmber";
     }
   }
 }

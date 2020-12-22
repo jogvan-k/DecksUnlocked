@@ -48,7 +48,7 @@ namespace KeyforgeUnlockedTest.Effects
         expectedHands[Player.Player1].Add(expectedDecks[Player.Player1].Dequeue());
       var expectedState = StateTestUtil.EmptyMutableState.New(decks: expectedDecks, hands: expectedHands);
       if (expectedDraws > 0)
-        expectedState.ResolvedEffects.Add(new CardsDrawn(expectedDraws));
+        expectedState.ResolvedEffects.Add(new CardsDrawn(Player.Player1, expectedDraws));
       StateAsserter.StateEquals(expectedState, state);
     }
 

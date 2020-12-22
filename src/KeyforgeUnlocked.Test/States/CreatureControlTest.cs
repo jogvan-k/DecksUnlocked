@@ -16,23 +16,6 @@ namespace KeyforgeUnlockedTest.States
   [TestFixture]
   sealed class StateExtensions
   {
-    [Test]
-    public void Steal_FixedAvailableAmber([Range(0, 3)] int stealingAmount)
-    {
-      var aember = TestUtil.Ints(0, 2);
-      var state = StateTestUtil.EmptyState.New(aember: aember);
-
-      state.Steal(stealingAmount);
-
-      var expectedStolen = Math.Min(stealingAmount, 2);
-      var expectedAember = TestUtil.Ints(expectedStolen, 2 - expectedStolen);
-      var expectedResolvedEffects = new List<IResolvedEffect>();
-      if (expectedStolen > 0)
-        expectedResolvedEffects.Add(new AemberStolen(Player.Player1, expectedStolen));
-      var expectedState = StateTestUtil.EmptyState.New(
-        aember: expectedAember, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
-      StateAsserter.StateEquals(expectedState, state);
-    }
 
     [TestCase(Player.Player1)]
     [TestCase(Player.Player2)]
@@ -62,45 +45,6 @@ namespace KeyforgeUnlockedTest.States
       var resolvedEffects = new LazyList<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
         fields: expectedFields, hands: expectedHands, resolvedEffects: resolvedEffects);
-      StateAsserter.StateEquals(expectedState, state);
-    }
-
-    [Test]
-    public void LoseAember([Range(0, 3)] int amount)
-    {
-      var aember = TestUtil.Ints(2, 2);
-      var state = StateTestUtil.EmptyState.New(aember: aember);
-
-      state.LoseAember(Player.Player1, amount);
-
-      var expectedLost = Math.Min(amount, 2);
-      var expectedResolvedEffects = new LazyList<IResolvedEffect>();
-      if (expectedLost > 0)
-        expectedResolvedEffects.Add(new AemberLost(Player.Player1, expectedLost));
-      var expectedState = StateTestUtil.EmptyState.New(aember: aember, resolvedEffects: expectedResolvedEffects);
-      StateAsserter.StateEquals(expectedState, state);
-    }
-
-    [Test]
-    public void CaptureAember([Range(0, 3)] int amount)
-    {
-      var aember = TestUtil.Ints(2, 2);
-      var creature = new Creature(new SampleCreatureCard());
-      var opponentCreature = new Creature(new SampleCreatureCard());
-      var fields = TestUtil.Lists(creature, opponentCreature);
-      var state = StateTestUtil.EmptyState.New(aember: aember, fields: fields);
-
-      state.CaptureAember(creature.Id, amount);
-
-      var expectedCapture = Math.Min(amount, 2);
-      var expectedAember = TestUtil.Ints(2, 2 - expectedCapture);
-      creature.Aember += expectedCapture;
-      var expectedFields = TestUtil.Lists(creature, opponentCreature);
-      var expectedResolvedEffects = new LazyList<IResolvedEffect>();
-      if (expectedCapture > 0)
-        expectedResolvedEffects.Add(new AemberCaptured(creature, expectedCapture));
-      var expectedState = StateTestUtil.EmptyState.New(
-        aember: expectedAember, fields: expectedFields, resolvedEffects: expectedResolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }
 

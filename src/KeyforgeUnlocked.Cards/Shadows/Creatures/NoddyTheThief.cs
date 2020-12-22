@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Cards.Shadows.Creatures
     const int armor = 0;
     static CreatureType[] creatureTypes = {CreatureType.Elf, CreatureType.Thief};
     static Keyword[] keywords = {Keyword.Elusive};
-    static Callback creatureAbility = (s, id) => s.Steal(1);
+    static Callback creatureAbility = (s, id) => s.StealAember(s.playerTurn);
 
     public static string SpecialName = "Noddy the Thief";
 

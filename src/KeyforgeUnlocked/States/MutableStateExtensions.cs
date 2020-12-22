@@ -24,11 +24,11 @@ namespace KeyforgeUnlocked.States
 
     #region Aember control
 
-    public static void Steal(
+    public static void StealAember(
       this MutableState state,
-      int amount)
+      Player stealingPlayer,
+      int amount = 1)
     {
-      var stealingPlayer = state.PlayerTurn;
       var toSteal = Math.Min(amount, state.Aember[stealingPlayer.Other()]);
       if (toSteal > 0)
       {
@@ -37,7 +37,15 @@ namespace KeyforgeUnlocked.States
         state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
       }
     }
-
+    public static void GainAember(
+      this MutableState state,
+      Player player,
+      int amount = 1)
+    {
+      if (amount < 0) return;
+      state.Aember[player] += amount;
+      state.ResolvedEffects.Add(new AemberGained(player, amount));
+    }
 
     public static void LoseAember(
       this MutableState state,

@@ -10,5 +10,7 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     Goblin,
     Thief,
     Knight,
+    Cyborg,
+    Scientist
   }
 }

@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.Effects
         if (state.Draw(state.PlayerTurn))
           cardsDrawn++;
       if (cardsDrawn > 0)
-        state.ResolvedEffects.Add(new CardsDrawn(cardsDrawn));
+        state.ResolvedEffects.Add(new CardsDrawn(state.PlayerTurn, cardsDrawn));
     }
   }
 }

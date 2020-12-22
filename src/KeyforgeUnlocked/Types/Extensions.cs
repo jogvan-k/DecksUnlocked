@@ -34,7 +34,17 @@ namespace KeyforgeUnlocked.Types
 
     public static Player Other(this Player player)
     {
-      return player == Player.Player1 ? Player.Player2 : Player.Player1;
+      return player.IsPlayer1() ? Player.Player2 : Player.Player1;
+    }
+
+    public static bool IsPlayer1(this Player player)
+    {
+      return player == Player.Player1;
+    }
+
+    public static bool IsPlayer2(this Player player)
+    {
+      return !player.IsPlayer1();
     }
   }
 }

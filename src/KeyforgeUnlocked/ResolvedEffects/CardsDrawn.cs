@@ -1,39 +1,20 @@
 using System;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CardsDrawn : IResolvedEffect
+  public sealed class CardsDrawn : ResolvedEffectWithPlayerAndInt<CardsDrawn>
   {
-    public readonly int NoDrawn;
 
-    public CardsDrawn(int noDrawn)
+    public CardsDrawn(Player player, int noDrawn) : base(player, noDrawn)
     {
       if (noDrawn <= 0)
         throw new ArgumentOutOfRangeException($"Argument 'noDrawn' was {noDrawn}, must at least be 1.");
-      NoDrawn = noDrawn;
-    }
-
-    bool Equals(CardsDrawn other)
-    {
-      return NoDrawn == other.NoDrawn;
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((CardsDrawn) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(GetType(), NoDrawn);
     }
 
     public override string ToString()
     {
-      return $"{NoDrawn} cards drawn";
+      return $"{_player} drew {_int} cards";
     }
   }
 }

@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.Effects
       {
         state.Keys[playerTurn]++;
         state.Aember[playerTurn] -= DefaultForgeCost;
-        state.ResolvedEffects.Add(new KeyForged(DefaultForgeCost));
+        state.ResolvedEffects.Add(new KeyForged(playerTurn, DefaultForgeCost));
         if (state.Keys[playerTurn] >= KeysRequiredToWin)
           state.IsGameOver = true;
       }

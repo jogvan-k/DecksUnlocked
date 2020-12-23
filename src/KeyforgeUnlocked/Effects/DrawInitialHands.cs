@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.States.Extensions;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.Effects

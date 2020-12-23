@@ -19,9 +19,4 @@
         <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="AI" />
-      <Folder Include="Benchmark" />
-    </ItemGroup>
-
 </Project>

@@ -4,7 +4,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class HouseDeclared : Equatable<HouseDeclared>, IResolvedEffect
+  public sealed class HouseDeclared : Equatable<HouseDeclared>, IResolvedEffect
   {
     public readonly House House;
 

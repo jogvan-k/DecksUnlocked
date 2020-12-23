@@ -1,6 +1,7 @@
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using static KeyforgeUnlocked.Types.Delegates;
 
@@ -17,7 +18,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
       var effect = new TargetAllCreatures(
         ReturnCreatureToHand,
         AlliesOf(i).And(OfHouse(House.Brobnar).And(Not(i))));
-      s.Effects.Enqueue(effect);
+      s.AddEffect(effect);
     };
 
     public Wardrummer() : this(House.Brobnar)

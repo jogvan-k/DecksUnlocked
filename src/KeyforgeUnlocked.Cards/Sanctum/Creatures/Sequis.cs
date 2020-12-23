@@ -1,7 +1,7 @@
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Creatures

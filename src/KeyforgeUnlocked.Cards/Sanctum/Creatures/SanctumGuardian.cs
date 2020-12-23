@@ -2,6 +2,7 @@ using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
@@ -15,7 +16,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 
     static readonly Callback FightReapAbility = (s, self) =>
     {
-      s.Effects.Push(new TargetSingleCreature(Delegates.SwapCreatures(self), Delegates.AlliesOf(self)));
+      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Delegates.AlliesOf(self)));
     };
 
     public SanctumGuardian() : this(House.Sanctum)

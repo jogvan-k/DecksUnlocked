@@ -1,11 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
-using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -16,10 +14,55 @@ namespace KeyforgeUnlockedTest.States
   [TestFixture]
   sealed class StateExtensions
   {
+    [Test]
+    public void DamageCreature(
+      [Values(Player.Player1, Player.Player2)]Player player,
+      [Range(0, 3)] int damage)
+    {
+      var targetCreatureCard = new SampleCreatureCard(power: 2);
+      var targetCreature = new Creature(targetCreatureCard);
+      var otherCreature = new Creature(new SampleCreatureCard());
+      var fields = InstantiateFields(player, targetCreature, otherCreature);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
+      
+      state.DamageCreature(targetCreature, damage);
 
-    [TestCase(Player.Player1)]
-    [TestCase(Player.Player2)]
-    public void ReturnCreatureToHand(Player player)
+      LookupReadOnly<Player, IMutableList<Creature>> expectedFields;
+      var expectedDiscards = TestUtil.Sets<Card>();
+      var expectedTarget = new Creature(targetCreatureCard, damage: damage);
+      var expectedResolvedEffects = new List<IResolvedEffect>();
+      
+      if (damage < 2)
+      {
+        expectedFields = InstantiateFields(player, expectedTarget, otherCreature);
+      }
+      else
+      {
+        expectedFields = new Dictionary<Player, IMutableList<Creature>>
+        {
+          {player, new LazyList<Creature>()},
+          {player.Other(), new LazyList<Creature>{otherCreature}}
+        }.ToReadOnly();
+      }
+
+      if(damage > 0)
+        expectedResolvedEffects.Add(new CreatureDamaged(expectedTarget, damage));
+
+      if (damage > 1)
+      {
+        expectedResolvedEffects.Add(new CreatureDied(expectedTarget));
+        expectedDiscards[player].Add(targetCreatureCard);
+      }
+
+      var expectedState = StateTestUtil.EmptyState.New(
+        fields: expectedFields,
+        resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects),
+        discards: expectedDiscards);
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void ReturnCreatureToHand([Values(Player.Player1, Player.Player2)]Player player)
     {
       var returnedCreature = new Creature(new SampleCreatureCard());
       var otherCreature = new Creature(new SampleCreatureCard());
@@ -66,6 +109,36 @@ namespace KeyforgeUnlockedTest.States
       var expectedState = StateTestUtil.EmptyState.New(
         aember: expectedAember, discards: expectedDiscards, resolvedEffects: expectedResolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void AddAemberToCreature(
+      [Values(Player.Player1, Player.Player2)] Player player,
+      [Range(0, 2)] int amount)
+    {
+      var targetCreatureCard = new SampleCreatureCard();
+      var targetCreature = new Creature(targetCreatureCard);
+      var otherCreature = new Creature(new SampleCreatureCard());
+      var fields = InstantiateFields(player, targetCreature, otherCreature);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
+
+      var creatureId = targetCreature.Id;
+      state.AddAemberToCreature(creatureId, amount);
+
+      var expectedTargetCreature = new Creature(targetCreatureCard, aember: amount);
+      var expectedFields = InstantiateFields(player, expectedTargetCreature, otherCreature);
+      var resolvedEffects = new List<IResolvedEffect>();
+      if(amount > 0)
+        resolvedEffects.Add(new CreatureGainedAember(expectedTargetCreature, amount));
+      var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects));
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    static LookupReadOnly<Player, IMutableList<Creature>> InstantiateFields(Player player, Creature targetCreature, Creature otherCreature)
+    {
+      return TestUtil.Lists(
+        player.IsPlayer1() ? targetCreature : otherCreature,
+        player.IsPlayer2() ? targetCreature : otherCreature);
     }
   }
 }

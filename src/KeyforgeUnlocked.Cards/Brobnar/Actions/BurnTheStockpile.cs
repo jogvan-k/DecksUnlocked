@@ -1,4 +1,4 @@
-using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Actions

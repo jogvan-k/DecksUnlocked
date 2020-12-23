@@ -143,8 +143,10 @@ namespace KeyforgeUnlockedTest.Util
           var ac = actual[key];
           if (ex is IEnumerable<object> e && ac is IEnumerable<object> a)
             WriteEntryError(sb, fieldName, key, e, a);
-          else if (ex is IMutableList<Creature> exC && ac is IMutableList<Creature> acC)
-            WriteCreatureEntryError(sb, fieldName, key, exC, acC);
+          else if (ex is IMutableList<Creature> exCm && ac is IMutableList<Creature> acCm)
+            WriteCreatureEntryError(sb, fieldName, key, exCm, acCm);
+          else if (ex is IImmutableList<Creature> exCim && ac is IImmutableList<Creature> acCim)
+            WriteCreatureEntryError(sb, fieldName, key, exCim, acCim);            
           else
             WriteEntryError(sb, fieldName, key, ex, ac);
         }
@@ -156,6 +158,27 @@ namespace KeyforgeUnlockedTest.Util
       Player entry,
       IMutableList<Creature> expected,
       IMutableList<Creature> actual)
+    {
+      if (expected.SequenceEqual(actual))
+        return;
+      AppendFieldName(sb, fieldName);
+
+      for (int i = 0; i < Math.Max(expected.Count, actual.Count); i++)
+      {
+        if (expected.Count < i + 1)
+          sb.AppendLine($"{entry} expected don't have an entry at index {i} whereas actual has");
+        else if (actual.Count < i + 1)
+          sb.AppendLine($"{entry} actual don't have an entry at index {i} whereas expected has");
+        else if (!expected[i].Equals(actual[i]))
+          sb.AppendLine($"{entry} lists differ at index {i}. Expected: {expected[i]}, actual: {actual[i]}");
+      }
+    }
+    
+    static void WriteCreatureEntryError(StringBuilder sb,
+      string fieldName,
+      Player entry,
+      IImmutableList<Creature> expected,
+      IImmutableList<Creature> actual)
     {
       if (expected.SequenceEqual(actual))
         return;

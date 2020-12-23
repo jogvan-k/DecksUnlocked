@@ -57,6 +57,11 @@ namespace KeyforgeUnlockedTest.Util
       }.ToReadOnly();
     }
 
+    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>()
+    {
+      return Sets<T>(Enumerable.Empty<T>(), Enumerable.Empty<T>());
+    }
+
     public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
       T player1Type)
     {

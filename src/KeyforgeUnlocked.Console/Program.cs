@@ -10,15 +10,15 @@ namespace KeyforgeUnlockedConsole
   {
     static void Main(string[] args)
     {
-      var consoleGame = AiVsAiGame();
+      var consoleGame = PlayerVsAiGame();
       consoleGame.StartGame();
     }
 
     static IConsoleGame PlayerVsAiGame()
     {
-      var player1Deck = DeckLoader.LoadDeck("");
-      var player2Deck = DeckLoader.LoadDeck("");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(2, searchTime.Unlimited), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
+      var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
+      var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(2, searchTime.NewSeconds(5)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
     }
     static IConsoleGame TwoPlayerGame()
     {
@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedConsole
       
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
-      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.NewSeconds(5)), SearchConfiguration.IncrementalSearch, LoggingConfiguration.LogAll));
+      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), searchLimit.NewTurn(3, searchTime.NewSeconds(5)), SearchConfiguration.IncrementalSearch, LoggingConfiguration.LogAll));
     }
   }
 }

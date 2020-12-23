@@ -2,7 +2,7 @@
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class AemberGained : ResolvedEffectWithPlayerAndInt<AemberGained>
+  public sealed class AemberGained : ResolvedEffectWithPlayerAndInt<AemberGained>
   {
     public AemberGained(Player player, int aember) : base(player, aember)
     {

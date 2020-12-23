@@ -2,6 +2,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.States.Extensions;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
@@ -32,7 +33,7 @@ namespace KeyforgeUnlocked.Types
         s.SwapCreatures(c, t.Id);
       };
 
-    public static readonly ValidOn All = (s, c) => true;
+    public static readonly ValidOn All = (_, _) => true;
 
     public static ValidOn AlliesOf(string c) => (s, t) =>
     {
@@ -41,6 +42,12 @@ namespace KeyforgeUnlocked.Types
       s.FindCreature(c, out var cControllingPlayer, out _);
       s.FindCreature(t.Id, out var tControllingPlayer, out _);
       return cControllingPlayer == tControllingPlayer;
+    };
+
+    public static ValidOn EnemiesOf(Player player) => (s, t) =>
+    {
+      s.FindCreature(t.Id, out var tControllingPlayer, out _);
+      return player != tControllingPlayer;
     };
 
     public static ValidOn AlliesOf(Player player) => (s, t) =>

@@ -15,23 +15,27 @@ namespace KeyforgeUnlockedTest.Util
       CreatureType[] types = null,
       Keyword[] keywords = null,
       Callback playAbility = null,
+      Callback beforeFightAbility = null,
       Callback fightAbility = null,
       Callback afterKillAbility = null,
       Callback creatureAbility = null,
       Callback reapAbility = null,
-      Callback destroyedAbility = null)
+      Callback destroyedAbility = null,
+      string id = null)
       : base(
         house,
         power,
         armor,
         types,
         keywords,
-        playAbility,
-        fightAbility,
-        afterKillAbility,
-        creatureAbility,
-        reapAbility,
-        destroyedAbility)
+        playAbility: playAbility,
+        beforeFightAbility: beforeFightAbility,
+        fightAbility: fightAbility,
+        afterKillAbility: afterKillAbility,
+        creatureAbility: creatureAbility,
+        reapAbility: reapAbility,
+        destroyedAbility: destroyedAbility,
+        id: id)
     {
     }
   }

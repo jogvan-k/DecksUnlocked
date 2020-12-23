@@ -31,7 +31,7 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new Effects.FightCreature(Creature, Target));
+      state.Effects.Enqueue(new Effects.FightCreature(Creature, Target.Id));
     }
 
     public override string Identity()

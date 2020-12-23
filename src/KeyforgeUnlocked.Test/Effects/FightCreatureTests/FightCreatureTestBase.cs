@@ -7,11 +7,53 @@ using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
+using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 {
   abstract class FightCreatureTestBase
   {
+    protected const string FightingCreatureId = "F";
+    protected const string TargetCreatureId = "T";
+    protected bool _fightingCreatureBeforeFightAbilityResolved;
+    protected bool _fightingCreatureFightAbilityResolved;
+    protected bool _fightingCreatureDestroyedAbilityResolved;
+    protected bool _fightingCreatureAfterKillAbilityResolved;
+    protected bool _targetCreatureBeforeFightAbilityResolved;
+    protected bool _targetCreatureFightAbilityResolved;
+    protected bool _targetCreatureDestroyedAbilityResolved;
+    protected bool _targetCreatureAfterKillAbilityResolved;
+ 
+    protected Callback _fightingCreatureBeforeFightAbility;
+    protected Callback _fightingCreatureFightAbility;
+    protected Callback _fightingCreatureDestroyedAbility;
+    protected Callback _fightingCreatureAfterKillAbility;
+    protected Callback _targetCreatureBeforeFightAbility;
+    protected Callback _targetCreatureFightAbility;
+    protected Callback _targetCreatureDestroyedAbility;
+    protected Callback _targetCreatureAfterKillAbility;
+    
+    [SetUp]
+    public void SetUp()
+    {
+      _fightingCreatureBeforeFightAbilityResolved = false;
+      _fightingCreatureDestroyedAbilityResolved = false;
+      _fightingCreatureFightAbilityResolved = false;
+      _fightingCreatureDestroyedAbilityResolved = false;
+      _fightingCreatureAfterKillAbilityResolved = false;
+      _targetCreatureBeforeFightAbilityResolved = false;
+      _targetCreatureFightAbilityResolved = false;
+      _targetCreatureDestroyedAbilityResolved = false;
+      _targetCreatureAfterKillAbilityResolved = false;
+      _fightingCreatureBeforeFightAbility = (_, _) => _fightingCreatureBeforeFightAbilityResolved = true;
+      _fightingCreatureFightAbility = (s, id) => _fightingCreatureFightAbilityResolved = true;
+      _fightingCreatureDestroyedAbility = (s, id) => _fightingCreatureDestroyedAbilityResolved = true;
+      _fightingCreatureAfterKillAbility = (s, id) => _fightingCreatureAfterKillAbilityResolved = true;
+      _targetCreatureBeforeFightAbility = (_, _) => _targetCreatureBeforeFightAbilityResolved = true;
+      _targetCreatureFightAbility = (s, id) => _targetCreatureFightAbilityResolved = true;
+      _targetCreatureDestroyedAbility = (s, id) => _targetCreatureDestroyedAbilityResolved = true;
+      _targetCreatureAfterKillAbility = (s, id) => _targetCreatureAfterKillAbilityResolved = true;
+    }
     protected MutableState SetupAndAct(
       SampleCreatureCard fightingCreatureCard,
       SampleCreatureCard targetCreatureCard,
@@ -22,15 +64,17 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var targetCreature = new Creature(targetCreatureCard, isReady: true, brokenArmor: targetCreatureBrokenArmor);
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new FightCreature(fightingCreature, targetCreature);
+      var sut = new FightCreature(fightingCreature, TargetCreatureId);
 
       sut.Resolve(state);
 
       return state;
     }
 
-    protected MutableState ExpectedState(Creature expectedFighter,
-      Creature expectedTarget)
+    protected MutableState ExpectedState(
+      Creature expectedFighter,
+      Creature expectedTarget,
+      bool fightOccured = true)
     {
       var fighterDead = expectedFighter.Health <= 0;
       var targetDead = expectedTarget.Health <= 0;
@@ -42,8 +86,9 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         fighterDead ? new[] {expectedFighter.Card} : Enumerable.Empty<Card>(),
         targetDead ? new[] {expectedTarget.Card} : Enumerable.Empty<Card>());
 
-      var resolvedEffects = new List<IResolvedEffect>{new CreatureFought(expectedFighter, expectedTarget)};
+      var resolvedEffects = new List<IResolvedEffect>();
 
+      if(fightOccured) resolvedEffects.Add(new CreatureFought(expectedFighter, expectedTarget));
       if (fighterDead)
       {
         resolvedEffects.Add(new CreatureDied(expectedFighter));
@@ -56,6 +101,41 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       return StateTestUtil.EmptyState.New(
         fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects));
+    }
+    
+    protected void Assert(IState expectedState, IState actualState, bool expectedFighterDead,
+      bool expectedTargetDead, bool fightOccured = true)
+    {
+      NUnit.Framework.Assert.True(_fightingCreatureBeforeFightAbilityResolved);
+      NUnit.Framework.Assert.False(_targetCreatureBeforeFightAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(!expectedFighterDead && fightOccured, _fightingCreatureFightAbilityResolved);
+      NUnit.Framework.Assert.False(_targetCreatureFightAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(expectedFighterDead, _fightingCreatureDestroyedAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(expectedTargetDead, _targetCreatureDestroyedAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(!expectedFighterDead && expectedTargetDead && fightOccured,
+        _fightingCreatureAfterKillAbilityResolved);
+      NUnit.Framework.Assert.AreEqual(expectedFighterDead && !expectedTargetDead && fightOccured,
+        _targetCreatureAfterKillAbilityResolved);
+      StateAsserter.StateEquals(expectedState, actualState);
+    }
+
+    protected SampleCreatureCard InstantiateFightingCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
+    {
+      return new(power: power, armor: armor,
+        beforeFightAbility: _fightingCreatureBeforeFightAbility,
+        fightAbility: _fightingCreatureFightAbility,
+        afterKillAbility: _fightingCreatureAfterKillAbility, destroyedAbility: _fightingCreatureDestroyedAbility,
+        keywords: keywords,
+        id: FightingCreatureId);
+    }
+
+    protected SampleCreatureCard InstantiateTargetCreatureCard(int power, int armor = 0, Keyword[] keywords = null)
+    {
+      return new(power: power, armor: armor, beforeFightAbility: _targetCreatureBeforeFightAbility,
+        fightAbility: _targetCreatureFightAbility,
+        afterKillAbility: _targetCreatureAfterKillAbility, destroyedAbility: _targetCreatureDestroyedAbility,
+        keywords: keywords,
+        id: TargetCreatureId);
     }
   }
 }

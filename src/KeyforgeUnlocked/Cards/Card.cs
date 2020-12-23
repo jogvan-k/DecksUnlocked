@@ -25,9 +25,10 @@ namespace KeyforgeUnlocked.Cards
     protected Card(
       House house,
       CardType cardType,
-      Callback playAbility = null)
+      Callback playAbility = null,
+      string id = null)
     {
-      Id = IdGenerator.GetNextInt().ToString();//Guid.NewGuid().ToString("N");
+      Id = id ?? IdGenerator.GetNextInt().ToString();
       House = house;
       _name = new Lazy<string>(GetName);
       CardType = cardType;

@@ -12,7 +12,7 @@ using NUnit.Framework;
 namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 {
   [TestFixture]
-  sealed class ElusiveKeywordTest : FightCreatureTestBase
+  sealed class ElusiveKeywordTest
   {
     static readonly Keyword[] Elusive = {Keyword.Elusive};
 
@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
           resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend(turnNumber: 2).ToImmutable();
       var state = startState.ToMutable();
-      var sut = new FightCreature(fightingCreature, targetCreature);
+      var sut = new FightCreature(fightingCreature, targetCreature.Id);
 
       sut.Resolve(state);
 
@@ -58,7 +58,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
           resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend().ToImmutable();
       var state = startState.ToMutable();
-      var sut = new FightCreature(fightingCreature, targetCreature);
+      var sut = new FightCreature(fightingCreature, targetCreature.Id);
 
       sut.Resolve(state);
 

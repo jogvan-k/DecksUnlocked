@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.States.Extensions
       int damage = 1)
     {
       if (damage < 1) return;
-      creature.Damage += damage;
+      creature = creature.Damage(damage);
       state.ResolvedEffects.Add(new CreatureDamaged(creature, damage));
       state.UpdateCreature(creature);
     }
@@ -48,7 +48,6 @@ namespace KeyforgeUnlocked.States.Extensions
       else
       {
         DestroyCreature(state, creature);
-        creature.DestroyedAbility?.Invoke(state, creature.Id);
       }
     }
 
@@ -105,6 +104,7 @@ namespace KeyforgeUnlocked.States.Extensions
       var owningPlayer = state.RemoveCreature(creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
+      creature.DestroyedAbility?.Invoke(state, creature.Id);
       if (creature.Aember < 1) return;
       state.Aember[owningPlayer.Other()] += creature.Aember;
       state.ResolvedEffects.Add(new AemberClaimed(owningPlayer.Other(), creature.Aember));

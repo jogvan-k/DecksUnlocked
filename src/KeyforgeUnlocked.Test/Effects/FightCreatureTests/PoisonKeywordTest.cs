@@ -12,8 +12,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_AttackerHasPoison()
     {
-      var attacker = new SampleCreatureCard(power: 1, keywords: Poison);
-      var target = new SampleCreatureCard(power: 3);
+      var attacker = InstantiateFightingCreatureCard(1, keywords: Poison);
+      var target = InstantiateTargetCreatureCard(3);
       var state = SetupAndAct(attacker, target);
 
       var expectedAttacker = new Creature(attacker, damage: 3);
@@ -26,8 +26,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_TargetHasPoison()
     {
-      var attacker = new SampleCreatureCard(power: 3);
-      var target = new SampleCreatureCard(power: 1, keywords: Poison);
+      var attacker = InstantiateFightingCreatureCard(3);
+      var target = InstantiateTargetCreatureCard(1, keywords: Poison);
       var state = SetupAndAct(attacker, target);
 
       var expectedAttacker = new Creature(attacker, damage: 1001);
@@ -40,8 +40,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void Resolve_AttackerHasPoisonTargetHasSameArmorAsAttackersPower()
     {
-      var attacker = new SampleCreatureCard(power: 1, keywords: Poison);
-      var target = new SampleCreatureCard(power: 1, armor: 1);
+      var attacker = InstantiateFightingCreatureCard(1, keywords: Poison);
+      var target = InstantiateTargetCreatureCard(1, armor: 1);
       var state = SetupAndAct(attacker, target);
 
       var expectedAttacker = new Creature(attacker, damage: 1);

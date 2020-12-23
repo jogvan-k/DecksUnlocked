@@ -127,7 +127,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       var expectedEffects = new LazyStackQueue<IEffect>(
-        new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
+        new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature.Id)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
 

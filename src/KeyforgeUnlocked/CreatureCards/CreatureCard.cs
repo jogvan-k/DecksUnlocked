@@ -13,6 +13,7 @@ namespace KeyforgeUnlocked.CreatureCards
 
     public readonly CreatureType[] CardTypes;
     public readonly Callback CardFightAbility;
+    public readonly Callback CardBeforeFightAbility;
     public readonly Callback CardAfterKillAbility;
     public readonly Callback CardCreatureAbility;
     public readonly Callback CardReapAbility;
@@ -25,14 +26,17 @@ namespace KeyforgeUnlocked.CreatureCards
       CreatureType[] types = null,
       Keyword[] keywords = null,
       Callback playAbility = null,
+      Callback beforeFightAbility = null,
       Callback fightAbility = null,
       Callback afterKillAbility = null,
       Callback creatureAbility = null,
       Callback reapAbility = null,
-      Callback destroyedAbility = null) : base(house, CardType.Creature, playAbility)
+      Callback destroyedAbility = null,
+      string id = null) : base(house, CardType.Creature, playAbility, id)
     {
       CardPower = power;
       CardArmor = armor;
+      CardBeforeFightAbility = beforeFightAbility;
       CardKeywords = keywords ?? new Keyword[0];
       CardTypes = types ?? new CreatureType[0];
       CardFightAbility = fightAbility;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -18,12 +17,22 @@ namespace KeyforgeUnlocked.States
       string creatureId,
       out Player controllingPlayer, out int index)
     {
-      if (TryFind(state.Fields, creatureId, out controllingPlayer, out index, out var creature))
+      if (state.TryFindCreature(creatureId, out controllingPlayer, out index, out var creature))
       {
         return creature;
       }
 
       throw new CreatureNotPresentException(state, creatureId);
+    }
+
+    public static bool TryFindCreature(
+      this IState state,
+      string creatureId,
+      out Player controllingPlayer,
+      out int index,
+      out Creature creature)
+    {
+      return TryFind(state.Fields, creatureId, out controllingPlayer, out index, out creature);
     }
 
     static bool TryFind<T>(

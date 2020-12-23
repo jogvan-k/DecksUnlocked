@@ -9,17 +9,21 @@ namespace KeyforgeUnlocked.Effects
 {
   public sealed class FightCreature : UseCreature<FightCreature>
   {
-    public Creature Target { get; }
+    public string TargetId { get; }
 
-    public FightCreature(Creature fighter,
-      Creature target) : base(fighter)
+    public FightCreature(Creature fighter, string targetId) : base(fighter)
     {
-      Target = target;
+      TargetId = targetId;
     }
 
     protected override void SpecificResolve(MutableState state, Creature fighter)
     {
-      var target = Target;
+      ResolveBeforeFightEffects(state, fighter);
+
+      if (!state.TryFindCreature(TargetId, out _, out _, out var target)
+          || !state.TryFindCreature(fighter.Id, out _, out _, out fighter))
+        return;
+      
       if (!target.CardKeywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(target.Id)))
       {
         int damageBeforeFight;
@@ -51,6 +55,11 @@ namespace KeyforgeUnlocked.Effects
         target.AfterKillAbility?.Invoke(state, target.Id);
     }
 
+    void ResolveBeforeFightEffects(MutableState state, Creature fighter)
+    {
+      fighter.Card.CardBeforeFightAbility?.Invoke(state, fighter.Id);
+    }
+
     Predicate<IResolvedEffect> HasBeenAttacked(string creatureId)
     {
       return re => re is CreatureFought cf && cf.Target.Id.Equals(creatureId);
@@ -58,7 +67,7 @@ namespace KeyforgeUnlocked.Effects
 
     protected override bool Equals(FightCreature other)
     {
-      return base.Equals(other) && Target.Equals(other.Target);
+      return base.Equals(other) && TargetId.Equals(other.TargetId);
     }
   }
 }

@@ -6,9 +6,9 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public abstract class ResolvedEffectWithCard<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithCard<T>
   {
-    protected readonly Card _card;
+    protected readonly ICard _card;
 
-    protected ResolvedEffectWithCard(Card card)
+    protected ResolvedEffectWithCard(ICard card)
     {
       _card = card;
     }

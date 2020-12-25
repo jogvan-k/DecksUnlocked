@@ -17,10 +17,10 @@ namespace KeyforgeUnlocked.States
     IReadOnlyDictionary<Player, int> Keys { get; }
     IReadOnlyDictionary<Player, int> Aember { get; }
     IImmutableSet<IActionGroup> ActionGroups { get; }
-    IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> Archives { get; }
+    IReadOnlyDictionary<Player, IImmutableStack<ICard>> Decks { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> Hands { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> Discards { get; }
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> Archives { get; }
     IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     ImmutableArray<IEffect> Effects { get; }
 

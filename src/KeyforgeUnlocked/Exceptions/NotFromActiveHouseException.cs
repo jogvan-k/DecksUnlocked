@@ -5,11 +5,11 @@ namespace KeyforgeUnlocked.Exceptions
 {
   public sealed class NotFromActiveHouseException : KeyforgeUnlockedException
   {
-    public Card Card;
+    public ICard Card;
     public House House;
 
     public NotFromActiveHouseException(IState state,
-      Card card,
+      ICard card,
       House house) : base(state)
     {
       Card = card;

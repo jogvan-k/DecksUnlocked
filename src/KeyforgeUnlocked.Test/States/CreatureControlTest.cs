@@ -28,7 +28,7 @@ namespace KeyforgeUnlockedTest.States
       state.DamageCreature(targetCreature, damage);
 
       LookupReadOnly<Player, IMutableList<Creature>> expectedFields;
-      var expectedDiscards = TestUtil.Sets<Card>();
+      var expectedDiscards = TestUtil.Sets<ICard>();
       var expectedTarget = new Creature(targetCreatureCard, damage: damage);
       var expectedResolvedEffects = new List<IResolvedEffect>();
       
@@ -80,10 +80,10 @@ namespace KeyforgeUnlockedTest.States
         {player, new LazyList<Creature>()},
         {player.Other(), new LazyList<Creature> {otherCreature}}
       }.ToImmutableDictionary();
-      var expectedHands = new Dictionary<Player, IMutableSet<Card>>
+      var expectedHands = new Dictionary<Player, IMutableSet<ICard>>
       {
-        {player, new LazySet<Card> {returnedCreature.Card}},
-        {player.Other(), new LazySet<Card>()}
+        {player, new LazySet<ICard> {returnedCreature.Card}},
+        {player.Other(), new LazySet<ICard>()}
       }.ToImmutableDictionary();
       var resolvedEffects = new LazyList<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
@@ -101,7 +101,7 @@ namespace KeyforgeUnlockedTest.States
 
       state.DestroyCreature(creature);
 
-      var expectedDiscards = TestUtil.Sets<Card>(creatureCard);
+      var expectedDiscards = TestUtil.Sets<ICard>(creatureCard);
       var expectedAember = TestUtil.Ints(0, aemberOnCreature);
       var expectedResolvedEffects = new LazyList<IResolvedEffect> {new CreatureDied(creature)};
       if (aemberOnCreature > 0)

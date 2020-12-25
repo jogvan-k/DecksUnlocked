@@ -7,9 +7,9 @@ namespace KeyforgeUnlocked.ActionGroups
 {
   public sealed class PlayActionCardGroup : PlayCardGroup<PlayActionCardGroup>
   {
-    public new ActionCard Card => (ActionCard) base.Card;
+    public new IActionCard Card => (IActionCard) base.Card;
 
-    public PlayActionCardGroup(ActionCard card) : base(card)
+    public PlayActionCardGroup(IActionCard card) : base(card)
     {
     }
 

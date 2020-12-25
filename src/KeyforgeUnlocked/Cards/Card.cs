@@ -5,33 +5,27 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
 {
-  public abstract class Card : Equatable<Card>, IIdentifiable, IComparable<Card>, IComparable
+  public abstract class Card : Equatable<Card>, ICard
   {
     static readonly StringComparer nameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
 
-    // TODO reconsider use of Id
     public string Id { get; }
-
     public House House { get; }
-
-
+    public Pip[] Pips { get; }
     readonly Lazy<string> _name;
     public string Name => _name.Value;
-
-    public CardType CardType { get; }
-
     public Callback CardPlayAbility { get; }
 
     protected Card(
       House house,
-      CardType cardType,
+      Pip[] pips = null,
       Callback playAbility = null,
       string id = null)
     {
       Id = id ?? IdGenerator.GetNextInt().ToString();
       House = house;
       _name = new Lazy<string>(GetName);
-      CardType = cardType;
+      Pips = pips ?? Array.Empty<Pip>();
       CardPlayAbility = playAbility;
     }
 

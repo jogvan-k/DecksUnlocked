@@ -8,7 +8,7 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   class DiscardCardTest : ActionTestBase<BasicAction>
   {
-    readonly Card sampleCard = new SampleCreatureCard();
+    readonly ICard sampleCard = new SampleCreatureCard();
 
     [Test]
     public void Act_EmptyState()

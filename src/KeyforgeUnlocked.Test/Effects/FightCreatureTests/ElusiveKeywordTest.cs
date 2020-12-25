@@ -66,7 +66,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedFightingCreature = new Creature(fightingCreatureCard, damage: 2);
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3);
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureFought(expectedFightingCreature, expectedTargetCreature), new CreatureDied(expectedTargetCreature)};
-      var expectedDiscards = TestUtil.Sets(Enumerable.Empty<Card>(), new []{targetCreatureCard});
+      var expectedDiscards = TestUtil.Sets(Enumerable.Empty<ICard>(), new []{targetCreatureCard});
       var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), fields: expectedField, discards: expectedDiscards);
       StateAsserter.StateEquals(expectedState, state);
     }

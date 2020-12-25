@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
     {
     }
 
-    public Inspiration(House house) : base(house, PlayAbility)
+    public Inspiration(House house) : base(house, playAbility: PlayAbility)
     {
     }
   }

@@ -19,10 +19,10 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, int> Keys { get; }
     public IReadOnlyDictionary<Player, int> Aember { get; }
     public IImmutableSet<IActionGroup> ActionGroups { get; }
-    public IReadOnlyDictionary<Player, IImmutableStack<Card>> Decks { get; }
-    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Hands { get; }
-    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Discards { get; }
-    public IReadOnlyDictionary<Player, IImmutableSet<Card>> Archives { get; }
+    public IReadOnlyDictionary<Player, IImmutableStack<ICard>> Decks { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Hands { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Discards { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Archives { get; }
     public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     public ImmutableArray<IEffect> Effects { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
@@ -38,10 +38,10 @@ namespace KeyforgeUnlocked.States
       LookupReadOnly<Player, int> keys,
       LookupReadOnly<Player, int> aember,
       IImmutableSet<IActionGroup> actionGroups,
-      LookupReadOnly<Player, IImmutableStack<Card>> decks,
-      LookupReadOnly<Player, IImmutableSet<Card>> hands,
-      LookupReadOnly<Player, IImmutableSet<Card>> discards,
-      LookupReadOnly<Player, IImmutableSet<Card>> archives,
+      LookupReadOnly<Player, IImmutableStack<ICard>> decks,
+      LookupReadOnly<Player, IImmutableSet<ICard>> hands,
+      LookupReadOnly<Player, IImmutableSet<ICard>> discards,
+      LookupReadOnly<Player, IImmutableSet<ICard>> archives,
       LookupReadOnly<Player, IImmutableList<Creature>> fields,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,

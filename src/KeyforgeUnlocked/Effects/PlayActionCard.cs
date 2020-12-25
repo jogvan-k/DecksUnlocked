@@ -4,17 +4,17 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayActionCard : EffectWithCard<PlayActionCard>
+  public sealed class PlayActionCard : PlayCard<PlayActionCard>
   {
 
-    public PlayActionCard(ActionCard card) : base(card)
+    public PlayActionCard(IActionCard card) : base(card)
     {
     }
 
     protected override void ResolveImpl(MutableState state)
     {
       state.ResolvedEffects.Add(new ActionPlayed(Card));
-      Card.CardPlayAbility?.Invoke(state, Card.Id);
+      ResolvePlayEffects(state);
       state.Discards[state.playerTurn].Add(Card);
     }
   }

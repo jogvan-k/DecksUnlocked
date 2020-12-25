@@ -1,7 +1,6 @@
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
@@ -26,12 +25,12 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_EmptyBoard()
     {
-      var hands = TestUtil.Sets<Card>(new[] {Card, otherCard1}, new[] {otherCard2, otherCard3});
+      var hands = TestUtil.Sets<ICard>(new[] {Card, otherCard1}, new[] {otherCard2, otherCard3});
       var effects = new LazyStackQueue<IEffect>(new[] {unresolvedEffect});
       var state = StateTestUtil.EmptyState.New(hands: hands, effects: effects);
       var sut = new PlayCreatureCard(null, Card, 0);
 
-      var expectedHands = TestUtil.Sets<Card>(new[] {otherCard1}, new[] {otherCard2, otherCard3});
+      var expectedHands = TestUtil.Sets<ICard>(new[] {otherCard1}, new[] {otherCard2, otherCard3});
       var expectedEffects = new LazyStackQueue<IEffect>(new[]
         {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayCreatureCard(Card, 0)});
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects, hands: expectedHands);

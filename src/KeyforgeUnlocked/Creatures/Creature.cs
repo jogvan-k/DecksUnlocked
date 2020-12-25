@@ -1,13 +1,13 @@
 using System;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Creatures
 {
   public struct Creature : IIdentifiable
   {
-    public readonly CreatureCard Card;
+    public readonly ICreatureCard Card;
     public int PowerCounters;
     public int Damage;
     public int BrokenArmor;
@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.Creatures
     public CreatureType[] CardTypes => Card.CardTypes;
 
     public Creature(
-      CreatureCard card,
+      ICreatureCard card,
       int powerCounters = 0,
       int damage = 0,
       int brokenArmor = 0,

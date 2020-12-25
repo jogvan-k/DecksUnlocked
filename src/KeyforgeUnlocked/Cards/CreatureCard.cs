@@ -1,23 +1,23 @@
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
-namespace KeyforgeUnlocked.CreatureCards
+namespace KeyforgeUnlocked.Cards
 {
-  public abstract class CreatureCard : Card
+  public abstract class CreatureCard : Card, ICreatureCard
   {
-    public readonly int CardPower;
-    public readonly int CardArmor;
-    public readonly Keyword[] CardKeywords;
+    public int CardPower  { get; }
+    public int CardArmor { get; }
+    public Keyword[] CardKeywords { get; }
 
-    public readonly CreatureType[] CardTypes;
-    public readonly Callback CardFightAbility;
-    public readonly Callback CardBeforeFightAbility;
-    public readonly Callback CardAfterKillAbility;
-    public readonly Callback CardCreatureAbility;
-    public readonly Callback CardReapAbility;
-    public readonly Callback CardDestroyedAbility;
+    public CreatureType[] CardTypes { get; }
+    public Callback CardFightAbility { get; }
+    public Callback CardBeforeFightAbility { get; }
+    public Callback CardAfterKillAbility { get; }
+    public Callback CardCreatureAbility { get; }
+    public Callback CardReapAbility { get; }
+    public Callback CardDestroyedAbility { get; }
+    
 
     protected CreatureCard(
       House house,
@@ -25,6 +25,7 @@ namespace KeyforgeUnlocked.CreatureCards
       int armor,
       CreatureType[] types = null,
       Keyword[] keywords = null,
+      Pip[] pips = null,
       Callback playAbility = null,
       Callback beforeFightAbility = null,
       Callback fightAbility = null,
@@ -32,7 +33,7 @@ namespace KeyforgeUnlocked.CreatureCards
       Callback creatureAbility = null,
       Callback reapAbility = null,
       Callback destroyedAbility = null,
-      string id = null) : base(house, CardType.Creature, playAbility, id)
+      string id = null) : base(house, pips, playAbility, id)
     {
       CardPower = power;
       CardArmor = armor;

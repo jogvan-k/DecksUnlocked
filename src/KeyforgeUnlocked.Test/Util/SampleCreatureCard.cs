@@ -1,6 +1,5 @@
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
@@ -14,6 +13,7 @@ namespace KeyforgeUnlockedTest.Util
       int armor = 0,
       CreatureType[] types = null,
       Keyword[] keywords = null,
+      Pip[] pips = null,
       Callback playAbility = null,
       Callback beforeFightAbility = null,
       Callback fightAbility = null,
@@ -28,6 +28,7 @@ namespace KeyforgeUnlockedTest.Util
         armor,
         types,
         keywords,
+        pips,
         playAbility: playAbility,
         beforeFightAbility: beforeFightAbility,
         fightAbility: fightAbility,

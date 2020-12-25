@@ -6,9 +6,9 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class DiscardCard : BasicAction
   {
-    public Card Card { get; }
+    public ICard Card { get; }
 
-    public DiscardCard(ImmutableState origin, Card card) : base(origin)
+    public DiscardCard(ImmutableState origin, ICard card) : base(origin)
     {
       Card = card;
     }

@@ -1,20 +1,20 @@
 using System;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.CreatureCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
   public sealed class PlayCreatureCardGroup : PlayCardGroup<PlayCreatureCardGroup>
   {
-    public new CreatureCard Card => (CreatureCard) base.Card;
+    public new ICreatureCard Card => (ICreatureCard) base.Card;
 
     public int BoardLength { get; }
 
     public PlayCreatureCardGroup(
       IState state,
-      CreatureCard card) : base(card)
+      ICreatureCard card) : base(card)
     {
       BoardLength = state.Fields[state.PlayerTurn].Count;
       if (state == null || card == null)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
@@ -144,17 +143,17 @@ namespace KeyforgeUnlockedTest.States
     
     static CreatureCard _sampleCard = new SampleCreatureCard();
     
-    static IEnumerable<Card> _player1Deck = new[] {(Card) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
-    static IEnumerable<Card> _player2Deck = new[] {(Card) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
+    static IEnumerable<ICard> _player1Deck = new[] {(ICard) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
+    static IEnumerable<ICard> _player2Deck = new[] {(ICard) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
 
-    static IEnumerable<Card> _player1Hand = new[] {(Card) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
-    static IEnumerable<Card> _player2Hand = new[] {(Card) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
+    static IEnumerable<ICard> _player1Hand = new[] {(ICard) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
+    static IEnumerable<ICard> _player2Hand = new[] {(ICard) new SampleCreatureCard(House.Dis), new SampleCreatureCard(House.Logos)};
 
-    static Card _player1Discard = new SampleActionCard();
-    static Card _player2Discard = new SampleActionCard();
+    static ICard _player1Discard = new SampleActionCard();
+    static ICard _player2Discard = new SampleActionCard();
 
-    static IEnumerable<Card> _player1Archives = new[] {(Card) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
-    static IEnumerable<Card> _player2Archives = new[] {(Card) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
+    static IEnumerable<ICard> _player1Archives = new[] {(ICard) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
+    static IEnumerable<ICard> _player2Archives = new[] {(ICard) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
     
     static CreatureCard _player1Field = new SampleCreatureCard(House.Untamed);
     static CreatureCard _player2Field = new SampleCreatureCard(House.Untamed);

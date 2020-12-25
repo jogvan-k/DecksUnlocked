@@ -2,9 +2,13 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
 {
-  public abstract class ActionCard : Card
+  public abstract class ActionCard : Card, IActionCard
   {
-    protected ActionCard(House house, Callback playAbility = null, string id = null) : base(house, CardType.Action, playAbility, id)
+    protected ActionCard(
+      House house,
+      Pip[] pips = null,
+      Callback playAbility = null,
+      string id = null) : base(house, pips: pips, playAbility: playAbility, id: id)
     {
     }
   }

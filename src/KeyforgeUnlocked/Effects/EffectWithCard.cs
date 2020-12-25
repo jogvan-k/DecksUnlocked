@@ -5,9 +5,9 @@ namespace KeyforgeUnlocked.Effects
 {
   public abstract class EffectWithCard<T> : EffectBase<T> where T : EffectWithCard<T>
   {
-    public readonly Card Card;
+    public readonly ICard Card;
 
-    protected EffectWithCard(Card card)
+    protected EffectWithCard(ICard card)
     {
       Card = card;
     }

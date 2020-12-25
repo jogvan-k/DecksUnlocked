@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DrawToHandLimitTest
   {
-    static readonly Card[] sampleCards = Enumerable.Range(0, 8).Select(c => new SampleCreatureCard()).ToArray();
+    static readonly ICard[] sampleCards = Enumerable.Range(0, 8).Select(c => new SampleCreatureCard()).ToArray();
 
     [Test]
     public void Resolve_EmptyState()
@@ -52,18 +52,18 @@ namespace KeyforgeUnlockedTest.Effects
       StateAsserter.StateEquals(expectedState, state);
     }
 
-    static IImmutableDictionary<Player, IMutableStackQueue<Card>> InitializeDeck()
+    static IImmutableDictionary<Player, IMutableStackQueue<ICard>> InitializeDeck()
     {
       return TestUtil.Stacks(SampleSets.SampleDeck).ToImmutableDictionary();
     }
 
-    static IImmutableDictionary<Player, IMutableSet<Card>> StateWithCardsInHand(int cardsInHand)
+    static IImmutableDictionary<Player, IMutableSet<ICard>> StateWithCardsInHand(int cardsInHand)
     {
-      return new Dictionary<Player, IMutableSet<Card>>
+      return new Dictionary<Player, IMutableSet<ICard>>
       {
         {
           Player.Player1,
-          new LazySet<Card>(sampleCards[new Range(0, cardsInHand)])
+          new LazySet<ICard>(sampleCards[new Range(0, cardsInHand)])
         }
       }.ToImmutableDictionary();
     }

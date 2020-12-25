@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -21,10 +20,10 @@ namespace KeyforgeUnlocked.States
     public Lookup<Player, int> Keys;
     public Lookup<Player, int> Aember;
     public IMutableList<IActionGroup> ActionGroups;
-    public IReadOnlyDictionary<Player, IMutableStackQueue<Card>> Decks;
-    public IReadOnlyDictionary<Player, IMutableSet<Card>> Hands;
-    public IReadOnlyDictionary<Player, IMutableSet<Card>> Discards;
-    public IReadOnlyDictionary<Player, IMutableSet<Card>> Archives;
+    public IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks;
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands;
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards;
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives;
     public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields;
     public IMutableStackQueue<IEffect> Effects;
     public IMutableList<IResolvedEffect> ResolvedEffects;
@@ -66,13 +65,13 @@ namespace KeyforgeUnlocked.States
 
     IImmutableSet<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableHashSet();
 
-    IReadOnlyDictionary<Player, IImmutableStack<Card>> IState.Decks => Decks.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableStack<ICard>> IState.Decks => Decks.ToImmutable();
 
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Hands => Hands.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Hands => Hands.ToImmutable();
 
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Discards => Discards.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Discards => Discards.ToImmutable();
 
-    IReadOnlyDictionary<Player, IImmutableSet<Card>> IState.Archives => Archives.ToImmutable();
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Archives => Archives.ToImmutable();
 
     IReadOnlyDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
 
@@ -116,10 +115,10 @@ namespace KeyforgeUnlocked.States
       Lookup<Player, int> keys,
       Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
-      IReadOnlyDictionary<Player, IMutableStackQueue<Card>> decks,
-      IReadOnlyDictionary<Player, IMutableSet<Card>> hands,
-      IReadOnlyDictionary<Player, IMutableSet<Card>> discards,
-      IReadOnlyDictionary<Player, IMutableSet<Card>> archives,
+      IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks,
+      IReadOnlyDictionary<Player, IMutableSet<ICard>> hands,
+      IReadOnlyDictionary<Player, IMutableSet<ICard>> discards,
+      IReadOnlyDictionary<Player, IMutableSet<ICard>> archives,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
       IMutableStackQueue<IEffect> effects,
       IMutableList<IResolvedEffect> resolvedEffects,

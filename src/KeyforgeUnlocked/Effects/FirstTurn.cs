@@ -1,7 +1,6 @@
 using System;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
@@ -18,13 +17,13 @@ namespace KeyforgeUnlocked.Effects
     }
 
     IActionGroup ActionGroup(IState state,
-      Card card)
+      ICard card)
     {
       switch (card)
       {
-        case CreatureCard creatureCard:
+        case ICreatureCard creatureCard:
           return new PlayCreatureCardGroup(state, creatureCard);
-        case ActionCard actionCard:
+        case IActionCard actionCard:
           return new PlayActionCardGroup(actionCard);
         default:
           throw new NotImplementedException();

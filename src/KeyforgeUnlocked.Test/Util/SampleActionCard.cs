@@ -5,7 +5,10 @@ namespace KeyforgeUnlockedTest.Util
 {
   public sealed class SampleActionCard : ActionCard
   {
-    public SampleActionCard(House house = House.Undefined, Callback playAbility = null) : base(house, playAbility)
+    public SampleActionCard(
+      House house = House.Undefined,
+      Pip[] pips = null,
+      Callback playAbility = null) : base(house, pips, playAbility)
     {
     }
   }

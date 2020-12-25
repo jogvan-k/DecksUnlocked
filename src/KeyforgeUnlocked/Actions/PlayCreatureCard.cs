@@ -1,6 +1,5 @@
 using System;
-using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 
@@ -8,12 +7,12 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class PlayCreatureCard : BasicAction
   {
-    public CreatureCard Card { get; }
+    public ICreatureCard Card { get; }
     public int Position { get; }
 
     public PlayCreatureCard(
       ImmutableState origin,
-      CreatureCard card,
+      ICreatureCard card,
       int position) : base(origin)
     {
       Card = card;

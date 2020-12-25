@@ -1,5 +1,4 @@
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;

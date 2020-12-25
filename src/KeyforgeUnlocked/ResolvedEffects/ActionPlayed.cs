@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class ActionPlayed : ResolvedEffectWithCard<ActionPlayed>
   {
-    public ActionPlayed(Card card) : base(card)
+    public ActionPlayed(ICard card) : base(card)
     {
     }
 

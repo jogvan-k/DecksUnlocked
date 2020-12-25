@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Effects
   public sealed class DiscardCard : EffectWithCard<DiscardCard>
   {
 
-    public DiscardCard(Card card) : base(card)
+    public DiscardCard(ICard card) : base(card)
     {
     }
 

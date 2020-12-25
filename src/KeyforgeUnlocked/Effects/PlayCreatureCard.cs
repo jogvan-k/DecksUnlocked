@@ -1,17 +1,17 @@
 using System;
-using KeyforgeUnlocked.CreatureCards;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class PlayCreatureCard : EffectWithCard<PlayCreatureCard>
+  public sealed class PlayCreatureCard : PlayCard<PlayCreatureCard>
   {
-    public CreatureCard CreatureCard => (CreatureCard) Card;
+    public ICreatureCard CreatureCard => (ICreatureCard) Card;
     public readonly int Position;
 
-    public PlayCreatureCard(CreatureCard card, int position) : base(card)
+    public PlayCreatureCard(ICreatureCard card, int position) : base(card)
     {
       Position = position;
     }
@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.Effects
       state.Fields[state.PlayerTurn].Insert(Position, creature);
       state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
 
-      CreatureCard.CardPlayAbility?.Invoke(state, CreatureCard.Id);
+      ResolvePlayEffects(state);
     }
 
     void ValidatePosition(IState state)

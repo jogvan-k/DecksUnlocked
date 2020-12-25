@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Actions
     {
     }
 
-    public BurnTheStockpile(House house) : base(house, PlayAbility)
+    public BurnTheStockpile(House house) : base(house, playAbility: PlayAbility)
     {
     }
   }

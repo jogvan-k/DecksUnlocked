@@ -4,9 +4,9 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class CardReturnedToHand : ResolvedEffectWithCard<CardReturnedToHand>
   {
-    public readonly Card Card;
+    public readonly ICard Card;
 
-    public CardReturnedToHand(Card card) : base(card)
+    public CardReturnedToHand(ICard card) : base(card)
     {
     }
 

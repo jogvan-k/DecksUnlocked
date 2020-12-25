@@ -1,8 +1,8 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;

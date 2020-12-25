@@ -23,16 +23,16 @@ namespace KeyforgeUnlockedTest.States
       {Player.Player2, 0}
     }.ToLookup();
 
-    readonly IImmutableDictionary<Player, IMutableSet<Card>> _simpleSet = new Dictionary<Player, IMutableSet<Card>>
+    readonly IImmutableDictionary<Player, IMutableSet<ICard>> _simpleSet = new Dictionary<Player, IMutableSet<ICard>>
     {
-      {Player.Player1, new LazySet<Card>()},
-      {Player.Player2, new LazySet<Card>(new[] {new SampleCreatureCard()})}
+      {Player.Player1, new LazySet<ICard>()},
+      {Player.Player2, new LazySet<ICard>(new[] {new SampleCreatureCard()})}
     }.ToImmutableDictionary();
 
-    readonly IImmutableDictionary<Player, IMutableStackQueue<Card>> _simpleStack = new Dictionary<Player, IMutableStackQueue<Card>>
+    readonly IImmutableDictionary<Player, IMutableStackQueue<ICard>> _simpleStack = new Dictionary<Player, IMutableStackQueue<ICard>>
     {
-      {Player.Player1, new LazyStackQueue<Card>()},
-      {Player.Player2, new LazyStackQueue<Card>(new[] {new SampleCreatureCard()})}
+      {Player.Player1, new LazyStackQueue<ICard>()},
+      {Player.Player2, new LazyStackQueue<ICard>(new[] {new SampleCreatureCard()})}
     }.ToImmutableDictionary();
 
     readonly IImmutableDictionary<Player, IMutableList<Creature>> _simpleField = new Dictionary<Player, IMutableList<Creature>>

@@ -12,13 +12,13 @@ namespace KeyforgeUnlockedTest.Actions
   sealed class PlayActionCardTest : ActionTestBase<PlayActionCard>
   {
     static ActionCard sampleCard = new SampleActionCard();
-    static PlayActionCard _sut = new PlayActionCard(null, sampleCard);
+    static PlayActionCard _sut = new(null, sampleCard);
     static IEffect unresolvedEffect = new EndTurn();
 
     [Test]
     public void Act()
     {
-      var hands = TestUtil.Sets<Card>(sampleCard);
+      var hands = TestUtil.Sets<ICard>(sampleCard);
       var effects = new LazyStackQueue<IEffect>(new []{unresolvedEffect});
       var state = StateTestUtil.EmptyMutableState.New(hands: hands, effects: effects);
 

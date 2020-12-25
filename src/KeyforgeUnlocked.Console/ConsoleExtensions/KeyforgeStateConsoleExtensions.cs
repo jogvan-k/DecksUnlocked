@@ -211,7 +211,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsActionsRelatedToCard(
       this IActionGroup group,
-      Card card)
+      ICard card)
     {
       if (group is PlayActionCardGroup PlayActionCardGroup)
       {

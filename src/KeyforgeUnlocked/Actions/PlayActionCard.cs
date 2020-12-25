@@ -7,9 +7,9 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class PlayActionCard : Action<PlayActionCard>
   {
-    public readonly ActionCard Card;
+    public readonly IActionCard Card;
 
-    public PlayActionCard(ImmutableState origin, ActionCard card) : base(origin)
+    public PlayActionCard(ImmutableState origin, IActionCard card) : base(origin)
     {
       Card = card;
     }

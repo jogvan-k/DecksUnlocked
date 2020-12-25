@@ -7,9 +7,9 @@ namespace KeyforgeUnlocked.ActionGroups
 {
   public abstract class PlayCardGroup<T> : ActionGroupBase<T> where T : PlayCardGroup<T>
   {
-    public Card Card { get; }
+    public ICard Card { get; }
 
-    protected PlayCardGroup(Card card)
+    protected PlayCardGroup(ICard card)
     {
       Card = card;
     }

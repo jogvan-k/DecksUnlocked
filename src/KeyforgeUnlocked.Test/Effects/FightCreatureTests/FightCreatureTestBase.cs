@@ -83,8 +83,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         targetDead ? Enumerable.Empty<Creature>() : new[] {expectedTarget});
 
       var expectedDiscards = TestUtil.Sets(
-        fighterDead ? new[] {expectedFighter.Card} : Enumerable.Empty<Card>(),
-        targetDead ? new[] {expectedTarget.Card} : Enumerable.Empty<Card>());
+        fighterDead ? new[] {expectedFighter.Card} : Enumerable.Empty<ICard>(),
+        targetDead ? new[] {expectedTarget.Card} : Enumerable.Empty<ICard>());
 
       var resolvedEffects = new List<IResolvedEffect>();
 

@@ -1,8 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -10,6 +9,7 @@ using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
+using Moq;
 using NUnit.Framework;
 using UnlockedCore;
 
@@ -18,10 +18,10 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class PlayCreatureTest
   {
+    Callback _playAbility;
     bool _playedEffectResolved;
-    CreatureCard PlayedCard;
 
-    static readonly Card[] otherCards =
+    static readonly ICard[] otherCards =
       {new SampleCreatureCard(), new SampleCreatureCard(), new SampleCreatureCard()};
 
     static readonly CreatureCard CreatureCardOnBoard1 = new SampleCreatureCard();
@@ -31,34 +31,35 @@ namespace KeyforgeUnlockedTest.Effects
     public void SetUp()
     {
       _playedEffectResolved = false;
-      Callback playAbility = (s, id) => { _playedEffectResolved = true; };
-      PlayedCard = new SampleCreatureCard(playAbility: playAbility);
+      _playAbility = (_, _) => { _playedEffectResolved = true; };
     }
 
-    [TestCase(Player.Player1)]
-    [TestCase(Player.Player2)]
-    public void Resolve_EmptyBoard(Player playingPlayer)
+    [Test]
+    public void Resolve_EmptyBoard(
+      [Values(Player.Player1, Player.Player2)] Player playingPlayer)
     {
       var state = TestState(playingPlayer);
-      var sut = new PlayCreatureCard(PlayedCard, 0);
+      var playedCard = MockPlayedCreatureCard(_playAbility);
+      var sut = new PlayCreatureCard(playedCard, 0);
 
       sut.Resolve(state);
 
       var expectedState = TestState(playingPlayer);
-      var expectedCreature = new Creature(PlayedCard);
+      var expectedCreature = new Creature(playedCard);
       expectedState.Fields[playingPlayer].Add(expectedCreature);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
     }
 
-    [TestCase(-1)]
-    [TestCase(1)]
-    public void Resolve_EmptyBoard_InvalidPosition(int position)
+    [Test]
+    public void Resolve_EmptyBoard_InvalidPosition([Values(-1, 1) ]int position)
     {
       var state = StateTestUtil.EmptyMutableState;
+      var playedCard = MockPlayedCreatureCard(_playAbility);
+
       var sut = new PlayCreatureCard(
-        PlayedCard,
+        playedCard,
         position);
       try
       {
@@ -73,31 +74,32 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.Fail();
     }
 
-    [TestCase(0)]
-    [TestCase(1)]
-    [TestCase(2)]
-    public void Resolve_TwoCreaturesOnBoard(int position)
+    [Test]
+    public void Resolve_TwoCreaturesOnBoard([Range(0, 2)]int position)
     {
       var playingPlayer = Player.Player2;
       var state = StateWithTwoCreatures(playingPlayer);
-      var sut = new PlayCreatureCard(PlayedCard, position);
+      var playedCard = MockPlayedCreatureCard(_playAbility);
+
+      var sut = new PlayCreatureCard(playedCard, position);
 
       sut.Resolve(state);
 
       var expectedState = StateWithTwoCreatures(playingPlayer);
-      var expectedCreature = new Creature(PlayedCard);
+      var expectedCreature = new Creature(playedCard);
       expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
       expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
     }
 
-    [TestCase(-1)]
-    [TestCase(3)]
-    public void Resolve_TwoCreaturesOnBoard_InvalidPosition(int position)
+    [Test]
+    public void Resolve_TwoCreaturesOnBoard_InvalidPosition([Values(-1, 3)]int position)
     {
+      var playedCard = MockPlayedCreatureCard(_playAbility);
+
       var state = StateWithTwoCreatures(Player.Player2);
-      var sut = new PlayCreatureCard(PlayedCard, position);
+      var sut = new PlayCreatureCard(playedCard, position);
 
       try
       {
@@ -112,12 +114,34 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.Fail();
     }
 
+    [Test]
+    public void Resolve_CardWithPips([Values(Player.Player1, Player.Player2)] Player activePlayer)
+    {
+      var playedCard = MockPlayedCreatureCard(pips: new [] {Pip.Aember, Pip.Aember, Pip.Aember});
+
+      var state = TestState(activePlayer);
+      var sut = new PlayCreatureCard(playedCard, 0);
+      
+      sut.Resolve(state);
+
+      var expectedState = TestState(activePlayer);
+      expectedState.Aember[activePlayer] += 3;
+      expectedState.ResolvedEffects.Add(new CreaturePlayed(new Creature(playedCard), 0));
+      expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));
+      expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));
+      expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));
+      expectedState.Fields[activePlayer].Add(new Creature(playedCard));
+      
+      StateAsserter.StateEquals(expectedState, state);
+      Assert.False(_playedEffectResolved);
+    }
+
     MutableState TestState(Player playingPlayer)
     {
-      var hands = new Dictionary<Player, IMutableSet<Card>>
+      var hands = new Dictionary<Player, IMutableSet<ICard>>
       {
-        {playingPlayer, new LazySet<Card> {otherCards[0]}},
-        {playingPlayer.Other(), new LazySet<Card> {otherCards[1], otherCards[2]}}
+        {playingPlayer, new LazySet<ICard> {otherCards[0]}},
+        {playingPlayer.Other(), new LazySet<ICard> {otherCards[1], otherCards[2]}}
       }.ToImmutableDictionary();
       return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
@@ -132,6 +156,16 @@ namespace KeyforgeUnlockedTest.Effects
       state.Fields[Player.Player2].Add(creature1);
       state.Fields[Player.Player2].Add(creature2);
       return state;
+    }
+
+    ICreatureCard MockPlayedCreatureCard(Callback playAbility = null, Pip[] pips = null)
+    {
+      var mock = new Mock<ICreatureCard>(MockBehavior.Strict);
+      mock.Setup(c => c.InsantiateCreature()).Returns(new Creature(mock.Object));
+      mock.Setup(c => c.CardPlayAbility).Returns(playAbility);
+      mock.Setup(c => c.Id).Returns("Id");
+      mock.Setup(c => c.Pips).Returns(pips ?? Array.Empty<Pip>());
+      return mock.Object;
     }
   }
 }

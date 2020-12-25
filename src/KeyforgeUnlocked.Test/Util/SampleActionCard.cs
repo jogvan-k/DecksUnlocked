@@ -8,7 +8,8 @@ namespace KeyforgeUnlockedTest.Util
     public SampleActionCard(
       House house = House.Undefined,
       Pip[] pips = null,
-      Callback playAbility = null) : base(house, pips, playAbility)
+      Callback playAbility = null,
+      string id = null) : base(house, pips, playAbility, id)
     {
     }
   }

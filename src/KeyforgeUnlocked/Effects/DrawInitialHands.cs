@@ -8,10 +8,8 @@ namespace KeyforgeUnlocked.Effects
   {
     protected override void ResolveImpl(MutableState state)
     {
-      for (var i = 0; i < Constants.FirstPlayerStartHand; i++)
-        state.Draw(Player.Player1);
-      for (var i = 0; i < Constants.SecondPlayerStartHand; i++)
-        state.Draw(Player.Player2);
+      state.Draw(Player.Player1, Constants.FirstPlayerStartHand);
+      state.Draw(Player.Player2, Constants.SecondPlayerStartHand);
     }
   }
 }

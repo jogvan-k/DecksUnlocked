@@ -8,16 +8,25 @@ namespace KeyforgeUnlocked.States.Extensions
 {
   public static class MutableStateCardControlExtensions
   {
-    public static bool Draw(this MutableState state,
-      Player player)
+    public static int Draw(
+      this MutableState state,
+      Player player,
+      int amount = 1)
     {
-      if (state.Decks[player].TryDequeue(out var card))
+      if (amount < 1) return 0;
+      
+      var cardsDrawn = 0;
+
+      while (cardsDrawn < amount && state.Decks[player].Length > 0)
       {
-        state.Hands[player].Add(card);
-        return true;
+        state.Hands[player].Add(state.Decks[player].Dequeue());
+        cardsDrawn++;
       }
 
-      return false;
+      if (cardsDrawn > 0)
+        state.ResolvedEffects.Add(new CardsDrawn(player, cardsDrawn));
+      
+      return cardsDrawn;
     }
 
     public static void ReturnFromDiscard(

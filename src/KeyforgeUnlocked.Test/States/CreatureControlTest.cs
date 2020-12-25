@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
@@ -60,6 +61,36 @@ namespace KeyforgeUnlockedTest.States
         discards: expectedDiscards);
       StateAsserter.StateEquals(expectedState, state);
     }
+
+    [Test]
+    public void HealCreature(
+      [Values(Player.Player1, Player.Player2)]Player player,
+      [Range(0, 3)] int amount)
+    {
+      var targetCreatureCard = new SampleCreatureCard(power: 3);
+      var targetCreature = new Creature(targetCreatureCard, damage: 2);
+      var otherCreature = new Creature(new SampleCreatureCard(), damage: 2);
+      var fields = InstantiateFields(player, targetCreature, otherCreature);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
+      
+      var healedAmount = state.HealCreature(targetCreature, amount);
+
+      var expectedHealedAmount = Math.Min(2, amount);
+
+      Assert.That(healedAmount, Is.EqualTo(expectedHealedAmount));
+      var expectedTarget = new Creature(targetCreatureCard, damage: Math.Max(0, 2 - amount));
+      var expectedResolvedEffects = new List<IResolvedEffect>();
+
+      var expectedFields = InstantiateFields(player, expectedTarget, otherCreature);
+
+      if(amount > 0)
+        expectedResolvedEffects.Add(new CreatureHealed(expectedTarget, expectedHealedAmount));
+
+      var expectedState = StateTestUtil.EmptyState.New(
+        fields: expectedFields,
+        resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+      StateAsserter.StateEquals(expectedState, state);
+      }
 
     [Test]
     public void ReturnCreatureToHand([Values(Player.Player1, Player.Player2)]Player player)

@@ -1,4 +1,5 @@
-﻿using KeyforgeUnlocked.Creatures;
+﻿using System;
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -18,6 +19,22 @@ namespace KeyforgeUnlocked.States.Extensions
       state.ResolvedEffects.Add(new CreatureDamaged(creature, damage));
       state.UpdateCreature(creature);
     }
+
+    public static int HealCreature(
+      this MutableState state,
+      Creature creature,
+      int amount = 1)
+    {
+      if(amount < 0) return 0;
+
+      creature = creature.Heal(amount, out var healedAmount);
+      if (healedAmount == 0) return 0;
+      
+      state.ResolvedEffects.Add(new CreatureHealed(creature, healedAmount));
+      state.UpdateCreature(creature);
+      return healedAmount;
+    }
+
     public static void ReturnCreatureToHand(
       this MutableState state,
       Creature creature)

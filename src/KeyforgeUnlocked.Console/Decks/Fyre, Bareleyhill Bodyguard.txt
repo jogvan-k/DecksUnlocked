@@ -4,6 +4,7 @@ Smaaash
 Firespitter
 Lupo the Scarred
 Punch
+Vigor
 Blood Money
 Dew Faerie
 Dr. Escotera
@@ -11,6 +12,7 @@ Smaaash
 Firespitter
 Lupo the Scarred
 Punch
+Vigor
 Blood Money
 Dew Faerie
 Dr. Escotera
@@ -18,6 +20,7 @@ Smaaash
 Firespitter
 Lupo the Scarred
 Punch
+Vigor
 Blood Money
 Dew Faerie
 Dr. Escotera
@@ -25,6 +28,7 @@ Smaaash
 Firespitter
 Lupo the Scarred
 Punch
+Vigor
 Blood Money
 Dew Faerie
 Dr. Escotera
@@ -32,11 +36,4 @@ Smaaash
 Firespitter
 Lupo the Scarred
 Punch
-Blood Money
-Dew Faerie
-Dr. Escotera
-Smaaash
-Firespitter
-Lupo the Scarred
-Punch
-Blood Money
+Vigor

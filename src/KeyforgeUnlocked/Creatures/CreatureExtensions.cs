@@ -12,6 +12,13 @@ namespace KeyforgeUnlocked.Creatures
       creature.Damage += damage - brokenArmor;
       return creature;
     }
+
+    public static Creature Heal(this Creature creature, int amount, out int healedAmount)
+    {
+      healedAmount = Math.Min(creature.Damage, amount);
+      creature.Damage -= healedAmount;
+      return creature;
+    }
     public static bool IsStunned(this Creature creature)
     {
       return (creature.State & CreatureState.Stunned) != 0;

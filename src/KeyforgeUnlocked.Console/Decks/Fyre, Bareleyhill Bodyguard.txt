@@ -7,6 +7,7 @@ Punch
 Vigor
 Blood Money
 Neuro Syphon
+Twin Bolt Emission
 Dew Faerie
 Dr. Escotera
 Smaaash
@@ -16,6 +17,7 @@ Punch
 Vigor
 Blood Money
 Neuro Syphon
+Twin Bolt Emission
 Dew Faerie
 Dr. Escotera
 Smaaash
@@ -25,6 +27,7 @@ Punch
 Vigor
 Blood Money
 Neuro Syphon
+Twin Bolt Emission
 Dew Faerie
 Dr. Escotera
 Smaaash
@@ -34,3 +37,4 @@ Punch
 Vigor
 Blood Money
 Neuro Syphon
+Twin Bolt Emission

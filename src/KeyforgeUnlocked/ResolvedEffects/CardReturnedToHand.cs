@@ -4,7 +4,6 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public sealed class CardReturnedToHand : ResolvedEffectWithCard<CardReturnedToHand>
   {
-    public readonly ICard Card;
 
     public CardReturnedToHand(ICard card) : base(card)
     {
@@ -12,7 +11,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override string ToString()
     {
-      return $"{Card.Name} returned to hand";
+      return $"{_card} returned to hand";
     }
   }
 }

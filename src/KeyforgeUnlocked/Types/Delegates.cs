@@ -34,6 +34,8 @@ namespace KeyforgeUnlocked.Types
       };
 
     public static readonly ValidOn All = (_, _) => true;
+    
+    public static ValidOn AllExcept(Creature c) => (_, t) => t.Id != c.Id;
 
     public static ValidOn AlliesOf(string c) => (s, t) =>
     {

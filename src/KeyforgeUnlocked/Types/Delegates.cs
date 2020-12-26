@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -57,6 +58,7 @@ namespace KeyforgeUnlocked.Types
     public static ValidOn BelongingTo(Player player) => (s, t) => s.Metadata.InitialDecks[player].Contains(t);
 
     public static ValidOn OfHouse(House house) => (s, t) => s.FindCard(t).House == house;
+    public static ValidOn IsCreatureCard() => (s, t) => t is CreatureCard;
 
     public static ValidOn Not(IIdentifiable c) => (_, t) => !t.Equals(c);
 

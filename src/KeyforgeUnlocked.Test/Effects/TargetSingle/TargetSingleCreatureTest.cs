@@ -1,7 +1,6 @@
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
@@ -9,7 +8,7 @@ using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
 
-namespace KeyforgeUnlockedTest.Effects
+namespace KeyforgeUnlockedTest.Effects.TargetSingle
 {
   [TestFixture]
   sealed class TargetSingleCreatureTest
@@ -23,7 +22,7 @@ namespace KeyforgeUnlockedTest.Effects
       var state = Setup();
       var effectResolved = false;
       EffectOnTarget effectOnTarget = (_, _) => effectResolved = true;
-      var sut = new TargetSingleCreature(effectOnTarget, Delegates.All);
+      var sut = new TargetSingleCreature(effectOnTarget);
 
       sut.Resolve(state);
 
@@ -45,7 +44,7 @@ namespace KeyforgeUnlockedTest.Effects
       IIdentifiable target = default;
       EffectOnTarget effect = (_, c) => target = c;
       ValidOn validOn = (_, c) => state.ControllingPlayer(c).Equals(targetPlayerCreature);
-      var sut = new TargetSingleCreature(effect, validOn);
+      var sut = new TargetSingleCreature(effect, validOn: validOn);
 
       sut.Resolve(state);
 
@@ -61,7 +60,7 @@ namespace KeyforgeUnlockedTest.Effects
       bool effectResolved = false;
       EffectOnTarget effect = (_, _) => effectResolved = true;
       ValidOn validOn = (_, _) => false;
-      var sut = new TargetSingleCreature(effect, validOn);
+      var sut = new TargetSingleCreature(effect, validOn: validOn);
 
       sut.Resolve(state);
 

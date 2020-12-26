@@ -10,6 +10,7 @@ Neuro Syphon
 Twin Bolt Emission
 Witch of the Eye
 Regrowth
+Labwork
 Dew Faerie
 Dr. Escotera
 Smaaash
@@ -22,6 +23,7 @@ Neuro Syphon
 Twin Bolt Emission
 Witch of the Eye
 Regrowth
+Labwork
 Dew Faerie
 Dr. Escotera
 Smaaash
@@ -34,15 +36,4 @@ Neuro Syphon
 Twin Bolt Emission
 Witch of the Eye
 Regrowth
-Dew Faerie
-Dr. Escotera
-Smaaash
-Firespitter
-Lupo the Scarred
-Punch
-Vigor
-Blood Money
-Neuro Syphon
-Twin Bolt Emission
-Witch of the Eye
-Regrowth
+Labwork

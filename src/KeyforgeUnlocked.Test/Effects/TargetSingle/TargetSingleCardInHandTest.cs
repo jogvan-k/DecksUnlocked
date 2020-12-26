@@ -9,13 +9,13 @@ using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
 
-namespace KeyforgeUnlockedTest.Effects
+namespace KeyforgeUnlockedTest.Effects.TargetSingle
 {
-  [TestFixture]
-  sealed class TargetSingleCardTest
+  public class TargetSingleCardInHandTest
   {
-    static ICard[] playerOneDiscardCards = {new SampleActionCard(id: $"{Player.Player1}0"), new SampleActionCard(id: $"{Player.Player1}1")};
-    static ICard[] playerTwoDiscardCards = {new SampleActionCard(id: $"{Player.Player2}0"), new SampleActionCard(id: $"{Player.Player2}1")};
+    
+    static readonly ICard[] _playerOneDiscardCards = {new SampleActionCard(id: $"{Player.Player1}0"), new SampleActionCard(id: $"{Player.Player1}1")};
+    static readonly ICard[] _playerTwoDiscardCards = {new SampleActionCard(id: $"{Player.Player2}0"), new SampleActionCard(id: $"{Player.Player2}1")};
     
     [Test]
     public void Resolve_NoValidTargets()
@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedTest.Effects
       bool effectResolved = false;
       EffectOnTarget effect = (_, _) => effectResolved = true;
       ValidOn validOn = (_, _) => false;
-      var sut = new TargetSingleDiscardedCard(effect, validOn);
+      var sut = new TargetSingleCardInHand(effect, validOn: validOn);
 
       sut.Resolve(state);
 
@@ -40,20 +40,19 @@ namespace KeyforgeUnlockedTest.Effects
       var state = Setup(playerTurn);
       bool effectResolved = false;
       EffectOnTarget effect = (_, _) => effectResolved = true;
-      var sut = new TargetSingleDiscardedCard(effect, Delegates.All);
+      var sut = new TargetSingleCardInHand(effect);
 
       sut.Resolve(state);
 
       var expectedActionGroup = new SingleTargetGroup(
         effect,
         playerTurn.IsPlayer1() ?
-          playerTwoDiscardCards.Concat(playerOneDiscardCards).Cast<IIdentifiable>().ToImmutableList() :
-          playerOneDiscardCards.Concat(playerTwoDiscardCards).Cast<IIdentifiable>().ToImmutableList());
+          _playerTwoDiscardCards.Concat(_playerOneDiscardCards).Cast<IIdentifiable>().ToImmutableList() :
+          _playerOneDiscardCards.Concat(_playerTwoDiscardCards).Cast<IIdentifiable>().ToImmutableList());
 
       Assert.False(effectResolved);
       StateAsserter.StateEquals(Setup(playerTurn).New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup}), state);
     }
-
 
     [Test]
     public void Resolve_SingleValidTarget(
@@ -64,7 +63,7 @@ namespace KeyforgeUnlockedTest.Effects
       IIdentifiable cardTargeted = null;
       EffectOnTarget effect = (_, t) => cardTargeted = t;
       var targetCard = $"{playerCard}{i}";
-      var sut = new TargetSingleDiscardedCard(effect, (s, t) => t.Id == targetCard);
+      var sut = new TargetSingleCardInHand(effect, validOn: (_, t) => t.Id == targetCard);
       
       sut.Resolve(state);
 
@@ -74,9 +73,9 @@ namespace KeyforgeUnlockedTest.Effects
 
     MutableState Setup(Player playerTurn = Player.Player1)
     {
-      var discards =
-        TestUtil.Sets<ICard>(playerOneDiscardCards, playerTwoDiscardCards);
-      return StateTestUtil.EmptyState.New(playerTurn: playerTurn, discards: discards);
+      var hands =
+        TestUtil.Sets<ICard>(_playerOneDiscardCards, _playerTwoDiscardCards);
+      return StateTestUtil.EmptyState.New(playerTurn: playerTurn, hands: hands);
     }
   }
 }

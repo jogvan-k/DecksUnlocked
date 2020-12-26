@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Effects.Choices
 {
-  public class TargetSingleDiscardedCard : TargetSingle<ICard>
+  public class TargetSingleDiscardedCard : TargetSingle
   {
-    public TargetSingleDiscardedCard(EffectOnTarget effect, ValidOn validOn) : base(effect, validOn)
+    public TargetSingleDiscardedCard(EffectOnTarget effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
     {
     }
 
-    protected override IEnumerable<IIdentifiable> UnfilteredTargets(IState state)
+
+    protected override IReadOnlyDictionary<Player, IEnumerable<IIdentifiable>> UnfilteredTargets(IState state)
     {
-      return state.Discards[state.PlayerTurn.Other()].OrderBy(c => c.Id)
-        .Concat(state.Discards[state.PlayerTurn].OrderBy(c => c.Id));
+      return state.Discards.ToReadOnly(kv => kv.Value.Cast<IIdentifiable>());
     }
   }
 }

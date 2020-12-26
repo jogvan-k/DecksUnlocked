@@ -6,7 +6,7 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.States.Extensions
 {
-  public static class MutableStateCardControlExtensions
+  public static class CardControlMutableStateExtensions
   {
     public static int Draw(
       this MutableState state,
@@ -27,6 +27,17 @@ namespace KeyforgeUnlocked.States.Extensions
         state.ResolvedEffects.Add(new CardsDrawn(player, cardsDrawn));
       
       return cardsDrawn;
+    }
+
+    public static void ArchiveFromHand(
+      this MutableState state,
+      IIdentifiable id)
+    {
+      if (!TryRemove(state.Hands, id, out var player, out var card))
+        throw new CardNotPresentException(state, id);
+
+      state.Archives[player].Add(card);
+      state.ResolvedEffects.Add(new CardArchived(card));
     }
 
     public static void ReturnFromDiscard(

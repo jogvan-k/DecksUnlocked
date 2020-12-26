@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
     {
       s.Effects.Push(
         new TargetSingleCreature(
-          (s, c) => s.Effects.Push(new ReadyAndUseCreature(c, true)), Delegates.AlliesOf(s.playerTurn)));
+          (s, c) => s.Effects.Push(new ReadyAndUseCreature(c, true)), Targets.Own));
     };
 
     public Inspiration() : this(House.Sanctum)

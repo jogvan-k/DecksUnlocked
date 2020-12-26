@@ -5,18 +5,21 @@ using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Effects.Choices
 {
-  public abstract class TargetSingle<T> : EffectBase<TargetSingle<T>> where T : IIdentifiable
+  public abstract class TargetSingle : EffectBase<TargetSingle>
   {
-    protected readonly EffectOnTarget Effect;
-    protected readonly ValidOn ValidOn;
+    readonly EffectOnTarget _effect;
+    readonly ValidOn _validOn;
+    readonly Targets _targets;
 
-    public TargetSingle(EffectOnTarget effect, ValidOn validOn)
+    public TargetSingle(EffectOnTarget effect, Targets targets = Targets.All, ValidOn validOn = null)
     {
-      Effect = effect;
-      ValidOn = validOn;
+      _effect = effect;
+      _validOn = validOn ?? Delegates.All;
+      _targets = targets;
     }
 
     protected override void ResolveImpl(MutableState state)
@@ -24,27 +27,48 @@ namespace KeyforgeUnlocked.Effects.Choices
       var validTargets = ValidTargets(state);
 
       if (validTargets.Count > 1)
-        state.ActionGroups.Add(new SingleTargetGroup(Effect, validTargets.ToImmutableList()));
+        state.ActionGroups.Add(new SingleTargetGroup(_effect, validTargets.ToImmutableList()));
       else if (validTargets.Count == 1)
-        Effect(state, validTargets.Single());
+        _effect(state, validTargets.Single());
     }
     
     protected List<IIdentifiable> ValidTargets(MutableState state)
     {
-      return UnfilteredTargets(state)
-        .Where(c => ValidOn(state, c))
+      return PreFilter(state)
+        .Where(c => _validOn(state, c))
         .ToList();
     }
-    protected abstract IEnumerable<IIdentifiable> UnfilteredTargets(IState state);
 
-    protected override bool Equals(TargetSingle<T> other)
+    IEnumerable<IIdentifiable> PreFilter(IState state)
     {
-      return Effect.Equals(other.Effect) && ValidOn.Equals(other.ValidOn);
+      switch (_targets)
+      {
+        case Targets.Own:
+          return OrderedUnfilteredTargets(state)[state.PlayerTurn];
+        case Targets.Opponens:
+          return OrderedUnfilteredTargets(state)[state.PlayerTurn.Other()];
+        case Targets.All:
+          var targets = OrderedUnfilteredTargets(state);
+          return targets[state.PlayerTurn.Other()].Concat(targets[state.PlayerTurn]);
+        default:
+          throw new Exception($"{_targets} not implemented.");
+      }
+    }
+
+    IReadOnlyDictionary<Player, IOrderedEnumerable<IIdentifiable>> OrderedUnfilteredTargets(IState state)
+    {
+      return UnfilteredTargets(state).ToReadOnly(kv => kv.Value.OrderBy(i => i.Id));
+    }
+    protected abstract IReadOnlyDictionary<Player,IEnumerable<IIdentifiable>> UnfilteredTargets(IState state);
+
+    protected override bool Equals(TargetSingle other)
+    {
+      return _effect.Equals(other._effect) && _validOn.Equals(other._validOn) && _targets.Equals(other._targets);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(Effect, ValidOn);
+      return HashCode.Combine(_effect, _validOn, _targets);
     }
   }
 }

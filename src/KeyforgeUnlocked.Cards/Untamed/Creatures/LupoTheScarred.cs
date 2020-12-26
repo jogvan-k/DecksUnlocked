@@ -26,7 +26,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     static readonly Callback PlayAbility = (s, _) =>
     {
       var effect = new TargetSingleCreature(
-        (s, t) => s.DamageCreature(t, 2), Delegates.EnemiesOf(s.playerTurn));
+        (s, t) => s.DamageCreature(t, 2), Targets.Opponens);
       s.AddEffect(effect);
     };
 

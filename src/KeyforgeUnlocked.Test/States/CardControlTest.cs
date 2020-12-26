@@ -48,13 +48,13 @@ namespace KeyforgeUnlockedTest.States
       [Values(Player.Player1, Player.Player2)] Player player,
       [Range(0, 1)] int cardNo)
     {
-      var state = StateTestUtil.EmptyState.New(discards: SetupDiscards());
+      var state = StateTestUtil.EmptyState.New(discards: SetupCardSets());
 
       var returnedCardId = new Identifiable($"{player},{cardNo}");
       state.ReturnFromDiscard(returnedCardId);
 
       var expectedHands = TestUtil.Sets<ICard>();
-      var expectedDiscards = SetupDiscards();
+      var expectedDiscards = SetupCardSets();
       var returnedCard = expectedDiscards[player].Single(c => c.Equals(returnedCardId));
       expectedDiscards[player].Remove(returnedCard);
       expectedHands[player].Add(returnedCard);
@@ -68,7 +68,7 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void ReturnFromDiscards_CardNotPresent()
     {
-      var state = StateTestUtil.EmptyState.New(discards: SetupDiscards());
+      var state = StateTestUtil.EmptyState.New(discards: SetupCardSets());
 
       var returnedCardId = new Identifiable("InvalidId");
 
@@ -83,14 +83,53 @@ namespace KeyforgeUnlockedTest.States
       
       Assert.Fail();
     }
+
+    [Test]
+    public void ArchiveFromHand(
+      [Values(Player.Player1, Player.Player2)] Player player,
+      [Range(0, 1)] int cardNo)
+    {
+      var state = StateTestUtil.EmptyState.New(hands: SetupCardSets());
+      
+      var returnedCardId = new Identifiable($"{player},{cardNo}");
+      state.ArchiveFromHand(returnedCardId);
+      
+      var expectedHands = SetupCardSets();
+      var archivedCard = SampleCards(player)[cardNo];
+      expectedHands[player].Remove(archivedCard);
+      var expectedArchives = TestUtil.Sets<ICard>();
+      expectedArchives[player].Add(archivedCard);
+      var resolvedEffects = new LazyList<IResolvedEffect> { new CardArchived(archivedCard)};
+      
+      StateAsserter.StateEquals(StateTestUtil.EmptyState.New(hands: expectedHands, archives: expectedArchives, resolvedEffects: resolvedEffects), state);
+    }
     
+    
+    [Test]
+    public void ArchiveFromHand_CardNotPresent()
+    {
+      var state = StateTestUtil.EmptyState.New(hands: SetupCardSets());
+
+      var returnedCardId = new Identifiable("InvalidId");
+
+      try
+      {
+        state.ArchiveFromHand(returnedCardId);
+      }
+      catch (CardNotPresentException)
+      {
+        return;
+      }
+      
+      Assert.Fail();
+    }
     
     static IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> SetupDecks()
     {
       return TestUtil.Stacks(SampleCards(Player.Player1), SampleCards(Player.Player2));
     }
 
-    static IReadOnlyDictionary<Player, IMutableSet<ICard>> SetupDiscards()
+    static IReadOnlyDictionary<Player, IMutableSet<ICard>> SetupCardSets()
     {
       return TestUtil.Sets<ICard>(SampleCards(Player.Player1), SampleCards(Player.Player2));
     }

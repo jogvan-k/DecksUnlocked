@@ -5,7 +5,7 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.States.Extensions
 {
-  public static class MutableStateAemberControlExtensions
+  public static class AemberControlMutableStateExtensions
   {
     public static void StealAember(
       this MutableState state,

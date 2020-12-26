@@ -13,7 +13,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     static readonly CreatureType[] CreatureTypes = {CreatureType.Giant};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.StunTarget, Delegates.All));
+      (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.StunTarget));
 
     public Smaaash() : this(House.Brobnar)
     {

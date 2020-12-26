@@ -105,8 +105,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           HelperCommands[command].Print(_state);
         else if (Commands.Keys.Contains(command))
           return command;
-
-        Console.WriteLine($"Invalid command: {command}");
+        else
+          Console.WriteLine($"Invalid command: {command}");
       }
     }
 

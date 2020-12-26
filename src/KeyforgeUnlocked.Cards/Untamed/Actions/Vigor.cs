@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Actions
         {
           var healedAmount = s.HealCreature(t, 3);
           if(healedAmount == 3) s.GainAember(s.playerTurn);
-        }, Delegates.All));
+        }));
 
     public Vigor() : this(House.Untamed)
     {

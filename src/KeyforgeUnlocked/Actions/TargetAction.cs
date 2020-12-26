@@ -1,5 +1,4 @@
 using System;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 
@@ -23,8 +22,7 @@ namespace KeyforgeUnlocked.Actions
 
     public override string Identity()
     {
-      _origin.FindCreature(Target, out var player, out var index);
-      return player.ToString() + index;
+      return Target.Id;
     }
 
     protected override bool Equals(TargetAction other)

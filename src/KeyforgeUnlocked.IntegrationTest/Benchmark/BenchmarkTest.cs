@@ -57,7 +57,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(searchLimit.NewTurn(2, searchTime.Unlimited));
+      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.Unlimited));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -185,8 +185,8 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     // 21650 successful hash map lookups and 10086 paths pruned.
     internal static ImmutableState SetupStartState()
     {
-      var player1Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),"Sample.txt");
-      var player2Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"), "Sample.txt");
+      var player1Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),"Fyre, Bareleyhill Bodyguard.txt");
+      var player2Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"), "Fyre, Bareleyhill Bodyguard.txt");
       return StateFactory.Initiate(player1Deck, player2Deck);
     }
   }

@@ -14,8 +14,8 @@ namespace KeyforgeUnlocked.Effects.Choices
 
     protected override IEnumerable<IIdentifiable> UnfilteredTargets(IState state)
     {
-      return state.Discards[state.PlayerTurn.Other()]
-        .Concat(state.Discards[state.PlayerTurn]);
+      return state.Discards[state.PlayerTurn.Other()].OrderBy(c => c.Id)
+        .Concat(state.Discards[state.PlayerTurn].OrderBy(c => c.Id));
     }
   }
 }

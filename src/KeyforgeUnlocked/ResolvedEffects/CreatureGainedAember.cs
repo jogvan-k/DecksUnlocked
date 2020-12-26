@@ -1,16 +1,17 @@
 ﻿using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureGainedAember : ResolvedEffectWithCreatureAndInt<CreatureGainedAember>
+  public sealed class CreatureGainedAember : ResolvedEffectWithIdentifiableAndInt<CreatureGainedAember>
   {
-    public CreatureGainedAember(Creature creature, int @int) : base(creature, @int)
+    public CreatureGainedAember(IIdentifiable creature, int @int) : base(creature, @int)
     {
     }
 
     public override string ToString()
     {
-      return $"{Creature.Card.Name} gained {Int} Aember";
+      return $"{Id.Name} gained {Int} Aember";
     }
   }
 }

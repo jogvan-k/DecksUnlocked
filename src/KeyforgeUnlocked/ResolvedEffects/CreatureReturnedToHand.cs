@@ -1,16 +1,17 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureReturnedToHand : ResolvedEffectWithCreature<CreatureReturnedToHand>
+  public sealed class CreatureReturnedToHand : ResolvedEffectWithIdentifiable<CreatureReturnedToHand>
   {
-    public CreatureReturnedToHand(Creature creature) : base(creature)
+    public CreatureReturnedToHand(IIdentifiable creature) : base(creature)
     {
     }
 
     public override string ToString()
     {
-      return $"{Creature.Card.Name} returned to hand";
+      return $"{Id.Name} returned to hand";
     }
   }
 }

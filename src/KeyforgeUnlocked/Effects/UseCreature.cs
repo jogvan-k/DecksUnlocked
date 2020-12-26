@@ -6,7 +6,7 @@ using KeyforgeUnlocked.States.Extensions;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public abstract class UseCreature<T> : EffectWithCreature<T> where T : UseCreature<T>
+  public abstract class UseCreature<T> : EffectWithIdentifiable<T> where T : UseCreature<T>
   {
     public UseCreature(Creature creature) : base(creature)
     {
@@ -14,9 +14,9 @@ namespace KeyforgeUnlocked.Effects
 
     protected override void ResolveImpl(MutableState state)
     {
-      if(!Creature.IsReady)
-        throw new CreatureNotReadyException(state, Creature);
-      var creature = state.FindCreature(Creature.Id, out _, out _);
+      var creature = state.FindCreature(Id, out _, out _);
+      if(!creature.IsReady)
+        throw new CreatureNotReadyException(state, creature);
       creature.IsReady = false;
       state.SetCreature(creature);
       

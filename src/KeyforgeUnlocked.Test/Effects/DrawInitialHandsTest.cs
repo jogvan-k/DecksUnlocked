@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using KeyforgeUnlocked;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -29,7 +31,8 @@ namespace KeyforgeUnlockedTest.Effects
         {{Player.Player1, expectedDeck1}, {Player.Player2, expectedDeck2}}.ToImmutableDictionary();
       var expectedHands = new Dictionary<Player, IMutableSet<ICard>>
         {{Player.Player1, expectedHand1}, {Player.Player2, expectedHand2}}.ToImmutableDictionary();
-      var expectedState = StateTestUtil.EmptyState.New(decks: expectedDecks,hands:expectedHands);
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> { new CardsDrawn(Player.Player1, FirstPlayerStartHand), new CardsDrawn(Player.Player2, SecondPlayerStartHand)};
+      var expectedState = StateTestUtil.EmptyState.New(decks: expectedDecks, hands:expectedHands, resolvedEffects: expectedResolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }
 

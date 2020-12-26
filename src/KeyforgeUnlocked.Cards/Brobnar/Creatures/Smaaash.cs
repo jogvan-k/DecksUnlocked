@@ -1,5 +1,6 @@
 using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
@@ -12,7 +13,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     static readonly CreatureType[] CreatureTypes = {CreatureType.Giant};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.StunCreature, Delegates.All));
+      (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.StunTarget, Delegates.All));
 
     public Smaaash() : this(House.Brobnar)
     {

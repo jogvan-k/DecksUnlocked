@@ -93,7 +93,7 @@ namespace KeyforgeUnlockedTest.States
           : TestUtil.Lists(opponentCreature, creature);
       var state = StateTestUtil.EmptyState.New(aember: aember, fields: fields);
 
-      state.CaptureAember(creature.Id, amount);
+      state.CaptureAember(creature, amount);
 
       var expectedCapture = Math.Min(amount, 2);
       var expectedAember = 

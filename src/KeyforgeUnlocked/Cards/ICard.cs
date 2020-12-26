@@ -9,8 +9,7 @@ namespace KeyforgeUnlocked.Cards
   public interface ICard : IIdentifiable, IComparable<Card>, IComparable
   {
     House House { get; }
-    Pip[] Pips { get; }
-    string Name { get; }
+    Pip[] CardPips { get; }
     Callback CardPlayAbility { get; }
   }
 }

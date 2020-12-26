@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.Actions
     internal override void DoActionNoResolve(MutableState state)
     {
       if (!state.Hands[state.PlayerTurn].Remove(Card))
-        throw new CardNotPresentException(state, Card.Id);
+        throw new CardNotPresentException(state, Card);
 
       state.Effects.Push(new Effects.PlayActionCard(Card));
     }

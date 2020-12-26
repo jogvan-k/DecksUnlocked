@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     static readonly Callback PlayAbility = (s, i) =>
     {
       var effect = new TargetAllCreatures(
-        ReturnCreatureToHand,
+        ReturnTargetToHand,
         AlliesOf(i).And(OfHouse(House.Brobnar).And(Not(i))));
       s.AddEffect(effect);
     };

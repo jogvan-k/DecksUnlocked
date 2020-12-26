@@ -1,13 +1,14 @@
 ﻿using System;
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithCreatureAndInt<T> : ResolvedEffectWithCreature<T> where T : ResolvedEffectWithCreatureAndInt<T>
+  public abstract class ResolvedEffectWithIdentifiableAndInt<T> : ResolvedEffectWithIdentifiable<T> where T : ResolvedEffectWithIdentifiableAndInt<T>
   {
     public readonly int Int;
 
-    protected ResolvedEffectWithCreatureAndInt(Creature creature, int @int) : base(creature)
+    protected ResolvedEffectWithIdentifiableAndInt(IIdentifiable id, int @int) : base(id)
     {
       Int = @int;
     }

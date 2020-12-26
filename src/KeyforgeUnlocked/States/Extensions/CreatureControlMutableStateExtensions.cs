@@ -1,5 +1,4 @@
-﻿using System;
-using KeyforgeUnlocked.Creatures;
+﻿using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -11,10 +10,12 @@ namespace KeyforgeUnlocked.States.Extensions
   {
     public static void DamageCreature(
       this MutableState state,
-      Creature creature,
+      IIdentifiable id,
       int damage = 1)
     {
       if (damage < 1) return;
+
+      var creature = state.FindCreature(id, out _, out _);
       creature = creature.Damage(damage);
       state.ResolvedEffects.Add(new CreatureDamaged(creature, damage));
       state.UpdateCreature(creature);
@@ -22,11 +23,12 @@ namespace KeyforgeUnlocked.States.Extensions
 
     public static int HealCreature(
       this MutableState state,
-      Creature creature,
+      IIdentifiable id,
       int amount = 1)
     {
       if(amount < 0) return 0;
 
+      var creature = state.FindCreature(id, out _, out _);
       creature = creature.Heal(amount, out var healedAmount);
       if (healedAmount == 0) return 0;
       
@@ -37,20 +39,20 @@ namespace KeyforgeUnlocked.States.Extensions
 
     public static void ReturnCreatureToHand(
       this MutableState state,
-      Creature creature)
+      IIdentifiable id)
     {
-      var owningPlayer = state.RemoveCreature(creature);
+      var owningPlayer = state.RemoveCreature(id, out var creature);
       state.Hands[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureReturnedToHand(creature));
     }
 
     public static void AddAemberToCreature(
       this MutableState state,
-      string creatureId,
+      IIdentifiable id,
       int amount = 1)
     {
       if (amount < 1) return;
-      var creature = state.FindCreature(creatureId, out _, out _);
+      var creature = state.FindCreature(id, out _, out _);
       creature.Aember += amount;
       state.SetCreature(creature);
       state.ResolvedEffects.Add(new CreatureGainedAember(creature, amount));
@@ -68,10 +70,22 @@ namespace KeyforgeUnlocked.States.Extensions
       }
     }
 
+    public static void StunCreature(
+      this MutableState state,
+      IIdentifiable id)
+    {
+      var creature = state.FindCreature(id, out _, out _);
+      if (creature.IsStunned())
+        return;
+      creature.State = creature.State | CreatureState.Stunned;
+      state.SetCreature(creature);
+      state.ResolvedEffects.Add(new CreatureStunned(creature));
+    }
+
     public static void SwapCreatures(
       this MutableState state,
-      string creatureId,
-      string targetId)
+      IIdentifiable creatureId,
+      IIdentifiable targetId)
     {
       foreach (var player in state.Fields.Keys)
       {
@@ -111,17 +125,17 @@ namespace KeyforgeUnlocked.States.Extensions
         }
       }
 
-      throw new CreatureNotPresentException(state, creature.Id);
+      throw new CreatureNotPresentException(state, creature);
     }
 
     public static void DestroyCreature(
       this MutableState state,
-      Creature creature)
+      IIdentifiable id)
     {
-      var owningPlayer = state.RemoveCreature(creature);
+      var owningPlayer = state.RemoveCreature(id, out var creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
-      creature.DestroyedAbility?.Invoke(state, creature.Id);
+      creature.DestroyedAbility?.Invoke(state, creature);
       if (creature.Aember < 1) return;
       state.Aember[owningPlayer.Other()] += creature.Aember;
       state.ResolvedEffects.Add(new AemberClaimed(owningPlayer.Other(), creature.Aember));
@@ -129,21 +143,23 @@ namespace KeyforgeUnlocked.States.Extensions
 
     static Player RemoveCreature(
       this MutableState state,
-      Creature creature)
+      IIdentifiable id,
+      out Creature creature)
     {
       foreach (var player in state.Fields.Keys)
       {
         foreach (var c in state.Fields[player])
         {
-          if (c.Id == creature.Id)
+          if (id.Equals(c))
           {
             state.Fields[player].Remove(c);
+            creature = c;
             return player;
           }
         }
       }
 
-      throw new CreatureNotPresentException(state, creature.Id);
+      throw new CreatureNotPresentException(state, id);
     }
   }
 }

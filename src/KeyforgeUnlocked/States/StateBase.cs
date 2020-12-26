@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.States
     /// </summary>
     public MutableState ToMutable()
     {
-      return new MutableState((IState) this);
+      return new((IState) this);
     }
 
     public ImmutableState ToImmutable()

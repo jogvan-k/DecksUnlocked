@@ -44,7 +44,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState;
       var sut = new PlayCreatureCard(null, Card, 0);
 
-      assert = e => { Assert.AreEqual(Card.Id, e.CardId); };
+      assert = e => { Assert.True(e.Id.Equals(Card)); };
 
       ActExpectException(sut, state, assert);
     }

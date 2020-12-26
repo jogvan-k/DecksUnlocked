@@ -31,12 +31,12 @@ namespace KeyforgeUnlocked.Actions
 
     internal override void DoActionNoResolve(MutableState state)
     {
-      state.Effects.Enqueue(new Effects.FightCreature(Creature, Target.Id));
+      state.Effects.Enqueue(new Effects.FightCreature(Creature, Target));
     }
 
     public override string Identity()
     {
-      _origin.FindCreature(Target.Id, out _, out var index);
+      _origin.FindCreature(Target, out _, out var index);
 
       return base.Identity() + ';' + index;
     }

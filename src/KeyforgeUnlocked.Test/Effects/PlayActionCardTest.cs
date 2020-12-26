@@ -80,7 +80,7 @@ namespace KeyforgeUnlockedTest.Effects
       var cardMock = new Mock<IActionCard>(MockBehavior.Strict);
       cardMock.Setup(c => c.Id).Returns("Id");
       cardMock.Setup(c => c.CardPlayAbility).Returns(playAbility);
-      cardMock.Setup(c => c.Pips).Returns(pips ?? Array.Empty<Pip>());
+      cardMock.Setup(c => c.CardPips).Returns(pips ?? Array.Empty<Pip>());
 
       return cardMock.Object;
     }

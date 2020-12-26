@@ -25,7 +25,7 @@ namespace KeyforgeUnlockedTest.Effects
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(Player.Player2, fields: fields);
 
-      var sut = new ReadyAndUse(target, false);
+      var sut = new ReadyAndUseCreature(target, false);
 
       try
       {
@@ -34,7 +34,7 @@ namespace KeyforgeUnlockedTest.Effects
       catch (InvalidTargetException e)
       {
         Assert.AreEqual(state, e.State);
-        Assert.AreEqual(sampleCreatureCard.Id, e.TargetId);
+        Assert.True(e.TargetId.Equals(sampleCreatureCard));
         return;
       }
 
@@ -47,7 +47,7 @@ namespace KeyforgeUnlockedTest.Effects
       var target = new Creature(sampleCreatureCard);
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new ReadyAndUse(target, false);
+      var sut = new ReadyAndUseCreature(target, false);
 
       sut.Resolve(state);
 

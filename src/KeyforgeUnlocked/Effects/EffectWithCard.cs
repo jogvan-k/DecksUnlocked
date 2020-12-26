@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Effects
     
     protected override bool Equals(T other)
     {
-      return Card.Equals(other.Card);
+      return ((Object) Card).Equals(other.Card);
     }
 
     public override int GetHashCode()

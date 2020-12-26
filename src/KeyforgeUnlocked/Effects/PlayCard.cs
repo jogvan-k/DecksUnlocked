@@ -8,12 +8,12 @@ namespace KeyforgeUnlocked.Effects
   {
     protected void ResolvePlayEffects(MutableState state)
     {
-      foreach (var pip in Card.Pips)
+      foreach (var pip in Card.CardPips)
       {
         state.ResolvePip(pip);
       }
 
-      Card.CardPlayAbility?.Invoke(state, Card.Id);
+      Card.CardPlayAbility?.Invoke(state, Card);
     }
     protected PlayCard(ICard card) : base(card)
     {

@@ -1,18 +1,19 @@
 using System;
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureDied : ResolvedEffectWithCreature<CreatureDied>
+  public sealed class CreatureDied : ResolvedEffectWithIdentifiable<CreatureDied>
   {
 
-    public CreatureDied(Creature creature) : base(creature)
+    public CreatureDied(IIdentifiable creature) : base(creature)
     {
     }
 
     public override string ToString()
     {
-      return $"{Creature.Card.Name} died";
+      return $"{Id.Name} died";
     }
   }
 }

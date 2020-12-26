@@ -215,12 +215,12 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       if (group is PlayActionCardGroup PlayActionCardGroup)
       {
-        return PlayActionCardGroup.Card.Equals(card);
+        return ((Object) PlayActionCardGroup.Card).Equals(card);
       }
       
       if (group is PlayCreatureCardGroup PlayCreatureCardGroup)
       {
-        return PlayCreatureCardGroup.Card.Equals(card);
+        return ((Object) PlayCreatureCardGroup.Card).Equals(card);
       }
 
       return false;

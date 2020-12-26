@@ -38,7 +38,7 @@ namespace KeyforgeUnlockedTest.Actions
       }
       catch (CardNotPresentException e)
       {
-        Assert.AreEqual(sampleCard.Id, e.CardId);
+        Assert.True(e.Id.Equals(sampleCard));
         return;
       }
 

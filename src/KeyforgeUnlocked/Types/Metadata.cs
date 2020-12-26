@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using System.Linq;
 using KeyforgeUnlocked.Cards;
 using UnlockedCore;
 
@@ -6,7 +7,7 @@ namespace KeyforgeUnlocked.Types
 {
   public sealed class Metadata
   {
-    public ImmutableDictionary<Player, Deck> InitialDecks { get; }
+    public ImmutableDictionary<Player, IImmutableList<ICard>> InitialDecks { get; }
     public ImmutableDictionary<Player, IImmutableSet<House>> Houses { get; }
     public int TurnCountLimit { get; }
 
@@ -14,7 +15,7 @@ namespace KeyforgeUnlocked.Types
       ImmutableDictionary<Player, IImmutableSet<House>> houses,
       int turnCountLimit)
     {
-      InitialDecks = initialDecks;
+      InitialDecks = initialDecks?.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableList<ICard>)kv.Value.Cards);
       Houses = houses;
       TurnCountLimit = turnCountLimit;
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
@@ -15,13 +16,13 @@ namespace KeyforgeUnlockedTest.Effects
     Creature playerOneCreature = new Creature(new SampleCreatureCard());
     Creature playerTwoCreature = new Creature(new SampleCreatureCard());
 
-    List<Creature> _targetedCreatures;
-    EffectOnCreature _effect;
+    List<IIdentifiable> _targetedCreatures;
+    EffectOnTarget _effect;
 
     [SetUp]
     public void SetUp()
     {
-      _targetedCreatures = new List<Creature>();
+      _targetedCreatures = new List<IIdentifiable>();
       _effect = (s, c) => _targetedCreatures.Add(c);
     }
 
@@ -40,7 +41,7 @@ namespace KeyforgeUnlockedTest.Effects
     [Test]
     public void Resolve_TargetSingleCreature()
     {
-      var sut = Setup(out var state, (s, c) => c.Equals(playerOneCreature));
+      var sut = Setup(out var state, (s, c) => ((Object) c).Equals(playerOneCreature));
 
       sut.Resolve(state);
 

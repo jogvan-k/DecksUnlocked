@@ -1,13 +1,14 @@
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
   public sealed class CardNotPresentException : KeyforgeUnlockedException
   {
-    public string CardId;
-    public CardNotPresentException(IState state, string cardId) : base(state)
+    public IIdentifiable Id;
+    public CardNotPresentException(IState state, IIdentifiable id) : base(state)
     {
-      CardId = cardId;
+      Id = id;
     }
   }
 }

@@ -10,10 +10,10 @@ namespace KeyforgeUnlocked.Types
 {
   public class Deck
   {
-    public static Deck Empty => new Deck(new List<Card>());
-    public ImmutableList<Card> Cards { get; }
+    public static Deck Empty => new Deck(new List<ICard>());
+    public ImmutableList<ICard> Cards { get; }
 
-    public Deck(IEnumerable<Card> cards)
+    public Deck(IEnumerable<ICard> cards)
     {
       Cards = cards.ToImmutableList();
     }

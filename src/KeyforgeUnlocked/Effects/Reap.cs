@@ -1,6 +1,7 @@
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
@@ -14,7 +15,7 @@ namespace KeyforgeUnlocked.Effects
     {
       state.Aember[state.PlayerTurn]++;
       state.ResolvedEffects.Add(new Reaped(creature));
-      creature.Card.CardReapAbility?.Invoke(state, creature.Id);
+      creature.Card.CardReapAbility?.Invoke(state, creature);
     }
   }
 }

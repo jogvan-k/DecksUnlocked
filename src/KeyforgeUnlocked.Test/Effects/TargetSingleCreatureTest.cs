@@ -1,6 +1,8 @@
+using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
@@ -12,34 +14,37 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   sealed class TargetSingleCreatureTest
   {
-    Creature playerOneCreature = new Creature(new SampleCreatureCard());
-    Creature playerTwoCreature = new Creature(new SampleCreatureCard());
+    Creature playerOneCreature = new(new SampleCreatureCard());
+    Creature playerTwoCreature = new(new SampleCreatureCard());
 
     [Test]
     public void Resolve_TwoValidTargets_CreateActions()
     {
       var state = Setup();
-      EffectOnCreature effectOnCreature = (s, c) => { };
-      var sut = new TargetSingleCreature(effectOnCreature, Delegates.All);
+      var effectResolved = false;
+      EffectOnTarget effectOnTarget = (_, _) => effectResolved = true;
+      var sut = new TargetSingleCreature(effectOnTarget, Delegates.All);
 
       sut.Resolve(state);
 
-      var expectedActionGroup = new TargetCreatureGroup(effectOnCreature,
-        new LazyList<Creature>(new[] {playerTwoCreature, playerOneCreature}));
+      var expectedActionGroup = new SingleTargetGroup(effectOnTarget,
+        new[] {(IIdentifiable) playerTwoCreature, playerOneCreature}.ToImmutableList());
 
-      var expectedState = Setup().New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup});
+      var expectedState = Setup().New(actionGroups: new LazyList<IActionGroup> {expectedActionGroup});
 
+      Assert.False(effectResolved);
       StateAsserter.StateEquals(expectedState, state);
     }
 
-    [TestCase(Player.Player1)]
-    [TestCase(Player.Player2)]
-    public void Resolve_OneValidTarget_DoEffectOnTarget(Player targetPlayerCreature)
+    [Test]
+    public void Resolve_OneValidTarget_DoEffectOnTarget(
+      [Values(Player.Player1, Player.Player2)]
+      Player targetPlayerCreature)
     {
       var state = Setup();
-      Creature target = default;
-      EffectOnCreature effect = (s, c) => target = c;
-      ValidOn validOn = (s, c) => state.ControllingPlayer(c).Equals(targetPlayerCreature);
+      IIdentifiable target = default;
+      EffectOnTarget effect = (_, c) => target = c;
+      ValidOn validOn = (_, c) => state.ControllingPlayer(c).Equals(targetPlayerCreature);
       var sut = new TargetSingleCreature(effect, validOn);
 
       sut.Resolve(state);
@@ -54,8 +59,8 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var state = Setup();
       bool effectResolved = false;
-      EffectOnCreature effect = (s, c) => effectResolved = true;
-      ValidOn validOn = (s, c) => false;
+      EffectOnTarget effect = (_, _) => effectResolved = true;
+      ValidOn validOn = (_, _) => false;
       var sut = new TargetSingleCreature(effect, validOn);
 
       sut.Resolve(state);

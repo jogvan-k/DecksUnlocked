@@ -1,16 +1,17 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreatureReadied : ResolvedEffectWithCreature<CreatureReadied>
+  public sealed class CreatureReadied : ResolvedEffectWithIdentifiable<CreatureReadied>
   {
-    public CreatureReadied(Creature creature) : base(creature)
+    public CreatureReadied(IIdentifiable creature) : base(creature)
     {
     }
 
     public override string ToString()
     {
-      return $"{Creature.Card.Name} ready";
+      return $"{Id.Name} ready";
     }
   }
 }

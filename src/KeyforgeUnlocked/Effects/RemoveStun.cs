@@ -5,17 +5,15 @@ using KeyforgeUnlocked.States.Extensions;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class RemoveStun : EffectWithCreature<RemoveStun>
+  public sealed class RemoveStun : UseCreature<RemoveStun>
   {
     public RemoveStun(Creature creature) : base(creature)
     {
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void SpecificResolve(MutableState state, Creature creature)
     {
-      var creature = Creature;
       creature.State = creature.State & ~CreatureState.Stunned;
-      creature.IsReady = false;
       state.SetCreature(creature);
       state.ResolvedEffects.Add(new StunRemoved(creature));
     }

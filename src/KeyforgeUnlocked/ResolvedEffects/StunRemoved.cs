@@ -1,16 +1,17 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class StunRemoved : ResolvedEffectWithCreature<StunRemoved>
+  public sealed class StunRemoved : ResolvedEffectWithIdentifiable<StunRemoved>
   {
-    public StunRemoved(Creature creature) : base(creature)
+    public StunRemoved(IIdentifiable creature) : base(creature)
     {
     }
 
     public override string ToString()
     {
-      return $"Stun removed from {Creature.Card.Name}";
+      return $"Stun removed from {Id.Name}";
     }
   }
 }

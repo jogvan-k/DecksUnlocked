@@ -1,14 +1,14 @@
 using System;
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreaturePlayed : ResolvedEffectWithCreature<CreaturePlayed>
+  public sealed class CreaturePlayed : ResolvedEffectWithIdentifiable<CreaturePlayed>
   {
     public readonly int Position;
 
-    public CreaturePlayed(Creature creature,
-      int position) : base(creature)
+    public CreaturePlayed(IIdentifiable creature, int position) : base(creature)
     {
       Position = position;
     }
@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override string ToString()
     {
-      return $"Played {Creature.Card.Name} on position {Position}";
+      return $"Played {Id.Name} on position {Position}";
     }
   }
 }

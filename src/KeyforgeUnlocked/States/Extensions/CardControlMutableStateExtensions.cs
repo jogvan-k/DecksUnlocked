@@ -31,17 +31,17 @@ namespace KeyforgeUnlocked.States.Extensions
 
     public static void ReturnFromDiscard(
       this MutableState state,
-      string cardId)
+      IIdentifiable id)
     {
-      if (!TryRemove(state.Discards, cardId, out var owningPlayer, out var card))
-        throw new CardNotPresentException(state, cardId);
+      if (!TryRemove(state.Discards, id, out var owningPlayer, out var card))
+        throw new CardNotPresentException(state, id);
 
       state.Hands[owningPlayer].Add(card);
       state.ResolvedEffects.Add(new CardReturnedToHand(card));
     }
 
     static bool TryRemove<T>(IReadOnlyDictionary<Player, IMutableSet<T>> toLookup,
-      string id,
+      IIdentifiable id,
       out Player owningPlayer,
       out T lookup) where T : IIdentifiable
     {
@@ -60,12 +60,12 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     static bool TryRemove<T>(ICollection<T> toLookup,
-      string id,
+      IIdentifiable id,
       out T lookup) where T : IIdentifiable
     {
       foreach (var item in toLookup)
       {
-        if (item.Id.Equals(id))
+        if (item.Equals(id))
         {
           lookup = item;
           toLookup.Remove(item);

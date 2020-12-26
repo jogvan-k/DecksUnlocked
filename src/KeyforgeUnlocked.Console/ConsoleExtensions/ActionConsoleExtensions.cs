@@ -29,7 +29,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case RemoveStun a:
           return a.ToConsole();
-        case TargetCreature a:
+        case TargetAction a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
@@ -86,9 +86,9 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       return "Remove stun";
     }
 
-    public static string ToConsole(this TargetCreature action)
+    public static string ToConsole(this TargetAction action)
     {
-      return $"Target {action.Target.Card.Name}";
+      return $"Target {action.Target.Name}";
     }
   }
 }

@@ -76,7 +76,7 @@ namespace KeyforgeUnlocked.Actions
         PlayActionCard _ => Priority.Good,
         PlayCreatureCard _ => Priority.Good,
         EndTurn _ => Priority.Neutral,
-        TargetCreature _ => Priority.Neutral,
+        TargetAction _ => Priority.Neutral,
         UseCreatureAbility _ => Priority.Good,
         _ => Priority.Neutral
       };

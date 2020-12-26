@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.Effects;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Actions
@@ -9,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
     {
       s.Effects.Push(
         new TargetSingleCreature(
-          (s, c) => s.Effects.Push(new ReadyAndUse(c, true)), Delegates.AlliesOf(s.playerTurn)));
+          (s, c) => s.Effects.Push(new ReadyAndUseCreature(c, true)), Delegates.AlliesOf(s.playerTurn)));
     };
 
     public Inspiration() : this(House.Sanctum)

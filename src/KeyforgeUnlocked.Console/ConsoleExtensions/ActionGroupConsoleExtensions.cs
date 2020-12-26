@@ -19,7 +19,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case DeclareHouseGroup a:
           return a.ToConsole();
-        case TargetCreatureGroup a:
+        case SingleTargetGroup a:
           return a.ToConsole();
         case PlayActionCardGroup a:
           return a.ToConsole();
@@ -53,7 +53,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       return $"Declare house";
     }
 
-    static string ToConsole(this TargetCreatureGroup group)
+    static string ToConsole(this SingleTargetGroup group)
     {
       return $"Target creature";
     }

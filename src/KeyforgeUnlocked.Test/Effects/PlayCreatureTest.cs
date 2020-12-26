@@ -164,7 +164,7 @@ namespace KeyforgeUnlockedTest.Effects
       mock.Setup(c => c.InsantiateCreature()).Returns(new Creature(mock.Object));
       mock.Setup(c => c.CardPlayAbility).Returns(playAbility);
       mock.Setup(c => c.Id).Returns("Id");
-      mock.Setup(c => c.Pips).Returns(pips ?? Array.Empty<Pip>());
+      mock.Setup(c => c.CardPips).Returns(pips ?? Array.Empty<Pip>());
       return mock.Object;
     }
   }

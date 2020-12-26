@@ -5,34 +5,35 @@ using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.States.Extensions;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class ReadyAndUse : EffectWithCreature<ReadyAndUse>
+  public sealed class ReadyAndUseCreature : EffectWithIdentifiable<ReadyAndUseCreature>
   {
     readonly bool allowOutOfHouseUse;
 
-    public ReadyAndUse(Creature creature, bool allowOutOfHouseUse) : base(creature)
+    public ReadyAndUseCreature(IIdentifiable creature, bool allowOutOfHouseUse) : base(creature)
     {
       this.allowOutOfHouseUse = allowOutOfHouseUse;
     }
 
     protected override void ResolveImpl(MutableState state)
     {
-      var target = state.FindCreature(Creature.Id, out var controllingPlayer, out _);
+      var creature = state.FindCreature(Id, out var controllingPlayer, out _);
       if (state.playerTurn != controllingPlayer)
-        throw new InvalidTargetException(state, Creature.Id);
-      if (!target.IsReady)
+        throw new InvalidTargetException(state, Id);
+      if (!creature.IsReady)
       {
-        target.IsReady = true;
-        state.UpdateCreature(target);
-        state.ResolvedEffects.Add(new CreatureReadied(target));
+        creature.IsReady = true;
+        state.UpdateCreature(creature);
+        state.ResolvedEffects.Add(new CreatureReadied(creature));
       }
 
-      state.ActionGroups.Add(new UseCreatureGroup(state, target, allowOutOfHouseUse));
+      state.ActionGroups.Add(new UseCreatureGroup(state, creature, allowOutOfHouseUse));
     }
 
-    protected override bool Equals(ReadyAndUse other)
+    protected override bool Equals(ReadyAndUseCreature other)
     {
       return base.Equals(other) && allowOutOfHouseUse.Equals(other.allowOutOfHouseUse);
     }

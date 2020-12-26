@@ -1,16 +1,17 @@
 ﻿using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class CreatureDamaged : ResolvedEffectWithCreatureAndInt<CreatureDamaged>
+  public class CreatureDamaged : ResolvedEffectWithIdentifiableAndInt<CreatureDamaged>
   {
-    public CreatureDamaged(Creature creature, int @int) : base(creature, @int)
+    public CreatureDamaged(IIdentifiable creature, int @int) : base(creature, @int)
     {
     }
 
     public override string ToString()
     {
-      return $"{Int} damage dealt to {Creature.Card.Name}";
+      return $"{Int} damage dealt to {Id.Name}";
     }
   }
 }

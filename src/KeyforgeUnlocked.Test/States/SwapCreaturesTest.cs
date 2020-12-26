@@ -24,11 +24,11 @@ namespace KeyforgeUnlockedTest.States
       var creature = new Creature(new SampleCreatureCard());
       try
       {
-        state.SwapCreatures(creature.Id, _playerCreature2.Id);
+        state.SwapCreatures(creature, _playerCreature2);
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(creature.Id, e.CreatureId);
+        Assert.True(e.Id.Equals(creature));
         return;
       }
 
@@ -41,11 +41,11 @@ namespace KeyforgeUnlockedTest.States
       var state = SetupState();
       try
       {
-        state.SwapCreatures(_playerCreature1.Id, _opponentCreature.Id);
+        state.SwapCreatures(_playerCreature1, _opponentCreature);
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(_opponentCreature.Id, e.CreatureId);
+        Assert.True(e.Id.Equals(_opponentCreature));
         return;
       }
 
@@ -57,7 +57,7 @@ namespace KeyforgeUnlockedTest.States
     {
       var state = SetupState();
 
-      state.SwapCreatures(_playerCreature1.Id, _playerCreature3.Id);
+      state.SwapCreatures(_playerCreature1, _playerCreature3);
 
       var expectedState = SetupState(_playerCreature3, _playerCreature2, _playerCreature1, _opponentCreature);
       expectedState.ResolvedEffects.Add(new CreaturesSwapped(_playerCreature1, _playerCreature3));

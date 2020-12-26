@@ -21,11 +21,11 @@ namespace KeyforgeUnlocked.Types
       return (s, c) => !validOn(s, c);
     }
 
-    public static int Index(this IList<Creature> list, string id)
+    public static int Index(this IList<Creature> list, IIdentifiable id)
     {
       for (int i = 0; i < list.Count; i++)
       {
-        if (list[i].Id == id)
+        if (id.Equals(list[i]))
           return i;
       }
 

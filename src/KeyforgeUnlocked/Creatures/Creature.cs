@@ -16,6 +16,7 @@ namespace KeyforgeUnlocked.Creatures
     public CreatureState State;
 
     public string Id => Card.Id;
+    public string Name => Card.Name;
     public int BasePower => Card.CardPower;
     public int BaseCardArmor => Card.CardArmor;
     public int Power => BasePower + PowerCounters;

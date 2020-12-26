@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       _fightingCreatureBeforeFightAbility = (s, t) =>
       {
         _fightingCreatureBeforeFightAbilityResolved = true;
-        var target = s.FindCreature(TargetCreatureId, out _, out _);
+        var target = s.FindCreature(_targetCreature, out _, out _);
         s.DamageCreature(target, 5);
       };
       
@@ -59,7 +59,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       _fightingCreatureBeforeFightAbility = (s, t) =>
       {
         _fightingCreatureBeforeFightAbilityResolved = true;
-        var target = s.FindCreature(TargetCreatureId, out _, out _);
+        var target = s.FindCreature(_targetCreature, out _, out _);
         s.DamageCreature(target, 2);
       };
       

@@ -1,16 +1,16 @@
-using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class CreaturesSwapped : ResolvedEffectWithTwoCreatures<CreaturesSwapped>
+  public sealed class CreaturesSwapped : ResolvedEffectWithTwoIdentifiables<CreaturesSwapped>
   {
-    public CreaturesSwapped(Creature creature, Creature target) : base(creature, target)
+    public CreaturesSwapped(IIdentifiable creature, IIdentifiable target) : base(creature, target)
     {
     }
 
     public override string ToString()
     {
-      return $"{Creature.Card.Name} swapped position with {Target.Card.Name}";
+      return $"{Id.Name} swapped position with {Target.Name}";
     }
   }
 }

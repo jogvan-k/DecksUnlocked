@@ -1,13 +1,14 @@
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
   public class CreatureNotPresentException : KeyforgeUnlockedException
   {
-    public string CreatureId;
-    public CreatureNotPresentException(IState state, string creature) : base(state)
+    public IIdentifiable Id;
+    public CreatureNotPresentException(IState state, IIdentifiable id) : base(state)
     {
-      CreatureId = creature;
+      Id = id;
     }
   }
 }

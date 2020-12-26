@@ -1,12 +1,13 @@
 using KeyforgeUnlocked.States;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
   public sealed class InvalidTargetException : KeyforgeUnlockedException
   {
-    public readonly string TargetId;
+    public readonly IIdentifiable TargetId;
 
-    public InvalidTargetException(IState state, string targetId) : base(state)
+    public InvalidTargetException(IState state, IIdentifiable targetId) : base(state)
     {
       TargetId = targetId;
     }

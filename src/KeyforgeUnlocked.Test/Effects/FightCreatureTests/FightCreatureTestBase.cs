@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlockedTest.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -15,6 +16,9 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
   {
     protected const string FightingCreatureId = "F";
     protected const string TargetCreatureId = "T";
+
+    protected IIdentifiable _fightingCreature = new Identifiable(FightingCreatureId);
+    protected IIdentifiable _targetCreature = new Identifiable(TargetCreatureId);
     protected bool _fightingCreatureBeforeFightAbilityResolved;
     protected bool _fightingCreatureFightAbilityResolved;
     protected bool _fightingCreatureDestroyedAbilityResolved;
@@ -64,7 +68,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var targetCreature = new Creature(targetCreatureCard, isReady: true, brokenArmor: targetCreatureBrokenArmor);
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new FightCreature(fightingCreature, TargetCreatureId);
+      var sut = new FightCreature(fightingCreature, targetCreature);
 
       sut.Resolve(state);
 

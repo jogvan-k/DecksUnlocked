@@ -32,7 +32,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
           resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend(turnNumber: 2).ToImmutable();
       var state = startState.ToMutable();
-      var sut = new FightCreature(fightingCreature, targetCreature.Id);
+      var sut = new FightCreature(fightingCreature, targetCreature);
 
       sut.Resolve(state);
 
@@ -58,7 +58,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
           resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
         .Extend().ToImmutable();
       var state = startState.ToMutable();
-      var sut = new FightCreature(fightingCreature, targetCreature.Id);
+      var sut = new FightCreature(fightingCreature, targetCreature);
 
       sut.Resolve(state);
 

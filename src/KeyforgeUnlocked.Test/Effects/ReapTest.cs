@@ -42,8 +42,8 @@ namespace KeyforgeUnlockedTest.Effects
       }
       catch (CreatureNotPresentException e)
       {
-        Assert.AreEqual(_creature.Id, e.CreatureId);
-        Assert.AreSame(state, e.State);
+        Assert.That(e.Id.Equals(_creature));
+        StateAsserter.StateEquals(state, e.State);
         return;
       }
 
@@ -71,7 +71,7 @@ namespace KeyforgeUnlockedTest.Effects
       catch (CreatureNotReadyException e)
       {
         Assert.AreEqual(new Creature(_creatureCard), e.Creature);
-        Assert.AreSame(state, e.State);
+        StateAsserter.StateEquals(state, e.State);
         return;
       }
 

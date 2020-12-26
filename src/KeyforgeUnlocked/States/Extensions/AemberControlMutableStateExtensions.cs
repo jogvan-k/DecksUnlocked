@@ -41,10 +41,10 @@ namespace KeyforgeUnlocked.States.Extensions
 
     public static void CaptureAember(
       this MutableState state,
-      string creatureId,
+      IIdentifiable id,
       int amount = 1)
     {
-      var creature = state.FindCreature(creatureId, out var controllingPlayer, out _);
+      var creature = state.FindCreature(id, out var controllingPlayer, out _);
       var toCapture = Math.Min(state.Aember[controllingPlayer.Other()], amount);
       if (toCapture < 1) return;
       state.Aember[controllingPlayer.Other()] -= toCapture;

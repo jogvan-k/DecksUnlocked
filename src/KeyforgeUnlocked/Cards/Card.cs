@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Cards
 
     public string Id { get; }
     public House House { get; }
-    public Pip[] Pips { get; }
+    public Pip[] CardPips { get; }
     readonly Lazy<string> _name;
     public string Name => _name.Value;
     public Callback CardPlayAbility { get; }
@@ -25,7 +25,7 @@ namespace KeyforgeUnlocked.Cards
       Id = id ?? IdGenerator.GetNextInt().ToString();
       House = house;
       _name = new Lazy<string>(GetName);
-      Pips = pips ?? Array.Empty<Pip>();
+      CardPips = pips ?? Array.Empty<Pip>();
       CardPlayAbility = playAbility;
     }
 
@@ -62,7 +62,7 @@ namespace KeyforgeUnlocked.Cards
 
     protected override bool Equals(Card other)
     {
-      return Id.Equals(other.Id);
+      return ((IIdentifiable) this).Equals(other);
     }
 
     public override string ToString()

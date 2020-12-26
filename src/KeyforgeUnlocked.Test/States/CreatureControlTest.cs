@@ -171,8 +171,7 @@ namespace KeyforgeUnlockedTest.States
       var fields = InstantiateFields(player, targetCreature, otherCreature);
       var state = StateTestUtil.EmptyState.New(fields: fields);
 
-      var creatureId = targetCreature.Id;
-      state.AddAemberToCreature(creatureId, amount);
+      state.AddAemberToCreature(targetCreature, amount);
 
       var expectedTargetCreature = new Creature(targetCreatureCard, aember: amount);
       var expectedFields = InstantiateFields(player, expectedTargetCreature, otherCreature);

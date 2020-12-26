@@ -1,16 +1,17 @@
 ﻿using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class CreatureHealed : ResolvedEffectWithCreatureAndInt<CreatureHealed>
+  public class CreatureHealed : ResolvedEffectWithIdentifiableAndInt<CreatureHealed>
   {
-    public CreatureHealed(Creature creature, int @int) : base(creature, @int)
+    public CreatureHealed(IIdentifiable creature, int @int) : base(creature, @int)
     {
     }
     
     public override string ToString()
     {
-      return $"{Int} damage healed from {Creature.Card.Name}";
+      return $"{Int} damage healed from {Id.Name}";
     }
   }
 }

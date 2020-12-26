@@ -15,8 +15,8 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   sealed class FightCreatureTest : ActionTestBase<BasicAction>
   {
-    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard(house: House.Brobnar);
-    static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard();
+    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard(House.Brobnar, id: "fighter");
+    static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard(id: "target");
     static readonly Creature _fightingCreature;
     static readonly Creature _targetCreature;
     static readonly FightCreature sut;
@@ -41,7 +41,7 @@ namespace KeyforgeUnlockedTest.Actions
         new[] {_targetCreature});
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
-      creatureNotPresentAsserts = e => { Assert.AreEqual(_fightingCreature.Id, e.CreatureId); };
+      creatureNotPresentAsserts = e => { Assert.True(e.Id.Equals(_fightingCreature)); };
 
       ActExpectException(sut, state, creatureNotPresentAsserts);
     }
@@ -54,7 +54,7 @@ namespace KeyforgeUnlockedTest.Actions
         Enumerable.Empty<Creature>());
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
-      creatureNotPresentAsserts = e => { Assert.AreEqual(_targetCreature.Id, e.CreatureId); };
+      creatureNotPresentAsserts = e => { Assert.True(e.Id.Equals(_targetCreature)); };
 
       ActExpectException(sut, state, creatureNotPresentAsserts);
     }
@@ -126,7 +126,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
 
       var expectedEffects = new LazyStackQueue<IEffect>(
-        new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature.Id)});
+        new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
 

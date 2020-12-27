@@ -21,6 +21,7 @@ namespace KeyforgeUnlockedTest.Actions
       expectedEffects.Enqueue(new DrawToHandLimit());
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.EndTurn());
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
 
       Act(sut, state, expectedState);
     }

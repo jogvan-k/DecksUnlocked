@@ -27,7 +27,7 @@ namespace KeyforgeUnlocked.Actions
 
     public virtual string Identity()
     {
-      return "";
+      return GetType().Name;
     }
 
     public IState DoAction(IState state)

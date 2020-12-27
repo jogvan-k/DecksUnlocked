@@ -40,6 +40,20 @@ namespace KeyforgeUnlocked.States.Extensions
       state.ResolvedEffects.Add(new CardArchived(card));
     }
 
+    public static void PopArchive(this MutableState state)
+    {
+      var archive = state.Archives[state.playerTurn];
+      if (archive.Count == 0) return;
+      
+      foreach (var archivedCard in archive)
+      {
+        state.Hands[state.PlayerTurn].Add(archivedCard);
+      }
+      
+      archive.Clear();
+      state.ResolvedEffects.Add(new ArchivedClaimed());
+    }
+
     public static void ReturnFromDiscard(
       this MutableState state,
       IIdentifiable id)

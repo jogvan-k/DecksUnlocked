@@ -1,6 +1,7 @@
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData.Extensions;
 
 namespace KeyforgeUnlocked.Effects
 {
@@ -11,6 +12,7 @@ namespace KeyforgeUnlocked.Effects
       state.PlayerTurn = state.PlayerTurn.Other();
       state.TurnNumber++;
       state.ActiveHouse = null;
+      state.HistoricData.NextTurn();
       state.ResolvedEffects.Add(new TurnEnded());
       state.Effects.Enqueue(new CheckGameTurnLimit());
       state.Effects.Enqueue(new TryForge());

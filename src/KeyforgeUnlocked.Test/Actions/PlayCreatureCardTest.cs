@@ -34,6 +34,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedEffects = new LazyStackQueue<IEffect>(new[]
         {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayCreatureCard(Card, 0)});
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects, hands: expectedHands);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
 
       Act(sut, state, expectedState);
     }

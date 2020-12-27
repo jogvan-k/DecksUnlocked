@@ -65,6 +65,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedEffects = new LazyStackQueue<IEffect>(new[] {new CreatureAbility(creature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Shadows, fields: fields, effects: expectedEffects);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
       return expectedState;
     }
   }

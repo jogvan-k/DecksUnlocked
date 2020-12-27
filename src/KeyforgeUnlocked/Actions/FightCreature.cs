@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.Actions
         throw new InvalidFightException(state, Creature, Target);
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(MutableState state)
     {
       state.Effects.Enqueue(new Effects.FightCreature(Creature, Target));
     }

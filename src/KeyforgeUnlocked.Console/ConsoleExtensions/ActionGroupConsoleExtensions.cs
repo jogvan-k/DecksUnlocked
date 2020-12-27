@@ -1,5 +1,6 @@
 using System;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
@@ -22,6 +23,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         case SingleTargetGroup a:
           return a.ToConsole();
         case PlayActionCardGroup a:
+          return a.ToConsole();
+        case TakeArchiveGroup a:
           return a.ToConsole();
         default:
           throw new NotImplementedException();
@@ -61,6 +64,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this PlayActionCardGroup group)
     {
       return $"Play action";
+    }
+    
+    static string ToConsole(this TakeArchiveGroup group)
+    {
+      return $"Take archive";
     }
   }
 }

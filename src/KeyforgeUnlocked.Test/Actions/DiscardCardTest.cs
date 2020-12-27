@@ -18,6 +18,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedState = StateTestUtil.EmptyMutableState;
       expectedState.Effects.Enqueue(new KeyforgeUnlocked.Effects.DiscardCard(sampleCard));
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
 
       Act(sut, state, expectedState);
     }

@@ -129,6 +129,7 @@ namespace KeyforgeUnlockedTest.Actions
         new[] {new KeyforgeUnlocked.Effects.FightCreature(_fightingCreature, _targetCreature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
 
       Act(sut, state, expectedState);
     }

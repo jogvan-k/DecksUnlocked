@@ -95,6 +95,7 @@ namespace KeyforgeUnlockedTest.Actions
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(_creature));
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: activeHouse, fields: _fields, effects: expectedEffects);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
       return expectedState;
     }
   }

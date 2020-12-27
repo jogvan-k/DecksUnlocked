@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -19,8 +20,8 @@ namespace KeyforgeUnlockedTest.States
   {
     [Test, Combinatorial]
     public void GetHashCode_SameHashOnEqualFieldValues(
-      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects)] StateField fieldA,
-      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects)] StateField fieldB,
+      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects, HistoricData)] StateField fieldA,
+      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects, HistoricData)] StateField fieldB,
       [Values(Player.Player1, Player.Player2)] Player player)
     {
       var first = Construct(fieldA, player);
@@ -114,6 +115,9 @@ namespace KeyforgeUnlockedTest.States
         case StateField.Effects:
           state.Effects.Enqueue(new TryForge());
           break;
+        case HistoricData:
+          state.HistoricData.ActionPlayedThisTurn = true;
+          break;
         default:
           throw new InvalidOperationException($"Field {field} not supported.");
       }
@@ -137,6 +141,7 @@ namespace KeyforgeUnlockedTest.States
       state.Discards = TestUtil.Sets(_player1Discard, _player2Discard);
       state.Archives = TestUtil.Sets(_player1Archives,_player2Archives);
       state.Effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new DrawInitialHands(), new DeclareHouse()});
+      state.HistoricData = new LazyHistoricData(new ImmutableHistoricData());
       state.Fields = TestUtil.Lists(new Creature(_player1Field), new Creature(_player2Field));
       return state;
     }
@@ -175,6 +180,7 @@ namespace KeyforgeUnlockedTest.States
     Discards,
     Archives,
     Fields,
-    Effects
+    Effects,
+    HistoricData
   }
 }

@@ -64,6 +64,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedEffects = new LazyStackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.RemoveStun(creature)});
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
       return expectedState;
     }
   }

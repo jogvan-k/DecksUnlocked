@@ -18,10 +18,10 @@ namespace KeyforgeUnlocked.States
         .ToArray();
     }
 
-    protected internal IState previousState;
+    protected internal IState _previousState;
 
-    public FSharpOption<ICoreState> PreviousState => previousState != null
-      ? FSharpOption<ICoreState>.Some(previousState)
+    public FSharpOption<ICoreState> PreviousState => _previousState != null
+      ? FSharpOption<ICoreState>.Some(_previousState)
       : FSharpOption<ICoreState>.None;
 
     /// <summary>
@@ -64,6 +64,7 @@ namespace KeyforgeUnlocked.States
              && EqualityComparer.Equals(thisState.Fields, other.Fields)
              && thisState.Effects.SequenceEqual(other.Effects)
              && thisState.ResolvedEffects.SequenceEqual(other.ResolvedEffects)
+             && thisState.HistoricData.Equals(other.HistoricData)
              && ReferenceEquals(thisState.Metadata, other.Metadata);
     }
 
@@ -98,7 +99,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Archives));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Fields));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Effects));
-      //hashCode.Add(EqualityComparer.GetHashCode(thisState.ResolvedEffects)); //Should this be part of the hash?
+      hashCode.Add(thisState.HistoricData);
       hashCode.Add(thisState.Metadata);
       return hashCode.ToHashCode();
     }

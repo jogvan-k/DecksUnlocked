@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.Actions
         throw new CreatureStunnedException(state, Creature);
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(MutableState state)
     {
       state.Effects.Push(new Effects.Reap(Creature));
     }

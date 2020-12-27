@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -29,6 +30,8 @@ namespace KeyforgeUnlocked.States
     /// </summary>
     IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 
+    IImmutableHistoricData HistoricData { get; }
+      
     Metadata Metadata { get; }
 
     MutableState ToMutable();

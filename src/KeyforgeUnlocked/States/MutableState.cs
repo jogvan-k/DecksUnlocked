@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -27,6 +28,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields;
     public IMutableStackQueue<IEffect> Effects;
     public IMutableList<IResolvedEffect> ResolvedEffects;
+    public IMutableHistoricData HistoricData;
     public Metadata metadata;
 
     public Player PlayerTurn
@@ -49,8 +51,7 @@ namespace KeyforgeUnlocked.States
 
     public new IState PreviousState
     {
-      get => previousState;
-      set => previousState = value;
+      set => _previousState = value;
     }
 
     public House? ActiveHouse
@@ -76,6 +77,8 @@ namespace KeyforgeUnlocked.States
     IReadOnlyDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
 
     ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
+
+    IImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
 
     IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
 
@@ -103,6 +106,7 @@ namespace KeyforgeUnlocked.States
       Fields = state.Fields.ToMutable();
       Effects = new LazyStackQueue<IEffect>(state.Effects);
       ResolvedEffects = new LazyList<IResolvedEffect>();
+      HistoricData = new LazyHistoricData(state.HistoricData);
       Metadata = state.Metadata;
     }
 
@@ -122,6 +126,7 @@ namespace KeyforgeUnlocked.States
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
       IMutableStackQueue<IEffect> effects,
       IMutableList<IResolvedEffect> resolvedEffects,
+      IMutableHistoricData historicData,
       Metadata metadata)
     {
       PlayerTurn = playerTurn;
@@ -139,6 +144,7 @@ namespace KeyforgeUnlocked.States
       Fields = fields;
       Effects = effects;
       ResolvedEffects = resolvedEffects;
+      HistoricData = historicData;
       Metadata = metadata;
     }
 
@@ -151,6 +157,8 @@ namespace KeyforgeUnlocked.States
       }
 
       ActionGroups.Add(new EndTurnGroup());
+      if(!HistoricData.ActionPlayedThisTurn && Archives[PlayerTurn].Count != 0)
+        ActionGroups.Add(new TakeArchiveGroup());
       
       var trialState = ToImmutable();
       foreach (var card in Hands[PlayerTurn])

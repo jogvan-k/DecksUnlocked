@@ -8,6 +8,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Util
@@ -31,6 +32,7 @@ namespace KeyforgeUnlockedTest.Util
         {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToReadOnly(),
       new LazyStackQueue<IEffect>(),
       new LazyList<IResolvedEffect>(),
+      new LazyHistoricData(new ImmutableHistoricData()),
       null);
 
     public static ImmutableState EmptyState => new ImmutableState(
@@ -54,6 +56,7 @@ namespace KeyforgeUnlockedTest.Util
         {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToImmutableDictionary().ToImmutable(),
       ImmutableArray<IEffect>.Empty,
       new List<IResolvedEffect>().ToImmutableList(),
+      new ImmutableHistoricData(),
       null);
 
     public static MutableState New(
@@ -73,6 +76,7 @@ namespace KeyforgeUnlockedTest.Util
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
       IMutableStackQueue<IEffect> effects = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
+      IMutableHistoricData historicData = null,
       Metadata metadata = null)
     {
       return new MutableState(
@@ -91,6 +95,7 @@ namespace KeyforgeUnlockedTest.Util
         fields ?? state.Fields.ToMutable(),
         effects ?? new LazyStackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
+        historicData ?? new LazyHistoricData(new ImmutableHistoricData()),
         metadata ?? state.Metadata);
     }
 
@@ -113,13 +118,14 @@ namespace KeyforgeUnlockedTest.Util
       IReadOnlyDictionary<Player, IMutableSet<ICard>> archives = null,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
+      IMutableHistoricData historicData = null,
       IMutableStackQueue<IEffect> effects = null,
       Metadata metadata = null)
     {
       return state.New(
         playerTurn, turnNumber, isGameOver, keys, aember, state,
         activeHouse, actionGroups, decks, hands, discards, archives,
-        fields, effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), metadata);
+        fields,effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), historicData, metadata);
     }
 
     static Stack<ICard> EmptyDeck => new();

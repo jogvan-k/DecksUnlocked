@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -26,6 +27,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     public ImmutableArray<IEffect> Effects { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
+    public IImmutableHistoricData HistoricData { get; }
 
     public Metadata Metadata { get; }
 
@@ -45,12 +47,13 @@ namespace KeyforgeUnlocked.States
       LookupReadOnly<Player, IImmutableList<Creature>> fields,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,
+      IImmutableHistoricData historicData,
       Metadata metadata)
     {
       PlayerTurn = playerTurn;
       TurnNumber = turnNumber;
       IsGameOver = isGameOver;
-      this.previousState = previousState;
+      _previousState = previousState;
       ActiveHouse = activeHouse;
       Keys = keys;
       Aember = aember;
@@ -62,6 +65,7 @@ namespace KeyforgeUnlocked.States
       Fields = fields;
       Effects = effects;
       ResolvedEffects = resolvedEffects;
+      HistoricData = historicData;
       Metadata = metadata;
     }
 
@@ -70,7 +74,7 @@ namespace KeyforgeUnlocked.States
       PlayerTurn = state.PlayerTurn;
       TurnNumber = state.TurnNumber;
       IsGameOver = state.IsGameOver;
-      previousState = ((StateBase)state).previousState;
+      _previousState = ((StateBase)state)._previousState;
       ActiveHouse = state.ActiveHouse;
       Keys = state.Keys;
       Aember = state.Aember;
@@ -82,6 +86,7 @@ namespace KeyforgeUnlocked.States
       Fields = state.Fields;
       Effects = state.Effects;
       ResolvedEffects = state.ResolvedEffects;
+      HistoricData = state.HistoricData.ToImmutable();
       Metadata = state.Metadata;
     }
   }

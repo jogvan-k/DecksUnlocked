@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
@@ -174,6 +175,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       var specialActions = state.ActionGroups.SingleOrDefault(a => a.IsSpecialActionGroup());
       var endAction = state.ActionGroups.SingleOrDefault(a => a.IsActionEndTurn());
       var declareHouse = state.ActionGroups.SingleOrDefault(a => a.IsDeclareHouse());
+      var takeArchive = state.ActionGroups.SingleOrDefault(a => a.IsTakeArchive());
       Console.WriteLine();
       if (specialActions != default)
       {
@@ -184,6 +186,12 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         {
           Console.WriteLine($"{i++}: {action.ToConsole()}");
         }
+      }
+
+      if (takeArchive != default)
+      {
+        commands.Add("take", takeArchive);
+        Console.WriteLine("[Take] archive");
       }
       if (endAction != default)
       {
@@ -207,6 +215,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static bool IsSpecialActionGroup(this IActionGroup group)
     {
       return group.GetType().BaseType.Name == typeof(ResolveEffectActionGroup<>).Name;
+    }
+
+    static bool IsTakeArchive(this IActionGroup group)
+    {
+      return group is TakeArchiveGroup;
     }
 
     static bool IsActionsRelatedToCard(

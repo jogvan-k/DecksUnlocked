@@ -31,6 +31,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case TargetAction a:
           return a.ToConsole();
+        case TakeArchive a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -89,6 +91,11 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static string ToConsole(this TargetAction action)
     {
       return $"Target {action.Target.Name}";
+    }
+    
+    public static string ToConsole(this TakeArchive action)
+    {
+      return $"Take archive";
     }
   }
 }

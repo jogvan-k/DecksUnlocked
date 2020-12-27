@@ -46,6 +46,8 @@ namespace KeyforgeUnlockedTest.Util
       CheckAndWriteFieldErrorMessage(sb, "Fields", expected.Fields, actual.Fields);
       CheckAndWriteFieldErrorMessage(sb, "Effects", expected.Effects, actual.Effects);
       CheckAndWriteFieldErrorMessage(sb, "ResolvedEffects", expected.ResolvedEffects, actual.ResolvedEffects);
+      if (!expected.HistoricData.Equals(actual.HistoricData))
+        sb.AppendLine("Historic data");
       //Metadata
 
 

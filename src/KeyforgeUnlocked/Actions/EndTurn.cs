@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(MutableState state)
     {
       state.Effects.Enqueue(new ReadyCardsAndRestoreArmor());
       state.Effects.Enqueue(new DrawToHandLimit());

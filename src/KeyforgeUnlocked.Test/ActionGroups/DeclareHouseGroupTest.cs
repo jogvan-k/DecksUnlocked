@@ -12,7 +12,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   class DeclareHouseGroupTest
   {
-    private ImmutableState _state = StateTestUtil.EmptyState;
+    ImmutableState _state = StateTestUtil.EmptyState;
     
     [Test]
     public void Actions_NoHouses_NoActions()

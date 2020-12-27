@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -41,6 +42,7 @@ namespace KeyforgeUnlocked.States
           EmptyField(),
           effects,
           new LazyList<IResolvedEffect>(),
+          new ImmutableHistoricData().ToMutable(),
           metadata)
         .ResolveEffects();
     }

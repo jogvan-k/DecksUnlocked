@@ -123,6 +123,43 @@ namespace KeyforgeUnlockedTest.States
       
       Assert.Fail();
     }
+
+    [Test]
+    public void PopArchive_NoCardsInArchive_NoEffect([Values(Player.Player1, Player.Player2)] Player playerTurn)
+    {
+      var archivedCard = new SampleActionCard();
+      var archives = TestUtil.Sets<ICard>();
+      archives[playerTurn.Other()].Add(archivedCard);
+      var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, archives: archives,hands: SetupCardSets());
+
+      state.PopArchive();
+
+      var expectedArchives = TestUtil.Sets<ICard>();
+      expectedArchives[playerTurn.Other()].Add(archivedCard);
+      var expectedState = StateTestUtil.EmptyState.New(playerTurn: playerTurn, archives: expectedArchives, hands: SetupCardSets());
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void PopArchive([Values(Player.Player1, Player.Player2)]Player playerTurn)
+    {
+      var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, archives: SetupCardSets());
+      
+      state.PopArchive();
+
+      var expectedArchives = SetupCardSets();
+      var poppedArchive = expectedArchives[playerTurn].ToArray();
+      var expectedHands = TestUtil.Sets<ICard>();
+      poppedArchive.Select(c =>
+      {
+        expectedArchives[playerTurn].Remove(c);
+        expectedHands[playerTurn].Add(c);
+        return true;
+      }).ToList();
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> { new ArchivedClaimed()};
+      
+      StateAsserter.StateEquals(StateTestUtil.EmptyState.New(playerTurn: playerTurn, archives: expectedArchives, hands: expectedHands, resolvedEffects: expectedResolvedEffects), state);
+    }
     
     static IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> SetupDecks()
     {

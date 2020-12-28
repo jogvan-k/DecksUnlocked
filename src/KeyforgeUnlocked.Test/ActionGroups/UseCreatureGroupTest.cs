@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace KeyforgeUnlockedTest.ActionGroups
 {
   [TestFixture]
-  class UseCreatureGroupTest
+  sealed class UseCreatureGroupTest
   {
     SampleCreatureCard _sampleCreatureCard = new SampleCreatureCard();
 

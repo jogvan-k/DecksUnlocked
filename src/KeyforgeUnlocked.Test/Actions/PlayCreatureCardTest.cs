@@ -1,6 +1,5 @@
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
@@ -12,14 +11,14 @@ using PlayCreatureCard = KeyforgeUnlocked.Actions.PlayCreatureCard;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class PlayCreatureCardTest : ActionTestBase<BasicAction>
+  class PlayCreatureCardTest : ActionTestBase<PlayCreatureCard>
   {
     System.Action<CardNotPresentException> assert;
 
-    static readonly CreatureCard Card = new SampleCreatureCard();
-    static readonly CreatureCard otherCard1 = new SampleCreatureCard();
-    static readonly CreatureCard otherCard2 = new SampleCreatureCard();
-    static readonly CreatureCard otherCard3 = new SampleCreatureCard();
+    static readonly ICreatureCard Card = new SampleCreatureCard();
+    static readonly ICreatureCard otherCard1 = new SampleCreatureCard();
+    static readonly ICreatureCard otherCard2 = new SampleCreatureCard();
+    static readonly ICreatureCard otherCard3 = new SampleCreatureCard();
     static readonly IEffect unresolvedEffect = new DeclareHouse();
 
     [Test]
@@ -36,7 +35,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects, hands: expectedHands);
       expectedState.HistoricData.ActionPlayedThisTurn = true;
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
 
     [Test]

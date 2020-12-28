@@ -5,7 +5,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class UseCreatureAbility : UseCreature
+  public sealed class UseCreatureAbility : UseCreature<UseCreatureAbility>
   {
     public UseCreatureAbility(ImmutableState origin, Creature creature, bool allowOutOfHouseUse = false)
       : base(origin, creature, allowOutOfHouseUse)

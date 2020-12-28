@@ -5,17 +5,15 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class PlayCreatureCard : BasicAction
+  public sealed class PlayCreatureCard : BasicActionWithCard<PlayCreatureCard>
   {
-    public ICreatureCard Card { get; }
     public int Position { get; }
 
     public PlayCreatureCard(
       ImmutableState origin,
       ICreatureCard card,
-      int position) : base(origin)
+      int position) : base(origin, card)
     {
-      Card = card;
       Position = position;
     }
 
@@ -26,7 +24,7 @@ namespace KeyforgeUnlocked.Actions
 
       state.Effects.Push(
         new Effects.PlayCreatureCard(
-          Card,
+          (ICreatureCard) Card,
           Position));
     }
 
@@ -35,10 +33,9 @@ namespace KeyforgeUnlocked.Actions
       return Card.Id + Position;
     }
 
-    protected override bool Equals(BasicAction other)
+    protected override bool Equals(PlayCreatureCard other)
     {
-      var otherAction = (PlayCreatureCard) other;
-      return Equals(Card, otherAction.Card) && Position == otherAction.Position;
+      return base.Equals(other) &&  Position == other.Position;
     }
 
     public override int GetHashCode()

@@ -1,6 +1,5 @@
 using System;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Creatures
@@ -27,7 +26,6 @@ namespace KeyforgeUnlocked.Creatures
     public Callback AfterKillAbility => Card.CardAfterKillAbility;
     public Callback DestroyedAbility => Card.CardDestroyedAbility;
     public Keyword[] CardKeywords => Card.CardKeywords;
-    public CreatureType[] CardTypes => Card.CardTypes;
 
     public Creature(
       ICreatureCard card,

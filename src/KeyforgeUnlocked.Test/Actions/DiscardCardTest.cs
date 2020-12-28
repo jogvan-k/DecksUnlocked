@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class DiscardCardTest : ActionTestBase<BasicAction>
+  class DiscardCardTest : ActionTestBase<DiscardCard>
   {
     readonly ICard sampleCard = new SampleCreatureCard();
 
@@ -20,7 +20,7 @@ namespace KeyforgeUnlockedTest.Actions
       expectedState.Effects.Enqueue(new KeyforgeUnlocked.Effects.DiscardCard(sampleCard));
       expectedState.HistoricData.ActionPlayedThisTurn = true;
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
   }
 }

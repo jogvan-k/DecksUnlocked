@@ -26,6 +26,10 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           return a.ToConsole();
         case TakeArchiveGroup a:
           return a.ToConsole();
+        case PlayArtifactCardGroup a:
+          return a.ToConsole();
+        case UseArtifactGroup a:
+          return a.ToConsole();
         default:
           throw new NotImplementedException();
       }
@@ -69,6 +73,16 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static string ToConsole(this TakeArchiveGroup group)
     {
       return $"Take archive";
+    }
+
+    static string ToConsole(this PlayArtifactCardGroup group)
+    {
+      return $"Actions to card {@group.Card.Name}:";
+    }
+
+    static string ToConsole(this UseArtifactGroup group)
+    {
+      return $"Use artifact";
     }
   }
 }

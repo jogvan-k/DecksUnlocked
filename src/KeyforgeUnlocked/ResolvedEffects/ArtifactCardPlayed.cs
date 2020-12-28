@@ -2,9 +2,9 @@
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class ActionPlayed : ResolvedEffectWithCard<ActionPlayed>
+  public sealed class ArtifactCardPlayed : ResolvedEffectWithCard<ArtifactCardPlayed>
   {
-    public ActionPlayed(ICard card) : base(card)
+    public ArtifactCardPlayed(ICard card) : base(card)
     {
     }
 

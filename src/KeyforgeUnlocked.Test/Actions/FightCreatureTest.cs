@@ -1,7 +1,6 @@
 using System.Linq;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -13,10 +12,10 @@ using FightCreature = KeyforgeUnlocked.Actions.FightCreature;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class FightCreatureTest : ActionTestBase<BasicAction>
+  sealed class FightCreatureTest : ActionTestBase<FightCreature>
   {
-    static readonly CreatureCard FightingCreatureCard = new SampleCreatureCard(House.Brobnar, id: "fighter");
-    static readonly CreatureCard TargetCreatureCard = new SampleCreatureCard(id: "target");
+    static readonly ICreatureCard FightingCreatureCard = new SampleCreatureCard(House.Brobnar, id: "fighter");
+    static readonly ICreatureCard TargetCreatureCard = new SampleCreatureCard(id: "target");
     static readonly Creature _fightingCreature;
     static readonly Creature _targetCreature;
     static readonly FightCreature sut;
@@ -131,7 +130,7 @@ namespace KeyforgeUnlockedTest.Actions
         activeHouse: House.Brobnar, fields: fields, effects: expectedEffects);
       expectedState.HistoricData.ActionPlayedThisTurn = true;
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
   }
 }

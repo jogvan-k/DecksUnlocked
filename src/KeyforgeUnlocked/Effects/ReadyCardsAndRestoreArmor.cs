@@ -15,10 +15,10 @@ namespace KeyforgeUnlocked.Effects
         if (!creature.IsReady)
         {
           creature.IsReady = true;
-          creature.BrokenArmor = 0;
-          field[i] = creature;
           state.ResolvedEffects.Add(new CreatureReadied(creature));
         }
+        creature.BrokenArmor = 0;
+        field[i] = creature;
       }
 
       field = state.Fields[state.PlayerTurn.Other()];
@@ -27,6 +27,18 @@ namespace KeyforgeUnlocked.Effects
         var creature = field[i];
         creature.BrokenArmor = 0;
         field[i] = creature;
+      }
+
+      foreach (var artifact in state.Artifacts[state.playerTurn])
+      {
+        if (!artifact.IsReady)
+        {
+          var a = artifact;
+          a.IsReady = true;
+          state.Artifacts[state.playerTurn].Remove(artifact);
+          state.Artifacts[state.playerTurn].Add(a);
+          state.ResolvedEffects.Add(new ArtifactReadied(a));
+        }
       }
     }
   }

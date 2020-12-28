@@ -32,14 +32,13 @@ namespace KeyforgeUnlocked.Cards
       Callback afterKillAbility = null,
       Callback creatureAbility = null,
       Callback reapAbility = null,
-      Callback destroyedAbility = null,
-      string id = null) : base(house, pips, playAbility, id)
+      Callback destroyedAbility = null) : base(house, pips, playAbility)
     {
       CardPower = power;
       CardArmor = armor;
-      CardBeforeFightAbility = beforeFightAbility;
-      CardKeywords = keywords ?? new Keyword[0];
       CardTypes = types ?? new CreatureType[0];
+      CardKeywords = keywords ?? new Keyword[0];
+      CardBeforeFightAbility = beforeFightAbility;
       CardFightAbility = fightAbility;
       CardAfterKillAbility = afterKillAbility;
       CardCreatureAbility = creatureAbility;

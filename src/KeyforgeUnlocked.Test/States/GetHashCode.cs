@@ -146,7 +146,7 @@ namespace KeyforgeUnlockedTest.States
       return state;
     }
     
-    static CreatureCard _sampleCard = new SampleCreatureCard();
+    static ICreatureCard _sampleCard = new SampleCreatureCard();
     
     static IEnumerable<ICard> _player1Deck = new[] {(ICard) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
     static IEnumerable<ICard> _player2Deck = new[] {(ICard) new SampleCreatureCard(House.Shadows), new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Sanctum)};
@@ -160,8 +160,8 @@ namespace KeyforgeUnlockedTest.States
     static IEnumerable<ICard> _player1Archives = new[] {(ICard) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
     static IEnumerable<ICard> _player2Archives = new[] {(ICard) new SampleActionCard(House.Mars), new SampleCreatureCard(House.Saurian)};
     
-    static CreatureCard _player1Field = new SampleCreatureCard(House.Untamed);
-    static CreatureCard _player2Field = new SampleCreatureCard(House.Untamed);
+    static ICreatureCard _player1Field = new SampleCreatureCard(House.Untamed);
+    static ICreatureCard _player2Field = new SampleCreatureCard(House.Untamed);
   }
 
   enum StateField

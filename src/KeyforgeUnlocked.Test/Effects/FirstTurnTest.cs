@@ -3,7 +3,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
@@ -15,12 +14,12 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class FirstTurnTest
   {
-    readonly CreatureCard[] LogosCreatureCards = {new SampleCreatureCard(house: House.Logos), new SampleCreatureCard(house: House.Logos)};
+    readonly ICreatureCard[] LogosCreatureCards = {new SampleCreatureCard(house: House.Logos), new SampleCreatureCard(house: House.Logos)};
 
-    readonly CreatureCard[] StarAllianceCreatureCards =
+    readonly ICreatureCard[] StarAllianceCreatureCards =
       {new SampleCreatureCard(house: House.StarAlliance), new SampleCreatureCard(house: House.StarAlliance)};
 
-    readonly CreatureCard[] UntamedCreatureCards = {new SampleCreatureCard(house: House.Undefined), new SampleCreatureCard(house: House.Undefined)};
+    readonly ICreatureCard[] UntamedCreatureCards = {new SampleCreatureCard(house: House.Undefined), new SampleCreatureCard(house: House.Undefined)};
 
 
     [Test]

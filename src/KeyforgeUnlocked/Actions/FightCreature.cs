@@ -5,7 +5,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class FightCreature : UseCreature
+  public sealed class FightCreature : UseCreature<FightCreature>
   {
     public Creature Target { get; }
 
@@ -41,9 +41,9 @@ namespace KeyforgeUnlocked.Actions
       return base.Identity() + ';' + index;
     }
 
-    protected override bool Equals(BasicAction other)
+    protected override bool Equals(FightCreature other)
     {
-      return base.Equals(other) && Target.Equals(((FightCreature)other).Target);
+      return base.Equals(other) && Target.Equals(other.Target);
     }
 
     public override int GetHashCode()

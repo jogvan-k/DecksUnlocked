@@ -5,8 +5,19 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlockedTest.Util
 {
-  public sealed class SampleCreatureCard : CreatureCard
+  public sealed class SampleCreatureCard : Card, ICreatureCard
   {
+    public int CardPower { get; }
+    public int CardArmor { get; }
+    public Keyword[] CardKeywords { get; }
+    public CreatureType[] CardTypes { get; }
+    public Callback CardFightAbility { get; }
+    public Callback CardBeforeFightAbility { get; }
+    public Callback CardAfterKillAbility { get; }
+    public Callback CardCreatureAbility { get; }
+    public Callback CardReapAbility { get; }
+    public Callback CardDestroyedAbility { get; }
+
     public SampleCreatureCard(
       House house = House.Undefined,
       int power = 1,
@@ -24,20 +35,25 @@ namespace KeyforgeUnlockedTest.Util
       string id = null)
       : base(
         house,
-        power,
-        armor,
-        types,
-        keywords,
         pips,
-        playAbility: playAbility,
-        beforeFightAbility: beforeFightAbility,
-        fightAbility: fightAbility,
-        afterKillAbility: afterKillAbility,
-        creatureAbility: creatureAbility,
-        reapAbility: reapAbility,
-        destroyedAbility: destroyedAbility,
+        playAbility,
         id: id)
     {
+      CardPower = power;
+      CardArmor = armor;
+      CardTypes = types ?? new CreatureType[0];
+      CardKeywords = keywords ?? new Keyword[0];
+      CardBeforeFightAbility = beforeFightAbility;
+      CardFightAbility = fightAbility;
+      CardAfterKillAbility = afterKillAbility;
+      CardCreatureAbility = creatureAbility;
+      CardReapAbility = reapAbility;
+      CardDestroyedAbility = destroyedAbility;
+    }
+
+    public Creature InsantiateCreature()
+    {
+      new Creature(this);
     }
   }
 }

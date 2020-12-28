@@ -12,6 +12,7 @@ namespace KeyforgeUnlocked.States
     const int Key = 200;
     const int Aember = 20;
     const int Creature = 10;
+    const int Artifact = 1;
     const int CreatureEnraged = -5;
     const int CreatureStunned = -8;
     const int CreatureWarded = 8;
@@ -34,6 +35,7 @@ namespace KeyforgeUnlocked.States
       value += Aember * (state.Aember[Player.Player1] - state.Aember[Player.Player2]);
       value += Creature * (MaxCountCreatureOfSameHouse(state.Fields[Player.Player1]) -
                            MaxCountCreatureOfSameHouse(state.Fields[Player.Player2]));
+      value += Artifact * (state.Artifacts[Player.Player1].Count - state.Artifacts[Player.Player2].Count);
       value += MapStatusEffects(state.Fields[Player.Player1]) - MapStatusEffects(state.Fields[Player.Player2]);
 
       return value;

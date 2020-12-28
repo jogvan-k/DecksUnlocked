@@ -3,7 +3,7 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlockedTest.Util
 {
-  public sealed class SampleActionCard : ActionCard
+  public sealed class SampleActionCard : Card, IActionCard
   {
     public SampleActionCard(
       House house = House.Undefined,

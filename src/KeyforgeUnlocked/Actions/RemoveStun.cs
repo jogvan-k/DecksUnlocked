@@ -4,7 +4,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class RemoveStun : UseCreature
+  public sealed class RemoveStun : UseCreature<RemoveStun>
   {
     public RemoveStun(ImmutableState origin, Creature creature, bool allowOutOfHouseUse = false) : base(origin, creature, allowOutOfHouseUse)
     {

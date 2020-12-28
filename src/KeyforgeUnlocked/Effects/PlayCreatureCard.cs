@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.Effects
       ValidatePosition(state);
       var creature = CreatureCard.InsantiateCreature();
       state.Fields[state.PlayerTurn].Insert(Position, creature);
-      state.ResolvedEffects.Add(new CreaturePlayed(creature, Position));
+      state.ResolvedEffects.Add(new CreatureCardPlayed(creature, Position));
 
       ResolvePlayEffects(state);
     }

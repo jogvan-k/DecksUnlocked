@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
@@ -16,7 +17,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
   public static class KeyforgeStateConsoleExtensions
   {
     static IEvaluator _evaluator = new Evaluator();
-    
+
     public static void Print(this IState state,
       out Dictionary<string, IActionGroup> commands)
     {
@@ -44,7 +45,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Console.WriteLine($"Board value: {_evaluator.Evaluate(state)}");
       PrintAmounts(state, fromPlayerPerspective);
       PrintActiveHouse(state);
-      PrintField(state, fromPlayerPerspective, commands);
+      PrintFieldAndArtifacts(state, fromPlayerPerspective, commands);
     }
 
     static void PrintResolvedEffects(IState state)
@@ -69,17 +70,19 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Console.WriteLine($"Active house: {state.ActiveHouse}");
     }
 
-    static void PrintField(IState state,
+    static void PrintFieldAndArtifacts(IState state,
       Player fromPlayerPerspective,
       Dictionary<string, IActionGroup> commands = null)
     {
       Console.Write("Opponent: ");
       PrintKeysAndAember(state.Keys[fromPlayerPerspective.Other()], state.Aember[fromPlayerPerspective.Other()]);
       PrintField(state, state.Fields[fromPlayerPerspective.Other()], commands);
+      PrintArtifacts(state, state.Artifacts[fromPlayerPerspective.Other()], commands);
 
       Console.Write("You: ");
       PrintKeysAndAember(state.Keys[fromPlayerPerspective], state.Aember[fromPlayerPerspective]);
       PrintField(state, state.Fields[fromPlayerPerspective], commands);
+      PrintArtifacts(state, state.Artifacts[fromPlayerPerspective], commands);
     }
 
     static void PrintKeysAndAember(int keys,
@@ -129,12 +132,38 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       Console.WriteLine();
     }
 
+    static void PrintArtifacts(IState state,
+      IImmutableSet<Artifact> artifacts,
+      Dictionary<string, IActionGroup> commands)
+    {
+      if (artifacts.Count == 0) return;
+      Console.WriteLine("Artifacts: ");
+      int i = 1;
+      foreach (var artifact in artifacts)
+      {
+        var artifactGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionRelatedToArtifact(artifact));
+        if (artifactGroup != default)
+        {
+          var command = $"a{i++}";
+          commands.Add(command, artifactGroup);
+          Console.Write($"[{command}]");
+        }
+        
+        var sb = new StringBuilder($"{artifact.Card.Name}");
+        if (!artifact.IsReady) sb.Append(", Exhausted");
+
+        Console.WriteLine(sb.ToString());
+      }
+      
+      Console.WriteLine();
+    }
+
     static string KeywordsReadable(Keyword[] keywords)
     {
       if (keywords.Length == 0) return "";
       var sb = new StringBuilder();
       int i = 0;
-      while(i < keywords.Length - 1)
+      while (i < keywords.Length - 1)
         sb.Append($"{keywords[i++]}, ");
       sb.Append($"{keywords[i]}");
       return sb.ToString();
@@ -146,7 +175,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     {
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
-      foreach (var card in state.Hands[fromPlayerPerspective].OrderBy(c => c.House != state.ActiveHouse).ThenBy(c => c.House).ThenBy(c => c.Name))
+      foreach (var card in state.Hands[fromPlayerPerspective].OrderBy(c => c.House != state.ActiveHouse)
+        .ThenBy(c => c.House).ThenBy(c => c.Name))
       {
         if (commands != null)
         {
@@ -193,6 +223,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         commands.Add("take", takeArchive);
         Console.WriteLine("[Take] archive");
       }
+
       if (endAction != default)
       {
         commands.Add("end", endAction);
@@ -204,6 +235,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         commands.Add("house", declareHouse);
         Console.Write("Declare [House] ");
       }
+
       Console.WriteLine("");
     }
 
@@ -226,14 +258,19 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       this IActionGroup group,
       ICard card)
     {
-      if (group is PlayActionCardGroup PlayActionCardGroup)
+      if (group is PlayActionCardGroup playActionCardGroup)
       {
-        return ((Object) PlayActionCardGroup.Card).Equals(card);
+        return playActionCardGroup.Card.Equals(card);
       }
-      
-      if (group is PlayCreatureCardGroup PlayCreatureCardGroup)
+
+      if (group is PlayCreatureCardGroup playCreatureCardGroup)
       {
-        return ((Object) PlayCreatureCardGroup.Card).Equals(card);
+        return playCreatureCardGroup.Card.Equals(card);
+      }
+
+      if (group is PlayArtifactCardGroup playArtifactCardGroup)
+      {
+        return playArtifactCardGroup.Card.Equals(card);
       }
 
       return false;
@@ -248,6 +285,18 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         return actions.Creature.Equals(creature);
       }
 
+      return false;
+    }
+
+    static bool IsActionRelatedToArtifact(
+      this IActionGroup group,
+      Artifact artifact)
+    {
+      if (group is UseArtifactGroup actions)
+      {
+        return actions.Artifact.Equals(artifact);
+      }
+      
       return false;
     }
   }

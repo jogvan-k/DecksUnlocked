@@ -5,36 +5,19 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class PlayActionCard : Action<PlayActionCard>
+  public sealed class PlayActionCard : BasicActionWithCard<PlayActionCard>
   {
-    public readonly IActionCard Card;
 
-    public PlayActionCard(ImmutableState origin, IActionCard card) : base(origin)
+    public PlayActionCard(ImmutableState origin, IActionCard card) : base(origin, card)
     {
-      Card = card;
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(MutableState state)
     {
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card);
 
-      state.Effects.Push(new Effects.PlayActionCard(Card));
-    }
-
-    public override string Identity()
-    {
-      return Card.Id;
-    }
-
-    protected override bool Equals(PlayActionCard other)
-    {
-      return Equals(Card, other.Card);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Card);
+      state.Effects.Push(new Effects.PlayActionCard((IActionCard) Card));
     }
   }
 }

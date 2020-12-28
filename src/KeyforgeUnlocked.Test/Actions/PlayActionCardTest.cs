@@ -1,9 +1,11 @@
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
+using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 using PlayActionCard = KeyforgeUnlocked.Actions.PlayActionCard;
 
 namespace KeyforgeUnlockedTest.Actions
@@ -11,7 +13,7 @@ namespace KeyforgeUnlockedTest.Actions
   [TestFixture]
   sealed class PlayActionCardTest : ActionTestBase<PlayActionCard>
   {
-    static ActionCard sampleCard = new SampleActionCard();
+    static IActionCard sampleCard = new SampleActionCard();
     static PlayActionCard _sut = new(null, sampleCard);
     static IEffect unresolvedEffect = new EndTurn();
 
@@ -24,7 +26,8 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedEffects = new LazyStackQueue<IEffect>(new[] {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayActionCard(sampleCard)});
       var expectedState = StateTestUtil.EmptyState.New(effects: expectedEffects);
-      Act(_sut, state, expectedState);
+      expectedState.HistoricData.ActionPlayedThisTurn = true;
+      ActAndAssert(_sut, state, expectedState);
     }
 
     [Test]
@@ -34,7 +37,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       try
       {
-        Act(_sut, state, null);
+        ActAndAssert(_sut, state, null);
       }
       catch (CardNotPresentException e)
       {

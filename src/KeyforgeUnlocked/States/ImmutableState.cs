@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -25,6 +26,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Discards { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Archives { get; }
     public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<Artifact>> Artifacts { get; }
     public ImmutableArray<IEffect> Effects { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
     public IImmutableHistoricData HistoricData { get; }
@@ -45,6 +47,7 @@ namespace KeyforgeUnlocked.States
       LookupReadOnly<Player, IImmutableSet<ICard>> discards,
       LookupReadOnly<Player, IImmutableSet<ICard>> archives,
       LookupReadOnly<Player, IImmutableList<Creature>> fields,
+      IReadOnlyDictionary<Player, IImmutableSet<Artifact>> artifacts,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,
       IImmutableHistoricData historicData,
@@ -63,6 +66,7 @@ namespace KeyforgeUnlocked.States
       Discards = discards;
       Archives = archives;
       Fields = fields;
+      Artifacts = artifacts;
       Effects = effects;
       ResolvedEffects = resolvedEffects;
       HistoricData = historicData;
@@ -84,6 +88,7 @@ namespace KeyforgeUnlocked.States
       Discards = state.Discards;
       Archives = state.Archives;
       Fields = state.Fields;
+      Artifacts = state.Artifacts;
       Effects = state.Effects;
       ResolvedEffects = state.ResolvedEffects;
       HistoricData = state.HistoricData.ToImmutable();

@@ -14,7 +14,7 @@ using RemoveStun = KeyforgeUnlocked.Actions.RemoveStun;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class RemoveStunTest : ActionTestBase<BasicAction>
+  sealed class RemoveStunTest : ActionTestBase<RemoveStun>
   {
     Creature creature;
     IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedState = Expected();
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
 
     [Test]

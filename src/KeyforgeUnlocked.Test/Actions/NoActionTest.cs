@@ -15,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedState = StateTestUtil.EmptyState;
 
-      Act(new NoAction(null), state, expectedState);
+      ActAndAssert(new NoAction(null), state, expectedState);
     }
   }
 }

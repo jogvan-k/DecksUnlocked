@@ -11,8 +11,8 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   sealed class PlayActionCardGroupTest
   {
-    ActionCard sampleCard = new SampleActionCard();
-    private ImmutableState _state = StateTestUtil.EmptyState;
+    IActionCard sampleCard = new SampleActionCard();
+    ImmutableState _state = StateTestUtil.EmptyState;
 
     [Test]
     public void Tests_EmptyState()

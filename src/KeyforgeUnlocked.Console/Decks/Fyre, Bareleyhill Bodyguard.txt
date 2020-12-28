@@ -5,6 +5,7 @@ Firespitter
 Lupo the Scarred
 Punch
 Vigor
+Ritual of Balance
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -18,6 +19,7 @@ Firespitter
 Lupo the Scarred
 Punch
 Vigor
+Ritual of Balance
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -31,9 +33,11 @@ Firespitter
 Lupo the Scarred
 Punch
 Vigor
+Ritual of Balance
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
 Witch of the Eye
 Regrowth
 Labwork
+Ritual of Balance

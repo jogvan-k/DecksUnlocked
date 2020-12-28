@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -16,10 +15,10 @@ using Reap = KeyforgeUnlocked.Actions.Reap;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class ReapTest : ActionTestBase<BasicAction>
+  class ReapTest : ActionTestBase<Reap>
   {
     const House ActiveHouse = House.Logos;
-    readonly CreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
+    readonly ICreatureCard _creatureCard = new SampleCreatureCard(house: ActiveHouse);
     Creature _creature;
     IImmutableDictionary<Player, IMutableList<Creature>> _fields;
 
@@ -40,7 +39,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedState = Expected();
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
 
     [Test]
@@ -50,7 +49,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedState = Expected(House.Dis);
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
 
     [Test]

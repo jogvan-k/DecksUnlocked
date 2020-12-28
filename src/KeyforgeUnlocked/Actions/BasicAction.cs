@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Actions
   /// <summary>
   /// Actions inherited from this class are available only when no unresolved effects are present
   /// </summary>
-  public abstract class BasicAction : Action<BasicAction>
+  public abstract class BasicAction<T> : Action<T> where T : BasicAction<T>
   {
     protected BasicAction(ImmutableState origin) : base(origin)
     {

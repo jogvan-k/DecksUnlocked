@@ -16,7 +16,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Effects
 {
   [TestFixture]
-  class PlayCreatureTest
+  class PlayCreatureCardTest
   {
     Callback _playAbility;
     bool _playedEffectResolved;
@@ -24,8 +24,8 @@ namespace KeyforgeUnlockedTest.Effects
     static readonly ICard[] otherCards =
       {new SampleCreatureCard(), new SampleCreatureCard(), new SampleCreatureCard()};
 
-    static readonly CreatureCard CreatureCardOnBoard1 = new SampleCreatureCard();
-    static readonly CreatureCard CreatureCardOnBoard2 = new SampleCreatureCard();
+    static readonly ICreatureCard CreatureCardOnBoard1 = new SampleCreatureCard();
+    static readonly ICreatureCard CreatureCardOnBoard2 = new SampleCreatureCard();
 
     [SetUp]
     public void SetUp()
@@ -47,7 +47,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = TestState(playingPlayer);
       var expectedCreature = new Creature(playedCard);
       expectedState.Fields[playingPlayer].Add(expectedCreature);
-      expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, 0));
+      expectedState.ResolvedEffects.Add(new CreatureCardPlayed(expectedCreature, 0));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
     }
@@ -88,7 +88,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedState = StateWithTwoCreatures(playingPlayer);
       var expectedCreature = new Creature(playedCard);
       expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
-      expectedState.ResolvedEffects.Add(new CreaturePlayed(expectedCreature, position));
+      expectedState.ResolvedEffects.Add(new CreatureCardPlayed(expectedCreature, position));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
     }
@@ -126,7 +126,7 @@ namespace KeyforgeUnlockedTest.Effects
 
       var expectedState = TestState(activePlayer);
       expectedState.Aember[activePlayer] += 3;
-      expectedState.ResolvedEffects.Add(new CreaturePlayed(new Creature(playedCard), 0));
+      expectedState.ResolvedEffects.Add(new CreatureCardPlayed(new Creature(playedCard), 0));
       expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));
       expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));
       expectedState.ResolvedEffects.Add(new AemberGained(activePlayer, 1));

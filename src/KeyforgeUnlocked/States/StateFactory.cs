@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -40,6 +41,7 @@ namespace KeyforgeUnlocked.States
           EmptySet(),
           EmptySet(),
           EmptyField(),
+          EmptyArtifacts(),
           effects,
           new LazyList<IResolvedEffect>(),
           new ImmutableHistoricData().ToMutable(),
@@ -94,14 +96,6 @@ namespace KeyforgeUnlocked.States
       });
     }
 
-    static Dictionary<Player, IMutableList<ICard>> EmptyDeck<T>()
-    {
-      return new()
-      {
-        {Player.Player1, new LazyList<ICard>()}, {Player.Player2, new LazyList<ICard>()}
-      };
-    }
-
     static LookupReadOnly<Player, IMutableSet<ICard>> EmptySet()
     {
       return new(new Dictionary<Player, IMutableSet<ICard>>()
@@ -115,6 +109,14 @@ namespace KeyforgeUnlocked.States
       return new(new Dictionary<Player, IMutableList<Creature>>
       {
         {Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}
+      });
+    }
+
+    static LookupReadOnly<Player, IMutableSet<Artifact>> EmptyArtifacts()
+    {
+      return new(new Dictionary<Player, IMutableSet<Artifact>>
+      {
+        {Player.Player1, new LazySet<Artifact>()}, {Player.Player2, new LazySet<Artifact>()}
       });
     }
   }

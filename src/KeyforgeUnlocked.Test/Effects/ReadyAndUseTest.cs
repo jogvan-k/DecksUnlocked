@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
@@ -16,7 +15,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   sealed class ReadyAndUseTest
   {
-    CreatureCard sampleCreatureCard = new SampleCreatureCard();
+    ICreatureCard sampleCreatureCard = new SampleCreatureCard();
 
     [Test]
     public void Resolve_TargetCreatureDoesNotBelongToCurrentPlayer_Exception()

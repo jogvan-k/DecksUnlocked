@@ -27,7 +27,7 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedDiscards = TestUtil.Sets<ICard>(card);
-      var expectedResolvedEffects = new List<IResolvedEffect>{new ActionPlayed(card)};
+      var expectedResolvedEffects = new List<IResolvedEffect>{new ActionCardPlayed(card)};
       var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(playAbilityResolved);
@@ -46,7 +46,7 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedAember = TestUtil.Ints(3, 0);
       var expectedResolvedEffects = new List<IResolvedEffect>
       {
-        new ActionPlayed(card),
+        new ActionCardPlayed(card),
         new AemberGained(Player.Player1, 1),
         new AemberGained(Player.Player1, 1),
         new AemberGained(Player.Player1, 1)

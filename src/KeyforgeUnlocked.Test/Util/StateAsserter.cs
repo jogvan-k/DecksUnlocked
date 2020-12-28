@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
@@ -44,6 +45,7 @@ namespace KeyforgeUnlockedTest.Util
       CheckAndWriteFieldErrorMessage(sb, "Discards", expected.Discards, actual.Discards);
       CheckAndWriteFieldErrorMessage(sb, "Archives", expected.Archives, actual.Archives);
       CheckAndWriteFieldErrorMessage(sb, "Fields", expected.Fields, actual.Fields);
+      CheckAndWriteFieldErrorMessage(sb, "Artifacts", expected.Artifacts, actual.Artifacts);
       CheckAndWriteFieldErrorMessage(sb, "Effects", expected.Effects, actual.Effects);
       CheckAndWriteFieldErrorMessage(sb, "ResolvedEffects", expected.ResolvedEffects, actual.ResolvedEffects);
       if (!expected.HistoricData.Equals(actual.HistoricData))
@@ -148,7 +150,11 @@ namespace KeyforgeUnlockedTest.Util
           else if (ex is IMutableList<Creature> exCm && ac is IMutableList<Creature> acCm)
             WriteCreatureEntryError(sb, fieldName, key, exCm, acCm);
           else if (ex is IImmutableList<Creature> exCim && ac is IImmutableList<Creature> acCim)
-            WriteCreatureEntryError(sb, fieldName, key, exCim, acCim);            
+            WriteCreatureEntryError(sb, fieldName, key, exCim, acCim); 
+          else if (ex is IMutableSet<Artifact> exAm && ac is IMutableSet<Artifact> acAm)
+            WriteArtifactEntryError(sb, fieldName, key, exAm, acAm);
+          else if (ex is IImmutableSet<Artifact>exAim && ac is IImmutableSet<Artifact> acAim)
+            WriteArtifactEntryError(sb, fieldName, key, exAim, acAim);
           else
             WriteEntryError(sb, fieldName, key, ex, ac);
         }
@@ -175,7 +181,7 @@ namespace KeyforgeUnlockedTest.Util
           sb.AppendLine($"{entry} lists differ at index {i}. Expected: {expected[i]}, actual: {actual[i]}");
       }
     }
-    
+
     static void WriteCreatureEntryError(StringBuilder sb,
       string fieldName,
       Player entry,
@@ -194,6 +200,50 @@ namespace KeyforgeUnlockedTest.Util
           sb.AppendLine($"{entry} actual don't have an entry at index {i} whereas expected has");
         else if (!expected[i].Equals(actual[i]))
           sb.AppendLine($"{entry} lists differ at index {i}. Expected: {expected[i]}, actual: {actual[i]}");
+      }
+    }
+
+    static void WriteArtifactEntryError(
+      StringBuilder sb,
+      string fieldName,
+      Player entry,
+      IMutableSet<Artifact> expected,
+      IMutableSet<Artifact> actual)
+    {
+      if (expected.SetEquals(actual))
+        return;
+      AppendFieldName(sb, fieldName);
+
+      foreach (var difference in expected.Except(actual))
+      {
+        sb.AppendLine($"{entry} expected has the entry ({difference}) whereas actual don't");
+      }
+
+      foreach (var difference in actual.Except(expected))
+      {
+        sb.AppendLine($"{entry} actual has the entry ({difference}) whereas expected don't");
+      }
+    }
+
+    static void WriteArtifactEntryError(
+      StringBuilder sb,
+      string fieldName,
+      Player entry,
+      IImmutableSet<Artifact> expected,
+      IImmutableSet<Artifact> actual)
+    {
+      if (expected.SetEquals(actual))
+        return;
+      AppendFieldName(sb, fieldName);
+
+      foreach (var difference in expected.Except(actual))
+      {
+        sb.AppendLine($"{entry} expected has the entry ({difference}) whereas actual don't");
+      }
+
+      foreach (var difference in actual.Except(expected))
+      {
+        sb.AppendLine($"{entry} actual has the entry ({difference}) whereas expected don't");
       }
     }
 

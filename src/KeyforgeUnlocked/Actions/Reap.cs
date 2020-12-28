@@ -4,7 +4,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class Reap : UseCreature
+  public class Reap : UseCreature<Reap>
   {
     public Reap(ImmutableState origin, Creature creature, bool allowOutOfHouseUse = false) : base(origin, creature, allowOutOfHouseUse)
     {

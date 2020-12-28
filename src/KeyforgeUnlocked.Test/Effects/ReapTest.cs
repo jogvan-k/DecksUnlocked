@@ -16,9 +16,9 @@ namespace KeyforgeUnlockedTest.Effects
   class ReapTest
   {
     bool _reapAbilityResolved;
-    readonly CreatureCard _creatureCard;
-    static readonly CreatureCard OtherCreatureCard1 = new SampleCreatureCard();
-    static readonly CreatureCard OtherCreatureCard2 = new SampleCreatureCard();
+    readonly ICreatureCard _creatureCard;
+    static readonly ICreatureCard OtherCreatureCard1 = new SampleCreatureCard();
+    static readonly ICreatureCard OtherCreatureCard2 = new SampleCreatureCard();
     readonly Creature _creature;
     Reap _sut;
 

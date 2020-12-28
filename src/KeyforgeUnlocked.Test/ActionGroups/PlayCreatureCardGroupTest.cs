@@ -14,7 +14,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   class PlayCreatureCardGroupTest
   {
-    static readonly CreatureCard Card = new SampleCreatureCard();
+    static readonly ICreatureCard Card = new SampleCreatureCard();
     private ImmutableState _state = StateTestUtil.EmptyState;
 
     [Test]

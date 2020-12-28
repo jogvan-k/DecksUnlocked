@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -30,6 +31,7 @@ namespace KeyforgeUnlockedTest.Util
       new Dictionary<Player, IMutableSet<ICard>> {{Player.Player1, new LazySet<ICard>()}, {Player.Player2, new LazySet<ICard>()}}.ToReadOnly(),
       new Dictionary<Player, IMutableList<Creature>>
         {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToReadOnly(),
+      TestUtil.Sets<Artifact>(),
       new LazyStackQueue<IEffect>(),
       new LazyList<IResolvedEffect>(),
       new LazyHistoricData(new ImmutableHistoricData()),
@@ -41,19 +43,16 @@ namespace KeyforgeUnlockedTest.Util
       false,
       null,
       null,
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
-      new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToReadOnly(),
+      TestUtil.Ints().ToReadOnly(),
+      TestUtil.Ints().ToReadOnly(),
       new HashSet<IActionGroup>().ToImmutableHashSet(),
-      new Dictionary<Player, IMutableStackQueue<ICard>> {{Player.Player1, new LazyStackQueue<ICard>()}, {Player.Player2, new LazyStackQueue<ICard>()}}.ToReadOnly()
-        .ToImmutable(),
-      new Dictionary<Player, IMutableSet<ICard>> {{Player.Player1, new LazySet<ICard>()}, {Player.Player2, new LazySet<ICard>()}}.ToImmutableDictionary()
-        .ToImmutable(),
-      new Dictionary<Player, IMutableSet<ICard>> {{Player.Player1, new LazySet<ICard>()}, {Player.Player2, new LazySet<ICard>()}}.ToImmutableDictionary()
-        .ToImmutable(),
-      new Dictionary<Player, IMutableSet<ICard>> {{Player.Player1, new LazySet<ICard>()}, {Player.Player2, new LazySet<ICard>()}}.ToImmutableDictionary()
-        .ToImmutable(),
-      new Dictionary<Player, IMutableList<Creature>>
-        {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToImmutableDictionary().ToImmutable(),
+      TestUtil.Stacks<ICard>().ToImmutable()
+      ,
+      TestUtil.Sets<ICard>().ToImmutable(),
+      TestUtil.Sets<ICard>().ToImmutable(),
+      TestUtil.Sets<ICard>().ToImmutable(),
+      TestUtil.Lists<Creature>().ToImmutable(),
+      TestUtil.Sets<Artifact>().ToImmutable(),
       ImmutableArray<IEffect>.Empty,
       new List<IResolvedEffect>().ToImmutableList(),
       new ImmutableHistoricData(),
@@ -74,6 +73,7 @@ namespace KeyforgeUnlockedTest.Util
       IReadOnlyDictionary<Player, IMutableSet<ICard>> discards = null,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> archives = null,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
+      IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts = null,
       IMutableStackQueue<IEffect> effects = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
       IMutableHistoricData historicData = null,
@@ -93,6 +93,7 @@ namespace KeyforgeUnlockedTest.Util
         discards ?? state.Discards.ToMutable(),
         archives ?? state.Archives.ToMutable(),
         fields ?? state.Fields.ToMutable(),
+        artifacts ?? state.Artifacts.ToMutable(),
         effects ?? new LazyStackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
         historicData ?? new LazyHistoricData(new ImmutableHistoricData()),
@@ -117,6 +118,7 @@ namespace KeyforgeUnlockedTest.Util
       IReadOnlyDictionary<Player, IMutableSet<ICard>> discards = null,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> archives = null,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
+      IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
       IMutableHistoricData historicData = null,
       IMutableStackQueue<IEffect> effects = null,
@@ -125,7 +127,7 @@ namespace KeyforgeUnlockedTest.Util
       return state.New(
         playerTurn, turnNumber, isGameOver, keys, aember, state,
         activeHouse, actionGroups, decks, hands, discards, archives,
-        fields,effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), historicData, metadata);
+        fields, artifacts, effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), historicData, metadata);
     }
 
     static Stack<ICard> EmptyDeck => new();

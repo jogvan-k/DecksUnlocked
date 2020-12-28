@@ -7,6 +7,14 @@ namespace KeyforgeUnlockedTest.Util
 {
   public static class TestUtil
   {
+    public static KeyforgeUnlocked.Types.Lookup<Player, int> Ints()
+    {
+      return new Dictionary<Player, int>
+      {
+        {Player.Player1, 0},
+        {Player.Player2, 0}
+      }.ToLookup();
+    }
     public static KeyforgeUnlocked.Types.Lookup<Player, int> Ints(int player1Int, int player2Int)
     {
       return new Dictionary<Player, int>
@@ -16,6 +24,11 @@ namespace KeyforgeUnlockedTest.Util
       }.ToLookup();
     }
 
+    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>()
+    {
+      return Lists(Enumerable.Empty<T>(), Enumerable.Empty<T>());
+    }
+    
     public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
       T player1Type)
     {
@@ -39,6 +52,10 @@ namespace KeyforgeUnlockedTest.Util
         {Player.Player2, new LazyList<T>(player2Types)}
       }.ToReadOnly();
     }
+    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>()
+    {
+      return Stacks(Enumerable.Empty<T>(), Enumerable.Empty<T>());
+    }
 
     public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>(
       IEnumerable<T> player1Type)
@@ -59,13 +76,13 @@ namespace KeyforgeUnlockedTest.Util
 
     public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>()
     {
-      return Sets<T>(Enumerable.Empty<T>(), Enumerable.Empty<T>());
+      return Sets(Enumerable.Empty<T>(), Enumerable.Empty<T>());
     }
 
     public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
       T player1Type)
     {
-      return Sets<T>(new[] {player1Type}, Enumerable.Empty<T>());
+      return Sets(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
     public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(

@@ -25,6 +25,8 @@ namespace KeyforgeUnlocked.Effects
           return new PlayCreatureCardGroup(state, creatureCard);
         case IActionCard actionCard:
           return new PlayActionCardGroup(actionCard);
+        case IArtifactCard artifactCard:
+          return new PlayArtifactCardGroup(artifactCard);
         default:
           throw new NotImplementedException();
       }

@@ -8,7 +8,7 @@ using EndTurn = KeyforgeUnlocked.Actions.EndTurn;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  class EndTurnTest : ActionTestBase<BasicAction>
+  class EndTurnTest : ActionTestBase<EndTurn>
   {
     [Test]
     public void Act_EmptyBoard()
@@ -23,7 +23,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       expectedState.HistoricData.ActionPlayedThisTurn = true;
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
   }
 }

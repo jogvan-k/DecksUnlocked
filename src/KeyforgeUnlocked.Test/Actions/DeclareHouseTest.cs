@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.Actions;
@@ -35,7 +34,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyState.New();
       var sut = new DeclareHouse(null, House.Mars);
 
-      System.Action<NoMetadataException> asserts = e => { };
+      System.Action<NoMetadataException> asserts = _ => { };
 
       ActExpectException(sut, state, asserts);
     }
@@ -68,7 +67,7 @@ namespace KeyforgeUnlockedTest.Actions
       var expectedState = StateTestUtil.EmptyState.New(
         activeHouse: declaredHouse, metadata: metadata, resolvedEffects: expectedResolvedEffects);
       
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
   }
 }

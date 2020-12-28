@@ -1,4 +1,5 @@
 using KeyforgeUnlocked.Creatures;
+using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
@@ -13,6 +14,8 @@ namespace KeyforgeUnlocked.Effects
 
     protected override void SpecificResolve(MutableState state, Creature creature)
     {
+      if (creature.Card.CardCreatureAbility == null)
+        throw new NoCallbackException(state, creature);
       creature.Card.CardCreatureAbility(state, creature);
     }
   }

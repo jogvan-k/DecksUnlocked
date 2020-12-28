@@ -15,7 +15,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class UseCreatureAbilityTest : ActionTestBase<BasicAction>
+  sealed class UseCreatureAbilityTest : ActionTestBase<UseCreatureAbility>
   {
     Creature creature;
     IReadOnlyDictionary<Player, IMutableList<Creature>> fields;
@@ -27,7 +27,7 @@ namespace KeyforgeUnlockedTest.Actions
 
       var expectedState = Expected();
 
-      Act(sut, state, expectedState);
+      ActAndAssert(sut, state, expectedState);
     }
 
     [Test]

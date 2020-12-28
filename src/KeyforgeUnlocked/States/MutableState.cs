@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -26,6 +27,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards;
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives;
     public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields;
+    public IReadOnlyDictionary<Player, IMutableSet<Artifact>> Artifacts;
     public IMutableStackQueue<IEffect> Effects;
     public IMutableList<IResolvedEffect> ResolvedEffects;
     public IMutableHistoricData HistoricData;
@@ -76,6 +78,8 @@ namespace KeyforgeUnlocked.States
 
     IReadOnlyDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
 
+    IReadOnlyDictionary<Player, IImmutableSet<Artifact>> IState.Artifacts => Artifacts.ToImmutable();
+
     ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
 
     IImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
@@ -104,6 +108,7 @@ namespace KeyforgeUnlocked.States
       Discards = state.Discards.ToMutable();
       Archives = state.Archives.ToMutable();
       Fields = state.Fields.ToMutable();
+      Artifacts = state.Artifacts.ToMutable();
       Effects = new LazyStackQueue<IEffect>(state.Effects);
       ResolvedEffects = new LazyList<IResolvedEffect>();
       HistoricData = new LazyHistoricData(state.HistoricData);
@@ -124,6 +129,7 @@ namespace KeyforgeUnlocked.States
       IReadOnlyDictionary<Player, IMutableSet<ICard>> discards,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> archives,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
+      IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts,
       IMutableStackQueue<IEffect> effects,
       IMutableList<IResolvedEffect> resolvedEffects,
       IMutableHistoricData historicData,
@@ -142,6 +148,7 @@ namespace KeyforgeUnlocked.States
       Discards = discards;
       Archives = archives;
       Fields = fields;
+      Artifacts = artifacts;
       Effects = effects;
       ResolvedEffects = resolvedEffects;
       HistoricData = historicData;
@@ -165,18 +172,7 @@ namespace KeyforgeUnlocked.States
       {
         if (card.House != activeHouse)
           continue;
-        IActionGroup actionGroup;
-        switch (card)
-        {
-          case CreatureCard creatureCard:
-            actionGroup = new PlayCreatureCardGroup(this, creatureCard);
-            break;
-          case ActionCard actionCard:
-            actionGroup = new PlayActionCardGroup(actionCard);
-            break;
-          default:
-            throw new NotImplementedException();
-        }
+        var actionGroup = ToActionGroup(card);
 
         if (actionGroup.Actions(trialState).Count != 0)
           ActionGroups.Add(actionGroup);
@@ -191,6 +187,37 @@ namespace KeyforgeUnlocked.States
             ActionGroups.Add(actionGroup);
         }
       }
+
+      foreach (var artifact in Artifacts[playerTurn])
+      {
+        if (artifact.IsReady && artifact.Card.House == activeHouse)
+        {
+          var actionGroup = new UseArtifactGroup(artifact);
+          if (actionGroup.Actions(trialState).Count != 0)
+            ActionGroups.Add(actionGroup);
+        }
+      }
+    }
+
+    IActionGroup ToActionGroup(ICard card)
+    {
+      IActionGroup actionGroup;
+      switch (card)
+      {
+        case ICreatureCard creatureCard:
+          actionGroup = new PlayCreatureCardGroup(this, creatureCard);
+          break;
+        case IActionCard actionCard:
+          actionGroup = new PlayActionCardGroup(actionCard);
+          break;
+        case IArtifactCard artifactCard:
+          actionGroup = new PlayArtifactCardGroup(artifactCard);
+          break;
+        default:
+          throw new NotImplementedException();
+      }
+
+      return actionGroup;
     }
 
     public ImmutableState ResolveEffects()

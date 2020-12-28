@@ -6,7 +6,7 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public abstract class UseCreature : BasicAction
+  public abstract class UseCreature<T> : BasicAction<T> where T : UseCreature<T>
   {
     public readonly Creature Creature;
     readonly bool _allowOutOfHouseUse;
@@ -37,9 +37,9 @@ namespace KeyforgeUnlocked.Actions
         throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
     }
 
-    protected override bool Equals(BasicAction other)
+    protected override bool Equals(T other)
     {
-      return Equals(Creature, ((UseCreature)other).Creature);
+      return Equals(Creature, other.Creature);
     }
 
     public override int GetHashCode()

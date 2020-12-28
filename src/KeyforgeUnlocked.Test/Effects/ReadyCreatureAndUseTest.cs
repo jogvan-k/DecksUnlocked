@@ -13,7 +13,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Effects
 {
   [TestFixture]
-  sealed class ReadyAndUseTest
+  sealed class ReadyCreatureAndUseTest
   {
     ICreatureCard sampleCreatureCard = new SampleCreatureCard();
 
@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedTest.Effects
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(Player.Player2, fields: fields);
 
-      var sut = new ReadyAndUseCreature(target, false);
+      var sut = new ReadyCreatureAndUse(target, false);
 
       try
       {
@@ -46,7 +46,7 @@ namespace KeyforgeUnlockedTest.Effects
       var target = new Creature(sampleCreatureCard);
       var fields = TestUtil.Lists(target);
       var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new ReadyAndUseCreature(target, false);
+      var sut = new ReadyCreatureAndUse(target, false);
 
       sut.Resolve(state);
 

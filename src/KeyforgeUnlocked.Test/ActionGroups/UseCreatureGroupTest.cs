@@ -65,7 +65,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     }
 
     [Test]
-    public void Actions_OpponentWithTaunt_AttackActionsOnlyOnalidCreatures()
+    public void Actions_OpponentWithTaunt_AttackActionsOnlyOnValidCreatures()
     {
       var creature = new Creature(_sampleCreatureCard, isReady: true);
       var field = TestUtil.Lists(
@@ -87,23 +87,54 @@ namespace KeyforgeUnlockedTest.ActionGroups
       Assert.AreEqual(expectedActions, actions);
     }
 
-    [Test]
-    public void Actions_CreatureReadyWithCreatureAbility()
+    [Test, Combinatorial]
+    public void Actions_CreatureReadyWithCreatureAbility(
+      [Values(UseCreature.None,
+        UseCreature.Fight,
+        UseCreature.Fight | UseCreature.Reap,
+        UseCreature.Fight | UseCreature.ActiveAbility,
+        UseCreature.Reap,
+        UseCreature.Reap | UseCreature.ActiveAbility,
+        UseCreature.ActiveAbility,
+        UseCreature.All)] UseCreature useCreature,
+      [Values(false, true)]bool creatureStunned)
     {
-      var creature = new Creature(_sampleCreatureCardWithCreatureAbility, isReady: true);
+      var creature = new Creature(_sampleCreatureCardWithCreatureAbility, isReady: true, state: creatureStunned ? CreatureState.Stunned : CreatureState.None);
       var state = SetupState(creature);
-      var sut = new UseCreatureGroup(state, creature);
+      var sut = new UseCreatureGroup(state, creature, allowedUsages: useCreature);
 
       var actions = sut.Actions(state);
 
-      var expectedActions = ImmutableArray<IAction>.Empty.AddRange(
-        new[]
+      var expectedActions = ImmutableArray<IAction>.Empty;
+
+      if (creatureStunned)
+      {
+        if (useCreature == UseCreature.All)
+          expectedActions = expectedActions.Add(new RemoveStun(state, creature, true));
+      }
+      else
+      {
+        if ((useCreature & UseCreature.Fight) != 0)
         {
-          (IAction) new FightCreature(state, creature, _opponentCreature1),
-          new FightCreature(state, creature, _opponentCreature2),
-          new UseCreatureAbility(state, creature),
-          new Reap(state, creature)
-        });
+          expectedActions = expectedActions.AddRange(
+            new[]
+            {
+              (IAction) new FightCreature(state, creature, _opponentCreature1),
+              new FightCreature(state, creature, _opponentCreature2)
+            });
+        }
+
+        if ((useCreature & UseCreature.ActiveAbility) != 0)
+        {
+          expectedActions = expectedActions.Add(new UseCreatureAbility(state, creature));
+        }
+
+        if ((useCreature & UseCreature.Reap) != 0)
+        {
+          expectedActions = expectedActions.Add(new Reap(state, creature));
+        }
+      }
+
       Assert.AreEqual(expectedActions, actions);
     }
 

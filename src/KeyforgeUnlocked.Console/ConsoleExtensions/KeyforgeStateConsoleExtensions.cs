@@ -134,7 +134,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintArtifacts(IState state,
       IImmutableSet<Artifact> artifacts,
-      Dictionary<string, IActionGroup> commands)
+      Dictionary<string, IActionGroup> commands = null)
     {
       if (artifacts.Count == 0) return;
       Console.WriteLine("Artifacts: ");
@@ -142,7 +142,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       foreach (var artifact in artifacts)
       {
         var artifactGroup = state.ActionGroups.SingleOrDefault(c => c.IsActionRelatedToArtifact(artifact));
-        if (artifactGroup != default)
+        if (artifactGroup != default && commands != null)
         {
           var command = $"a{i++}";
           commands.Add(command, artifactGroup);

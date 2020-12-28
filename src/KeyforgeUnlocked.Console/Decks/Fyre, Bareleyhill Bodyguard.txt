@@ -6,6 +6,7 @@ Lupo the Scarred
 Punch
 Vigor
 Ritual of Balance
+Gauntlet of Command
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -20,6 +21,7 @@ Lupo the Scarred
 Punch
 Vigor
 Ritual of Balance
+Gauntlet of Command
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -34,6 +36,7 @@ Lupo the Scarred
 Punch
 Vigor
 Ritual of Balance
+Gauntlet of Command
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -41,3 +44,4 @@ Witch of the Eye
 Regrowth
 Labwork
 Ritual of Balance
+Gauntlet of Command

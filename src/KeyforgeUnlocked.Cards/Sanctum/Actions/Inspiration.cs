@@ -1,16 +1,16 @@
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Actions
 {
   public sealed class Inspiration : ActionCard
   {
-    static readonly Callback PlayAbility = (s, i) =>
+    static readonly Callback PlayAbility = (s, _) =>
     {
-      s.Effects.Push(
-        new TargetSingleCreature(
-          (s, c) => s.Effects.Push(new ReadyAndUseCreature(c, true)), Targets.Own));
+      s.AddEffect(new TargetSingleCreature(
+          (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(), Targets.Own))));
     };
 
     public Inspiration() : this(House.Sanctum)

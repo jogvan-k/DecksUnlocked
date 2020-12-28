@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
@@ -19,8 +20,8 @@ namespace KeyforgeUnlocked.States
     public int turnNumber;
     public bool isGameOver;
     public House? activeHouse;
-    public Lookup<Player, int> Keys;
-    public Lookup<Player, int> Aember;
+    public Types.Lookup<Player, int> Keys;
+    public Types.Lookup<Player, int> Aember;
     public IMutableList<IActionGroup> ActionGroups;
     public IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks;
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands;
@@ -120,9 +121,7 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOver,
       IState previousState,
-      House? activeHouse,
-      Lookup<Player, int> keys,
-      Lookup<Player, int> aember,
+      House? activeHouse, Types.Lookup<Player, int> keys, Types.Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
       IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> hands,
@@ -222,13 +221,27 @@ namespace KeyforgeUnlocked.States
 
     public ImmutableState ResolveEffects()
     {
+      ClearEmptyActionGroups();
       while (ActionGroups.Count == 0 && Effects.Length != 0)
+      {
         Effects.Dequeue().Resolve(this);
+        ClearEmptyActionGroups();
+      }
 
       if (ActionGroups.Count == 0)
         RefreshBaseActions();
 
       return ToImmutable();
+    }
+
+    void ClearEmptyActionGroups()
+    {
+      var trialState = ToImmutable();
+      foreach (var actionGroup in ActionGroups)
+      {
+        if (actionGroup.Actions(trialState).Count == 0)
+          ActionGroups.Remove(actionGroup);
+      }
     }
   }
 }

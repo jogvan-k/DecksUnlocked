@@ -1,8 +1,7 @@
-using System;
 using System.Linq;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.ResolvedEffects;
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.States.Extensions;
 using UnlockedCore;
@@ -21,6 +20,8 @@ namespace KeyforgeUnlocked.Types
     {
       s.StunCreature(t);
     };
+
+    public static EffectOnTarget ReadyAndUse(UseCreature allowedUsage = UseCreature.All) => (s, c) => s.AddEffect(new ReadyCreatureAndUse(c, true, allowedUsage));
 
     public static readonly EffectOnTarget ReturnTargetToHand = (s, c) => s.ReturnCreatureToHand(c);
 

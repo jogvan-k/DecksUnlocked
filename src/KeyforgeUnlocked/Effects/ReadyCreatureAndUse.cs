@@ -9,13 +9,15 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class ReadyAndUseCreature : EffectWithIdentifiable<ReadyAndUseCreature>
+  public sealed class ReadyCreatureAndUse : EffectWithIdentifiable<ReadyCreatureAndUse>
   {
-    readonly bool allowOutOfHouseUse;
+    readonly bool _allowOutOfHouseUse;
+    readonly UseCreature _allowedCreatureUsage;
 
-    public ReadyAndUseCreature(IIdentifiable creature, bool allowOutOfHouseUse) : base(creature)
+    public ReadyCreatureAndUse(IIdentifiable creature, bool allowOutOfHouseUse, UseCreature allowedCreatureUsage = UseCreature.All) : base(creature)
     {
-      this.allowOutOfHouseUse = allowOutOfHouseUse;
+      _allowOutOfHouseUse = allowOutOfHouseUse;
+      _allowedCreatureUsage = allowedCreatureUsage;
     }
 
     protected override void ResolveImpl(MutableState state)
@@ -30,17 +32,17 @@ namespace KeyforgeUnlocked.Effects
         state.ResolvedEffects.Add(new CreatureReadied(creature));
       }
 
-      state.ActionGroups.Add(new UseCreatureGroup(state, creature, allowOutOfHouseUse));
+      state.ActionGroups.Add(new UseCreatureGroup(state, creature, _allowOutOfHouseUse, _allowedCreatureUsage));
     }
 
-    protected override bool Equals(ReadyAndUseCreature other)
+    protected override bool Equals(ReadyCreatureAndUse other)
     {
-      return base.Equals(other) && allowOutOfHouseUse.Equals(other.allowOutOfHouseUse);
+      return base.Equals(other) && _allowOutOfHouseUse.Equals(other._allowOutOfHouseUse);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(base.GetHashCode(), allowOutOfHouseUse);
+      return HashCode.Combine(base.GetHashCode(), _allowOutOfHouseUse);
     }
   }
 }

@@ -53,7 +53,7 @@ namespace KeyforgeUnlockedTest.Util
 
     public Creature InsantiateCreature()
     {
-      new Creature(this);
+      return new Creature(this);
     }
   }
 }

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
@@ -17,6 +18,12 @@ namespace KeyforgeUnlocked.Types.HistoricData
     {
       get => Get().EnemiesDestroyedInAFightThisTurn;
       set => Mutable().EnemiesDestroyedInAFightThisTurn = value;
+    }
+
+    public IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn
+    {
+      get => Get().CreaturesAttackedThisTurn;
+      set => Mutable().CreaturesAttackedThisTurn = value;
     }
 
     public LazyHistoricData()

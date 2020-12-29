@@ -32,7 +32,6 @@ namespace KeyforgeUnlocked.States
           1,
           false,
           null,
-          null,
           EmptyValues(),
           EmptyValues(),
           new LazyList<IActionGroup>(),

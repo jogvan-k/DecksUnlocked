@@ -23,7 +23,7 @@ let rec recNegamax alpha beta color (depth: remainingSearch) (s: ICoreState) (ac
             while(iter.MoveNext() && not acc.isTimeLimitReached) do
                 let (a, i, p) = iter.Current
                 if(alpha' < beta)
-                then let candidate = nextCandidate alpha' beta color (a.DoCoreAction()) depth acc tTable p
+                then let candidate = nextCandidate alpha' beta color a depth acc tTable p
                      if (fst candidate) > (fst currentBest)
                      then currentBest <- (fst candidate, i :: snd candidate)
                           alpha' <- max alpha' (fst candidate)
@@ -31,13 +31,14 @@ let rec recNegamax alpha beta color (depth: remainingSearch) (s: ICoreState) (ac
 
             tTable.add stateHash currentBest
             currentBest
-and nextCandidate alpha beta color (state: ICoreState) depth acc tTable pv =
+and nextCandidate alpha beta color (action: ICoreAction) depth acc tTable pv =
     let nextDepth = reduceRemainingSearch depth
-    if (changingPlayer state)
+    let nextState = action.DoCoreAction()
+    if (changingPlayer action.Origin nextState)
     then
-        recNegamax (-1 * beta) (-1 * alpha) (-color) nextDepth state acc tTable pv |> flipValue
+        recNegamax (-1 * beta) (-1 * alpha) (-color) nextDepth nextState acc tTable pv |> flipValue
     else
-        recNegamax alpha beta color nextDepth state acc tTable pv
+        recNegamax alpha beta color nextDepth nextState acc tTable pv
 
 let negamax (depth: remainingSearch) (s: ICoreState) (acc: accumulator) pv =
     acc.startTimer

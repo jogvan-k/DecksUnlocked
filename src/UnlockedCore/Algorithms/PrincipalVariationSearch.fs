@@ -22,14 +22,14 @@ let rec recPVS alpha beta color (depth: remainingSearch) (s: ICoreState) (acc: a
         else match actions |> Seq.toList with
              | (principalAction, principalIndex, principalPath) :: tail ->
                  let doNullWindowSearch = not (Seq.isEmpty principalPath)
-                 let principal = nextCandidate alpha beta color (principalAction.DoCoreAction()) depth acc tTable principalPath
+                 let principal = nextCandidate alpha beta color principalAction depth acc tTable principalPath
                  let mutable currentBest = (fst principal, principalIndex :: snd principal)
                  let mutable alpha' = max alpha (fst principal)
                  for (action, index, _) in tail do
                      if(alpha' < beta)
                      then let mutable candidate = if(doNullWindowSearch)
-                                                  then nullWindowSearch alpha' beta color (action.DoCoreAction()) depth acc tTable
-                                                  else nextCandidate alpha' beta color (action.DoCoreAction()) depth acc tTable []
+                                                  then nullWindowSearch alpha' beta color action depth acc tTable
+                                                  else nextCandidate alpha' beta color action depth acc tTable []
                           if (fst currentBest) < (fst candidate)
                           then currentBest <- (fst candidate, index :: snd candidate)
                                alpha' <- max alpha' (fst candidate)
@@ -38,19 +38,20 @@ let rec recPVS alpha beta color (depth: remainingSearch) (s: ICoreState) (acc: a
                  tTable.add stateHash currentBest
                  currentBest
              | [] -> raise(SystemException("No available actions."))
-and nullWindowSearch alpha beta color (state: ICoreState) depth acc tTable =
-    let mutable candidate = nextCandidate alpha (alpha + 1) color state depth acc noTranspositionTable []
+and nullWindowSearch alpha beta color (action: ICoreAction) depth acc tTable =
+    let mutable candidate = nextCandidate alpha (alpha + 1) color action depth acc noTranspositionTable []
     if(alpha < (fst candidate) && (fst candidate) < beta)
-    then candidate <- nextCandidate (fst candidate) beta color state depth acc tTable []
+    then candidate <- nextCandidate (fst candidate) beta color action depth acc tTable []
     candidate
 
-and nextCandidate alpha beta color (state: ICoreState) depth acc tTable p =
+and nextCandidate alpha beta color (action: ICoreAction) depth acc tTable p =
     let nextDepth = reduceRemainingSearch depth
-    if (changingPlayer state)
+    let nextState = action.DoCoreAction()
+    if (changingPlayer action.Origin nextState)
     then
-        recPVS (-1 * beta) (-1 * alpha) (-color) nextDepth state acc tTable p |> flipValue
+        recPVS (-1 * beta) (-1 * alpha) (-color) nextDepth nextState acc tTable p |> flipValue
     else
-        recPVS alpha beta color nextDepth state acc tTable p
+        recPVS alpha beta color nextDepth nextState acc tTable p
 
 let pvs (targetLimit: remainingSearch) (s: ICoreState) (acc: accumulator) (pv: int list) =
     let transpositionTable = transpositionTable(acc.logConfig, acc)

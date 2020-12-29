@@ -7,10 +7,8 @@ open AISupportTypes
 
 let plyLimit = 1000
 
-let changingPlayer (s: ICoreState) =
-    s.PreviousState.IsSome
-    && s.PlayerTurn
-    <> s.PreviousState.Value.PlayerTurn
+let changingPlayer (previousState: ICoreState) (state: ICoreState) =
+    previousState.PlayerTurn <> state.PlayerTurn
 
 
 let toRemainingSearch (depth: searchLimit) tn =

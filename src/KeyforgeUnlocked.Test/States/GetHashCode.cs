@@ -39,21 +39,6 @@ namespace KeyforgeUnlockedTest.States
         AssertNotEqualAndDifferentHash(first, second);
       }
     }
-
-    [Test, Combinatorial]
-    public void GetHashCode_SameHashOnDifferentFieldValues(
-      [Values(None, PreviousState)] StateField fieldA,
-      [Values(None, PreviousState)] StateField fieldB)
-    {
-      var first = Construct(fieldA, Player.Player1);
-      var second = Construct(fieldB, Player.Player1);
-
-      // Should not be reference equals
-      Assert.False(ReferenceEquals(first, second));
-
-      AssertEquals(first, second);
-    }
-
     static void AssertEquals(ImmutableState first, ImmutableState second)
     {
       Assert.That(first, Is.EqualTo(second));
@@ -78,9 +63,6 @@ namespace KeyforgeUnlockedTest.States
           break;
         case IsGameOver:
           state.IsGameOver = true;
-          break;
-        case PreviousState:
-          state.PreviousState = StateTestUtil.EmptyState;
           break;
         case PlayerTurn:
           state.PlayerTurn = Player.Player2;
@@ -131,7 +113,6 @@ namespace KeyforgeUnlockedTest.States
       state.playerTurn = Player.Player1;
       state.TurnNumber = 2;
       state.IsGameOver = false;
-      state.PreviousState = null;
       state.ActiveHouse = House.Brobnar;
       state.Keys = TestUtil.Ints(1, 1);
       state.Aember = TestUtil.Ints(1, 1);
@@ -169,7 +150,6 @@ namespace KeyforgeUnlockedTest.States
     None,
     TurnNumber,
     IsGameOver,
-    PreviousState,
     PlayerTurn,
     ActiveHouse,
     Keys,

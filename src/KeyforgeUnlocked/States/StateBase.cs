@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.Types;
-using Microsoft.FSharp.Core;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
@@ -18,14 +17,8 @@ namespace KeyforgeUnlocked.States
         .ToArray();
     }
 
-    protected internal IState _previousState;
-
-    public FSharpOption<ICoreState> PreviousState => _previousState != null
-      ? FSharpOption<ICoreState>.Some(_previousState)
-      : FSharpOption<ICoreState>.None;
-
     /// <summary>
-    /// Creates a mutable instance of <see cref="IState"/>. All properties are cloned except of <see cref="Previousstate"/> which is set to the state initiating the mutable state, and the <see cref="resolvedEffects"/>  is emptied.
+    /// Creates a mutable instance of <see cref="IState"/>. All properties are cloned except <see cref="resolvedEffects"/> which is emptied.
     /// </summary>
     public MutableState ToMutable()
     {

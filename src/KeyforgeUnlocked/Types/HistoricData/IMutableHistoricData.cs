@@ -1,9 +1,13 @@
-﻿namespace KeyforgeUnlocked.Types.HistoricData
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+
+namespace KeyforgeUnlocked.Types.HistoricData
 {
   public interface IMutableHistoricData
   {
     bool ActionPlayedThisTurn { get; set; }
     int EnemiesDestroyedInAFightThisTurn { get; set; }
+    IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn { get; set; }
     
     /// <summary>
     /// Returns a mutable copy of the object.

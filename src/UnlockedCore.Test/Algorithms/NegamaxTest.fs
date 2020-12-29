@@ -15,7 +15,8 @@ type NegamaxTest () =
                         nb(p2, 1, -10, 1)
                           .addChild(nb(p1, 2, 20, 2)
                             .addChild(nb(p2, 3, -40, 3)
-                              .addChildren([nb(p1, 4, 70, 4);nb(p1, 4, 80, 5)])));
+                              .addChildren([nb(p1, 4, 70, 4)
+                                            nb(p1, 4, 80, 5)])));
                         nb(p2, 1, -20, 6)
                           .addChild(nb(p1, 2, 30, 7)
                             .addChild(nb(p2, 3, -50, 8)

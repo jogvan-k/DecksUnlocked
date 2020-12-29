@@ -10,7 +10,6 @@ type ICoreState =
     abstract PlayerTurn: Player
     abstract TurnNumber: int
     abstract Actions: unit -> ICoreAction []
-    abstract PreviousState: ICoreState Option
 
 and ICoreAction =
     abstract Origin: ICoreState

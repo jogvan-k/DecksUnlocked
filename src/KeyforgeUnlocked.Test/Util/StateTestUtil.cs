@@ -21,7 +21,6 @@ namespace KeyforgeUnlockedTest.Util
       0,
       false,
       null,
-      null,
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToLookup(),
       new Dictionary<Player, int> {{Player.Player1, 0}, {Player.Player2, 0}}.ToLookup(),
       new LazyList<IActionGroup>(),
@@ -37,11 +36,10 @@ namespace KeyforgeUnlockedTest.Util
       new LazyHistoricData(),
       null);
 
-    public static ImmutableState EmptyState => new ImmutableState(
+    public static ImmutableState EmptyState => new (
       Player.Player1,
       0,
       false,
-      null,
       null,
       TestUtil.Ints().ToReadOnly(),
       TestUtil.Ints().ToReadOnly(),
@@ -65,7 +63,6 @@ namespace KeyforgeUnlockedTest.Util
       bool isGameOver = false,
       KeyforgeUnlocked.Types.Lookup<Player, int> keys = null,
       KeyforgeUnlocked.Types.Lookup<Player, int> aember = null,
-      IState previousState = null,
       House? activeHouse = null,
       IMutableList<IActionGroup> actionGroups = null,
       IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks = null,
@@ -79,11 +76,10 @@ namespace KeyforgeUnlockedTest.Util
       IMutableHistoricData historicData = null,
       Metadata metadata = null)
     {
-      return new MutableState(
+      return new(
         playerTurn ?? state.PlayerTurn,
         turnNumber ?? state.TurnNumber,
         isGameOver || state.IsGameOver,
-        previousState ?? (IState) state.PreviousState?.Value,
         activeHouse ?? state.ActiveHouse,
         keys ?? new Dictionary<Player, int>(state.Keys).ToLookup(),
         aember ?? new Dictionary<Player, int>(state.Aember).ToLookup(),
@@ -96,12 +92,12 @@ namespace KeyforgeUnlockedTest.Util
         artifacts ?? state.Artifacts.ToMutable(),
         effects ?? new LazyStackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
-        historicData ?? new LazyHistoricData(),
+        historicData ?? state.HistoricData.ToMutable(),
         metadata ?? state.Metadata);
     }
 
     /// <summary>
-    /// Returns a new state with "PreviousState" set to the current state, and "ResolvedEffects" cleared
+    /// Returns a new state based on the given state.
     /// </summary>
     /// <returns></returns>
     public static MutableState Extend(
@@ -125,7 +121,7 @@ namespace KeyforgeUnlockedTest.Util
       Metadata metadata = null)
     {
       return state.New(
-        playerTurn, turnNumber, isGameOver, keys, aember, state,
+        playerTurn, turnNumber, isGameOver, keys, aember, 
         activeHouse, actionGroups, decks, hands, discards, archives,
         fields, artifacts, effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), historicData, metadata);
     }

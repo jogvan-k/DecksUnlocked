@@ -95,25 +95,5 @@ namespace KeyforgeUnlocked.States
       state.FindCreature(creatureId, out var controllingPlayer, out _);
       return controllingPlayer;
     }
-
-    public static bool HasEffectOccured(this IState state, Predicate<IResolvedEffect> predicate, int fromTurn = 0,
-      int toTurn = 0)
-    {
-      if (toTurn < fromTurn)
-        throw new ArgumentException("Argument fromTurn must be smaller or equal to toTurn");
-      var currentState = state;
-      var maxTurnNumber = currentState.TurnNumber - fromTurn;
-      var minTurnNumber = currentState.TurnNumber - toTurn;
-      while (currentState != null && currentState.TurnNumber >= minTurnNumber)
-      {
-        if (currentState.TurnNumber <= maxTurnNumber && currentState.ResolvedEffects.Any(re => predicate(re)))
-          return true;
-        if (currentState.PreviousState == null)
-          return false;
-        currentState = (IState) currentState.PreviousState.Value;
-      }
-
-      return false;
-    }
   }
 }

@@ -106,8 +106,12 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
 
       var historicData = new LazyHistoricData();
 
-      if (fightOccured && targetDead)
-        historicData.EnemiesDestroyedInAFightThisTurn += 1;
+      if (fightOccured)
+      {
+        historicData.CreaturesAttackedThisTurn = historicData.CreaturesAttackedThisTurn.Add(new Identifiable(expectedTarget));
+        if(targetDead)
+          historicData.EnemiesDestroyedInAFightThisTurn += 1;
+      }
 
       return StateTestUtil.EmptyState.New(
         fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), historicData: historicData);

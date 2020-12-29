@@ -16,13 +16,17 @@ namespace KeyforgeUnlocked.Types.HistoricData
     {
       var thisState = (IHistoricData) this;
       return thisState.ActionPlayedThisTurn == other.ActionPlayedThisTurn
-        && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn;
+        && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn
+        && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn);
     }
 
     public override int GetHashCode()
     {
       var thisState = (IHistoricData) this;
-      return HashCode.Combine(thisState.ActionPlayedThisTurn, thisState.EnemiesDestroyedInAFightThisTurn);
+      return HashCode.Combine(
+        thisState.ActionPlayedThisTurn,
+        thisState.EnemiesDestroyedInAFightThisTurn,
+        EqualityComparer.GetHashCode(thisState.CreaturesAttackedThisTurn));
     }
   }
 }

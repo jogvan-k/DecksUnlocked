@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
@@ -52,11 +51,6 @@ namespace KeyforgeUnlocked.States
       set => isGameOver = value;
     }
 
-    public new IState PreviousState
-    {
-      set => _previousState = value;
-    }
-
     public House? ActiveHouse
     {
       get => activeHouse;
@@ -99,7 +93,6 @@ namespace KeyforgeUnlocked.States
       PlayerTurn = state.PlayerTurn;
       TurnNumber = state.TurnNumber;
       IsGameOver = state.IsGameOver;
-      PreviousState = state;
       ActiveHouse = state.ActiveHouse;
       Keys = state.Keys.ToLookup();
       Aember = state.Aember.ToLookup();
@@ -120,7 +113,6 @@ namespace KeyforgeUnlocked.States
       Player playerTurn,
       int turnNumber,
       bool isGameOver,
-      IState previousState,
       House? activeHouse, Types.Lookup<Player, int> keys, Types.Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
       IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks,
@@ -137,7 +129,6 @@ namespace KeyforgeUnlocked.States
       PlayerTurn = playerTurn;
       TurnNumber = turnNumber;
       IsGameOver = isGameOver;
-      PreviousState = previousState;
       ActiveHouse = activeHouse;
       Keys = keys;
       Aember = aember;

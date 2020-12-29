@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.States
     ImmutableArray<IEffect> Effects { get; }
 
     /// <summary>
-    /// Effects that have been resolved since <see cref="Previousstate"/>
+    /// Effects that have been resolved since the last action was resolved./>
     /// </summary>
     IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 

@@ -22,12 +22,11 @@ type node(playerTurn, turnNumber, value, hash, parent : ICoreState option) =
     interface ICoreState with
         member this.PlayerTurn = playerTurn
         member this.TurnNumber = turnNumber
-        member this.Actions() = Array.map (fun n -> action (n) :> ICoreAction) (Array.ofList _children)
-        member this.PreviousState = parent
+        member this.Actions() = Array.map (fun n -> action (this, n) :> ICoreAction) (Array.ofList _children)
 
-and action(node) =
+and action(origin, node) =
     interface ICoreAction with
-        member this.Origin = new node(Player.Player1, 0, 0, 0) :> ICoreState
+        member this.Origin = origin :> ICoreState
         member this.DoCoreAction() = node :> ICoreState
     interface IComparable with
         member this.CompareTo _ = 0

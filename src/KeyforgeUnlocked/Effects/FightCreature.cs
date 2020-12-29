@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -25,7 +24,7 @@ namespace KeyforgeUnlocked.Effects
           || !state.TryFindCreature(fighter, out _, out _, out fighter))
         return;
       
-      if (!targetCreature.CardKeywords.Contains(Keyword.Elusive) || state.HasEffectOccured(HasBeenAttacked(Target)))
+      if (!targetCreature.CardKeywords.Contains(Keyword.Elusive) || state.HistoricData.CreaturesAttackedThisTurn.Contains(new Identifiable(targetCreature)))
       {
         int damageBeforeFight;
         if (!fighter.CardKeywords.Contains(Keyword.Skirmish))
@@ -55,6 +54,7 @@ namespace KeyforgeUnlocked.Effects
       if(!targetCreature.IsDead && fighter.IsDead)
         targetCreature.AfterKillAbility?.Invoke(state, targetCreature);
 
+      state.HistoricData.CreaturesAttackedThisTurn = state.HistoricData.CreaturesAttackedThisTurn.Add(new Identifiable(targetCreature));
       if (targetCreature.IsDead)
         state.HistoricData.EnemiesDestroyedInAFightThisTurn += 1;
     }
@@ -62,11 +62,6 @@ namespace KeyforgeUnlocked.Effects
     void ResolveBeforeFightEffects(MutableState state, Creature fighter)
     {
       fighter.Card.CardBeforeFightAbility?.Invoke(state, fighter);
-    }
-
-    Predicate<IResolvedEffect> HasBeenAttacked(IIdentifiable creatureId)
-    {
-      return re => re is CreatureFought cf && creatureId.Equals(cf.Target);
     }
 
     protected override bool Equals(FightCreature other)

@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -38,7 +38,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       sut.Resolve(state);
 
       var expectedFields = TestUtil.Lists(new Creature(fightingCreatureCard), targetCreature);
-      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), fields: expectedFields);
+      var expectedHistoricData = new LazyHistoricData() { CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty.Add(new Identifiable(targetCreature))};
+      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), fields: expectedFields, historicData: expectedHistoricData);
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -56,7 +57,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var startState = StateTestUtil.EmptyState.New(
           turnNumber: 1,
           fields: fields,
-          resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects))
+          resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects),
+          historicData: new LazyHistoricData{CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty.Add(new Identifiable(targetCreature))})
         .Extend().ToImmutable();
       var state = startState.ToMutable();
       var sut = new FightCreature(fightingCreature, targetCreature);
@@ -68,7 +70,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3);
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureFought(expectedFightingCreature, expectedTargetCreature), new CreatureDied(expectedTargetCreature)};
       var expectedDiscards = TestUtil.Sets(Enumerable.Empty<ICard>(), new []{targetCreatureCard});
-      var expectedHistoricData = new LazyHistoricData {EnemiesDestroyedInAFightThisTurn = 1};
+      var expectedHistoricData = new LazyHistoricData {EnemiesDestroyedInAFightThisTurn = 1, CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty.Add(new Identifiable(targetCreature))};
       var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), fields: expectedField, discards: expectedDiscards, historicData: expectedHistoricData);
       StateAsserter.StateEquals(expectedState, state);
     }

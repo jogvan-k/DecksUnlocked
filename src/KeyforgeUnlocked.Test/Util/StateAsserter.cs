@@ -36,7 +36,6 @@ namespace KeyforgeUnlockedTest.Util
         WriteFieldErrorMessage(
           sb, "ActiveHouse", expected.ActiveHouse,
           actual.ActiveHouse);
-      CheckAndWritePreviousStateErrorMessage(sb, expected, actual);
       CheckAndWriteFieldErrorMessage(sb, "Keys", expected.Keys, actual.Keys);
       CheckAndWriteFieldErrorMessage(sb, "Aember", expected.Aember, actual.Aember);
       //if (!expected.ActionGroups.Equals(actual.ActionGroups))
@@ -54,46 +53,6 @@ namespace KeyforgeUnlockedTest.Util
 
 
       Assert.Fail(sb.ToString());
-    }
-
-    static void CheckAndWritePreviousStateErrorMessage(StringBuilder sb, IState expected, IState actual)
-    {
-      if (expected.PreviousState == null && actual.PreviousState != null)
-      {
-        AppendFieldName(sb, "PreviousState");
-        sb.AppendLine("Expected has previousState set to null whereas actual don't.");
-      }
-      else if (actual.PreviousState == null && expected.PreviousState != null)
-      {
-        AppendFieldName(sb, "PreviousState");
-        sb.AppendLine("Actual has previousState set to null whereas expected don't.");
-      }
-      else if (expected.PreviousState != null && expected.PreviousState.Equals(actual.PreviousState))
-      {
-        AppendFieldName(sb, "PreviousState");
-        var expectedDepth = GetStateDepth(expected);
-        var actualDepth = GetStateDepth(actual);
-        if (actualDepth != expectedDepth)
-          sb.AppendLine($"Expected's depth is {expectedDepth} but actual's depth is {actualDepth}");
-        else
-          sb.AppendLine(
-            "Expected and actual have same depth previousState depth, but their previousState differ");
-      }
-    }
-
-    static int GetStateDepth(IState state)
-    {
-      int depth = 0;
-      ICoreState currentState = state;
-      while (currentState.PreviousState != null)
-      {
-        currentState = currentState.PreviousState.Value;
-        depth++;
-        if (depth > 10000)
-          throw new Exception("Circular reference in state's previousState");
-      }
-
-      return depth;
     }
 
     static void WriteFieldErrorMessage<T>(

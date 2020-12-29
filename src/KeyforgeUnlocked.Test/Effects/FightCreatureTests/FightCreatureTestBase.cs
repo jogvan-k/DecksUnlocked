@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -103,8 +104,13 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         resolvedEffects.Add(new CreatureDied(expectedTarget));
       }
 
+      var historicData = new LazyHistoricData();
+
+      if (fightOccured && targetDead)
+        historicData.EnemiesDestroyedInAFightThisTurn += 1;
+
       return StateTestUtil.EmptyState.New(
-        fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects));
+        fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), historicData: historicData);
     }
     
     protected void Assert(IState expectedState, IState actualState, bool expectedFighterDead,
@@ -120,6 +126,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         _fightingCreatureAfterKillAbilityResolved);
       NUnit.Framework.Assert.AreEqual(expectedFighterDead && !expectedTargetDead && fightOccured,
         _targetCreatureAfterKillAbilityResolved);
+
       StateAsserter.StateEquals(expectedState, actualState);
     }
 

@@ -1,22 +1,24 @@
 ﻿namespace KeyforgeUnlocked.Types.HistoricData
 {
-  public class MutableHistoricData : HistoricDataBase, IMutableHistoricData
+  public class MutableHistoricData : HistoricDataBase, IMutableHistoricData, IHistoricData
   {
     public bool ActionPlayedThisTurn { get; set; }
+    public int EnemiesDestroyedInAFightThisTurn { get; set; }
 
     public MutableHistoricData(IHistoricData historicData)
     {
       ActionPlayedThisTurn = historicData.ActionPlayedThisTurn;
+      EnemiesDestroyedInAFightThisTurn = historicData.EnemiesDestroyedInAFightThisTurn;
     }
 
-    public override IMutableHistoricData ToMutable()
+    public IMutableHistoricData ToMutable()
     {
-      return new MutableHistoricData(this);
+      return new MutableHistoricData(ToImmutable());
     }
 
-    public override IImmutableHistoricData ToImmutable()
+    public ImmutableHistoricData ToImmutable()
     {
-      return new ImmutableHistoricData(this);
+      return new (this);
     }
   }
 }

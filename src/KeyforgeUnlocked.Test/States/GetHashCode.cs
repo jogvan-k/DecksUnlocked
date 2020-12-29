@@ -141,7 +141,7 @@ namespace KeyforgeUnlockedTest.States
       state.Discards = TestUtil.Sets(_player1Discard, _player2Discard);
       state.Archives = TestUtil.Sets(_player1Archives,_player2Archives);
       state.Effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new DrawInitialHands(), new DeclareHouse()});
-      state.HistoricData = new LazyHistoricData(new ImmutableHistoricData());
+      state.HistoricData = new LazyHistoricData();
       state.Fields = TestUtil.Lists(new Creature(_player1Field), new Creature(_player2Field));
       return state;
     }

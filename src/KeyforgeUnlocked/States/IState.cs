@@ -32,7 +32,7 @@ namespace KeyforgeUnlocked.States
     /// </summary>
     IImmutableList<IResolvedEffect> ResolvedEffects { get; }
 
-    IImmutableHistoricData HistoricData { get; }
+    ImmutableHistoricData HistoricData { get; }
       
     Metadata Metadata { get; }
 

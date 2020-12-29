@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IImmutableSet<Artifact>> Artifacts { get; }
     public ImmutableArray<IEffect> Effects { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
-    public IImmutableHistoricData HistoricData { get; }
+    public ImmutableHistoricData HistoricData { get; }
 
     public Metadata Metadata { get; }
 
@@ -50,7 +50,7 @@ namespace KeyforgeUnlocked.States
       IReadOnlyDictionary<Player, IImmutableSet<Artifact>> artifacts,
       ImmutableArray<IEffect> effects,
       IImmutableList<IResolvedEffect> resolvedEffects,
-      IImmutableHistoricData historicData,
+      ImmutableHistoricData historicData,
       Metadata metadata)
     {
       PlayerTurn = playerTurn;

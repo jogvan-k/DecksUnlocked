@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
@@ -67,7 +68,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var expectedTargetCreature = new Creature(targetCreatureCard, damage: 3);
       var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureFought(expectedFightingCreature, expectedTargetCreature), new CreatureDied(expectedTargetCreature)};
       var expectedDiscards = TestUtil.Sets(Enumerable.Empty<ICard>(), new []{targetCreatureCard});
-      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), fields: expectedField, discards: expectedDiscards);
+      var expectedHistoricData = new LazyHistoricData {EnemiesDestroyedInAFightThisTurn = 1};
+      var expectedState = startState.Extend(resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), fields: expectedField, discards: expectedDiscards, historicData: expectedHistoricData);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

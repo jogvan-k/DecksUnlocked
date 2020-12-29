@@ -2,9 +2,9 @@
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
-  public class LazyHistoricData : IMutableHistoricData
+  public class LazyHistoricData : IMutableHistoricData, IHistoricData
   {
-    [NotNull] readonly IImmutableHistoricData _initial;
+    [NotNull] readonly ImmutableHistoricData _initial;
     IMutableHistoricData _inner;
 
     public bool ActionPlayedThisTurn
@@ -13,17 +13,23 @@ namespace KeyforgeUnlocked.Types.HistoricData
       set => Mutable().ActionPlayedThisTurn = value;
     }
 
+    public int EnemiesDestroyedInAFightThisTurn
+    {
+      get => Get().EnemiesDestroyedInAFightThisTurn;
+      set => Mutable().EnemiesDestroyedInAFightThisTurn = value;
+    }
+
+    public LazyHistoricData()
+    {
+      _initial = new ImmutableHistoricData();
+    }
+
     public LazyHistoricData(IHistoricData initial)
     {
       _initial = initial.ToImmutable();
     }
 
-    public LazyHistoricData(IImmutableHistoricData initial)
-    {
-      _initial = initial;
-    }
-
-    public IImmutableHistoricData ToImmutable()
+    public ImmutableHistoricData ToImmutable()
     {
       if (_inner != null)
         return _inner.ToImmutable();

@@ -83,7 +83,7 @@ namespace KeyforgeUnlocked.States
 
     ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
 
-    IImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
+    ImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
 
     IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
 

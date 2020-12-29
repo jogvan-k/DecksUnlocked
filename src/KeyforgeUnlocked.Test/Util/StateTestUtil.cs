@@ -34,7 +34,7 @@ namespace KeyforgeUnlockedTest.Util
       TestUtil.Sets<Artifact>(),
       new LazyStackQueue<IEffect>(),
       new LazyList<IResolvedEffect>(),
-      new LazyHistoricData(new ImmutableHistoricData()),
+      new LazyHistoricData(),
       null);
 
     public static ImmutableState EmptyState => new ImmutableState(
@@ -96,7 +96,7 @@ namespace KeyforgeUnlockedTest.Util
         artifacts ?? state.Artifacts.ToMutable(),
         effects ?? new LazyStackQueue<IEffect>(state.Effects),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
-        historicData ?? new LazyHistoricData(new ImmutableHistoricData()),
+        historicData ?? new LazyHistoricData(),
         metadata ?? state.Metadata);
     }
 

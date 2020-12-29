@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     const int Power = 2;
     const int Armor = 0;
     static readonly CreatureType[] creatureTypes = {CreatureType.Faerie};
-    static readonly Callback reapAbility = (s, _) => s.GainAember(s.playerTurn);
+    static readonly Callback reapAbility = (s, _) => s.GainAember();
 
     public DewFaerie() : this(House.Untamed)
     {

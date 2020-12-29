@@ -5,6 +5,7 @@
     public static void NextTurn(this IMutableHistoricData historicData)
     {
       historicData.ActionPlayedThisTurn = false;
+      historicData.EnemiesDestroyedInAFightThisTurn = 0;
     } 
   }
 }

@@ -3,6 +3,7 @@
   public interface IHistoricData
   {
     bool ActionPlayedThisTurn { get; }
+    int EnemiesDestroyedInAFightThisTurn { get; }
     
     /// <summary>
     /// Returns a mutable copy of the object.
@@ -12,6 +13,6 @@
     /// <summary>
     /// Returns an immutable copy of the object.
     /// </summary>
-    IImmutableHistoricData ToImmutable();
+    ImmutableHistoricData ToImmutable();
   }
 }

@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.States.Extensions
 
     static void ResolveAemberPip(MutableState state)
     {
-      state.GainAember(state.playerTurn);
+      state.GainAember();
     }
   }
 }

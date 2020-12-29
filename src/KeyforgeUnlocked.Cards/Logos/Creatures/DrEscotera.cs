@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
     const int Power = 4;
     const int Armor = 0;
     static readonly CreatureType[] CreatureTypes = {CreatureType.Cyborg, CreatureType.Scientist};
-    static readonly Callback PlayAbility = (s, id) =>
+    static readonly Callback PlayAbility = (s, _) =>
     {
       var player = s.playerTurn;
       var opponentKeys = s.Keys[player.Other()];

@@ -23,6 +23,7 @@ namespace KeyforgeUnlockedTest.Types
     {
       var historicData = new ImmutableHistoricData().ToMutable();
       historicData.ActionPlayedThisTurn = true;
+      historicData.EnemiesDestroyedInAFightThisTurn = 5;
       
       historicData.NextTurn();
 

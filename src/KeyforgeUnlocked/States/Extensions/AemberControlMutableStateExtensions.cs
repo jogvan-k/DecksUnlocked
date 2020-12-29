@@ -18,6 +18,13 @@ namespace KeyforgeUnlocked.States.Extensions
       state.Aember[stealingPlayer.Other()] -= toSteal;
       state.ResolvedEffects.Add(new AemberStolen(stealingPlayer, toSteal));
     }
+
+    public static void GainAember(
+      this MutableState state,
+      int amount = 1)
+    {
+      state.GainAember(state.playerTurn, amount);
+    }
     public static void GainAember(
       this MutableState state,
       Player player,

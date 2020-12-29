@@ -54,6 +54,9 @@ namespace KeyforgeUnlocked.Effects
       }
       if(!targetCreature.IsDead && fighter.IsDead)
         targetCreature.AfterKillAbility?.Invoke(state, targetCreature);
+
+      if (targetCreature.IsDead)
+        state.HistoricData.EnemiesDestroyedInAFightThisTurn += 1;
     }
 
     void ResolveBeforeFightEffects(MutableState state, Creature fighter)

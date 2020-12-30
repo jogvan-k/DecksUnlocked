@@ -14,14 +14,13 @@ namespace KeyforgeUnlockedTest.ActionGroups
   sealed class UseArtifactGroupTest
   {
     static House ActiveHouse = House.Untamed;
-    static Callback ActionAbility = (_, _) => { };
     static readonly ImmutableState _immutableState = StateTestUtil.EmptyState.New(activeHouse: ActiveHouse).ToImmutable();
 
     [Test]
     public void ArtifactNotReady_NoActions()
     {
       var sut = new UseArtifactGroup(
-        new Artifact(new SampleArtifactCard(ActiveHouse, actionAbility: (_, _) => { })));
+        new Artifact(new SampleArtifactCard(ActiveHouse, actionAbility: Delegates.NoChange)));
 
       var result = sut.Actions(_immutableState);
       
@@ -32,7 +31,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     public void ArtifactNotFromActiveHouse_NoActions()
     {
       var sut = new UseArtifactGroup(
-        new Artifact(new SampleArtifactCard(House.Dis, actionAbility: ActionAbility), true));
+        new Artifact(new SampleArtifactCard(House.Dis, actionAbility: Delegates.NoChange), true));
       
       var result = sut.Actions(_immutableState);
       
@@ -53,7 +52,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void ArtifactHasActivationAbilityAndIsReadyAndIsInActiveHouse_Action()
     {
-      var artifact = new Artifact(new SampleArtifactCard(ActiveHouse, actionAbility: ActionAbility), true);
+      var artifact = new Artifact(new SampleArtifactCard(ActiveHouse, actionAbility: Delegates.NoChange), true);
       var sut = new UseArtifactGroup(artifact);
       
       var result = sut.Actions(_immutableState);
@@ -66,7 +65,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void ArtifactHasActivationAbilityAndIsReadyAndIsNotActiveHouse_Action()
     {
-      var sampleArtifactCard = new SampleArtifactCard(House.Dis, actionAbility: ActionAbility);
+      var sampleArtifactCard = new SampleArtifactCard(House.Dis, actionAbility: Delegates.NoChange);
       var artifact = new Artifact(sampleArtifactCard, true);
       var sut = new UseArtifactGroup(artifact, true);
       

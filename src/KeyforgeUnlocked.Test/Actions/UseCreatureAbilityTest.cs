@@ -50,7 +50,7 @@ namespace KeyforgeUnlockedTest.Actions
       ActExpectException(sut, state, asserts);
     }
 
-    UseCreatureAbility Setup(bool ready, bool stunned, out MutableState state)
+    UseCreatureAbility Setup(bool ready, bool stunned, out IMutableState state)
     {
       var sampleCreatureCard = new SampleCreatureCard(house: House.Shadows);
       creature = new Creature(
@@ -60,7 +60,7 @@ namespace KeyforgeUnlockedTest.Actions
       return new UseCreatureAbility(null, creature);
     }
 
-    MutableState Expected()
+    IMutableState Expected()
     {
       var expectedEffects = new LazyStackQueue<IEffect>(new[] {new CreatureAbility(creature)});
       var expectedState = StateTestUtil.EmptyState.New(

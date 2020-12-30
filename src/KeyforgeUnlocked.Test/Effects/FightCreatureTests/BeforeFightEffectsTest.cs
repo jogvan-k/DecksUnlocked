@@ -12,11 +12,10 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void TargetCreatureDies_NoFight()
     {
-      _fightingCreatureBeforeFightAbility = (s, t) =>
+      _fightingCreatureBeforeFightAbility = (s, _, _) =>
       {
         _fightingCreatureBeforeFightAbilityResolved = true;
-        var target = s.FindCreature(_targetCreature, out _, out _);
-        s.DamageCreature(target, 5);
+        s.DamageCreature(_targetCreature, 5);
       };
       
       var fightingCreatureCard = InstantiateFightingCreatureCard(3);
@@ -34,11 +33,10 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void FightingCreatureDies_NoFight()
     {
-      _fightingCreatureBeforeFightAbility = (s, t) =>
+      _fightingCreatureBeforeFightAbility = (s, t, _) =>
       {
         _fightingCreatureBeforeFightAbilityResolved = true;
-        var fighter = s.FindCreature(t, out _, out _);
-        s.DamageCreature(fighter, 5);
+        s.DamageCreature(t, 5);
       };
       
       var fightingCreatureCard = InstantiateFightingCreatureCard(3);
@@ -56,11 +54,10 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     [Test]
     public void TargetDamaged_FightOccurs()
     { 
-      _fightingCreatureBeforeFightAbility = (s, t) =>
+      _fightingCreatureBeforeFightAbility = (s, _, _) =>
       {
         _fightingCreatureBeforeFightAbilityResolved = true;
-        var target = s.FindCreature(_targetCreature, out _, out _);
-        s.DamageCreature(target, 2);
+        s.DamageCreature(_targetCreature, 2);
       };
       
       var fightingCreatureCard = InstantiateFightingCreatureCard(3);

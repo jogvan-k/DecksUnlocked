@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.States.Extensions
   public static class AemberControlMutableStateExtensions
   {
     public static void StealAember(
-      this MutableState state,
+      this IMutableState state,
       Player stealingPlayer,
       int amount = 1)
     {
@@ -20,13 +20,13 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void GainAember(
-      this MutableState state,
+      this IMutableState state,
       int amount = 1)
     {
-      state.GainAember(state.playerTurn, amount);
+      state.GainAember(state.PlayerTurn, amount);
     }
     public static void GainAember(
-      this MutableState state,
+      this IMutableState state,
       Player player,
       int amount = 1)
     {
@@ -36,7 +36,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void LoseAember(
-      this MutableState state,
+      this IMutableState state,
       Player player,
       int amount = 1)
     {
@@ -47,7 +47,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void CaptureAember(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id,
       int amount = 1)
     {

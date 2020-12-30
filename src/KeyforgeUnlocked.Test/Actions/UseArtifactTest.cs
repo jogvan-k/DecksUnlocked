@@ -1,5 +1,4 @@
-﻿using System;
-using KeyforgeUnlocked.Actions;
+﻿using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
@@ -20,7 +19,7 @@ namespace KeyforgeUnlockedTest.Actions
     public void UseArtifact()
     {
       var actionResolved = false;
-      Callback actionAbility = (_, _) => actionResolved = true;
+      Callback actionAbility = (_, _, _) => actionResolved = true;
       var artifactCard = new SampleArtifactCard(ActiveHouse, actionAbility: actionAbility);
       var artifact = new Artifact(artifactCard, true);
       var state = Setup(artifact);
@@ -37,7 +36,7 @@ namespace KeyforgeUnlockedTest.Actions
     public void UseArtifact_OutsideActiveHouse_Allowed()
     {
       var actionResolved = false;
-      Callback actionAbility = (_, _) => actionResolved = true;
+      Callback actionAbility = (_, _, _) => actionResolved = true;
       var artifactCard = new SampleArtifactCard(House.Brobnar, actionAbility: actionAbility);
       var artifact = new Artifact(artifactCard, true);
       var state = Setup(artifact);
@@ -53,7 +52,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void UseArtifact_OutsideActiveHouse()
     {
-      Callback actionAbility = (_, _) => { };
+      Callback actionAbility = (_, _, _) => { };
       var artifactCard = new SampleArtifactCard(House.Logos, actionAbility: actionAbility);
       var artifact = new Artifact(artifactCard, true);
       var state = Setup(artifact);
@@ -67,7 +66,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void UseArtifact_ArtifactNotReady()
     {
-      Callback actionAbility = (_, _) => { };
+      Callback actionAbility = (_, _, _) => { };
       var artifactCard = new SampleArtifactCard(ActiveHouse, actionAbility: actionAbility);
       var artifact = new Artifact(artifactCard);
       var state = Setup(artifact);
@@ -90,7 +89,7 @@ namespace KeyforgeUnlockedTest.Actions
       ActExpectException(sut, state, asserts);
     }
 
-    MutableState Setup(Artifact artifact)
+    IMutableState Setup(Artifact artifact)
     {
       return StateTestUtil.EmptyState.New(activeHouse: ActiveHouse, artifacts: TestUtil.Sets(artifact));
     }

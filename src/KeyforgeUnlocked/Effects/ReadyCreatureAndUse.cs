@@ -20,10 +20,10 @@ namespace KeyforgeUnlocked.Effects
       _allowedCreatureUsage = allowedCreatureUsage;
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       var creature = state.FindCreature(Id, out var controllingPlayer, out _);
-      if (state.playerTurn != controllingPlayer)
+      if (state.PlayerTurn != controllingPlayer)
         throw new InvalidTargetException(state, Id);
       if (!creature.IsReady)
       {

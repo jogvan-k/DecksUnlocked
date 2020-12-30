@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -18,27 +19,46 @@ namespace KeyforgeUnlockedTest.States
   [TestFixture]
   sealed class GetHashCode
   {
-    [Test, Combinatorial]
-    public void GetHashCode_SameHashOnEqualFieldValues(
-      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects, HistoricData)] StateField fieldA,
-      [Values(None, TurnNumber, IsGameOver, PlayerTurn, ActiveHouse, Keys, Aember, StateField.ActionGroups, Decks, Hands, Discards, Archives, Fields, StateField.Effects, HistoricData)] StateField fieldB,
-      [Values(Player.Player1, Player.Player2)] Player player)
+    [Theory]
+    public void GetHashCode_VaryField(StateField field)
     {
-      var first = Construct(fieldA, player);
-      var second = Construct(fieldB, player);
+      var original = Construct(None);
+      var modified = Construct(field);
 
-      // Should not be reference equals
-      Assert.False(ReferenceEquals(first, second));
-
-      if (fieldA.Equals(fieldB))
+      Assert.False(ReferenceEquals(original, modified));
+      if (field == None)
       {
-        AssertEquals(first, second);
+        AssertEquals(original, modified);
       }
       else
       {
-        AssertNotEqualAndDifferentHash(first, second);
+        AssertNotEqualAndDifferentHash(original, modified);
       }
     }
+
+    [Theory]
+    public void GetHashCode_VaryToSameField(StateField field)
+    {
+      var state1 = Construct(field);
+      var state2 = Construct(field);
+      
+      Assert.False(ReferenceEquals(state1, state2));
+      AssertEquals(state1, state2);
+    }
+
+    [Test]
+    public void GetHashCode_VaryPlayer(
+      [Values(Keys, Aember, Decks, Hands, Fields, Discards, Archives)] StateField field)
+    {
+      var state1 = Construct(field, Player.Player1);
+      var state2 = Construct(field, Player.Player2);
+
+      Assert.False(ReferenceEquals(state1, state2));
+      
+      AssertNotEqualAndDifferentHash(state1, state2);
+      
+    }
+    
     static void AssertEquals(ImmutableState first, ImmutableState second)
     {
       Assert.That(first, Is.EqualTo(second));
@@ -51,7 +71,7 @@ namespace KeyforgeUnlockedTest.States
       Assert.That(first.GetHashCode(), Is.Not.EqualTo(second.GetHashCode()));
     }
 
-    static ImmutableState Construct(StateField field, Player player)
+    static ImmutableState Construct(StateField field, Player player = Player.Player1)
     {
       var state = BeginningState();
       switch (field)
@@ -97,6 +117,9 @@ namespace KeyforgeUnlockedTest.States
         case StateField.Effects:
           state.Effects.Enqueue(new TryForge());
           break;
+        case StateField.Events:
+          state.Events.Subscribe(new Identifiable(""), EventType.TurnEnded, (_, _, _) => { });
+          break;
         case HistoricData:
           state.HistoricData.ActionPlayedThisTurn = true;
           break;
@@ -107,10 +130,10 @@ namespace KeyforgeUnlockedTest.States
       return state.ToImmutable();
     }
 
-    static MutableState BeginningState()
+    static IMutableState BeginningState()
     {
       var state = StateTestUtil.EmptyMutableState;
-      state.playerTurn = Player.Player1;
+      state.PlayerTurn = Player.Player1;
       state.TurnNumber = 2;
       state.IsGameOver = false;
       state.ActiveHouse = House.Brobnar;
@@ -122,6 +145,7 @@ namespace KeyforgeUnlockedTest.States
       state.Discards = TestUtil.Sets(_player1Discard, _player2Discard);
       state.Archives = TestUtil.Sets(_player1Archives,_player2Archives);
       state.Effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new DrawInitialHands(), new DeclareHouse()});
+      state.Events = new Events();
       state.HistoricData = new LazyHistoricData();
       state.Fields = TestUtil.Lists(new Creature(_player1Field), new Creature(_player2Field));
       return state;
@@ -161,6 +185,7 @@ namespace KeyforgeUnlockedTest.States
     Archives,
     Fields,
     Effects,
+    Events,
     HistoricData
   }
 }

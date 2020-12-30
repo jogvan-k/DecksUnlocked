@@ -9,10 +9,10 @@ namespace KeyforgeUnlocked.Cards.Untamed.Artifacts
   {
     static readonly ArtifactType[] types = {ArtifactType.Power};
 
-    static readonly Callback ActionAbility = (s, _) =>
+    static readonly Callback ActionAbility = (s, _, p) =>
     {
-      if(s.Aember[s.playerTurn.Other()] >= 6)
-        s.StealAember(s.playerTurn);
+      if(s.Aember[p.Other()] >= 6)
+        s.StealAember(p);
     };
     public RitualOfBalance() : this(House.Untamed)
     {

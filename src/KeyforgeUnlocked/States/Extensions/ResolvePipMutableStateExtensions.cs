@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.States.Extensions
   public static class ResolvePipMutableStateExtensions
   {
     public static void ResolvePip(
-      this MutableState state,
+      this IMutableState state,
       Pip pip)
     {
       switch (pip)
@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.States.Extensions
       }
     }
 
-    static void ResolveAemberPip(MutableState state)
+    static void ResolveAemberPip(IMutableState state)
     {
       state.GainAember();
     }

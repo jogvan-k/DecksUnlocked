@@ -8,7 +8,7 @@ namespace KeyforgeUnlockedTest.Actions
   public abstract class ActionTestBase<T> where T : KeyforgeUnlocked.Actions.Action<T>
   {
     protected void ActAndAssert(T sut,
-      MutableState state,
+      IMutableState state,
       IState expectedState)
     {
       sut.Validate(state);
@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedTest.Actions
     }
 
     protected void ActExpectException<Texception>(T sut,
-      MutableState state, System.Action<Texception> callbackAsserts) where Texception : KeyforgeUnlockedException
+      IMutableState state, System.Action<Texception> callbackAsserts) where Texception : KeyforgeUnlockedException
     {
       try
       {

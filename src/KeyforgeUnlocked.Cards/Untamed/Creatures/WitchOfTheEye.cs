@@ -17,10 +17,10 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
       CreatureType.Witch
     };
 
-    static readonly Callback ReapAbility = (s, _) =>
+    static readonly Callback ReapAbility = (s, _, _) =>
     {
       var effect = new TargetSingleDiscardedCard(
-        (s, t) => s.ReturnFromDiscard(t), Targets.Own);
+        (s, t, _) => s.ReturnFromDiscard(t), Targets.Own);
       s.AddEffect(effect);
     };
 

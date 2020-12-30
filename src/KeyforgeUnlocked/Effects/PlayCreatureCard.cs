@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.Effects
       Position = position;
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       ValidatePosition(state);
       var creature = CreatureCard.InsantiateCreature();

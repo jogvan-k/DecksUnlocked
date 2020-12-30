@@ -15,10 +15,10 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
       CreatureType.Giant
     };
 
-    static readonly Callback BeforeFightAbility = (s, _) =>
+    static readonly Callback BeforeFightAbility = (s, _, _) =>
     {
       var effect = new TargetAllCreatures(
-        (s, t) => s.DamageCreature(t), Delegates.EnemiesOf(s.playerTurn));
+        (s, t, _) => s.DamageCreature(t), Delegates.EnemiesOf(s.PlayerTurn));
       effect.Resolve(s);
     };
 

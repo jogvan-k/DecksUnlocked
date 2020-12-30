@@ -9,8 +9,8 @@ namespace KeyforgeUnlocked.Cards.Untamed.Actions
     static readonly Pip[] Pips = {Pip.Aember};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(
-        new TargetSingleDiscardedCard((s, t) => s.ReturnFromDiscard(t), Targets.Own, Delegates.IsCreatureCard()));
+      (s, _, _) => s.AddEffect(
+        new TargetSingleDiscardedCard((s, t, _) => s.ReturnFromDiscard(t), Targets.Own, Delegates.IsCreatureCard()));
 
     public Regrowth() : this(House.Untamed)
     {

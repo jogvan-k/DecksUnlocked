@@ -23,10 +23,10 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
       Keyword.Skirmish
     };
 
-    static readonly Callback PlayAbility = (s, _) =>
+    static readonly Callback PlayAbility = (s, _, _) =>
     {
       var effect = new TargetSingleCreature(
-        (s, t) => s.DamageCreature(t, 2), Targets.Opponens);
+        (s, t, _) => s.DamageCreature(t, 2), Targets.Opponens);
       s.AddEffect(effect);
     };
 

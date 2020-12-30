@@ -13,7 +13,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Invoke()
     {
       var abilityInvoked = false;
-      Callback creatureAbility = (s, id) => abilityInvoked = true;
+      Callback creatureAbility = (s, id, _) => abilityInvoked = true;
       var creatureCard = new SampleCreatureCard(creatureAbility: creatureAbility);
       var creature = new Creature(creatureCard, isReady: true);
       var fields = TestUtil.Lists(creature);

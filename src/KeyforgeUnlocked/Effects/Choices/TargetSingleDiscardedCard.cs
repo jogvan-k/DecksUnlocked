@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Effects.Choices
 {
   public class TargetSingleDiscardedCard : TargetSingle
   {
-    public TargetSingleDiscardedCard(EffectOnTarget effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
+    public TargetSingleDiscardedCard(Callback effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
     {
     }
 

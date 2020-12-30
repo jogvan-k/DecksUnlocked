@@ -9,12 +9,12 @@ namespace KeyforgeUnlocked.Cards.Logos.Actions
     static readonly Pip[] Pips = {Pip.Aember};
 
     static readonly Callback PlayAbility =
-      (s, _) =>
+      (s, _, p) =>
       {
-        if (s.Aember[s.playerTurn.Other()] > s.Aember[s.playerTurn])
+        if (s.Aember[p.Other()] > s.Aember[p])
         {
-          s.StealAember(s.playerTurn);
-          s.Draw(s.playerTurn);
+          s.StealAember(p);
+          s.Draw(p);
         }
       };
 

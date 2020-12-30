@@ -12,11 +12,11 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void SpecificResolve(MutableState state, Creature creature)
+    protected override void SpecificResolve(IMutableState state, Creature creature)
     {
       if (creature.Card.CardCreatureAbility == null)
         throw new NoCallbackException(state, creature);
-      creature.Card.CardCreatureAbility(state, creature);
+      creature.Card.CardCreatureAbility(state, creature, state.PlayerTurn);
     }
   }
 }

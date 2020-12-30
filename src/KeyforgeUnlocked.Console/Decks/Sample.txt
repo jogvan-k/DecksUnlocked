@@ -3,11 +3,13 @@ Firespitter
 Punch
 Gauntlet of Command
 The Warchest
+Loot the Bodies
 Smaaash
 Firespitter
 Punch
 Gauntlet of Command
 The Warchest
+Loot the Bodies
 Blood Money
 Smaaash
 Firespitter
@@ -15,3 +17,4 @@ Gauntlet of Command
 The Warchest
 Gauntlet of Command
 The Warchest
+Loot the Bodies

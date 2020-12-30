@@ -3,6 +3,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -17,7 +18,10 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_NextPlayerAndIncreaseTurnNumber(Player playerTurn)
     {
       var turnNumberStart = 1;
-      var state = StateTestUtil.EmptyMutableState.New(playerTurn, turnNumberStart, activeHouse: House.Brobnar);
+      var endTurnEventInvoked = false;
+      var events = new LazyEvents();
+      events.Subscribe(new Identifiable(""), EventType.TurnEnded, (_, _, _) => endTurnEventInvoked = true);
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn, turnNumberStart, activeHouse: House.Brobnar, events: events);
       var sut = new EndTurn();
 
       sut.Resolve(state);
@@ -27,7 +31,9 @@ namespace KeyforgeUnlockedTest.Effects
         playerTurn.Other(),
         turnNumberStart + 1,
         resolvedEffects: new LazyList<IResolvedEffect> {new TurnEnded()},
-        effects: expectedEffects);
+        effects: expectedEffects,
+        events: events);
+      Assert.True(endTurnEventInvoked);
       StateAsserter.StateEquals(expectedState, state);
     }
   }

@@ -18,16 +18,16 @@ namespace KeyforgeUnlocked.Actions
       AllowOutOfHouseUse = allowOutOfHouseUse;
     }
 
-    protected override void DoSpecificActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(IMutableState state)
     {
       if (Artifact.ActionAbility == null)
         throw new NoCallbackException(state, Artifact);
       
-      Artifact.ActionAbility(state, Artifact);
+      Artifact.ActionAbility(state, Artifact, state.PlayerTurn);
       var a = Artifact;
       a.IsReady = false;
-      state.Artifacts[state.playerTurn].Remove(Artifact);
-      state.Artifacts[state.playerTurn].Add(a);
+      state.Artifacts[state.PlayerTurn].Remove(Artifact);
+      state.Artifacts[state.PlayerTurn].Add(a);
       state.ResolvedEffects.Add(new ArtifactUsed(a));
     }
     

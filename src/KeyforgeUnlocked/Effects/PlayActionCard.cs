@@ -10,11 +10,11 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       state.ResolvedEffects.Add(new ActionCardPlayed(Card));
       ResolvePlayEffects(state);
-      state.Discards[state.playerTurn].Add(Card);
+      state.Discards[state.PlayerTurn].Add(Card);
     }
   }
 }

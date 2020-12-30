@@ -2,18 +2,18 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
   public sealed class SingleTargetGroup : ResolveEffectActionGroup<SingleTargetGroup>
   {
-    readonly EffectOnTarget _effect;
-    readonly IImmutableList<IIdentifiable> _targets;
+    readonly Callback _effect;
+    readonly IImmutableList<(IIdentifiable target, Player owningPlayer)> _targets;
 
-    public SingleTargetGroup(EffectOnTarget effect, IImmutableList<IIdentifiable> targets)
+    public SingleTargetGroup(Callback effect, IImmutableList<(IIdentifiable, Player)> targets)
     {
       _effect = effect;
       _targets = targets;
@@ -21,7 +21,7 @@ namespace KeyforgeUnlocked.ActionGroups
 
     protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      return _targets.Select(t => (IAction) new TargetAction(origin, _effect, t)).ToImmutableList();
+      return _targets.Select(t => (IAction) new TargetAction(origin, _effect, t.target, t.owningPlayer)).ToImmutableList();
     }
 
     protected override bool Equals(SingleTargetGroup other)

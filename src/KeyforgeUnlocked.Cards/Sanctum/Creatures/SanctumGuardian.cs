@@ -14,9 +14,9 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
     static readonly CreatureType[] CreatureTypes = {CreatureType.Knight, CreatureType.Spirit};
     static readonly Keyword[] Keywords = {Keyword.Taunt};
 
-    static readonly Callback FightReapAbility = (s, self) =>
+    static readonly Callback FightReapAbility = (s, self, p) =>
     {
-      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Targets.Own, Delegates.AlliesOf(self)));
+      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Targets.Own, Delegates.AlliesOf(p)));
     };
 
     public SanctumGuardian() : this(House.Sanctum)

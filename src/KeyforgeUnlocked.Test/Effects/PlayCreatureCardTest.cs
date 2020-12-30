@@ -31,7 +31,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void SetUp()
     {
       _playedEffectResolved = false;
-      _playAbility = (_, _) => { _playedEffectResolved = true; };
+      _playAbility = (_, _, _) => { _playedEffectResolved = true; };
     }
 
     [Test]
@@ -136,7 +136,7 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.False(_playedEffectResolved);
     }
 
-    MutableState TestState(Player playingPlayer)
+    IMutableState TestState(Player playingPlayer)
     {
       var hands = new Dictionary<Player, IMutableSet<ICard>>
       {
@@ -146,7 +146,7 @@ namespace KeyforgeUnlockedTest.Effects
       return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
     }
 
-    MutableState StateWithTwoCreatures(Player playingPlayer)
+    IMutableState StateWithTwoCreatures(Player playingPlayer)
     {
       var creature1 = new Creature(CreatureCardOnBoard1);
       var creature2 = new Creature(CreatureCardOnBoard2);

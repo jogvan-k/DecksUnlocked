@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
@@ -26,6 +27,7 @@ namespace KeyforgeUnlocked.States
     IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     IReadOnlyDictionary<Player, IImmutableSet<Artifact>> Artifacts { get; }
     ImmutableArray<IEffect> Effects { get; }
+    ImmutableEvents Events { get; }
 
     /// <summary>
     /// Effects that have been resolved since the last action was resolved./>
@@ -36,7 +38,7 @@ namespace KeyforgeUnlocked.States
       
     Metadata Metadata { get; }
 
-    MutableState ToMutable();
+    IMutableState ToMutable();
 
     ImmutableState ToImmutable();
   }

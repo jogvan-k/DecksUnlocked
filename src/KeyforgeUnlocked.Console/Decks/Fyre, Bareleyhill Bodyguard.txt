@@ -8,6 +8,7 @@ Vigor
 Ritual of Balance
 Gauntlet of Command
 The Warchest
+Loot the Bodies
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -24,6 +25,7 @@ Vigor
 Ritual of Balance
 Gauntlet of Command
 The Warchest
+Loot the Bodies
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -40,12 +42,4 @@ Vigor
 Ritual of Balance
 Gauntlet of Command
 The Warchest
-Blood Money
-Neuro Syphon
-Twin Bolt Emission
-Witch of the Eye
-Regrowth
-Labwork
-Ritual of Balance
-Gauntlet of Command
-The Warchest
+Loot the Bodies

@@ -10,12 +10,12 @@ namespace KeyforgeUnlocked.Cards.Logos.Actions
     static readonly Pip[] Pips = {Pip.Aember};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(
+      (s, _, _) => s.AddEffect(
         new TargetSingleCreature(
-          (s, t) =>
+          (s, t, _) =>
           {
             s.DamageCreature(t, 2);
-            s.AddEffect(new TargetSingleCreature((s2, t2) => s2.DamageCreature(t2, 2), validOn: Delegates.AllExcept(t)));
+            s.AddEffect(new TargetSingleCreature((s2, t2, _) => s2.DamageCreature(t2, 2), validOn: Delegates.AllExcept(t)));
           }, Targets.All, Delegates.All));
 
     public TwinBoltEmission() : this(House.Logos)

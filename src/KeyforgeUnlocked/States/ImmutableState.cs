@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
@@ -28,6 +29,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<Artifact>> Artifacts { get; }
     public ImmutableArray<IEffect> Effects { get; }
+    public ImmutableEvents Events { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
     public ImmutableHistoricData HistoricData { get; }
 
@@ -48,6 +50,7 @@ namespace KeyforgeUnlocked.States
       LookupReadOnly<Player, IImmutableList<Creature>> fields,
       IReadOnlyDictionary<Player, IImmutableSet<Artifact>> artifacts,
       ImmutableArray<IEffect> effects,
+      ImmutableEvents events,
       IImmutableList<IResolvedEffect> resolvedEffects,
       ImmutableHistoricData historicData,
       Metadata metadata)
@@ -66,6 +69,7 @@ namespace KeyforgeUnlocked.States
       Fields = fields;
       Artifacts = artifacts;
       Effects = effects;
+      Events = events;
       ResolvedEffects = resolvedEffects;
       HistoricData = historicData;
       Metadata = metadata;
@@ -87,6 +91,7 @@ namespace KeyforgeUnlocked.States
       Fields = state.Fields;
       Artifacts = state.Artifacts;
       Effects = state.Effects;
+      Events = state.Events;
       ResolvedEffects = state.ResolvedEffects;
       HistoricData = state.HistoricData.ToImmutable();
       Metadata = state.Metadata;

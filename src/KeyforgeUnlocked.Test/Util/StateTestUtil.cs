@@ -9,6 +9,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
@@ -16,7 +17,7 @@ namespace KeyforgeUnlockedTest.Util
 {
   public static class StateTestUtil
   {
-    public static MutableState EmptyMutableState => new MutableState(
+    public static IMutableState EmptyMutableState => new MutableState(
       Player.Player1,
       0,
       false,
@@ -32,6 +33,7 @@ namespace KeyforgeUnlockedTest.Util
         {{Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}}.ToReadOnly(),
       TestUtil.Sets<Artifact>(),
       new LazyStackQueue<IEffect>(),
+      new LazyEvents(),
       new LazyList<IResolvedEffect>(),
       new LazyHistoricData(),
       null);
@@ -44,19 +46,19 @@ namespace KeyforgeUnlockedTest.Util
       TestUtil.Ints().ToReadOnly(),
       TestUtil.Ints().ToReadOnly(),
       new HashSet<IActionGroup>().ToImmutableHashSet(),
-      TestUtil.Stacks<ICard>().ToImmutable()
-      ,
+      TestUtil.Stacks<ICard>().ToImmutable(),
       TestUtil.Sets<ICard>().ToImmutable(),
       TestUtil.Sets<ICard>().ToImmutable(),
       TestUtil.Sets<ICard>().ToImmutable(),
       TestUtil.Lists<Creature>().ToImmutable(),
       TestUtil.Sets<Artifact>().ToImmutable(),
       ImmutableArray<IEffect>.Empty,
+      new ImmutableEvents(),
       new List<IResolvedEffect>().ToImmutableList(),
       new ImmutableHistoricData(),
       null);
 
-    public static MutableState New(
+    public static IMutableState New(
       this IState state,
       Player? playerTurn = null,
       int? turnNumber = null,
@@ -72,11 +74,12 @@ namespace KeyforgeUnlockedTest.Util
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields = null,
       IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts = null,
       IMutableStackQueue<IEffect> effects = null,
+      IMutableEvents events = null,
       IMutableList<IResolvedEffect> resolvedEffects = null,
       IMutableHistoricData historicData = null,
       Metadata metadata = null)
     {
-      return new(
+      return new MutableState(
         playerTurn ?? state.PlayerTurn,
         turnNumber ?? state.TurnNumber,
         isGameOver || state.IsGameOver,
@@ -91,6 +94,7 @@ namespace KeyforgeUnlockedTest.Util
         fields ?? state.Fields.ToMutable(),
         artifacts ?? state.Artifacts.ToMutable(),
         effects ?? new LazyStackQueue<IEffect>(state.Effects),
+        events ?? new LazyEvents(),
         resolvedEffects ?? new LazyList<IResolvedEffect>(state.ResolvedEffects),
         historicData ?? state.HistoricData.ToMutable(),
         metadata ?? state.Metadata);
@@ -100,7 +104,7 @@ namespace KeyforgeUnlockedTest.Util
     /// Returns a new state based on the given state.
     /// </summary>
     /// <returns></returns>
-    public static MutableState Extend(
+    public static IMutableState Extend(
       this IState state,
       Player? playerTurn = null,
       int? turnNumber = null,
@@ -118,12 +122,28 @@ namespace KeyforgeUnlockedTest.Util
       IMutableList<IResolvedEffect> resolvedEffects = null,
       IMutableHistoricData historicData = null,
       IMutableStackQueue<IEffect> effects = null,
+      IMutableEvents events = null,
       Metadata metadata = null)
     {
       return state.New(
-        playerTurn, turnNumber, isGameOver, keys, aember, 
-        activeHouse, actionGroups, decks, hands, discards, archives,
-        fields, artifacts, effects, resolvedEffects ?? new LazyList<IResolvedEffect>(), historicData, metadata);
+        playerTurn,
+        turnNumber,
+        isGameOver,
+        keys,
+        aember,
+        activeHouse,
+        actionGroups,
+        decks,
+        hands,
+        discards,
+        archives,
+        fields,
+        artifacts,
+        effects,
+        events ?? new LazyEvents(),
+        resolvedEffects ?? new LazyList<IResolvedEffect>(),
+        historicData,
+        metadata);
     }
 
     static Stack<ICard> EmptyDeck => new();

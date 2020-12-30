@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card);

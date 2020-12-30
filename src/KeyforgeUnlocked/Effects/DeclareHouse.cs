@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Effects
 {
   public sealed class DeclareHouse : EffectBase<DeclareHouse>
   {
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       var Metadata = state.Metadata;
       if (Metadata == null)

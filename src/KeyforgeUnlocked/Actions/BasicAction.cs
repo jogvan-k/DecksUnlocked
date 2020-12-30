@@ -12,13 +12,13 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    internal sealed override void DoActionNoResolve(MutableState state)
+    internal sealed override void DoActionNoResolve(IMutableState state)
     {
       state.HistoricData.ActionPlayedThisTurn = true;
       DoSpecificActionNoResolve(state);
     }
 
-    protected abstract void DoSpecificActionNoResolve(MutableState state);
+    protected abstract void DoSpecificActionNoResolve(IMutableState state);
 
     internal override void Validate(IState state)
     {

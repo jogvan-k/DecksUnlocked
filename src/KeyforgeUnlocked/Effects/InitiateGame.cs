@@ -4,7 +4,7 @@ namespace KeyforgeUnlocked.Effects
 {
   public class InitiateGame : EffectBase<InitiateGame>
   {
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       state.Effects.Enqueue(new DrawInitialHands());
       state.Effects.Enqueue(new DeclareHouse());

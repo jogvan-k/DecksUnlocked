@@ -10,11 +10,10 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
     const int Power = 4;
     const int Armor = 0;
     static readonly CreatureType[] CreatureTypes = {CreatureType.Cyborg, CreatureType.Scientist};
-    static readonly Callback PlayAbility = (s, _) =>
+    static readonly Callback PlayAbility = (s, _, p) =>
     {
-      var player = s.playerTurn;
-      var opponentKeys = s.Keys[player.Other()];
-      s.GainAember(player, opponentKeys);
+      var opponentKeys = s.Keys[p.Other()];
+      s.GainAember(p, opponentKeys);
     };
 
     public DrEscotera() : this(House.Logos)

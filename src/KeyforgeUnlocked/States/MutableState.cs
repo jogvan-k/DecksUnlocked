@@ -8,55 +8,34 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States
 {
-  public sealed class MutableState : StateBase, IState
+  public sealed class MutableState : StateBase, IMutableState
   {
-    public Player playerTurn;
-    public int turnNumber;
-    public bool isGameOver;
-    public House? activeHouse;
-    public Types.Lookup<Player, int> Keys;
-    public Types.Lookup<Player, int> Aember;
-    public IMutableList<IActionGroup> ActionGroups;
-    public IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks;
-    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands;
-    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards;
-    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives;
-    public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields;
-    public IReadOnlyDictionary<Player, IMutableSet<Artifact>> Artifacts;
-    public IMutableStackQueue<IEffect> Effects;
-    public IMutableList<IResolvedEffect> ResolvedEffects;
-    public IMutableHistoricData HistoricData;
-    public Metadata metadata;
+    public Player PlayerTurn { get; set; }
+    public int TurnNumber { get; set; }
+    public bool IsGameOver { get; set; }
+    public House? ActiveHouse { get; set; }
+    public Lookup<Player, int> Keys { get; set; }
+    public Lookup<Player, int> Aember { get; set; }
+    public IMutableList<IActionGroup> ActionGroups { get; set; }
+    public IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks { get; set; }
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands { get; set; }
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards { get; set; }
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives { get; set; }
+    public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields { get; set; }
+    public IReadOnlyDictionary<Player, IMutableSet<Artifact>> Artifacts { get; set; }
+    public IMutableStackQueue<IEffect> Effects { get; set; }
+    public IMutableEvents Events { get; set; }
+    public IMutableList<IResolvedEffect> ResolvedEffects { get; set; }
+    public IMutableHistoricData HistoricData { get; set; }
+    public Metadata Metadata { get; set; }
 
-    public Player PlayerTurn
-    {
-      get => playerTurn;
-      set => playerTurn = value;
-    }
-
-    public int TurnNumber
-    {
-      get => turnNumber;
-      set => turnNumber = value;
-    }
-
-    public bool IsGameOver
-    {
-      get => isGameOver;
-      set => isGameOver = value;
-    }
-
-    public House? ActiveHouse
-    {
-      get => activeHouse;
-      set => activeHouse = value;
-    }
-
+    #region IState-specific fields
     IReadOnlyDictionary<Player, int> IState.Keys => Keys.ToReadOnly();
 
     IReadOnlyDictionary<Player, int> IState.Aember => Aember.ToReadOnly();
@@ -77,16 +56,12 @@ namespace KeyforgeUnlocked.States
 
     ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
 
+    ImmutableEvents IState.Events => Events.ToImmutable();
+
     ImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
 
     IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
-
-
-    public Metadata Metadata
-    {
-      get => metadata;
-      set => metadata = value;
-    }
+    #endregion
 
     public MutableState(IState state)
     {
@@ -104,6 +79,7 @@ namespace KeyforgeUnlocked.States
       Fields = state.Fields.ToMutable();
       Artifacts = state.Artifacts.ToMutable();
       Effects = new LazyStackQueue<IEffect>(state.Effects);
+      Events = new LazyEvents(state.Events);
       ResolvedEffects = new LazyList<IResolvedEffect>();
       HistoricData = new LazyHistoricData(state.HistoricData);
       Metadata = state.Metadata;
@@ -113,7 +89,7 @@ namespace KeyforgeUnlocked.States
       Player playerTurn,
       int turnNumber,
       bool isGameOver,
-      House? activeHouse, Types.Lookup<Player, int> keys, Types.Lookup<Player, int> aember,
+      House? activeHouse, Lookup<Player, int> keys, Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
       IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> hands,
@@ -122,6 +98,7 @@ namespace KeyforgeUnlocked.States
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
       IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts,
       IMutableStackQueue<IEffect> effects,
+      IMutableEvents events,
       IMutableList<IResolvedEffect> resolvedEffects,
       IMutableHistoricData historicData,
       Metadata metadata)
@@ -140,6 +117,7 @@ namespace KeyforgeUnlocked.States
       Fields = fields;
       Artifacts = artifacts;
       Effects = effects;
+      Events = events;
       ResolvedEffects = resolvedEffects;
       HistoricData = historicData;
       Metadata = metadata;
@@ -160,7 +138,7 @@ namespace KeyforgeUnlocked.States
       var trialState = ToImmutable();
       foreach (var card in Hands[PlayerTurn])
       {
-        if (card.House != activeHouse)
+        if (card.House != ActiveHouse)
           continue;
         var actionGroup = ToActionGroup(card);
 
@@ -170,7 +148,7 @@ namespace KeyforgeUnlocked.States
 
       foreach (var creature in Fields[PlayerTurn])
       {
-        if (creature.IsReady && creature.Card.House == activeHouse)
+        if (creature.IsReady && creature.Card.House == ActiveHouse)
         {
           var actionGroup = new UseCreatureGroup(this, creature);
           if (actionGroup.Actions(trialState).Count != 0)
@@ -178,9 +156,9 @@ namespace KeyforgeUnlocked.States
         }
       }
 
-      foreach (var artifact in Artifacts[playerTurn])
+      foreach (var artifact in Artifacts[PlayerTurn])
       {
-        if (artifact.IsReady && artifact.Card.House == activeHouse)
+        if (artifact.IsReady && artifact.Card.House == ActiveHouse)
         {
           var actionGroup = new UseArtifactGroup(artifact);
           if (actionGroup.Actions(trialState).Count != 0)

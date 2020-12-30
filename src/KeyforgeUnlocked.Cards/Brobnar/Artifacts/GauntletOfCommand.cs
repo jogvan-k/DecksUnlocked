@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
   {
     static readonly ArtifactType[] types = {ArtifactType.Item};
     static readonly Callback ActionAbility =
-      (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(UseCreature.Fight), Targets.Own));
+      (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(UseCreature.Fight), Targets.Own));
 
     public GauntletOfCommand() : this(House.Brobnar)
     {

@@ -25,7 +25,7 @@ namespace KeyforgeUnlockedTest.Effects
     public ReapTest()
     {
       _reapAbilityResolved = false;
-      Callback reapAbility = (mutableState, id) => _reapAbilityResolved = true;
+      Callback reapAbility = (_, _, _) => _reapAbilityResolved = true;
       _creatureCard = new SampleCreatureCard(reapAbility: reapAbility);
       _creature = new Creature(_creatureCard, isReady: true);
       _sut = new Reap(_creature);

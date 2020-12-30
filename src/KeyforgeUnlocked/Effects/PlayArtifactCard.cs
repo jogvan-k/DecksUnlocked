@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       state.Artifacts[state.PlayerTurn].Add(new Artifact((IArtifactCard) Card));
       state.ResolvedEffects.Add(new ArtifactCardPlayed(Card));

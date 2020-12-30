@@ -18,7 +18,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_CardWithPlayAbility()
     {
       var playAbilityResolved = false;
-      Callback playAbility = (_, _) => playAbilityResolved = true;
+      Callback playAbility = (_, _, _) => playAbilityResolved = true;
       var card = MockActionCard(playAbility);
 
       var sut = new PlayActionCard(card);

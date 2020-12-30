@@ -20,9 +20,9 @@ namespace KeyforgeUnlocked.States
     /// <summary>
     /// Creates a mutable instance of <see cref="IState"/>. All properties are cloned except <see cref="resolvedEffects"/> which is emptied.
     /// </summary>
-    public MutableState ToMutable()
+    public IMutableState ToMutable()
     {
-      return new((IState) this);
+      return new MutableState((IState) this);
     }
 
     public ImmutableState ToImmutable()
@@ -57,6 +57,7 @@ namespace KeyforgeUnlocked.States
              && EqualityComparer.Equals(thisState.Fields, other.Fields)
              && EqualityComparer.Equals(thisState.Artifacts, other.Artifacts)
              && thisState.Effects.SequenceEqual(other.Effects)
+             && thisState.Events.Equals(other.Events)
              && thisState.ResolvedEffects.SequenceEqual(other.ResolvedEffects)
              && thisState.HistoricData.Equals(other.HistoricData)
              && ReferenceEquals(thisState.Metadata, other.Metadata);
@@ -94,6 +95,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Fields));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Artifacts));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Effects));
+      hashCode.Add(thisState.Events);
       hashCode.Add(thisState.HistoricData);
       hashCode.Add(thisState.Metadata);
       return hashCode.ToHashCode();

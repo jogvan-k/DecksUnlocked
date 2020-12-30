@@ -65,6 +65,37 @@ namespace KeyforgeUnlocked.Types
       return hc.ToHashCode();
     }
 
+    public static bool Equals<T1, T2, T3>(IReadOnlyDictionary<T1, IImmutableDictionary<T2, T3>> x,
+      IReadOnlyDictionary<T1, IImmutableDictionary<T2, T3>> y)
+    {
+      if (ReferenceEquals(x, y)) return true;
+      if (ReferenceEquals(x, null)) return false;
+      if (x.Count != y.Count) return false;
+
+      foreach (var kv in x)
+      {
+        if (!y.TryGetValue(kv.Key, out var yValue) || !kv.Value.SequenceEqual(yValue))
+          return false;
+      }
+
+      return true;
+    }
+
+    public static int GetHashCode<T1, T2, T3>(IReadOnlyDictionary<T1, IImmutableDictionary<T2, T3>> x)
+    {
+      var hc = new HashCode();
+      if (x != null)
+      {
+        foreach (var kv in x.OrderBy(y => y.Key))
+        {
+          hc.Add(kv.Key);
+          hc.Add(GetHashCode(kv.Value));
+        }
+      }
+
+      return hc.ToHashCode();
+    }
+
     public static bool Equals<T1, T2>(IReadOnlyDictionary<T1, IImmutableSet<T2>> x,
       IReadOnlyDictionary<T1, IImmutableSet<T2>> y)
     {
@@ -128,6 +159,18 @@ namespace KeyforgeUnlocked.Types
       }
 
       return true;
+    }
+
+    public static int GetHashCode<T1, T2>(IReadOnlyDictionary<T1, T2> dictionary)
+    {
+      var hashCode = new HashCode();
+      foreach (var kv in dictionary.OrderBy(d => d.Key))
+      {
+        hashCode.Add(kv.Key);
+        hashCode.Add(kv.Value);
+      }
+
+      return hashCode.ToHashCode();
     }
   }
 }

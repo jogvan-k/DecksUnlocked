@@ -16,12 +16,12 @@ namespace KeyforgeUnlocked.Effects
       Target = target;
     }
 
-    protected override void SpecificResolve(MutableState state, Creature fighter)
+    protected override void SpecificResolve(IMutableState state, Creature fighter)
     {
       ResolveBeforeFightEffects(state, fighter);
 
-      if (!state.TryFindCreature(Target, out _, out _, out var targetCreature)
-          || !state.TryFindCreature(fighter, out _, out _, out fighter))
+      if (!state.TryFindCreature(Target, out var opponentPlayer, out _, out var targetCreature)
+          || !state.TryFindCreature(fighter, out var fightingPlayer, out _, out fighter))
         return;
       
       if (!targetCreature.CardKeywords.Contains(Keyword.Elusive) || state.HistoricData.CreaturesAttackedThisTurn.Contains(new Identifiable(targetCreature)))
@@ -47,21 +47,21 @@ namespace KeyforgeUnlocked.Effects
 
       if (!fighter.IsDead)
       {
-        fighter.FightAbility?.Invoke(state, fighter);
+        fighter.FightAbility?.Invoke(state, fighter, fightingPlayer);
         if(targetCreature.IsDead)
-          fighter.AfterKillAbility?.Invoke(state, fighter);
+          fighter.AfterKillAbility?.Invoke(state, fighter, fightingPlayer);
       }
       if(!targetCreature.IsDead && fighter.IsDead)
-        targetCreature.AfterKillAbility?.Invoke(state, targetCreature);
+        targetCreature.AfterKillAbility?.Invoke(state, targetCreature, opponentPlayer);
 
       state.HistoricData.CreaturesAttackedThisTurn = state.HistoricData.CreaturesAttackedThisTurn.Add(new Identifiable(targetCreature));
       if (targetCreature.IsDead)
         state.HistoricData.EnemiesDestroyedInAFightThisTurn += 1;
     }
 
-    void ResolveBeforeFightEffects(MutableState state, Creature fighter)
+    void ResolveBeforeFightEffects(IMutableState state, Creature fighter)
     {
-      fighter.Card.CardBeforeFightAbility?.Invoke(state, fighter);
+      fighter.Card.CardBeforeFightAbility?.Invoke(state, fighter, state.PlayerTurn);
     }
 
     protected override bool Equals(FightCreature other)

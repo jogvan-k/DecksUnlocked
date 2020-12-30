@@ -6,14 +6,14 @@ namespace KeyforgeUnlocked.Effects
 {
   public abstract class PlayCard<T> : EffectWithCard<T> where T : PlayCard<T>
   {
-    protected void ResolvePlayEffects(MutableState state)
+    protected void ResolvePlayEffects(IMutableState state)
     {
       foreach (var pip in Card.CardPips)
       {
         state.ResolvePip(pip);
       }
 
-      Card.CardPlayAbility?.Invoke(state, Card);
+      Card.CardPlayAbility?.Invoke(state, Card, state.PlayerTurn);
     }
     protected PlayCard(ICard card) : base(card)
     {

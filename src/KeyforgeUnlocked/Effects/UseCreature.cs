@@ -12,7 +12,7 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       var creature = state.FindCreature(Id, out _, out _);
       if(!creature.IsReady)
@@ -23,6 +23,6 @@ namespace KeyforgeUnlocked.Effects
       SpecificResolve(state, creature);
     }
 
-    protected abstract void SpecificResolve(MutableState state, Creature creature);
+    protected abstract void SpecificResolve(IMutableState state, Creature creature);
   }
 }

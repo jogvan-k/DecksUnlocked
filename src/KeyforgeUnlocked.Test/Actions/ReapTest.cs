@@ -76,7 +76,7 @@ namespace KeyforgeUnlockedTest.Actions
       ActExpectException(sut, state, asserts);
     }
 
-    Reap Setup(bool ready, House activeHouse, bool stunned, out MutableState state, bool allowOutOfHouseUse = false)
+    Reap Setup(bool ready, House activeHouse, bool stunned, out IMutableState state, bool allowOutOfHouseUse = false)
     {
       _creature = new Creature(_creatureCard, isReady: ready, state: stunned ? CreatureState.Stunned : CreatureState.None);
       _fields = new Dictionary<Player, IMutableList<Creature>>
@@ -88,7 +88,7 @@ namespace KeyforgeUnlockedTest.Actions
       return new Reap(null, _creature, allowOutOfHouseUse);
     }
 
-    MutableState Expected(House activeHouse = ActiveHouse)
+    IMutableState Expected(House activeHouse = ActiveHouse)
     {
       var expectedEffects = new LazyStackQueue<IEffect>();
       expectedEffects.Enqueue(new KeyforgeUnlocked.Effects.Reap(_creature));

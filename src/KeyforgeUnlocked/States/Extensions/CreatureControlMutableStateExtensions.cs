@@ -2,6 +2,7 @@
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.States.Extensions
@@ -9,7 +10,7 @@ namespace KeyforgeUnlocked.States.Extensions
   public static class CreatureControlMutableStateExtensions
   {
     public static void DamageCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id,
       int damage = 1)
     {
@@ -22,7 +23,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static int HealCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id,
       int amount = 1)
     {
@@ -38,7 +39,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void ReturnCreatureToHand(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id)
     {
       var owningPlayer = state.RemoveCreature(id, out var creature);
@@ -47,7 +48,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void AddAemberToCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id,
       int amount = 1)
     {
@@ -59,7 +60,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
     
     public static void UpdateCreature(
-      this MutableState state,
+      this IMutableState state,
       Creature creature)
     {
       if (creature.Health > 0)
@@ -71,7 +72,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void StunCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id)
     {
       var creature = state.FindCreature(id, out _, out _);
@@ -83,7 +84,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void SwapCreatures(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable creatureId,
       IIdentifiable targetId)
     {
@@ -109,7 +110,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void SetCreature(
-      this MutableState state,
+      this IMutableState state,
       Creature creature)
     {
       foreach (var keyValue in state.Fields)
@@ -129,20 +130,23 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void DestroyCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id)
     {
       var owningPlayer = state.RemoveCreature(id, out var creature);
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
-      creature.DestroyedAbility?.Invoke(state, creature);
+      creature.DestroyedAbility?.Invoke(state, creature, owningPlayer);
+      
+      state.RaiseEvent(EventType.CreatureDestroyed, creature, owningPlayer);
+      
       if (creature.Aember < 1) return;
       state.Aember[owningPlayer.Other()] += creature.Aember;
       state.ResolvedEffects.Add(new AemberClaimed(owningPlayer.Other(), creature.Aember));
     }
 
     static Player RemoveCreature(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id,
       out Creature creature)
     {

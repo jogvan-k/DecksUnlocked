@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Effects.Choices
   public sealed class TargetSingleCreature : TargetSingle
   {
 
-    public TargetSingleCreature(EffectOnTarget effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
+    public TargetSingleCreature(Callback effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
     {
     }
 

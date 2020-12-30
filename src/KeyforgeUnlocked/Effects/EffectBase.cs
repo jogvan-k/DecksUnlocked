@@ -5,11 +5,11 @@ namespace KeyforgeUnlocked.Effects
 {
   public abstract class EffectBase<T> : Equatable<T>, IEffect
   {
-    public void Resolve(MutableState state)
+    public void Resolve(IMutableState state)
     {
       ResolveImpl(state);
     }
 
-    protected abstract void ResolveImpl(MutableState state);
+    protected abstract void ResolveImpl(IMutableState state);
   }
 }

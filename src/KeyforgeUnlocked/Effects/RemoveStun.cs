@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Effects
     {
     }
 
-    protected override void SpecificResolve(MutableState state, Creature creature)
+    protected override void SpecificResolve(IMutableState state, Creature creature)
     {
       creature.State = creature.State & ~CreatureState.Stunned;
       state.SetCreature(creature);

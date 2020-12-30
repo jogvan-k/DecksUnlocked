@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    protected override void DoSpecificActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(IMutableState state)
     {
       state.Effects.Push(new Effects.DiscardCard(Card));
     }

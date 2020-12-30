@@ -11,10 +11,9 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     const int Armor = 0;
     static readonly CreatureType[] Types = {CreatureType.Giant};
 
-    static readonly Callback AfterKillAbility = (s, i) =>
+    static readonly Callback AfterKillAbility = (s, _, p) =>
     {
-      s.FindCreature(i, out var controllingPlayer, out _);
-      s.LoseAember(controllingPlayer.Other());
+      s.LoseAember(p.Other());
     };
 
     public Krump() : this(House.Brobnar)

@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Actions
     static readonly Pip[] Pips = {Pip.Aember};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(new TargetSingleCreature((s, t) => s.DamageCreature(t, 3)));
+      (s, _, _) => s.AddEffect(new TargetSingleCreature((s, t, _) => s.DamageCreature(t, 3)));
 
     public Punch() : this(House.Brobnar)
     {

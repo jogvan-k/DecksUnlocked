@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
     const int Power = 6;
     const int Armor = 1;
     static readonly CreatureType[] Types = {CreatureType.Knight, CreatureType.Spirit};
-    static readonly Callback AfterKillAbility = (s, i) => { s.CaptureAember(i); };
+    static readonly Callback AfterKillAbility = (s, i, _) => { s.CaptureAember(i); };
 
     public Francus() : this(House.Sanctum)
     {

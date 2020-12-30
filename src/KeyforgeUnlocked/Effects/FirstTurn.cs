@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Effects
 {
   public class FirstTurn : EffectBase<FirstTurn>
   {
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       foreach (var card in state.Hands[state.PlayerTurn])
         if (card.House == state.ActiveHouse)

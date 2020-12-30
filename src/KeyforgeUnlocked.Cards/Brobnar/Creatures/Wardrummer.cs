@@ -12,11 +12,11 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     const int Armor = 0;
     static readonly CreatureType[] Types = {CreatureType.Goblin};
 
-    static readonly Callback PlayAbility = (s, i) =>
+    static readonly Callback PlayAbility = (s, i, p) =>
     {
       var effect = new TargetAllCreatures(
         ReturnTargetToHand,
-        AlliesOf(i).And(OfHouse(House.Brobnar).And(Not(i))));
+        AlliesOf(p).And(OfHouse(House.Brobnar).And(Not(i))));
       s.AddEffect(effect);
     };
 

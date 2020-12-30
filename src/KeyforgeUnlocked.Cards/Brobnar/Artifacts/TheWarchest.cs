@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
     static readonly ArtifactType[] types = {ArtifactType.Item};
 
     static readonly Callback ActionAbility =
-      (s, _) => s.GainAember(s.HistoricData.EnemiesDestroyedInAFightThisTurn);
+      (s, _, _) => s.GainAember(s.HistoricData.EnemiesDestroyedInAFightThisTurn);
 
     public TheWarchest() : this(House.Brobnar)
     {

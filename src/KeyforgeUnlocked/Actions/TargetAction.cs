@@ -1,23 +1,26 @@
 using System;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Actions
 {
   public sealed class TargetAction : Action<TargetAction>
   {
-    readonly EffectOnTarget _effect;
+    readonly Callback _effect;
     public readonly IIdentifiable Target;
+    readonly Player _owningPayer;
 
-    public TargetAction(ImmutableState origin, EffectOnTarget effect, IIdentifiable target) : base(origin)
+    public TargetAction(ImmutableState origin, Callback effect, IIdentifiable target, Player owningPayer) : base(origin)
     {
       _effect = effect;
       Target = target;
+      _owningPayer = owningPayer;
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    internal override void DoActionNoResolve(IMutableState state)
     {
-      _effect(state, Target);
+      _effect(state, Target, _owningPayer);
     }
 
     public override string Identity()

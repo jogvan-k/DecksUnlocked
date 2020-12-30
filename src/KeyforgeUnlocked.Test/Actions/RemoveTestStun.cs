@@ -49,7 +49,7 @@ namespace KeyforgeUnlockedTest.Actions
       ActExpectException(sut, state, asserts);
     }
 
-    KeyforgeUnlocked.Actions.RemoveStun Setup(bool stunned, bool isReady, out MutableState state)
+    RemoveStun Setup(bool stunned, bool isReady, out IMutableState state)
     {
       var sampleCreatureCard = new SampleCreatureCard(house: House.Brobnar);
       creature = new Creature(
@@ -59,7 +59,7 @@ namespace KeyforgeUnlockedTest.Actions
       return new KeyforgeUnlocked.Actions.RemoveStun(null, creature);
     }
 
-    MutableState Expected()
+    IMutableState Expected()
     {
       var expectedEffects = new LazyStackQueue<IEffect>(new[] {new KeyforgeUnlocked.Effects.RemoveStun(creature)});
       var expectedState = StateTestUtil.EmptyState.New(

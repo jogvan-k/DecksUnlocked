@@ -6,20 +6,20 @@ namespace KeyforgeUnlocked.Effects
 {
   public sealed class TargetAllCreatures : EffectBase<TargetAllCreatures>
   {
-    EffectOnTarget effect;
+    Callback effect;
     ValidOn _validOn;
 
-    public TargetAllCreatures(EffectOnTarget effect, ValidOn validOn)
+    public TargetAllCreatures(Callback effect, ValidOn validOn)
     {
       this.effect = effect;
       this._validOn = validOn;
     }
 
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
-      foreach (var creature in state.Fields.SelectMany(f => f.Value).Where(c => _validOn(state, c)).ToList())
+      foreach (var t in state.Fields.SelectMany(f => f.Value.Select(creature => (creature, f.Key))).Where(c => _validOn(state, c.creature)).ToList())
       {
-        effect(state, creature);
+        effect(state, t.creature, t.Key);
       }
     }
 

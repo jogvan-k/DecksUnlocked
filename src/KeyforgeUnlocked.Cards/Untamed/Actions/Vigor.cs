@@ -10,8 +10,8 @@ namespace KeyforgeUnlocked.Cards.Untamed.Actions
     static readonly Pip[] Pips = {Pip.Aember};
 
     static readonly Callback PlayAbility =
-      (s, _) => s.AddEffect(new TargetSingleCreature(
-        (s, t) =>
+      (s, _, _) => s.AddEffect(new TargetSingleCreature(
+        (s, t, _) =>
         {
           var healedAmount = s.HealCreature(t, 3);
           if(healedAmount == 3) s.GainAember();

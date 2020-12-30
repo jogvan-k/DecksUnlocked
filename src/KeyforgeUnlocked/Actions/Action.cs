@@ -43,7 +43,7 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    internal abstract void DoActionNoResolve(MutableState state);
+    internal abstract void DoActionNoResolve(IMutableState state);
 
     public int CompareTo(object other)
     {

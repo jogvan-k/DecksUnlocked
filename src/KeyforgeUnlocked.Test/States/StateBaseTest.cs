@@ -44,7 +44,7 @@ namespace KeyforgeUnlockedTest.States
     [Test]
     public void Equals_EmptyMutableAndEmptyImmutable()
     {
-      MutableState mutableState = StateTestUtil.EmptyMutableState;
+      IMutableState mutableState = StateTestUtil.EmptyMutableState;
       ImmutableState immutableState = StateTestUtil.EmptyState;
 
       Assert.True(mutableState.Equals(mutableState));

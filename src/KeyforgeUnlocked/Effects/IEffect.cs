@@ -4,6 +4,6 @@ namespace KeyforgeUnlocked.Effects
 {
   public interface IEffect
   {
-    public void Resolve(MutableState state);
+    public void Resolve(IMutableState state);
   }
 }

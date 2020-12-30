@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
       CreatureType.Giant
     };
 
-    static readonly Callback PlayAbility = (s, _) => s.LoseAember(s.playerTurn.Other());
+    static readonly Callback PlayAbility = (s, _, p) => s.LoseAember(p.Other());
 
     public Bumpsy() : this(House.Brobnar)
     {

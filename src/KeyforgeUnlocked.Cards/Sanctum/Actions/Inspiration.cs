@@ -7,10 +7,10 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
 {
   public sealed class Inspiration : ActionCard
   {
-    static readonly Callback PlayAbility = (s, _) =>
+    static readonly Callback PlayAbility = (s, _, _) =>
     {
       s.AddEffect(new TargetSingleCreature(
-          (s, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(), Targets.Own))));
+          (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(), Targets.Own))));
     };
 
     public Inspiration() : this(House.Sanctum)

@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Effects
 {
   public class CheckGameTurnLimit : EffectBase<CheckGameTurnLimit>
   {
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       if (state.TurnNumber < state.Metadata.TurnCountLimit)
         return;
@@ -78,13 +78,13 @@ namespace KeyforgeUnlocked.Effects
       return false;
     }
 
-    static void Forge(MutableState state)
+    static void Forge(IMutableState state)
     {
       Forge(state, Player.Player1);
       Forge(state, Player.Player2);
     }
 
-    static void Forge(MutableState state, Player player)
+    static void Forge(IMutableState state, Player player)
     {
       if (state.Aember[player] >= Constants.DefaultForgeCost)
       {

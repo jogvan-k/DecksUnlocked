@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    internal override void DoActionNoResolve(IMutableState state)
     {
       state.PopArchive();
     }

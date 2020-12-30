@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Effects
 {
   public class TryForge : EffectBase<TryForge>
   {
-    protected override void ResolveImpl(MutableState state)
+    protected override void ResolveImpl(IMutableState state)
     {
       var playerTurn = state.PlayerTurn;
       if (state.Aember[playerTurn] >= DefaultForgeCost)

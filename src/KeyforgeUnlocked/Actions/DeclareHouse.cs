@@ -24,7 +24,7 @@ namespace KeyforgeUnlocked.Actions
         throw new DeclaredHouseNotAvailableException(state, House);
     }
 
-    internal override void DoActionNoResolve(MutableState state)
+    internal override void DoActionNoResolve(IMutableState state)
     {
       state.ActiveHouse = House;
       state.ResolvedEffects.Add(new HouseDeclared(House));

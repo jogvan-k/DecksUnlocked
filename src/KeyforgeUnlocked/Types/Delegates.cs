@@ -8,25 +8,26 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {
-  public delegate void Callback(MutableState state, IIdentifiable invoker);
+  public delegate void Callback(IMutableState state, IIdentifiable target, Player owningPlayer);
+  public delegate void StateAndTargetCallback(IMutableState state, IIdentifiable target);
+  public delegate void StateCallback(IMutableState state);
 
-  public delegate void EffectOnTarget(MutableState state, IIdentifiable target);
 
   public delegate bool ValidOn(IState state, IIdentifiable id);
 
   public static class Delegates
   {
-    public static readonly EffectOnTarget StunTarget = (s, t) =>
+    public static readonly Callback StunTarget = (s, t, _) =>
     {
       s.StunCreature(t);
     };
 
-    public static EffectOnTarget ReadyAndUse(UseCreature allowedUsage = UseCreature.All) => (s, c) => s.AddEffect(new ReadyCreatureAndUse(c, true, allowedUsage));
+    public static Callback ReadyAndUse(UseCreature allowedUsage = UseCreature.All) => (s, c,_) => s.AddEffect(new ReadyCreatureAndUse(c, true, allowedUsage));
 
-    public static readonly EffectOnTarget ReturnTargetToHand = (s, c) => s.ReturnCreatureToHand(c);
+    public static readonly Callback ReturnTargetToHand = (s, c, _) => s.ReturnCreatureToHand(c);
 
-    public static EffectOnTarget SwapCreatures(IIdentifiable c) =>
-      (s, t) =>
+    public static Callback SwapCreatures(IIdentifiable c) =>
+      (s, t, _) =>
       {
         s.SwapCreatures(c, t);
       };
@@ -34,15 +35,6 @@ namespace KeyforgeUnlocked.Types
     public static readonly ValidOn All = (_, _) => true;
     
     public static ValidOn AllExcept(IIdentifiable e) => (_, t) => !t.Equals(e);
-
-    public static ValidOn AlliesOf(IIdentifiable c) => (s, t) =>
-    {
-      if (c.Equals(t))
-        return false;
-      s.FindCreature(c, out var cControllingPlayer, out _);
-      s.FindCreature(t, out var tControllingPlayer, out _);
-      return cControllingPlayer == tControllingPlayer;
-    };
 
     public static ValidOn EnemiesOf(Player player) => (s, t) =>
     {
@@ -63,6 +55,6 @@ namespace KeyforgeUnlocked.Types
 
     public static ValidOn Not(IIdentifiable c) => (_, t) => !t.Equals(c);
 
-    public static Callback NoChange => (_, _) => { };
+    public static Callback NoChange => (_, _, _) => { };
   }
 }

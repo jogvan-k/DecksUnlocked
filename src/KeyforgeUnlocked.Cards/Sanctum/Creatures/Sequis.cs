@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
     const int armor = 2;
     static readonly CreatureType[] Types = {CreatureType.Human, CreatureType.Knight};
     static readonly Keyword[] Keywords = { };
-    static readonly Callback ReapAbility = (s, i) => { s.CaptureAember(i); };
+    static readonly Callback ReapAbility = (s, i, _) => { s.CaptureAember(i); };
 
     public Sequis() : this(House.Sanctum)
     {

@@ -22,7 +22,7 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup();
       bool effectResolved = false;
-      EffectOnTarget effect = (_, _) => effectResolved = true;
+      Callback effect = (_, _, _) => effectResolved = true;
       ValidOn validOn = (_, _) => false;
       var sut = new TargetSingleCardInHand(effect, validOn: validOn);
 
@@ -39,16 +39,18 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup(playerTurn);
       bool effectResolved = false;
-      EffectOnTarget effect = (_, _) => effectResolved = true;
+      Callback effect = (_, _, _) => effectResolved = true;
       var sut = new TargetSingleCardInHand(effect);
 
       sut.Resolve(state);
 
+      var player2Discards = _playerTwoDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player2));
+      var player1Discards = _playerOneDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player1));
       var expectedActionGroup = new SingleTargetGroup(
         effect,
         playerTurn.IsPlayer1() ?
-          _playerTwoDiscardCards.Concat(_playerOneDiscardCards).Cast<IIdentifiable>().ToImmutableList() :
-          _playerOneDiscardCards.Concat(_playerTwoDiscardCards).Cast<IIdentifiable>().ToImmutableList());
+          player2Discards.Concat(player1Discards).ToImmutableList() :
+          player1Discards.Concat(player2Discards).ToImmutableList());
 
       Assert.False(effectResolved);
       StateAsserter.StateEquals(Setup(playerTurn).New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup}), state);
@@ -61,17 +63,23 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup();
       IIdentifiable cardTargeted = null;
-      EffectOnTarget effect = (_, t) => cardTargeted = t;
+      Player playerTargeted = Player.None;
+      Callback effect = (_, t, p) =>
+      {
+        cardTargeted = t;
+        playerTargeted = p;
+      };
       var targetCard = $"{playerCard}{i}";
       var sut = new TargetSingleCardInHand(effect, validOn: (_, t) => t.Id == targetCard);
       
       sut.Resolve(state);
 
       Assert.That(cardTargeted.Id, Is.EqualTo(targetCard));
+      Assert.That(playerTargeted, Is.EqualTo(playerCard));
       StateAsserter.StateEquals(Setup(), state);
     }
 
-    MutableState Setup(Player playerTurn = Player.Player1)
+    IMutableState Setup(Player playerTurn = Player.Player1)
     {
       var hands =
         TestUtil.Sets<ICard>(_playerOneDiscardCards, _playerTwoDiscardCards);

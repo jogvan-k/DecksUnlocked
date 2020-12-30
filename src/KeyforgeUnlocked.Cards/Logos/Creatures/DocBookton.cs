@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
       CreatureType.Human, CreatureType.Scientist
     };
 
-    static readonly Callback ReapAbility = (s, _) => s.Draw(s.playerTurn);
+    static readonly Callback ReapAbility = (s, _, p) => s.Draw(p);
 
     public DocBookton() : this(House.Brobnar)
     {

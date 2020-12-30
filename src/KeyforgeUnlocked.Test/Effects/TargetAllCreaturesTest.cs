@@ -17,13 +17,13 @@ namespace KeyforgeUnlockedTest.Effects
     Creature playerTwoCreature = new Creature(new SampleCreatureCard());
 
     List<IIdentifiable> _targetedCreatures;
-    EffectOnTarget _effect;
+    Callback _effect;
 
     [SetUp]
     public void SetUp()
     {
       _targetedCreatures = new List<IIdentifiable>();
-      _effect = (s, c) => _targetedCreatures.Add(c);
+      _effect = (s, c, _) => _targetedCreatures.Add(c);
     }
 
     [Test]
@@ -62,13 +62,13 @@ namespace KeyforgeUnlockedTest.Effects
       Assert.That(_targetedCreatures, Is.EquivalentTo(new []{playerOneCreature, playerTwoCreature}));
     }
 
-    TargetAllCreatures Setup(out MutableState state, ValidOn validOn)
+    TargetAllCreatures Setup(out IMutableState state, ValidOn validOn)
     {
       state = State();
       return new TargetAllCreatures(_effect, validOn);
     }
 
-    MutableState State()
+    IMutableState State()
     {
       var fields = TestUtil.Lists(playerOneCreature, playerTwoCreature);
       return StateTestUtil.EmptyState.New(fields: fields);

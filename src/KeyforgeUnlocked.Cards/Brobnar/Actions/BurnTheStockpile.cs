@@ -6,9 +6,9 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Actions
   [CardName("Burn the Stockpile")]
   public sealed class BurnTheStockpile : ActionCard
   {
-    static readonly Callback PlayAbility = (s, _) =>
+    static readonly Callback PlayAbility = (s, _, p) =>
     {
-      if (s.Aember[s.playerTurn.Other()] >= 7) s.LoseAember(s.playerTurn.Other(), 4);
+      if (s.Aember[p.Other()] >= 7) s.LoseAember(p.Other(), 4);
     };
 
     public BurnTheStockpile() : this(House.Brobnar)

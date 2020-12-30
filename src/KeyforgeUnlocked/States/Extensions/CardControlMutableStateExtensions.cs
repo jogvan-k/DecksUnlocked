@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.States.Extensions
   public static class CardControlMutableStateExtensions
   {
     public static int Draw(
-      this MutableState state,
+      this IMutableState state,
       Player player,
       int amount = 1)
     {
@@ -30,7 +30,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void ArchiveFromHand(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id)
     {
       if (!TryRemove(state.Hands, id, out var player, out var card))
@@ -40,9 +40,9 @@ namespace KeyforgeUnlocked.States.Extensions
       state.ResolvedEffects.Add(new CardArchived(card));
     }
 
-    public static void PopArchive(this MutableState state)
+    public static void PopArchive(this IMutableState state)
     {
-      var archive = state.Archives[state.playerTurn];
+      var archive = state.Archives[state.PlayerTurn];
       if (archive.Count == 0) return;
       
       foreach (var archivedCard in archive)
@@ -55,7 +55,7 @@ namespace KeyforgeUnlocked.States.Extensions
     }
 
     public static void ReturnFromDiscard(
-      this MutableState state,
+      this IMutableState state,
       IIdentifiable id)
     {
       if (!TryRemove(state.Discards, id, out var owningPlayer, out var card))

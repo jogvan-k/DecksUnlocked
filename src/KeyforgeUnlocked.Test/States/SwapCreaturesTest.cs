@@ -64,12 +64,12 @@ namespace KeyforgeUnlockedTest.States
       StateAsserter.StateEquals(expectedState, state);
     }
 
-    MutableState SetupState()
+    IMutableState SetupState()
     {
       return SetupState(_playerCreature1, _playerCreature2, _playerCreature3, _opponentCreature);
     }
 
-    MutableState SetupState(Creature playerCreature1, Creature playerCreature2, Creature playerCreature3,
+    IMutableState SetupState(Creature playerCreature1, Creature playerCreature2, Creature playerCreature3,
       Creature opponentCreature)
     {
       var fields = TestUtil.Lists(

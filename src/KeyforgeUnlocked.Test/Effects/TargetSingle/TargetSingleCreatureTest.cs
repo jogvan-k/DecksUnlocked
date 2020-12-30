@@ -21,13 +21,13 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup();
       var effectResolved = false;
-      EffectOnTarget effectOnTarget = (_, _) => effectResolved = true;
+      Callback effectOnTarget = (_, _, _) => effectResolved = true;
       var sut = new TargetSingleCreature(effectOnTarget);
 
       sut.Resolve(state);
 
       var expectedActionGroup = new SingleTargetGroup(effectOnTarget,
-        new[] {(IIdentifiable) playerTwoCreature, playerOneCreature}.ToImmutableList());
+        new[] {((IIdentifiable) playerTwoCreature, Player.Player2), (playerOneCreature, Player.Player1)}.ToImmutableList());
 
       var expectedState = Setup().New(actionGroups: new LazyList<IActionGroup> {expectedActionGroup});
 
@@ -42,7 +42,12 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup();
       IIdentifiable target = default;
-      EffectOnTarget effect = (_, c) => target = c;
+      Player targetedPlayer = Player.None;
+      Callback effect = (_, c, p) =>
+      {
+        target = c;
+        targetedPlayer = p;
+      };
       ValidOn validOn = (_, c) => state.ControllingPlayer(c).Equals(targetPlayerCreature);
       var sut = new TargetSingleCreature(effect, validOn: validOn);
 
@@ -51,6 +56,7 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
       StateAsserter.StateEquals(Setup(), state);
       var expectedTarget = targetPlayerCreature == Player.Player1 ? playerOneCreature : playerTwoCreature;
       Assert.AreEqual(expectedTarget, target);
+      Assert.AreEqual(targetPlayerCreature, targetedPlayer);
     }
 
     [Test]
@@ -58,7 +64,7 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
     {
       var state = Setup();
       bool effectResolved = false;
-      EffectOnTarget effect = (_, _) => effectResolved = true;
+      Callback effect = (_, _, _) => effectResolved = true;
       ValidOn validOn = (_, _) => false;
       var sut = new TargetSingleCreature(effect, validOn: validOn);
 
@@ -68,7 +74,7 @@ namespace KeyforgeUnlockedTest.Effects.TargetSingle
       Assert.False(effectResolved);
     }
 
-    MutableState Setup()
+    IMutableState Setup()
     {
       var fields = TestUtil.Lists(playerOneCreature, playerTwoCreature);
       return StateTestUtil.EmptyState.New(fields: fields);

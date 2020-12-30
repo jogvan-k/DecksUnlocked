@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
@@ -6,6 +7,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Types;
 using KeyforgeUnlockedTest.Util;
@@ -28,6 +30,9 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     protected bool _targetCreatureFightAbilityResolved;
     protected bool _targetCreatureDestroyedAbilityResolved;
     protected bool _targetCreatureAfterKillAbilityResolved;
+
+    protected bool _fightingCreatureDestroyedEventInvoked;
+    protected bool _targetCreatureDestroyedEventInvoked;
  
     protected Callback _fightingCreatureBeforeFightAbility;
     protected Callback _fightingCreatureFightAbility;
@@ -37,6 +42,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
     protected Callback _targetCreatureFightAbility;
     protected Callback _targetCreatureDestroyedAbility;
     protected Callback _targetCreatureAfterKillAbility;
+
+    protected Callback _creatureDestroyedEvent;
     
     [SetUp]
     public void SetUp()
@@ -50,16 +57,28 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       _targetCreatureFightAbilityResolved = false;
       _targetCreatureDestroyedAbilityResolved = false;
       _targetCreatureAfterKillAbilityResolved = false;
-      _fightingCreatureBeforeFightAbility = (_, _) => _fightingCreatureBeforeFightAbilityResolved = true;
-      _fightingCreatureFightAbility = (s, id) => _fightingCreatureFightAbilityResolved = true;
-      _fightingCreatureDestroyedAbility = (s, id) => _fightingCreatureDestroyedAbilityResolved = true;
-      _fightingCreatureAfterKillAbility = (s, id) => _fightingCreatureAfterKillAbilityResolved = true;
-      _targetCreatureBeforeFightAbility = (_, _) => _targetCreatureBeforeFightAbilityResolved = true;
-      _targetCreatureFightAbility = (s, id) => _targetCreatureFightAbilityResolved = true;
-      _targetCreatureDestroyedAbility = (s, id) => _targetCreatureDestroyedAbilityResolved = true;
-      _targetCreatureAfterKillAbility = (s, id) => _targetCreatureAfterKillAbilityResolved = true;
+      _fightingCreatureBeforeFightAbility = (_, _, _) => _fightingCreatureBeforeFightAbilityResolved = true;
+      _fightingCreatureFightAbility = (_, _, _) => _fightingCreatureFightAbilityResolved = true;
+      _fightingCreatureDestroyedAbility = (_, _, _) => _fightingCreatureDestroyedAbilityResolved = true;
+      _fightingCreatureAfterKillAbility = (_, _, _) => _fightingCreatureAfterKillAbilityResolved = true;
+      _targetCreatureBeforeFightAbility = (_, _, _) => _targetCreatureBeforeFightAbilityResolved = true;
+      _targetCreatureFightAbility = (_, _, _) => _targetCreatureFightAbilityResolved = true;
+      _targetCreatureDestroyedAbility = (_, _, _) => _targetCreatureDestroyedAbilityResolved = true;
+      _targetCreatureAfterKillAbility = (_, _, _) => _targetCreatureAfterKillAbilityResolved = true;
+
+      _fightingCreatureDestroyedEventInvoked = false;
+      _targetCreatureDestroyedEventInvoked = false;
+      _creatureDestroyedEvent = (_, id, _) =>
+      {
+        if (id.Equals(_fightingCreature))
+          _fightingCreatureDestroyedEventInvoked = true;
+        else if (id.Equals(_targetCreature))
+          _targetCreatureDestroyedEventInvoked = true;
+        else
+          throw new Exception($"Unknown target {id}");
+      };
     }
-    protected MutableState SetupAndAct(
+    protected IMutableState SetupAndAct(
       SampleCreatureCard fightingCreatureCard,
       SampleCreatureCard targetCreatureCard,
       int fightingCreatureBrokenArmor = 0,
@@ -68,7 +87,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       var fightingCreature = new Creature(fightingCreatureCard, isReady: true, brokenArmor: fightingCreatureBrokenArmor);
       var targetCreature = new Creature(targetCreatureCard, isReady: true, brokenArmor: targetCreatureBrokenArmor);
       var fields = TestUtil.Lists(fightingCreature, targetCreature);
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var events = Events();
+      var state = StateTestUtil.EmptyState.New(fields: fields, events: events);
       var sut = new FightCreature(fightingCreature, targetCreature);
 
       sut.Resolve(state);
@@ -76,7 +96,14 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       return state;
     }
 
-    protected MutableState ExpectedState(
+    IMutableEvents Events()
+    {
+      var events = new LazyEvents();
+      events.Subscribe(new Identifiable(""), EventType.CreatureDestroyed, _creatureDestroyedEvent);
+      return events;
+    }
+    
+    protected IMutableState ExpectedState(
       Creature expectedFighter,
       Creature expectedTarget,
       bool fightOccured = true)
@@ -104,6 +131,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
         resolvedEffects.Add(new CreatureDied(expectedTarget));
       }
 
+      var events = Events();
       var historicData = new LazyHistoricData();
 
       if (fightOccured)
@@ -114,7 +142,7 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       }
 
       return StateTestUtil.EmptyState.New(
-        fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), historicData: historicData);
+        fields: expectedFields, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(resolvedEffects), events: events, historicData: historicData);
     }
     
     protected void Assert(IState expectedState, IState actualState, bool expectedFighterDead,
@@ -131,6 +159,8 @@ namespace KeyforgeUnlockedTest.Effects.FightCreatureTests
       NUnit.Framework.Assert.AreEqual(expectedFighterDead && !expectedTargetDead && fightOccured,
         _targetCreatureAfterKillAbilityResolved);
 
+      NUnit.Framework.Assert.AreEqual(_fightingCreatureDestroyedEventInvoked, expectedFighterDead);
+      NUnit.Framework.Assert.AreEqual(_targetCreatureDestroyedEventInvoked, expectedTargetDead);
       StateAsserter.StateEquals(expectedState, actualState);
     }
 

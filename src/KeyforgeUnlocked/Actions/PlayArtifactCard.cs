@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
     {
     }
 
-    protected override void DoSpecificActionNoResolve(MutableState state)
+    protected override void DoSpecificActionNoResolve(IMutableState state)
     {
       if (!state.Hands[state.PlayerTurn].Remove(Card))
         throw new CardNotPresentException(state, Card);

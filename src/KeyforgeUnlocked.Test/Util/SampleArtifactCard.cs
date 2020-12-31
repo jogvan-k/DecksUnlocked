@@ -6,19 +6,19 @@ namespace KeyforgeUnlockedTest.Util
 {
   public class SampleArtifactCard : Card, IArtifactCard
   {
-    public ArtifactType[] CardTypes { get; }
+    public Trait[] CardTraits { get; }
 
     public Callback CardActionAbility { get; }
 
     public SampleArtifactCard(
       House house = House.Undefined,
-      ArtifactType[] types = null,
+      Trait[] traits = null,
       Pip[] pips = null,
       Callback actionAbility = null,
       Callback playAbility = null,
       string id = null) : base(house, pips, playAbility, id)
     {
-      CardTypes = types ?? new ArtifactType[0];
+      CardTraits = traits ?? new Trait[0];
       CardActionAbility = actionAbility;
     }
   }

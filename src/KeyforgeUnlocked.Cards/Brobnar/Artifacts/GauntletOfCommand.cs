@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
   [CardName("Gauntlet of Command")]
   public sealed class GauntletOfCommand : ArtifactCard
   {
-    static readonly ArtifactType[] types = {ArtifactType.Item};
+    static readonly Trait[] traits = {Trait.Item};
     static readonly Callback ActionAbility =
       (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(UseCreature.Fight), Targets.Own));
 
@@ -17,7 +17,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
     {
     }
 
-    public GauntletOfCommand(House house) : base(house, types, actionAbility: ActionAbility)
+    public GauntletOfCommand(House house) : base(house, traits, actionAbility: ActionAbility)
     {
     }
   }

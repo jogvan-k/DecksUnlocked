@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Creatures;
+﻿using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
@@ -9,7 +8,7 @@ namespace KeyforgeUnlocked.Cards
     int CardPower { get; }
     int CardArmor { get; }
     Keyword[] CardKeywords { get; }
-    CreatureType[] CardTypes { get; }
+    Trait[] CardTraits { get; }
     Callback CardFightAbility { get; }
     Callback CardBeforeFightAbility { get; }
     Callback CardAfterKillAbility { get; }

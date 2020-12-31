@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
@@ -10,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
   {
     const int Power = 3;
     const int Armor = 0;
-    static readonly CreatureType[] Types = {CreatureType.Goblin};
+    static readonly Trait[] Types = {Trait.Goblin};
 
     static readonly Callback PlayAbility = (s, i, p) =>
     {

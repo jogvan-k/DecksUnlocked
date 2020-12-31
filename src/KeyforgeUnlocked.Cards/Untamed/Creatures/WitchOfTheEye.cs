@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Effects.Choices;
+﻿using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
@@ -11,10 +10,10 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     const int Power = 3;
     const int Armor = 0;
 
-    static readonly CreatureType[] CreatureTypes =
+    static readonly Trait[] Traits =
     {
-      CreatureType.Human,
-      CreatureType.Witch
+      Trait.Human,
+      Trait.Witch
     };
 
     static readonly Callback ReapAbility = (s, _, _) =>
@@ -28,7 +27,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     {
     }
 
-    public WitchOfTheEye(House house) : base(house, Power, Armor, CreatureTypes, reapAbility: ReapAbility)
+    public WitchOfTheEye(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility)
     {
     }
   }

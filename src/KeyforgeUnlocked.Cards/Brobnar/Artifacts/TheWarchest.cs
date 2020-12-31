@@ -6,7 +6,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
 {
   public sealed class TheWarchest : ArtifactCard
   {
-    static readonly ArtifactType[] types = {ArtifactType.Item};
+    static readonly Trait[] traits = {Trait.Item};
 
     static readonly Callback ActionAbility =
       (s, _, _) => s.GainAember(s.HistoricData.EnemiesDestroyedInAFightThisTurn);
@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
     {
     }
 
-    public TheWarchest(House house) : base(house, types, actionAbility: ActionAbility)
+    public TheWarchest(House house) : base(house, traits, actionAbility: ActionAbility)
     {
     }
   }

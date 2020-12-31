@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
@@ -10,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
   {
     const int Power = 5;
     const int Armor = 0;
-    static readonly CreatureType[] CreatureTypes = {CreatureType.Giant};
+    static readonly Trait[] Traits = {Trait.Giant};
 
     static readonly Callback PlayAbility =
       (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.StunTarget));
@@ -19,7 +18,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     {
     }
 
-    public Smaaash(House house) : base(house, Power, Armor, CreatureTypes, playAbility: PlayAbility)
+    public Smaaash(House house) : base(house, Power, Armor, Traits, playAbility: PlayAbility)
     {
     }
   }

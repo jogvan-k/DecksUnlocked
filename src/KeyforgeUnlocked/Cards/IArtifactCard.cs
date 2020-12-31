@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Cards
 {
   public interface IArtifactCard : ICard
   {
-    ArtifactType[] CardTypes { get; }
+    Trait[] CardTraits { get; }
     Callback CardActionAbility { get; }
   }
 }

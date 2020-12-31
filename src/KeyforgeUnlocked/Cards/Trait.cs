@@ -1,6 +1,6 @@
-namespace KeyforgeUnlocked.Cards.CreatureCards
+namespace KeyforgeUnlocked.Cards
 {
-  public enum CreatureType
+  public enum Trait
   {
     Elf,
     Human,
@@ -13,6 +13,8 @@ namespace KeyforgeUnlocked.Cards.CreatureCards
     Cyborg,
     Scientist,
     Faerie,
-    Witch
+    Witch,
+    Power,
+    Item
   }
 }

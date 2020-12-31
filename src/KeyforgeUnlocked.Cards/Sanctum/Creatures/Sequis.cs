@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
@@ -9,7 +8,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
   {
     const int power = 4;
     const int armor = 2;
-    static readonly CreatureType[] Types = {CreatureType.Human, CreatureType.Knight};
+    static readonly Trait[] Types = {Trait.Human, Trait.Knight};
     static readonly Keyword[] Keywords = { };
     static readonly Callback ReapAbility = (s, i, _) => { s.CaptureAember(i); };
 

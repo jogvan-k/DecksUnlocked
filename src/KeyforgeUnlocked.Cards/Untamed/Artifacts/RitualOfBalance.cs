@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Artifacts
   [CardName("Ritual of Balance")]
   public class RitualOfBalance : ArtifactCard
   {
-    static readonly ArtifactType[] types = {ArtifactType.Power};
+    static readonly Trait[] traits = {Trait.Power};
 
     static readonly Callback ActionAbility = (s, _, p) =>
     {
@@ -18,7 +18,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Artifacts
     {
     }
     
-    public RitualOfBalance(House house) : base(house, types, actionAbility: ActionAbility)
+    public RitualOfBalance(House house) : base(house, traits, actionAbility: ActionAbility)
     {
     }
   }

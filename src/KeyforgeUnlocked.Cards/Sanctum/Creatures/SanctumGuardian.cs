@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
@@ -11,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
   {
     const int power = 6;
     const int armor = 1;
-    static readonly CreatureType[] CreatureTypes = {CreatureType.Knight, CreatureType.Spirit};
+    static readonly Trait[] Traits = {Trait.Knight, Trait.Spirit};
     static readonly Keyword[] Keywords = {Keyword.Taunt};
 
     static readonly Callback FightReapAbility = (s, self, p) =>
@@ -24,7 +23,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
     }
 
     public SanctumGuardian(House house) : base(
-      house, power, armor, CreatureTypes, Keywords, fightAbility: FightReapAbility, reapAbility: FightReapAbility)
+      house, power, armor, Traits, Keywords, fightAbility: FightReapAbility, reapAbility: FightReapAbility)
     {
     }
   }

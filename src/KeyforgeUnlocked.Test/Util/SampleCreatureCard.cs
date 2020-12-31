@@ -1,5 +1,4 @@
 using KeyforgeUnlocked.Cards;
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
@@ -10,7 +9,7 @@ namespace KeyforgeUnlockedTest.Util
     public int CardPower { get; }
     public int CardArmor { get; }
     public Keyword[] CardKeywords { get; }
-    public CreatureType[] CardTypes { get; }
+    public Trait[] CardTraits { get; }
     public Callback CardFightAbility { get; }
     public Callback CardBeforeFightAbility { get; }
     public Callback CardAfterKillAbility { get; }
@@ -22,7 +21,7 @@ namespace KeyforgeUnlockedTest.Util
       House house = House.Undefined,
       int power = 1,
       int armor = 0,
-      CreatureType[] types = null,
+      Trait[] traits = null,
       Keyword[] keywords = null,
       Pip[] pips = null,
       Callback playAbility = null,
@@ -41,7 +40,7 @@ namespace KeyforgeUnlockedTest.Util
     {
       CardPower = power;
       CardArmor = armor;
-      CardTypes = types ?? new CreatureType[0];
+      CardTraits = traits ?? new Trait[0];
       CardKeywords = keywords ?? new Keyword[0];
       CardBeforeFightAbility = beforeFightAbility;
       CardFightAbility = fightAbility;

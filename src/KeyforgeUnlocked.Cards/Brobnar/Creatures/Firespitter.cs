@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Effects;
+﻿using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
@@ -10,9 +9,9 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     const int Power = 5;
     const int Armor = 1;
 
-    static readonly CreatureType[] CreatureTypes =
+    static readonly Trait[] Traits =
     {
-      CreatureType.Giant
+      Trait.Giant
     };
 
     static readonly Callback BeforeFightAbility = (s, _, _) =>
@@ -26,7 +25,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     {
     }
 
-    public Firespitter(House house) : base(house, Power, Armor, CreatureTypes, beforeFightAbility: BeforeFightAbility)
+    public Firespitter(House house) : base(house, Power, Armor, Traits, beforeFightAbility: BeforeFightAbility)
     {
     }
   }

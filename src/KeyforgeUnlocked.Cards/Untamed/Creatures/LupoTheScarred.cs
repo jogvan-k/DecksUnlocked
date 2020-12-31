@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.Creatures;
+﻿using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
@@ -13,9 +12,9 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     const int Power = 6;
     const int Armor = 0;
 
-    static readonly CreatureType[] CreatureTypes =
+    static readonly Trait[] Traits =
     {
-      CreatureType.Beast
+      Trait.Beast
     };
 
     static readonly Keyword[] Keywords =
@@ -34,7 +33,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     {
     }
 
-    public LupoTheScarred(House house) : base(house, Power, Armor, CreatureTypes, keywords: Keywords, playAbility: PlayAbility)
+    public LupoTheScarred(House house) : base(house, Power, Armor, Traits, keywords: Keywords, playAbility: PlayAbility)
     {
     }
   }

@@ -1,4 +1,3 @@
-using KeyforgeUnlocked.Cards.CreatureCards;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
@@ -9,7 +8,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
   {
     const int Power = 6;
     const int Armor = 0;
-    static readonly CreatureType[] Types = {CreatureType.Giant};
+    static readonly Trait[] Types = {Trait.Giant};
 
     static readonly Callback AfterKillAbility = (s, _, p) =>
     {

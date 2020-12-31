@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
@@ -9,9 +8,9 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
     const int Power = 5;
     const int Armor = 0;
 
-    static readonly CreatureType[] CreatureTypes =
+    static readonly Trait[] Traits =
     {
-      CreatureType.Human, CreatureType.Scientist
+      Trait.Human, Trait.Scientist
     };
 
     static readonly Callback ReapAbility = (s, _, p) => s.Draw(p);
@@ -20,7 +19,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
     {
     }
 
-    public DocBookton(House house) : base(house, Power, Armor, CreatureTypes, reapAbility: ReapAbility)
+    public DocBookton(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility)
     {
     }
   }

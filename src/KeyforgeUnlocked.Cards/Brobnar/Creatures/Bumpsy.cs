@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Cards.CreatureCards;
-using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
@@ -10,9 +9,9 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     const int Power = 5;
     const int Armor = 0;
 
-    static readonly CreatureType[] CreatureTypes =
+    static readonly Trait[] Traits =
     {
-      CreatureType.Giant
+      Trait.Giant
     };
 
     static readonly Callback PlayAbility = (s, _, p) => s.LoseAember(p.Other());
@@ -21,7 +20,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
     {
     }
 
-    public Bumpsy(House house) : base(house, Power, Armor, CreatureTypes, playAbility: PlayAbility)
+    public Bumpsy(House house) : base(house, Power, Armor, Traits, playAbility: PlayAbility)
     {
     }
   }

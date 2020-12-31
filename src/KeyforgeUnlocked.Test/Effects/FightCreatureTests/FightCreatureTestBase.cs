@@ -9,7 +9,6 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
-using KeyforgeUnlockedTest.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 

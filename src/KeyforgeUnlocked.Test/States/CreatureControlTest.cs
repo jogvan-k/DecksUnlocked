@@ -6,6 +6,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -120,7 +121,10 @@ namespace KeyforgeUnlockedTest.States
         {player, new LazyList<Creature> {returnedCreature}},
         {player.Other(), new LazyList<Creature> {otherCreature}}
       }.ToImmutableDictionary();
-      var state = StateTestUtil.EmptyState.New(fields: fields);
+      var events = new LazyEvents();
+      var creatureReturnedToHandEventInvoked = false;
+      events.Subscribe(new Identifiable(""), EventType.CreatureReturnedToHand, (_, _, _) => creatureReturnedToHandEventInvoked = true);
+      var state = StateTestUtil.EmptyState.New(fields: fields, events: events);
 
       state.ReturnCreatureToHand(returnedCreature);
 
@@ -136,8 +140,9 @@ namespace KeyforgeUnlockedTest.States
       }.ToImmutableDictionary();
       var resolvedEffects = new LazyList<IResolvedEffect> {new CreatureReturnedToHand(returnedCreature)};
       var expectedState = StateTestUtil.EmptyState.New(
-        fields: expectedFields, hands: expectedHands, resolvedEffects: resolvedEffects);
+        fields: expectedFields, hands: expectedHands, events: events, resolvedEffects: resolvedEffects);
       StateAsserter.StateEquals(expectedState, state);
+      Assert.True(creatureReturnedToHandEventInvoked);
     }
 
     [Test]

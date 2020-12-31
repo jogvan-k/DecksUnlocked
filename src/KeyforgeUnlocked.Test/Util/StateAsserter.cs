@@ -7,6 +7,7 @@ using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using NUnit.Framework;
 using UnlockedCore;
 
@@ -47,6 +48,7 @@ namespace KeyforgeUnlockedTest.Util
       CheckAndWriteFieldErrorMessage(sb, "Artifacts", expected.Artifacts, actual.Artifacts);
       CheckAndWriteFieldErrorMessage(sb, "Effects", expected.Effects, actual.Effects);
       CheckAndWriteFieldErrorMessage(sb, "ResolvedEffects", expected.ResolvedEffects, actual.ResolvedEffects);
+      CheckAndWriteFieldErrorMessage(sb, "Events", expected.Events, actual.Events);
       if (!expected.HistoricData.Equals(actual.HistoricData))
         sb.AppendLine("Historic data");
       //Metadata
@@ -118,6 +120,16 @@ namespace KeyforgeUnlockedTest.Util
             WriteEntryError(sb, fieldName, key, ex, ac);
         }
       }
+    }
+
+    static void CheckAndWriteFieldErrorMessage(
+      StringBuilder sb,
+      string fieldName,
+      ImmutableEvents expected,
+      ImmutableEvents actual)
+    {
+      if (expected.Equals(actual)) return;
+      sb.AppendLine(fieldName);
     }
 
     static void WriteCreatureEntryError(StringBuilder sb,

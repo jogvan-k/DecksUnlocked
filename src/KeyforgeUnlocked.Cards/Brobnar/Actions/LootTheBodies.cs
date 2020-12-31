@@ -9,13 +9,12 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Actions
   public sealed class LootTheBodies : ActionCard
   {
     static readonly Callback PlayAbility =
-      (s, t, _) => s.Events.SubscribeUntil(t, EventType.CreatureDestroyed,
+      (s, t, _) => s.Events.SubscribeUntilEndOfTurn(t, EventType.CreatureDestroyed,
         (s, _, p) =>
         {
           if (p.Equals(s.PlayerTurn.Other()))
             s.GainAember();
-        },
-        EventType.TurnEnded);
+        });
 
     public LootTheBodies() : this(House.Brobnar)
     {

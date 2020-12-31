@@ -45,6 +45,7 @@ namespace KeyforgeUnlocked.States.Extensions
       var owningPlayer = state.RemoveCreature(id, out var creature);
       state.Hands[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureReturnedToHand(creature));
+      state.RaiseEvent(EventType.CreatureReturnedToHand, creature.Card, owningPlayer);
     }
 
     public static void AddAemberToCreature(
@@ -137,7 +138,6 @@ namespace KeyforgeUnlocked.States.Extensions
       state.Discards[owningPlayer].Add(creature.Card);
       state.ResolvedEffects.Add(new CreatureDied(creature));
       creature.DestroyedAbility?.Invoke(state, creature, owningPlayer);
-      
       state.RaiseEvent(EventType.CreatureDestroyed, creature, owningPlayer);
       
       if (creature.Aember < 1) return;

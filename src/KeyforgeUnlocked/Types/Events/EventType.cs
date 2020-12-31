@@ -4,6 +4,8 @@
   {
     CardPlayed,
     CreatureDestroyed,
-    TurnEnded
+    CreatureReturnedToHand,
+    KeyForged,
+    TurnEnded,
   }
 }

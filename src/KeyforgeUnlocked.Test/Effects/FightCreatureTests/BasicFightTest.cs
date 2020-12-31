@@ -1,7 +1,4 @@
 using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.States;
-using KeyforgeUnlocked.Types;
-using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.Effects.FightCreatureTests

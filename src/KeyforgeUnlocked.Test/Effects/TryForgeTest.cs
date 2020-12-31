@@ -3,6 +3,7 @@ using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -19,14 +20,19 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_WithAember([Range(0, 7)] int aember)
     {
       var startAember = new Dictionary<Player, int> {{Player.Player1, aember}, {Player.Player2, aember}}.ToLookup();
-      var state = StateTestUtil.EmptyState.New(aember: startAember);
+      var keyForgedPlayerEventRaised = Player.None;
+      var events = new LazyEvents();
+      events.Subscribe(new Identifiable(""), EventType.KeyForged, (_, _, p) =>
+        keyForgedPlayerEventRaised = p);
+      var state = StateTestUtil.EmptyState.New(aember: startAember, events: events);
 
       _sut.Resolve(state);
 
       IState expectedstate;
       if (aember < DefaultForgeCost)
       {
-        expectedstate = StateTestUtil.EmptyState.New(aember: startAember);
+        expectedstate = StateTestUtil.EmptyState.New(aember: startAember, events: events);
+        Assert.That(keyForgedPlayerEventRaised, Is.EqualTo(Player.None));
       }
       else
       {
@@ -35,10 +41,11 @@ namespace KeyforgeUnlockedTest.Effects
           {{Player.Player1, aember - DefaultForgeCost}, {Player.Player2, aember}}.ToLookup();
         var expectedResolvedEffects = new List<IResolvedEffect> {new KeyForged(Player.Player1, DefaultForgeCost)};
         expectedstate = StateTestUtil.EmptyState.New(
-          keys: expectedKeys, aember: expectedAembers, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+          keys: expectedKeys, aember: expectedAembers, events: events, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+        Assert.That(keyForgedPlayerEventRaised, Is.EqualTo(Player.Player1));
       }
 
-      Assert.AreEqual(expectedstate, state);
+      StateAsserter.StateEquals(expectedstate, state);
     }
 
     [TestCase(Player.Player1)]
@@ -55,14 +62,19 @@ namespace KeyforgeUnlockedTest.Effects
         {winningPlayer, DefaultForgeCost},
         {winningPlayer.Other(), 0}
       }.ToLookup();
-      var state = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: startKeys, aember: startAember);
+      var keyForgedPlayerEventRaised = Player.None;
+      var events = new LazyEvents();
+      events.Subscribe(new Identifiable(""), EventType.KeyForged, (_, _, p) =>
+        keyForgedPlayerEventRaised = p);
+      var state = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: startKeys, aember: startAember, events: events);
 
       _sut.Resolve(state);
 
       var expectedKeys = new Dictionary<Player, int> {{winningPlayer, KeysRequiredToWin}, {winningPlayer.Other(), 0}}.ToLookup();
       var expectedResolvedEffects = new List<IResolvedEffect>{new KeyForged(winningPlayer, DefaultForgeCost)};
-      var expectedState = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: expectedKeys, isGameOver: true, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+      var expectedState = StateTestUtil.EmptyState.New(playerTurn: winningPlayer, keys: expectedKeys, isGameOver: true, events: events, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
       StateAsserter.StateEquals(expectedState, state);
+      Assert.That(keyForgedPlayerEventRaised, Is.EqualTo(winningPlayer));
     }
   }
 }

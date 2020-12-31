@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Internal.Execution;
 using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Types.Events
@@ -49,14 +50,13 @@ namespace KeyforgeUnlockedTest.Types.Events
     }
 
     [Test]
-    public void SubscribeUntil()
+    public void SubscribeUntilEndOfTurn()
     {
       var funInvoked = 0;
       Callback fun = (_, _, _) => funInvoked++;
       var state = SetupState();
-      state.Events = new KeyforgeUnlocked.Types.Events.Events();
 
-      state.Events.SubscribeUntil(Source1, EventType.CreatureDestroyed, fun, EventType.TurnEnded);
+      state.Events.SubscribeUntilEndOfTurn(Source1, EventType.CreatureDestroyed, fun);
       state.RaiseEvent(EventType.CreatureDestroyed);
       state.RaiseEvent(EventType.CreatureDestroyed);
       state.RaiseEvent(EventType.TurnEnded);
@@ -65,11 +65,36 @@ namespace KeyforgeUnlockedTest.Types.Events
       Assert.That(funInvoked, Is.EqualTo(2));
     }
 
+    [Test]
+    public void SubscribeUntilLeavesPlay(
+      [Values(EventType.CreatureDestroyed, EventType.CreatureReturnedToHand)] EventType destructorEvent)
+    {
+      var funInvoked = 0;
+      Callback fun = (_, _, _) => funInvoked++;
+
+      var sourceId = new Identifiable("source");
+      var otherId = new Identifiable("other");
+      var state = SetupState();
+      var sut = state.Events;
+      
+      sut.SubscribeUntilLeavesPlay(sourceId, EventType.KeyForged, fun);
+      
+      sut.RaiseEvent(EventType.KeyForged, null, null, Player.None);
+      sut.RaiseEvent(destructorEvent, state, otherId, Player.None);
+      sut.RaiseEvent(EventType.KeyForged, null, null, Player.None);
+      sut.RaiseEvent(destructorEvent, state, sourceId, Player.None);
+      sut.RaiseEvent(EventType.KeyForged, null, null, Player.None);
+      
+      Assert.That(funInvoked, Is.EqualTo(2));
+    }
+
     static IMutableState SetupState()
     {
       var stateMock = new Mock<IMutableState>(MockBehavior.Strict);
       stateMock.SetupProperty(s => s.Events);
-      return stateMock.Object;
+      var state = stateMock.Object;
+      state.Events = new KeyforgeUnlocked.Types.Events.Events();
+      return state;
     }
   }
 }

@@ -12,6 +12,8 @@ namespace KeyforgeUnlocked.Types.Events
     public IImmutableDictionary<EventType, IImmutableDictionary<string, Callback>> EventCallbacks =>
       Get().EventCallbacks;
 
+    public IImmutableDictionary<ModifierType, IImmutableDictionary<string, Modifier>> Modifiers { get; }
+
     public LazyEvents()
     {
       _initial = new ImmutableEvents();
@@ -27,14 +29,24 @@ namespace KeyforgeUnlocked.Types.Events
       Get().RaiseEvent(type, state, target, owningPlayer);
     }
 
+    public int Modify(ModifierType type, IState state)
+    {
+      return Get().Modify(type, state);
+    }
+
     public void Subscribe(IIdentifiable source, EventType type, Callback callback)
     {
       GetMutable().Subscribe(source, type, callback);
     }
 
-    public void Unsubscribe(string id, EventType type)
+    public void Subscribe(IIdentifiable source, ModifierType type, Modifier modifier)
     {
-      GetMutable().Unsubscribe(id, type);
+      GetMutable().Subscribe(source, type, modifier);
+    }
+
+    public void Unsubscribe(string id)
+    {
+      GetMutable().Unsubscribe(id);
     }
 
     public Events ToMutable()

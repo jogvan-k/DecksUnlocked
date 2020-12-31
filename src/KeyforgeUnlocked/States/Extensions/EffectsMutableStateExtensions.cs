@@ -22,5 +22,12 @@ namespace KeyforgeUnlocked.States.Extensions
     {
       state.Events.RaiseEvent(@event, state, target, owningPlayer);
     }
+
+    public static int Modify(
+      this IMutableState state,
+      ModifierType type)
+    {
+      return state.Events.Modify(type, state);
+    }
   }
 }

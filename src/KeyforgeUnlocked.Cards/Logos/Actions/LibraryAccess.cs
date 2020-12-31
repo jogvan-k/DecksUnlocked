@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Actions
     static readonly Callback PlayAbility =
       (s, i, p) =>
       {
-        s.Events.SubscribeUntilLeavesPlay(
+        s.Events.SubscribeUntilEndOfTurn(
           i,
           EventType.CardPlayed,
           (s, _, p) => { s.Draw(p); });

@@ -15,6 +15,7 @@ namespace KeyforgeUnlocked.Cards
     Faerie,
     Witch,
     Power,
-    Item
+    Item,
+    Robot
   }
 }

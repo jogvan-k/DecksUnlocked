@@ -12,14 +12,12 @@ namespace KeyforgeUnlocked.Types.Events
       Callback callback)
     {
       events.Subscribe(source, type, callback);
-
-      void EventDestructor(IMutableState s, IIdentifiable t, Player owningPlayer)
+      events.Subscribe(source,
+        EventType.TurnEnded,
+        (s, _, _) =>
       {
-        s.Events.Unsubscribe(source.Id, type);
-        s.Events.Unsubscribe(source.Id, EventType.TurnEnded);
-      }
-
-      events.Subscribe(source, EventType.TurnEnded, EventDestructor);
+        s.Events.Unsubscribe(source.Id);
+      });
     }
 
     public static void SubscribeUntilLeavesPlay(
@@ -29,17 +27,29 @@ namespace KeyforgeUnlocked.Types.Events
       Callback callback)
     {
       events.Subscribe(source, type, callback);
-
-      void EventDestructor(IMutableState s, IIdentifiable t, Player owningPlayer)
-      {
-        if (!t.Equals(source)) return;
-        s.Events.Unsubscribe(source.Id, type);
-        s.Events.Unsubscribe(source.Id, EventType.CreatureDestroyed);
-        s.Events.Unsubscribe(source.Id, EventType.CreatureReturnedToHand);
-      }
       
-      events.Subscribe(source, EventType.CreatureDestroyed, EventDestructor);
-      events.Subscribe(source, EventType.CreatureReturnedToHand, EventDestructor);
+      events.Subscribe(source, EventType.CreatureDestroyed, EventDestructor(source));
+      events.Subscribe(source, EventType.CreatureReturnedToHand, EventDestructor(source));
+    }
+
+    public static void SubscribeUntilLeavesPlay(
+      this IMutableEvents events,
+      IIdentifiable source,
+      ModifierType type,
+      Modifier modifier)
+    {
+      events.Subscribe(source, type, modifier);
+      
+      events.Subscribe(source, EventType.CreatureDestroyed, EventDestructor(source));
+      events.Subscribe(source, EventType.CreatureReturnedToHand, EventDestructor(source));
+    }
+
+    static Callback EventDestructor(IIdentifiable source)
+    {
+      return (s, t, _) =>
+      {
+        if (t.Equals(source)) s.Events.Unsubscribe(source.Id);
+      };
     }
   }
 }

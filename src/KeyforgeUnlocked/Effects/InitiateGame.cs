@@ -10,6 +10,7 @@ namespace KeyforgeUnlocked.Effects
       state.Effects.Enqueue(new DeclareHouse());
       state.Effects.Enqueue(new FirstTurn());
       state.Effects.Enqueue(new ReadyCardsAndRestoreArmor());
+      state.Effects.Enqueue(new DrawToHandLimit());
       state.Effects.Enqueue(new EndTurn());
     }
   }

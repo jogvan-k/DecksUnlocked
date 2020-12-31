@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
@@ -7,12 +8,13 @@ namespace KeyforgeUnlocked.Types.HistoricData
     public bool ActionPlayedThisTurn { get; }
     public int EnemiesDestroyedInAFightThisTurn { get; }
     public IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn { get; }
-
+    public IImmutableSet<ICard> CardsDiscardedThisTurn { get; }
     public ImmutableHistoricData()
     {
       ActionPlayedThisTurn = false;
       EnemiesDestroyedInAFightThisTurn = 0;
       CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty;
+      CardsDiscardedThisTurn = ImmutableHashSet<ICard>.Empty;
     }
     
     public ImmutableHistoricData(IMutableHistoricData historicData)
@@ -20,6 +22,7 @@ namespace KeyforgeUnlocked.Types.HistoricData
       ActionPlayedThisTurn = historicData.ActionPlayedThisTurn;
       EnemiesDestroyedInAFightThisTurn = historicData.EnemiesDestroyedInAFightThisTurn;
       CreaturesAttackedThisTurn = historicData.CreaturesAttackedThisTurn;
+      CardsDiscardedThisTurn = historicData.CardsDiscardedThisTurn;
     }
 
     public IMutableHistoricData ToMutable()

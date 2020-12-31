@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlocked.Types.HistoricData.Extensions;
@@ -30,6 +31,9 @@ namespace KeyforgeUnlockedTest.Types
       historicData.CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty
         .Add(new Identifiable(new SampleCreatureCard()))
         .Add(new Identifiable(new SampleCreatureCard()));
+      historicData.CardsDiscardedThisTurn = ImmutableHashSet<ICard>.Empty
+        .Add(new SampleActionCard())
+        .Add(new SampleCreatureCard());
       
       historicData.NextTurn();
 

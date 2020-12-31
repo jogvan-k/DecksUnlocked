@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
@@ -13,7 +14,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
   [TestFixture]
   sealed class UseCreatureGroupTest
   {
-    SampleCreatureCard _sampleCreatureCard = new SampleCreatureCard();
+    SampleCreatureCard _sampleCreatureCard = new();
 
     SampleCreatureCard _sampleCreatureCardWithCreatureAbility =
       new SampleCreatureCard(creatureAbility: Delegates.NoChange);
@@ -153,6 +154,51 @@ namespace KeyforgeUnlockedTest.ActionGroups
           (IAction) new RemoveStun(state, creature)
         });
       Assert.AreEqual(expectedActions, actions);
+    }
+
+    [Test]
+    public void Actions_ConditionalActionAllowed(
+      [Values(typeof(FightCreature), typeof(Reap), typeof(UseCreatureAbility))]Type type)
+    {
+      ActionPredicate actionPredicate = (_, a) => a.GetType().IsAssignableTo(type);
+      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, actionAllowed: actionPredicate);
+      var creature = new Creature(creatureCard, isReady: true);
+      var field = TestUtil.Lists(
+        new[] {creature}.AsEnumerable(),
+        new[] {_opponentCreature1});
+      var state = StateTestUtil.EmptyState.New(fields: field).ToImmutable();
+      var sut = new UseCreatureGroup(state, new Creature(creatureCard, isReady: true));
+
+      var actions = sut.Actions(state);
+
+      var expectedActions = ImmutableList<IAction>.Empty;
+      var actionName = type.Name;
+      if (actionName == "FightCreature")
+        expectedActions = expectedActions.Add(new FightCreature(state, creature, _opponentCreature1));
+      else if (actionName == "Reap")
+        expectedActions = expectedActions.Add(new Reap(state, creature));
+      else if (actionName == "UseCreatureAbility")
+        expectedActions = expectedActions.Add(new UseCreatureAbility(state, creature));
+      
+      Assert.AreEqual(expectedActions, actions);
+    }
+
+    [Test]
+    public void Actions_NoActionsAllowed()
+    {
+      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, actionAllowed: (_, _) => false);
+      var creature = new Creature(creatureCard, isReady: true);
+      
+      var field = TestUtil.Lists(
+        new[] {creature}.AsEnumerable(),
+        new[] {_opponentCreature1});
+      
+      var state = StateTestUtil.EmptyState.New(fields: field).ToImmutable();
+      var sut = new UseCreatureGroup(state, creature);
+
+      var actions = sut.Actions(state);
+
+      Assert.AreEqual(ImmutableList<IAction>.Empty, actions);
     }
 
     ImmutableState SetupState(Creature creature)

@@ -16,9 +16,9 @@ namespace KeyforgeUnlockedTest.Util
     public Callback CardCreatureAbility { get; }
     public Callback CardReapAbility { get; }
     public Callback CardDestroyedAbility { get; }
+    public ActionPredicate ActionAllowed { get; }
 
-    public SampleCreatureCard(
-      House house = House.Undefined,
+    public SampleCreatureCard(House house = House.Undefined,
       int power = 1,
       int armor = 0,
       Trait[] traits = null,
@@ -31,6 +31,7 @@ namespace KeyforgeUnlockedTest.Util
       Callback creatureAbility = null,
       Callback reapAbility = null,
       Callback destroyedAbility = null,
+      ActionPredicate actionAllowed = null,
       string id = null)
       : base(
         house,
@@ -48,6 +49,7 @@ namespace KeyforgeUnlockedTest.Util
       CardCreatureAbility = creatureAbility;
       CardReapAbility = reapAbility;
       CardDestroyedAbility = destroyedAbility;
+      ActionAllowed = actionAllowed ?? Delegates.True;
     }
 
     public Creature InsantiateCreature()

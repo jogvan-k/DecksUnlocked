@@ -1,5 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
@@ -24,6 +25,12 @@ namespace KeyforgeUnlocked.Types.HistoricData
     {
       get => Get().CreaturesAttackedThisTurn;
       set => Mutable().CreaturesAttackedThisTurn = value;
+    }
+
+    public IImmutableSet<ICard> CardsDiscardedThisTurn
+    {
+      get => Get().CardsDiscardedThisTurn;
+      set => Mutable().CardsDiscardedThisTurn = value;
     }
 
     public LazyHistoricData()

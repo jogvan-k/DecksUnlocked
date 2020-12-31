@@ -12,24 +12,25 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   class DiscardCardTest
   {
-    ICard sampleCard = new SampleCreatureCard();
+    ICard _sampleCard = new SampleCreatureCard();
 
     [Test]
     public void Resolve_SampleSetup()
     {
       var hands = SampleSets.SampleHands;
-      hands[Player.Player1].Add(sampleCard);
+      hands[Player.Player1].Add(_sampleCard);
       var state = StateTestUtil.EmptyMutableState.New(hands: hands);
-      var sut = new DiscardCard(sampleCard);
+      var sut = new DiscardCard(_sampleCard);
 
       sut.Resolve(state);
 
       var expectedHands = SampleSets.SampleHands;
-      var expectedDiscards = TestUtil.Sets(sampleCard);
+      var expectedDiscards = TestUtil.Sets(_sampleCard);
       var expectedState = StateTestUtil.EmptyMutableState.New(
         discards: expectedDiscards,
         hands: expectedHands,
-        resolvedEffects: new LazyList<IResolvedEffect> {new CardDiscarded(sampleCard)});
+        resolvedEffects: new LazyList<IResolvedEffect> {new CardDiscarded(_sampleCard)});
+      expectedState.HistoricData.CardsDiscardedThisTurn = expectedState.HistoricData.CardsDiscardedThisTurn.Add(_sampleCard);
       StateAsserter.StateEquals(expectedState, state);
     }
 
@@ -38,7 +39,7 @@ namespace KeyforgeUnlockedTest.Effects
     {
       var hands = SampleSets.SampleHands;
       var state = StateTestUtil.EmptyMutableState.New(hands: hands);
-      var sut = new DiscardCard(sampleCard);
+      var sut = new DiscardCard(_sampleCard);
 
       try
       {

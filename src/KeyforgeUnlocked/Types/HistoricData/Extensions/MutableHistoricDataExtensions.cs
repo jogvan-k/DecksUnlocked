@@ -1,4 +1,5 @@
 ﻿using System.Collections.Immutable;
+using KeyforgeUnlocked.Cards;
 
 namespace KeyforgeUnlocked.Types.HistoricData.Extensions
 {
@@ -9,6 +10,7 @@ namespace KeyforgeUnlocked.Types.HistoricData.Extensions
       historicData.ActionPlayedThisTurn = false;
       historicData.EnemiesDestroyedInAFightThisTurn = 0;
       historicData.CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty;
+      historicData.CardsDiscardedThisTurn = ImmutableHashSet<ICard>.Empty;
     } 
   }
 }

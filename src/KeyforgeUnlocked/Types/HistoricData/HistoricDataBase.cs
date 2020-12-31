@@ -17,7 +17,8 @@ namespace KeyforgeUnlocked.Types.HistoricData
       var thisState = (IHistoricData) this;
       return thisState.ActionPlayedThisTurn == other.ActionPlayedThisTurn
              && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn
-             && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn);
+             && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn)
+             && thisState.CardsDiscardedThisTurn.SetEquals(other.CardsDiscardedThisTurn);
     }
 
     public override int GetHashCode()
@@ -26,7 +27,8 @@ namespace KeyforgeUnlocked.Types.HistoricData
       return HashCode.Combine(
         thisState.ActionPlayedThisTurn,
         thisState.EnemiesDestroyedInAFightThisTurn,
-        EqualityComparer.GetHashCode(thisState.CreaturesAttackedThisTurn));
+        EqualityComparer.GetHashCode(thisState.CreaturesAttackedThisTurn),
+        EqualityComparer.GetHashCode(thisState.CardsDiscardedThisTurn));
     }
   }
 }

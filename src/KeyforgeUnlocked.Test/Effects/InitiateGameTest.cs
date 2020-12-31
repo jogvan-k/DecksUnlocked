@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedTest.Effects
       sut.Resolve(state);
 
       var expectedEffects =
-        new LazyStackQueue<IEffect>(new[] {(IEffect) new EndTurn(), new ReadyCardsAndRestoreArmor(), new FirstTurn(), new DeclareHouse(), new DrawInitialHands()});
+        new LazyStackQueue<IEffect>(new[] {(IEffect) new EndTurn(), new DrawToHandLimit(), new ReadyCardsAndRestoreArmor(), new FirstTurn(), new DeclareHouse(), new DrawInitialHands()});
       var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects);
       StateAsserter.StateEquals(expectedState, state);
     }

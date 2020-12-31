@@ -1,5 +1,6 @@
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States;
@@ -10,6 +11,7 @@ namespace KeyforgeUnlocked.Types
 {
   public delegate void Callback(IMutableState state, IIdentifiable target, Player owningPlayer);
   public delegate int Modifier(IState state);
+  public delegate bool ActionPredicate(IState state, IAction action);
   public delegate bool ValidOn(IState state, IIdentifiable id);
 
   public static class Delegates
@@ -53,5 +55,7 @@ namespace KeyforgeUnlocked.Types
     public static ValidOn Not(IIdentifiable c) => (_, t) => !t.Equals(c);
 
     public static Callback NoChange => (_, _, _) => { };
+
+    public static ActionPredicate True = (_, _) => true;
   }
 }

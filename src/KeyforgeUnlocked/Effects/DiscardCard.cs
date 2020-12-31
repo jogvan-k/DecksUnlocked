@@ -18,6 +18,7 @@ namespace KeyforgeUnlocked.Effects
         throw new CardNotPresentException(state, Card);
       state.Discards[state.PlayerTurn].Add(Card);
       state.ResolvedEffects.Add(new CardDiscarded(Card));
+      state.HistoricData.CardsDiscardedThisTurn = state.HistoricData.CardsDiscardedThisTurn.Add(Card);
     }
   }
 }

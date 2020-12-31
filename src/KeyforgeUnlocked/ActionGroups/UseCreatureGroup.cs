@@ -35,7 +35,11 @@ namespace KeyforgeUnlocked.ActionGroups
       if (Creature.IsStunned())
       {
         if (_allowedUsages == UseCreature.All)
-          return actions.Add(new RemoveStun(origin, Creature, _allowOutOfHouseUse));
+        {
+          var action = new RemoveStun(origin, Creature, _allowOutOfHouseUse);
+          if (Creature.Card.ActionAllowed(origin, action))
+            return actions.Add(action);
+        }
         return actions;
       }
 
@@ -45,18 +49,26 @@ namespace KeyforgeUnlocked.ActionGroups
         {
           var opponentCreature = _opponentCreatures[i];
           if (opponentCreature.HasTaunt() || !NeighboursHasTaunt(i))
-            actions = actions.Add(new FightCreature(origin, Creature, opponentCreature, _allowOutOfHouseUse));
+          {
+            var action = new FightCreature(origin, Creature, opponentCreature, _allowOutOfHouseUse);
+            if(Creature.Card.ActionAllowed(origin, action))
+              actions = actions.Add(action);
+          }
         }
       }
 
       if (Creature.Card.CardCreatureAbility != null && (_allowedUsages & UseCreature.ActiveAbility) > 0)
       {
-        actions = actions.Add(new UseCreatureAbility(origin, Creature, _allowOutOfHouseUse));
+        var action = new UseCreatureAbility(origin, Creature, _allowOutOfHouseUse);
+        if(Creature.Card.ActionAllowed(origin, action))
+          actions = actions.Add(action);
       }
 
       if ((_allowedUsages & UseCreature.Reap) > 0)
       {
-        actions = actions.Add(new Reap(origin, Creature, _allowOutOfHouseUse));
+        var action = new Reap(origin, Creature, _allowOutOfHouseUse);
+        if(Creature.Card.ActionAllowed(origin, action))
+          actions = actions.Add(action);
       }
 
       return actions;

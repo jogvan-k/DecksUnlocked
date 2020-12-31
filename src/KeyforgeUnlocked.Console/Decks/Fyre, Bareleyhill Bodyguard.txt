@@ -11,6 +11,7 @@ The Warchest
 Loot the Bodies
 Library Access
 Bilgum Avalanche
+Hunting Witch
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -30,3 +31,4 @@ The Warchest
 Loot the Bodies
 Library Access
 Bilgum Avalanche
+Hunting Witch

@@ -6,7 +6,6 @@ using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
-using KeyforgeUnlockedTest.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -49,8 +48,8 @@ namespace KeyforgeUnlockedTest.States
       [Range(0, 1)] int cardNo)
     {
       var state = StateTestUtil.EmptyState.New(discards: SetupCardSets());
-
       var returnedCardId = new Identifiable($"{player},{cardNo}");
+      
       state.ReturnFromDiscard(returnedCardId);
 
       var expectedHands = TestUtil.Sets<ICard>();
@@ -84,6 +83,62 @@ namespace KeyforgeUnlockedTest.States
       Assert.Fail();
     }
 
+    [Test]
+    public void PurgeCard(
+      [Values(Player.Player1, Player.Player2)] Player player)
+    {
+      var state = StateTestUtil.EmptyMutableState;
+      var card = new SampleActionCard();
+
+      state.PurgeCard(player, card);
+
+      var expectedPurgedCards = TestUtil.Sets<ICard>();
+      expectedPurgedCards[player].Add(card);
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> { new CardPurged(card)};
+      var expectedState = StateTestUtil.EmptyState.New(purgedCards: expectedPurgedCards, resolvedEffects: expectedResolvedEffects);
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void PurgeFromDiscards(
+      [Values(Player.Player1, Player.Player2)] Player player,
+      [Range(0, 1)] int cardNo)
+    {
+      var state = StateTestUtil.EmptyState.New(discards: SetupCardSets());
+      var purgedCardId = new Identifiable($"{player},{cardNo}");
+      
+      state.PurgeFromDiscard(purgedCardId);
+      
+      var expectedDiscards = SetupCardSets();
+      var expectedPurgedCards = TestUtil.Sets<ICard>();
+      var purgedCard = expectedDiscards[player].Single(c => c.Equals(purgedCardId));
+      expectedDiscards[player].Remove(purgedCard);
+      expectedPurgedCards[player].Add(purgedCard);
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> { new CardPurged(purgedCard)};
+      var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards, purgedCards: expectedPurgedCards, resolvedEffects: expectedResolvedEffects);
+      
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    
+    [Test]
+    public void PurgeFromDiscards_CardNotPresent()
+    {
+      var state = StateTestUtil.EmptyState.New(discards: SetupCardSets());
+      var purgedCardId = new Identifiable("InvalidId");
+
+      try
+      {
+        state.PurgeFromDiscard(purgedCardId);
+      }
+      catch (CardNotPresentException)
+      {
+        return;
+      }
+      
+      Assert.Fail();
+    }
+    
     [Test]
     public void ArchiveFromHand(
       [Values(Player.Player1, Player.Player2)] Player player,

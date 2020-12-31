@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.Immutable;
+using KeyforgeUnlocked.Cards;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {

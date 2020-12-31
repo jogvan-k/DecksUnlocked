@@ -26,13 +26,13 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Hands { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Discards { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Archives { get; }
+    public IReadOnlyDictionary<Player, IImmutableSet<ICard>> PurgedCard { get; }
     public IReadOnlyDictionary<Player, IImmutableList<Creature>> Fields { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<Artifact>> Artifacts { get; }
     public ImmutableArray<IEffect> Effects { get; }
     public ImmutableEvents Events { get; }
     public IImmutableList<IResolvedEffect> ResolvedEffects { get; }
     public ImmutableHistoricData HistoricData { get; }
-
     public Metadata Metadata { get; }
 
     public ImmutableState(
@@ -47,6 +47,7 @@ namespace KeyforgeUnlocked.States
       LookupReadOnly<Player, IImmutableSet<ICard>> hands,
       LookupReadOnly<Player, IImmutableSet<ICard>> discards,
       LookupReadOnly<Player, IImmutableSet<ICard>> archives,
+      IReadOnlyDictionary<Player, IImmutableSet<ICard>> purgedCard,
       LookupReadOnly<Player, IImmutableList<Creature>> fields,
       IReadOnlyDictionary<Player, IImmutableSet<Artifact>> artifacts,
       ImmutableArray<IEffect> effects,
@@ -66,6 +67,7 @@ namespace KeyforgeUnlocked.States
       Hands = hands;
       Discards = discards;
       Archives = archives;
+      PurgedCard = purgedCard;
       Fields = fields;
       Artifacts = artifacts;
       Effects = effects;
@@ -88,6 +90,7 @@ namespace KeyforgeUnlocked.States
       Hands = state.Hands;
       Discards = state.Discards;
       Archives = state.Archives;
+      PurgedCard = state.PurgedCard;
       Fields = state.Fields;
       Artifacts = state.Artifacts;
       Effects = state.Effects;

@@ -4,6 +4,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlockedTest.Util;
 using Moq;
 using NUnit.Framework;
@@ -18,27 +19,36 @@ namespace KeyforgeUnlockedTest.Effects
     public void Resolve_CardWithPlayAbility()
     {
       var playAbilityResolved = false;
+      var playCardEventRaised = false;
       Callback playAbility = (_, _, _) => playAbilityResolved = true;
+      Callback playCardEvent = (_, _, _) => playCardEventRaised = true;
       var card = MockActionCard(playAbility);
+      var events = new LazyEvents();
+      events.Subscribe(card, EventType.CardPlayed, playCardEvent);
 
       var sut = new PlayActionCard(card);
-      var state = StateTestUtil.EmptyMutableState;
+      var state = StateTestUtil.EmptyMutableState.New(events: events);
 
       sut.Resolve(state);
 
       var expectedDiscards = TestUtil.Sets<ICard>(card);
       var expectedResolvedEffects = new List<IResolvedEffect>{new ActionCardPlayed(card)};
-      var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+      var expectedState = StateTestUtil.EmptyState.New(discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), events: events);
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(playAbilityResolved);
+      Assert.True(playCardEventRaised);
     }
 
     [Test]
     public void Resolve_CardWithAemberPips()
     {
       var card = MockActionCard(null, new [] {Pip.Aember, Pip.Aember, Pip.Aember});
+      var playCardEventRaised = false;
+      Callback playCardEvent = (_, _, _) => playCardEventRaised = true;
       var sut = new PlayActionCard(card);
-      var state = StateTestUtil.EmptyMutableState;
+      var events = new LazyEvents();
+      events.Subscribe(card, EventType.CardPlayed, playCardEvent);
+      var state = StateTestUtil.EmptyMutableState.New(events: events);
 
       sut.Resolve(state);
       
@@ -52,8 +62,9 @@ namespace KeyforgeUnlockedTest.Effects
         new AemberGained(Player.Player1, 1)
       };
       
-      var expectedState = StateTestUtil.EmptyState.New(aember:expectedAember, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+      var expectedState = StateTestUtil.EmptyState.New(aember:expectedAember, discards: expectedDiscards, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), events: events);
       StateAsserter.StateEquals(expectedState, state);
+      Assert.True(playCardEventRaised);
     }
 
     [Test]

@@ -11,13 +11,13 @@ namespace KeyforgeUnlocked.Types.HistoricData
       if (obj is IHistoricData historicData) return Equals(historicData);
       return false;
     }
-    
+
     bool Equals(IHistoricData other)
     {
       var thisState = (IHistoricData) this;
       return thisState.ActionPlayedThisTurn == other.ActionPlayedThisTurn
-        && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn
-        && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn);
+             && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn
+             && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn);
     }
 
     public override int GetHashCode()

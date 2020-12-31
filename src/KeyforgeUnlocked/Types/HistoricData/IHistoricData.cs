@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
@@ -8,7 +7,7 @@ namespace KeyforgeUnlocked.Types.HistoricData
     bool ActionPlayedThisTurn { get; }
     int EnemiesDestroyedInAFightThisTurn { get; }
     IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn { get; }
-    
+
     /// <summary>
     /// Returns a mutable copy of the object.
     /// </summary>

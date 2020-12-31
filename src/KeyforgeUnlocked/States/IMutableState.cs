@@ -25,6 +25,7 @@ namespace KeyforgeUnlocked.States
     new IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands { get; set; }
     new IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards { get; set; }
     new IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives { get; set; }
+    new IReadOnlyDictionary<Player, IMutableSet<ICard>> PurgedCard { get; }
     new IReadOnlyDictionary<Player, IMutableList<Creature>> Fields { get; set; }
     new IReadOnlyDictionary<Player, IMutableSet<Artifact>> Artifacts { get; set; }
     new IMutableStackQueue<IEffect> Effects { get; set; }

@@ -1,6 +1,7 @@
 ﻿using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.States.Extensions;
+using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Effects
 {
@@ -13,6 +14,7 @@ namespace KeyforgeUnlocked.Effects
         state.ResolvePip(pip);
       }
 
+      state.RaiseEvent(EventType.CardPlayed, Card, state.PlayerTurn);
       Card.CardPlayAbility?.Invoke(state, Card, state.PlayerTurn);
     }
     protected PlayCard(ICard card) : base(card)

@@ -54,6 +54,7 @@ namespace KeyforgeUnlocked.States
              && EqualityComparer.Equals(thisState.Hands, other.Hands)
              && EqualityComparer.Equals(thisState.Discards, other.Discards)
              && EqualityComparer.Equals(thisState.Archives, other.Archives)
+             && EqualityComparer.Equals(thisState.PurgedCard, other.PurgedCard)
              && EqualityComparer.Equals(thisState.Fields, other.Fields)
              && EqualityComparer.Equals(thisState.Artifacts, other.Artifacts)
              && thisState.Effects.SequenceEqual(other.Effects)
@@ -92,6 +93,7 @@ namespace KeyforgeUnlocked.States
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Hands));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Discards));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Archives));
+      hashCode.Add(EqualityComparer.GetHashCode(thisState.PurgedCard));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Fields));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Artifacts));
       hashCode.Add(EqualityComparer.GetHashCode(thisState.Effects));

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -63,6 +64,25 @@ namespace KeyforgeUnlocked.States.Extensions
 
       state.Hands[owningPlayer].Add(card);
       state.ResolvedEffects.Add(new CardReturnedToHand(card));
+    }
+
+    public static void PurgeFromDiscard(
+      this IMutableState state,
+      IIdentifiable id)
+    {
+      if (!TryRemove(state.Discards, id, out var player, out var card))
+        throw new CardNotPresentException(state, id);
+
+      state.PurgeCard(player, card);
+    }
+
+    public static void PurgeCard(
+      this IMutableState state,
+      Player player,
+      ICard card)
+    {
+      state.PurgedCard[player].Add(card);
+      state.ResolvedEffects.Add(new CardPurged(card));
     }
 
     static bool TryRemove<T>(IReadOnlyDictionary<Player, IMutableSet<T>> toLookup,

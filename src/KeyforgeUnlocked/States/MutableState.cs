@@ -27,6 +27,7 @@ namespace KeyforgeUnlocked.States
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands { get; set; }
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Discards { get; set; }
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Archives { get; set; }
+    public IReadOnlyDictionary<Player, IMutableSet<ICard>> PurgedCard { get; set; }
     public IReadOnlyDictionary<Player, IMutableList<Creature>> Fields { get; set; }
     public IReadOnlyDictionary<Player, IMutableSet<Artifact>> Artifacts { get; set; }
     public IMutableStackQueue<IEffect> Effects { get; set; }
@@ -37,29 +38,18 @@ namespace KeyforgeUnlocked.States
 
     #region IState-specific fields
     IReadOnlyDictionary<Player, int> IState.Keys => Keys.ToReadOnly();
-
     IReadOnlyDictionary<Player, int> IState.Aember => Aember.ToReadOnly();
-
     IImmutableSet<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableHashSet();
-
     IReadOnlyDictionary<Player, IImmutableStack<ICard>> IState.Decks => Decks.ToImmutable();
-
     IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Hands => Hands.ToImmutable();
-
     IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Discards => Discards.ToImmutable();
-
     IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Archives => Archives.ToImmutable();
-
+    IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.PurgedCard => PurgedCard.ToImmutable();
     IReadOnlyDictionary<Player, IImmutableList<Creature>> IState.Fields => Fields.ToImmutable();
-
     IReadOnlyDictionary<Player, IImmutableSet<Artifact>> IState.Artifacts => Artifacts.ToImmutable();
-
     ImmutableArray<IEffect> IState.Effects => Effects.Immutable();
-
     ImmutableEvents IState.Events => Events.ToImmutable();
-
     ImmutableHistoricData IState.HistoricData => HistoricData.ToImmutable();
-
     IImmutableList<IResolvedEffect> IState.ResolvedEffects => ResolvedEffects.ToImmutableList();
     #endregion
 
@@ -76,6 +66,7 @@ namespace KeyforgeUnlocked.States
       Hands = state.Hands.ToMutable();
       Discards = state.Discards.ToMutable();
       Archives = state.Archives.ToMutable();
+      PurgedCard = state.PurgedCard.ToMutable();
       Fields = state.Fields.ToMutable();
       Artifacts = state.Artifacts.ToMutable();
       Effects = new LazyStackQueue<IEffect>(state.Effects);
@@ -89,12 +80,15 @@ namespace KeyforgeUnlocked.States
       Player playerTurn,
       int turnNumber,
       bool isGameOver,
-      House? activeHouse, Lookup<Player, int> keys, Lookup<Player, int> aember,
+      House? activeHouse,
+      Lookup<Player, int> keys,
+      Lookup<Player, int> aember,
       IMutableList<IActionGroup> actionGroups,
       IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> decks,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> hands,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> discards,
       IReadOnlyDictionary<Player, IMutableSet<ICard>> archives,
+      IReadOnlyDictionary<Player, IMutableSet<ICard>> purgedCards,
       IReadOnlyDictionary<Player, IMutableList<Creature>> fields,
       IReadOnlyDictionary<Player, IMutableSet<Artifact>> artifacts,
       IMutableStackQueue<IEffect> effects,
@@ -114,6 +108,7 @@ namespace KeyforgeUnlocked.States
       Hands = hands;
       Discards = discards;
       Archives = archives;
+      PurgedCard = purgedCards;
       Fields = fields;
       Artifacts = artifacts;
       Effects = effects;

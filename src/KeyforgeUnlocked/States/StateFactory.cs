@@ -40,6 +40,7 @@ namespace KeyforgeUnlocked.States
           EmptySet(),
           EmptySet(),
           EmptySet(),
+          EmptySet(),
           EmptyField(),
           EmptyArtifacts(),
           effects,

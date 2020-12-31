@@ -8,6 +8,7 @@ using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlockedTest.Util;
 using Moq;
 using NUnit.Framework;
@@ -19,7 +20,9 @@ namespace KeyforgeUnlockedTest.Effects
   class PlayCreatureCardTest
   {
     Callback _playAbility;
+    Callback _playCardEvent;
     bool _playedEffectResolved;
+    bool _playCardEventRaised;
 
     static readonly ICard[] otherCards =
       {new SampleCreatureCard(), new SampleCreatureCard(), new SampleCreatureCard()};
@@ -31,7 +34,9 @@ namespace KeyforgeUnlockedTest.Effects
     public void SetUp()
     {
       _playedEffectResolved = false;
+      _playCardEventRaised = false;
       _playAbility = (_, _, _) => { _playedEffectResolved = true; };
+      _playCardEvent = (_, _, _) => _playCardEventRaised = true;
     }
 
     [Test]
@@ -50,6 +55,7 @@ namespace KeyforgeUnlockedTest.Effects
       expectedState.ResolvedEffects.Add(new CreatureCardPlayed(expectedCreature, 0));
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
+      Assert.True(_playCardEventRaised);
     }
 
     [Test]
@@ -89,8 +95,10 @@ namespace KeyforgeUnlockedTest.Effects
       var expectedCreature = new Creature(playedCard);
       expectedState.Fields[playingPlayer].Insert(position, expectedCreature);
       expectedState.ResolvedEffects.Add(new CreatureCardPlayed(expectedCreature, position));
+      expectedState.Events = Events();
       StateAsserter.StateEquals(expectedState, state);
       Assert.True(_playedEffectResolved);
+      Assert.True(_playCardEventRaised);
     }
 
     [Test]
@@ -134,6 +142,7 @@ namespace KeyforgeUnlockedTest.Effects
       
       StateAsserter.StateEquals(expectedState, state);
       Assert.False(_playedEffectResolved);
+      Assert.True(_playCardEventRaised);
     }
 
     IMutableState TestState(Player playingPlayer)
@@ -143,8 +152,16 @@ namespace KeyforgeUnlockedTest.Effects
         {playingPlayer, new LazySet<ICard> {otherCards[0]}},
         {playingPlayer.Other(), new LazySet<ICard> {otherCards[1], otherCards[2]}}
       }.ToImmutableDictionary();
-      return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands);
+
+      return StateTestUtil.EmptyMutableState.New(playingPlayer, hands: hands, events: Events());
     }
+
+    IMutableEvents Events()
+    {
+      var events = new LazyEvents();
+      events.Subscribe(new Identifiable(""), EventType.CardPlayed, _playCardEvent);
+      return events;
+    } 
 
     IMutableState StateWithTwoCreatures(Player playingPlayer)
     {

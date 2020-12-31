@@ -9,6 +9,7 @@ Ritual of Balance
 Gauntlet of Command
 The Warchest
 Loot the Bodies
+Library Access
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -26,6 +27,7 @@ Ritual of Balance
 Gauntlet of Command
 The Warchest
 Loot the Bodies
+Library Access
 Blood Money
 Neuro Syphon
 Twin Bolt Emission
@@ -43,3 +45,4 @@ Ritual of Balance
 Gauntlet of Command
 The Warchest
 Loot the Bodies
+Library Access

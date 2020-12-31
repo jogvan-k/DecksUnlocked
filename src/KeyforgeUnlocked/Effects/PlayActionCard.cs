@@ -14,7 +14,8 @@ namespace KeyforgeUnlocked.Effects
     {
       state.ResolvedEffects.Add(new ActionCardPlayed(Card));
       ResolvePlayEffects(state);
-      state.Discards[state.PlayerTurn].Add(Card);
+      if(!state.PurgedCard[state.PlayerTurn].Contains(Card))
+        state.Discards[state.PlayerTurn].Add(Card);
     }
   }
 }

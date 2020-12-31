@@ -48,7 +48,7 @@ namespace KeyforgeUnlockedTest.States
 
     [Test]
     public void GetHashCode_VaryPlayer(
-      [Values(Keys, Aember, Decks, Hands, Fields, Discards, Archives)] StateField field)
+      [Values(Keys, Aember, Decks, Hands, Fields, Discards, Archives, PurgedCards)] StateField field)
     {
       var state1 = Construct(field, Player.Player1);
       var state2 = Construct(field, Player.Player2);
@@ -110,6 +110,9 @@ namespace KeyforgeUnlockedTest.States
           break;
         case Archives:
           state.Archives[player].Add(_sampleCard);
+          break;
+        case PurgedCards:
+          state.PurgedCard[player].Add(_sampleCard);
           break;
         case Fields:
           state.Fields[player].Add(new Creature(_sampleCard));
@@ -183,6 +186,7 @@ namespace KeyforgeUnlockedTest.States
     Hands,
     Discards,
     Archives,
+    PurgedCards,
     Fields,
     Effects,
     Events,

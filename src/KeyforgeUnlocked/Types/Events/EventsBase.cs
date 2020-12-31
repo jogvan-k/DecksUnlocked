@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using KeyforgeUnlocked.States;
 using UnlockedCore;
 
@@ -14,6 +15,17 @@ namespace KeyforgeUnlocked.Types.Events
       }
     }
 
+    public int Modify(ModifierType type, IState state)
+    {
+      var m = 0;
+      foreach (var modifier in GetModifiers(type))
+      {
+        m += modifier.Invoke(state);
+      }
+
+      return m;
+    }
+
     protected abstract IEnumerable<Callback> GetCallbacks(EventType type);
 
     public override bool Equals(object obj)
@@ -24,15 +36,20 @@ namespace KeyforgeUnlocked.Types.Events
       return false;
     }
 
+    protected abstract IEnumerable<Modifier> GetModifiers(ModifierType type);
+
     bool Equals(IEvents events)
     {
-      var thisEventCallbacks = ((IEvents) this).EventCallbacks;
-      return EqualityComparer.Equals(thisEventCallbacks, events.EventCallbacks);
+      var thisEvent = ((IEvents) this);
+      return EqualityComparer.Equals(thisEvent.EventCallbacks, events.EventCallbacks)
+             && EqualityComparer.Equals(thisEvent.Modifiers, events.Modifiers);
     }
 
     public override int GetHashCode()
     {
-      return EqualityComparer.GetHashCode(((IEvents) this).EventCallbacks);
+      return HashCode.Combine(
+        EqualityComparer.GetHashCode(((IEvents) this).EventCallbacks),
+        EqualityComparer.GetHashCode((((IEvents) this).Modifiers)));
     }
   }
 }

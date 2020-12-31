@@ -3,6 +3,7 @@
   public interface IMutableEvents : IEvents
   {
     void Subscribe(IIdentifiable source, EventType type, Callback callback);
-    void Unsubscribe(string id, EventType type);
+    void Subscribe(IIdentifiable source, ModifierType type, Modifier modifier);
+    void Unsubscribe(string id);
   }
 }

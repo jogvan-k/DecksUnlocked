@@ -9,10 +9,7 @@ using UnlockedCore;
 namespace KeyforgeUnlocked.Types
 {
   public delegate void Callback(IMutableState state, IIdentifiable target, Player owningPlayer);
-  public delegate void StateAndTargetCallback(IMutableState state, IIdentifiable target);
-  public delegate void StateCallback(IMutableState state);
-
-
+  public delegate int Modifier(IState state);
   public delegate bool ValidOn(IState state, IIdentifiable id);
 
   public static class Delegates

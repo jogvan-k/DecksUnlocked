@@ -1,11 +1,9 @@
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
 using PlayActionCard = KeyforgeUnlocked.Actions.PlayActionCard;
 
 namespace KeyforgeUnlockedTest.Actions

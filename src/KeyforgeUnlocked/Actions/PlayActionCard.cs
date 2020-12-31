@@ -1,4 +1,3 @@
-using System;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;

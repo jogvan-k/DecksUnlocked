@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.ResolvedEffects;
-using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;

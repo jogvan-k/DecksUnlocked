@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Artifacts;
-using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts

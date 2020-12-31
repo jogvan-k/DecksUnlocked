@@ -1,4 +1,3 @@
-using System;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;

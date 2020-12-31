@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Artifacts;
-using KeyforgeUnlocked.Cards;
+﻿using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlockedTest.Util

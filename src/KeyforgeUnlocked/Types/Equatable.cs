@@ -1,7 +1,4 @@
-﻿using System;
-using KeyforgeUnlocked.States;
-
-namespace KeyforgeUnlocked.Types
+﻿namespace KeyforgeUnlocked.Types
 {
   /// <summary>
   /// Base class that provides a standard implementation of <see cref="Equals"/> and <see cref="GetHashCode"/>. 

@@ -1,6 +1,5 @@
 using System;
 using KeyforgeUnlocked.ActionGroups;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;

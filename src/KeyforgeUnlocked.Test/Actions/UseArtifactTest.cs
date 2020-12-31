@@ -57,7 +57,7 @@ namespace KeyforgeUnlockedTest.Actions
       var artifact = new Artifact(artifactCard, true);
       var state = Setup(artifact);
       var sut = new UseArtifact(state.ToImmutable(), artifact, false);
-      
+
       System.Action<NotFromActiveHouseException> asserts = e => e.Equals(artifact);
       
       ActExpectException(sut, state, asserts);
@@ -71,7 +71,7 @@ namespace KeyforgeUnlockedTest.Actions
       var artifact = new Artifact(artifactCard);
       var state = Setup(artifact);
       var sut = new UseArtifact(state.ToImmutable(), artifact, false);
-      
+
       System.Action<ArtifactNotReadyException> asserts = e => e.Equals(artifact);
       
       ActExpectException(sut, state, asserts);

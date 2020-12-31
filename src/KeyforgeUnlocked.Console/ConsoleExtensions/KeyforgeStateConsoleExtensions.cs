@@ -4,7 +4,6 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using KeyforgeUnlocked.ActionGroups;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;

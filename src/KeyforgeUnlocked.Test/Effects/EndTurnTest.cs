@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.ResolvedEffects;

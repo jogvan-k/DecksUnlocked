@@ -10,7 +10,6 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
-using Extensions = KeyforgeUnlocked.Types.Extensions;
 
 namespace KeyforgeUnlockedTest.States
 {

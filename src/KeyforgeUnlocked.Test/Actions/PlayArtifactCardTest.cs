@@ -1,20 +1,18 @@
-﻿using KeyforgeUnlocked.Actions;
-using KeyforgeUnlocked.Cards;
+﻿using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using EndTurn = KeyforgeUnlocked.Effects.EndTurn;
-using PlayArtifactCard = KeyforgeUnlocked.Effects.PlayArtifactCard;
+using PlayArtifactCard = KeyforgeUnlocked.Actions.PlayArtifactCard;
 
 namespace KeyforgeUnlockedTest.Actions
 {
   [TestFixture]
-  sealed class PlayArtifactCardTest : ActionTestBase<KeyforgeUnlocked.Actions.PlayArtifactCard>
+  sealed class PlayArtifactCardTest : ActionTestBase<PlayArtifactCard>
   {
     static IArtifactCard sampleCard = new SampleArtifactCard();
-    static KeyforgeUnlocked.Actions.PlayArtifactCard _sut = new(null, sampleCard);
+    static PlayArtifactCard _sut = new(null, sampleCard);
     static IEffect unresolvedEffect = new EndTurn();
 
     [Test]
@@ -25,7 +23,7 @@ namespace KeyforgeUnlockedTest.Actions
       var state = StateTestUtil.EmptyMutableState.New(hands: hands, effects: effects);
 
       var expectedEffects = new LazyStackQueue<IEffect>(new[]
-        {unresolvedEffect, new PlayArtifactCard(sampleCard)});
+        {unresolvedEffect, new KeyforgeUnlocked.Effects.PlayArtifactCard(sampleCard)});
       var expectedState = StateTestUtil.EmptyState.New(effects: expectedEffects);
       expectedState.HistoricData.ActionPlayedThisTurn = true;
       ActAndAssert(_sut, state, expectedState);

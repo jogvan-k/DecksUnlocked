@@ -1,5 +1,3 @@
-using System;
-using KeyforgeUnlocked.Types;
 using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects

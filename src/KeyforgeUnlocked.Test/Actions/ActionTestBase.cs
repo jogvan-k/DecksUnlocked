@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedTest.Util;
@@ -5,7 +6,7 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.Actions
 {
-  public abstract class ActionTestBase<T> where T : KeyforgeUnlocked.Actions.Action<T>
+  public abstract class ActionTestBase<T> where T : Action<T>
   {
     protected void ActAndAssert(T sut,
       IMutableState state,

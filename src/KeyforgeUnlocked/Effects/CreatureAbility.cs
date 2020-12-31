@@ -1,8 +1,6 @@
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Exceptions;
-using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States;
-using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Effects
 {

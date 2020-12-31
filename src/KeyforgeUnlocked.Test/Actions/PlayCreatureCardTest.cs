@@ -1,11 +1,9 @@
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
-using DeclareHouse = KeyforgeUnlocked.Effects.DeclareHouse;
 using PlayCreatureCard = KeyforgeUnlocked.Actions.PlayCreatureCard;
 
 namespace KeyforgeUnlockedTest.Actions

@@ -1,5 +1,4 @@
-﻿using KeyforgeUnlocked.Effects.Choices;
-using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 

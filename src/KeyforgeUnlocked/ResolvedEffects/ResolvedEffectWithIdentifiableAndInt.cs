@@ -1,5 +1,4 @@
 ﻿using System;
-using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects

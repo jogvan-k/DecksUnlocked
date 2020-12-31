@@ -1,5 +1,4 @@
-﻿using System;
-using KeyforgeUnlocked.Artifacts;
+﻿using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;

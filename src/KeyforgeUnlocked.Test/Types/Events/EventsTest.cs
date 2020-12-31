@@ -4,7 +4,6 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Internal.Execution;
 using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Types.Events

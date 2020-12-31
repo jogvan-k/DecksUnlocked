@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects;
@@ -56,7 +55,7 @@ namespace KeyforgeUnlockedTest.Actions
         sampleCreatureCard, isReady: isReady, state: stunned ? CreatureState.Stunned : CreatureState.None);
       fields = TestUtil.Lists(creature);
       state = StateTestUtil.EmptyState.New(activeHouse: House.Brobnar, fields: fields);
-      return new KeyforgeUnlocked.Actions.RemoveStun(null, creature);
+      return new RemoveStun(null, creature);
     }
 
     IMutableState Expected()

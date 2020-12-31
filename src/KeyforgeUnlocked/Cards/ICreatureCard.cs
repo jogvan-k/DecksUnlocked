@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards
     Callback CardCreatureAbility { get; }
     Callback CardReapAbility { get; }
     Callback CardDestroyedAbility { get; }
-    ActionPredicate ActionAllowed { get; }
+    ActionPredicate CardUseActionAllowed { get; }
     
     Creature InsantiateCreature();
   }

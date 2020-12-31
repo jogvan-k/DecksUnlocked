@@ -9,7 +9,8 @@ namespace KeyforgeUnlockedTest.Util
       House house = House.Undefined,
       Pip[] pips = null,
       Callback playAbility = null,
-      string id = null) : base(house, pips, playAbility, id)
+      ActionPredicate playAllowed = null,
+      string id = null) : base(house, pips, playAbility, playAllowed, id)
     {
     }
   }

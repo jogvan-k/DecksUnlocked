@@ -11,5 +11,6 @@ namespace KeyforgeUnlocked.Cards
     House House { get; }
     Pip[] CardPips { get; }
     Callback CardPlayAbility { get; }
+    public ActionPredicate CardPlayAllowed { get; }
   }
 }

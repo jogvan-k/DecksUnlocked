@@ -15,11 +15,14 @@ namespace KeyforgeUnlocked.ActionGroups
 
     protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
     {
-      return ImmutableList<IAction>.Empty.AddRange(
-        new[]
-        {
-          (IAction) new PlayActionCard(origin, Card), new DiscardCard(origin, Card)
-        });
+      var playAction = new PlayActionCard(origin, Card);
+      var discardAction = new DiscardCard(origin, Card);
+      if (Card.CardPlayAllowed(origin, playAction))
+      {
+        return ImmutableList.Create<IAction>(playAction, discardAction);
+      }
+
+      return ImmutableList.Create<IAction>(discardAction);
     }
   }
 }

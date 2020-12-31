@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards
     public Callback CardCreatureAbility { get; }
     public Callback CardReapAbility { get; }
     public Callback CardDestroyedAbility { get; }
-    public ActionPredicate ActionAllowed { get; }
+    public ActionPredicate CardUseActionAllowed { get; }
 
     protected CreatureCard(
       House house,
@@ -31,7 +31,8 @@ namespace KeyforgeUnlocked.Cards
       Callback creatureAbility = null,
       Callback reapAbility = null,
       Callback destroyedAbility = null,
-      ActionPredicate actionAllowed = null) : base(house, pips, playAbility)
+      ActionPredicate useActionAllowed = null,
+      ActionPredicate playAllowed = null) : base(house, pips, playAbility, playAllowed)
     {
       CardPower = power;
       CardArmor = armor;
@@ -43,7 +44,7 @@ namespace KeyforgeUnlocked.Cards
       CardCreatureAbility = creatureAbility;
       CardReapAbility = reapAbility;
       CardDestroyedAbility = destroyedAbility;
-      ActionAllowed = actionAllowed ?? Delegates.True;
+      CardUseActionAllowed = useActionAllowed ?? Delegates.True;
     }
 
     public Creature InsantiateCreature()

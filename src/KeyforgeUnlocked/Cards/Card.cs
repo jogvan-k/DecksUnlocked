@@ -15,11 +15,13 @@ namespace KeyforgeUnlocked.Cards
     readonly Lazy<string> _name;
     public string Name => _name.Value;
     public Callback CardPlayAbility { get; }
+    public ActionPredicate CardPlayAllowed { get; }
 
     protected Card(
       House house,
       Pip[] pips = null,
       Callback playAbility = null,
+      ActionPredicate PlayAllowed = null,
       string id = null)
     {
       Id = id ?? IdGenerator.GetNextInt().ToString();
@@ -27,6 +29,7 @@ namespace KeyforgeUnlocked.Cards
       _name = new Lazy<string>(GetName);
       CardPips = pips ?? Array.Empty<Pip>();
       CardPlayAbility = playAbility;
+      CardPlayAllowed = PlayAllowed ?? Delegates.True;
     }
 
     string GetName()

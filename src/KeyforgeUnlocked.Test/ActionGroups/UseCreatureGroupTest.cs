@@ -161,7 +161,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
       [Values(typeof(FightCreature), typeof(Reap), typeof(UseCreatureAbility))]Type type)
     {
       ActionPredicate actionPredicate = (_, a) => a.GetType().IsAssignableTo(type);
-      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, actionAllowed: actionPredicate);
+      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, useActionAllowed: actionPredicate);
       var creature = new Creature(creatureCard, isReady: true);
       var field = TestUtil.Lists(
         new[] {creature}.AsEnumerable(),
@@ -186,7 +186,7 @@ namespace KeyforgeUnlockedTest.ActionGroups
     [Test]
     public void Actions_NoActionsAllowed()
     {
-      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, actionAllowed: (_, _) => false);
+      var creatureCard = new SampleCreatureCard(creatureAbility: Delegates.NoChange, useActionAllowed: (_, _) => false);
       var creature = new Creature(creatureCard, isReady: true);
       
       var field = TestUtil.Lists(

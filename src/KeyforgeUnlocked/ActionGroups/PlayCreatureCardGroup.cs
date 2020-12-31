@@ -26,11 +26,14 @@ namespace KeyforgeUnlocked.ActionGroups
       var list = ImmutableList<IAction>.Empty;
 
       var leftPosition = new PlayCreatureCard(origin, Card, 0);
-      list = list.Add(leftPosition);
+      if(Card.CardPlayAllowed(origin, leftPosition))
+        list = list.Add(leftPosition);
 
       if (BoardLength > 0)
       {
-        list = list.Add(new PlayCreatureCard(origin, Card, BoardLength));
+        var rightPosition = new PlayCreatureCard(origin, Card, BoardLength);
+        if(Card.CardPlayAllowed(origin, rightPosition))
+          list = list.Add(rightPosition);
       }
 
       return list.Add(DiscardAction(origin));

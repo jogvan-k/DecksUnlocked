@@ -23,7 +23,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     {
     }
 
-    public GiantSloth(House house) : base(house, Power, Armor, Traits, creatureAbility: CreatureGroups, actionAllowed: ActionAllowed)
+    public GiantSloth(House house) : base(house, Power, Armor, Traits, creatureAbility: CreatureGroups, useActionAllowed: ActionAllowed)
     {
     }
   }

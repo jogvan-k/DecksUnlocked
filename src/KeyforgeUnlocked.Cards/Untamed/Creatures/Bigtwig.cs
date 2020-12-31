@@ -6,7 +6,6 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
-  [CardName("Bigtwig")]
   public class Bigtwig : CreatureCard
   {
     const int Power = 7;
@@ -42,7 +41,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     }
 
     public Bigtwig(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility,
-      actionAllowed: ActionAllowed)
+      useActionAllowed: ActionAllowed)
     {
     }
   }

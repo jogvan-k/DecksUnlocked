@@ -16,7 +16,7 @@ namespace KeyforgeUnlockedTest.Util
     public Callback CardCreatureAbility { get; }
     public Callback CardReapAbility { get; }
     public Callback CardDestroyedAbility { get; }
-    public ActionPredicate ActionAllowed { get; }
+    public ActionPredicate CardUseActionAllowed { get; }
 
     public SampleCreatureCard(House house = House.Undefined,
       int power = 1,
@@ -31,12 +31,14 @@ namespace KeyforgeUnlockedTest.Util
       Callback creatureAbility = null,
       Callback reapAbility = null,
       Callback destroyedAbility = null,
-      ActionPredicate actionAllowed = null,
+      ActionPredicate useActionAllowed = null,
+      ActionPredicate playCardAllowed = null,
       string id = null)
       : base(
         house,
         pips,
         playAbility,
+        playCardAllowed,
         id: id)
     {
       CardPower = power;
@@ -49,12 +51,12 @@ namespace KeyforgeUnlockedTest.Util
       CardCreatureAbility = creatureAbility;
       CardReapAbility = reapAbility;
       CardDestroyedAbility = destroyedAbility;
-      ActionAllowed = actionAllowed ?? Delegates.True;
+      CardUseActionAllowed = useActionAllowed ?? Delegates.True;
     }
 
     public Creature InsantiateCreature()
     {
-      return new Creature(this);
+      return new (this);
     }
   }
 }

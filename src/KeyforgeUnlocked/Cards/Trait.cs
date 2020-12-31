@@ -16,6 +16,7 @@ namespace KeyforgeUnlocked.Cards
     Witch,
     Power,
     Item,
-    Robot
+    Robot,
+    Dragon
   }
 }

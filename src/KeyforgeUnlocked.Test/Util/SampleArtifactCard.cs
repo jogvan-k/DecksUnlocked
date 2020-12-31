@@ -15,7 +15,8 @@ namespace KeyforgeUnlockedTest.Util
       Pip[] pips = null,
       Callback actionAbility = null,
       Callback playAbility = null,
-      string id = null) : base(house, pips, playAbility, id)
+      ActionPredicate playAllowed = null,
+      string id = null) : base(house, pips, playAbility, playAllowed, id)
     {
       CardTraits = traits ?? new Trait[0];
       CardActionAbility = actionAbility;

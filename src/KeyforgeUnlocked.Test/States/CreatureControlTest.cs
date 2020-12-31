@@ -187,6 +187,50 @@ namespace KeyforgeUnlockedTest.States
       StateAsserter.StateEquals(expectedState, state);
     }
 
+    [Test]
+    public void StunCreature(
+      [Values(true, false)] bool targetAlreadyStunned)
+    {
+      var targetCreatureCard = new SampleCreatureCard();
+      var targetCreature = new Creature(targetCreatureCard, state: targetAlreadyStunned ? CreatureState.Stunned : CreatureState.None);
+      var otherCreature = new Creature(new SampleCreatureCard());
+      var fields = InstantiateFields(Player.Player1, targetCreature, otherCreature);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
+
+      state.StunCreature(targetCreature);
+
+      var expectedFields =
+        InstantiateFields(Player.Player1, new Creature(targetCreatureCard, state: CreatureState.Stunned), otherCreature);
+
+      var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields);
+      if(!targetAlreadyStunned)
+        expectedState.ResolvedEffects.Add(new CreatureStunned(targetCreatureCard));
+      
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void ExhaustCreature(
+      [Values(true, false)] bool targetAlreadyExhausted)
+    {
+      var targetCreatureCard = new SampleCreatureCard();
+      var targetCreature = new Creature(targetCreatureCard, isReady: !targetAlreadyExhausted);
+      var otherCreature = new Creature(new SampleCreatureCard());
+      var fields = InstantiateFields(Player.Player1, targetCreature, otherCreature);
+      var state = StateTestUtil.EmptyState.New(fields: fields);
+
+      state.ExhaustCreature(targetCreature);
+
+      var expectedFields =
+        InstantiateFields(Player.Player1, new Creature(targetCreatureCard), otherCreature);
+
+      var expectedState = StateTestUtil.EmptyState.New(fields: expectedFields);
+      if(!targetAlreadyExhausted)
+        expectedState.ResolvedEffects.Add(new CreatureExhausted(targetCreatureCard));
+      
+      StateAsserter.StateEquals(expectedState, state);
+    }
+    
     static LookupReadOnly<Player, IMutableList<Creature>> InstantiateFields(Player player, Creature targetCreature, Creature otherCreature)
     {
       return TestUtil.Lists(

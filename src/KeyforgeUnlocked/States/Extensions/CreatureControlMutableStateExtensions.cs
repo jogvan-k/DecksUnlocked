@@ -84,6 +84,18 @@ namespace KeyforgeUnlocked.States.Extensions
       state.ResolvedEffects.Add(new CreatureStunned(creature));
     }
 
+    public static void ExhaustCreature(
+      this IMutableState state,
+      IIdentifiable id)
+    {
+      var creature = state.FindCreature(id, out _, out _);
+      if (!creature.IsReady)
+        return;
+      creature.IsReady = false;
+      state.SetCreature(creature);
+      state.ResolvedEffects.Add(new CreatureExhausted(creature));
+    }
+
     public static void SwapCreatures(
       this IMutableState state,
       IIdentifiable creatureId,

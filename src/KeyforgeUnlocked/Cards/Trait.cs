@@ -17,6 +17,7 @@ namespace KeyforgeUnlocked.Cards
     Power,
     Item,
     Robot,
-    Dragon
+    Dragon,
+    Mutant
   }
 }

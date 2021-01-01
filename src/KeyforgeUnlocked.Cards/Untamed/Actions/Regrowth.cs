@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Actions
 
     static readonly Callback PlayAbility =
       (s, _, _) => s.AddEffect(
-        new TargetSingleDiscardedCard((s, t, _) => s.ReturnFromDiscard(t), Targets.Own, Delegates.IsCreatureCard()));
+        new TargetSingleDiscardedCard((s, t, _) => s.ReturnFromDiscard(t), Target.Own, Delegates.IsCreatureCard()));
 
     public Regrowth() : this(House.Untamed)
     {

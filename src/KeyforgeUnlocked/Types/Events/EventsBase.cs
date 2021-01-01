@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.Types.Events
 
     protected abstract IEnumerable<Callback> GetCallbacks(EventType type);
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       if (obj == null) return false;
       if (ReferenceEquals(this, obj)) return true;

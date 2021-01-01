@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Types
   public sealed class LazyStackQueue<T> : IMutableStackQueue<T>
   {
     readonly ImmutableArray<T> _initial;
-    LinkedList<T> _innerList;
+    LinkedList<T>? _innerList;
 
     public ImmutableArray<T> Immutable()
     {
@@ -54,7 +54,7 @@ namespace KeyforgeUnlocked.Types
     public T Dequeue()
     {
       var item = Peek();
-      _innerList.RemoveLast();
+      Mutable().RemoveLast();
       return item;
     }
 
@@ -66,7 +66,7 @@ namespace KeyforgeUnlocked.Types
       return last.Value;
     }
 
-    public bool TryDequeue(out T value)
+    public bool TryDequeue(out T? value)
     {
       if (Mutable().Count == 0)
       {
@@ -88,7 +88,7 @@ namespace KeyforgeUnlocked.Types
       return Mutable().GetEnumerator();
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       return ReferenceEquals(this, obj) || obj is LazyStackQueue<T> other && Equals(other);
     }

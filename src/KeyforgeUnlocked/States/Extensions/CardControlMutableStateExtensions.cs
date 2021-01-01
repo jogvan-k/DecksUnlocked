@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using KeyforgeUnlocked.Cards;
+﻿using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
 using UnlockedCore;
+using static KeyforgeUnlocked.States.Extensions.ExtensionsUtil;
 
 namespace KeyforgeUnlocked.States.Extensions
 {
@@ -34,7 +34,7 @@ namespace KeyforgeUnlocked.States.Extensions
       this IMutableState state,
       IIdentifiable id)
     {
-      if (!TryRemove(state.Hands, id, out var player, out var card))
+      if (!TryRemove(state.Hands, id, out var player, out var card) || card == null)
         throw new CardNotPresentException(state, id);
 
       state.Archives[player].Add(card);
@@ -59,7 +59,7 @@ namespace KeyforgeUnlocked.States.Extensions
       this IMutableState state,
       IIdentifiable id)
     {
-      if (!TryRemove(state.Discards, id, out var owningPlayer, out var card))
+      if (!TryRemove(state.Discards, id, out var owningPlayer, out var card) || card == null)
         throw new CardNotPresentException(state, id);
 
       state.Hands[owningPlayer].Add(card);
@@ -70,7 +70,7 @@ namespace KeyforgeUnlocked.States.Extensions
       this IMutableState state,
       IIdentifiable id)
     {
-      if (!TryRemove(state.Discards, id, out var player, out var card))
+      if (!TryRemove(state.Discards, id, out var player, out var card) || card == null)
         throw new CardNotPresentException(state, id);
 
       state.PurgeCard(player, card);
@@ -85,41 +85,16 @@ namespace KeyforgeUnlocked.States.Extensions
       state.ResolvedEffects.Add(new CardPurged(card));
     }
 
-    static bool TryRemove<T>(IReadOnlyDictionary<Player, IMutableSet<T>> toLookup,
-      IIdentifiable id,
-      out Player owningPlayer,
-      out T lookup) where T : IIdentifiable
+    public static ICard? DiscardTopOfDeck(
+      this IMutableState state)
     {
-      foreach (var keyValue in toLookup)
-      {
-        if (TryRemove(keyValue.Value, id, out lookup))
-        {
-          owningPlayer = keyValue.Key;
-          return true;
-        }
-      }
+      var player = state.PlayerTurn;
+      if (!state.Decks[player].TryDequeue(out var discardedCard) || discardedCard == null)
+        return null;
 
-      owningPlayer = default;
-      lookup = default;
-      return false;
-    }
-
-    static bool TryRemove<T>(ICollection<T> toLookup,
-      IIdentifiable id,
-      out T lookup) where T : IIdentifiable
-    {
-      foreach (var item in toLookup)
-      {
-        if (item.Equals(id))
-        {
-          lookup = item;
-          toLookup.Remove(item);
-          return true;
-        }
-      }
-
-      lookup = default;
-      return false;
+      state.Discards[player].Add(discardedCard);
+      state.ResolvedEffects.Add(new CardDiscarded(discardedCard));
+      return discardedCard;
     }
   }
 }

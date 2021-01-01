@@ -22,9 +22,9 @@ namespace KeyforgeUnlocked.Creatures
     public int Armor => BaseCardArmor - BrokenArmor;
     public int Health => Power - Damage;
     public bool IsDead => Health <= 0;
-    public Callback FightAbility => Card.CardFightAbility;
-    public Callback AfterKillAbility => Card.CardAfterKillAbility;
-    public Callback DestroyedAbility => Card.CardDestroyedAbility;
+    public Callback? FightAbility => Card.CardFightAbility;
+    public Callback? AfterKillAbility => Card.CardAfterKillAbility;
+    public Callback? DestroyedAbility => Card.CardDestroyedAbility;
     public Keyword[] CardKeywords => Card.CardKeywords;
 
     public Creature(
@@ -56,8 +56,9 @@ namespace KeyforgeUnlocked.Creatures
              && BrokenArmor == other.BrokenArmor;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
+      if (obj == null) return false;
       return obj is Creature other && Equals(other);
     }
 
@@ -77,6 +78,11 @@ namespace KeyforgeUnlocked.Creatures
     {
       return
         $"{{{Card.GetType().Name}, Power: {Power}, Armor: {Armor}, Health: {Health}, State: {State}, Aember: {Aember}, IsReady: {IsReady} }}";
+    }
+
+    public int CompareTo(object? obj)
+    {
+      return obj == null ? 1 : Id.CompareTo(((IIdentifiable) obj).Id);
     }
   }
 }

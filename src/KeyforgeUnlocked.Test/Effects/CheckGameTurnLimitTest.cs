@@ -1,4 +1,6 @@
-﻿using KeyforgeUnlocked.Effects;
+﻿using System.Collections.Immutable;
+using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -9,14 +11,14 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   sealed class CheckGameTurnLimitTest
   {
-    static readonly Metadata metadata = new Metadata(null, null, 10);
+    static readonly Metadata Metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 10);
     [Test]
     public void GameTurnLimitNotReached()
     {
       var initialState = StateTestUtil.EmptyMutableState;
       initialState.TurnNumber = 5;
       initialState.Keys = TestUtil.Ints(1, 2);
-      initialState.Metadata = metadata;
+      initialState.Metadata = Metadata;
       var state = initialState.New();
       var sut = new CheckGameTurnLimit();
       
@@ -31,7 +33,7 @@ namespace KeyforgeUnlockedTest.Effects
       var initialState = StateTestUtil.EmptyMutableState;
       initialState.TurnNumber = 10;
       initialState.Keys = TestUtil.Ints(1, 2);
-      initialState.Metadata = metadata;
+      initialState.Metadata = Metadata;
       var state = initialState.New();
       var sut = new CheckGameTurnLimit();
       

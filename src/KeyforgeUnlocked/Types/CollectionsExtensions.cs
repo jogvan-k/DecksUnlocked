@@ -6,25 +6,25 @@ namespace KeyforgeUnlocked.Types
 {
   public static class CollectionsExtensions
   {
-    public static Lookup<TKey, TValue> ToLookup<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary)
+    public static Lookup<TKey, TValue> ToLookup<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary) where TKey : notnull
     {
-      return new Lookup<TKey, TValue>(dictionary);
+      return new(dictionary);
     }
 
     public static LookupReadOnly<TKey, TElement> ToReadOnly<TKey, TSource, TElement>(
-      this IReadOnlyDictionary<TKey, TSource> dictionary, Func<KeyValuePair<TKey, TSource>, TElement> valueSelector)
+      this IReadOnlyDictionary<TKey, TSource> dictionary, Func<KeyValuePair<TKey, TSource>, TElement> valueSelector) where TKey : notnull
     {
-      return new LookupReadOnly<TKey, TElement>(dictionary.ToDictionary(kv => kv.Key, valueSelector));
+      return new(dictionary.ToDictionary(kv => kv.Key, valueSelector));
     }
 
-    public static LookupReadOnly<TKey, TValue> ToReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> lookup)
+    public static LookupReadOnly<TKey, TValue> ToReadOnly<TKey, TValue>(this IDictionary<TKey, TValue> lookup) where TKey : notnull
     {
-      return new LookupReadOnly<TKey, TValue>(lookup);
+      return new(lookup);
     }
     
-    public static LookupReadOnly<TKey, TValue> ToReadOnly<TKey, TValue>(this Lookup<TKey, TValue> lookup)
+    public static LookupReadOnly<TKey, TValue> ToReadOnly<TKey, TValue>(this Lookup<TKey, TValue> lookup) where TKey : notnull
     {
-      return new LookupReadOnly<TKey, TValue>(lookup);
+      return new(lookup);
     }
   }
 }

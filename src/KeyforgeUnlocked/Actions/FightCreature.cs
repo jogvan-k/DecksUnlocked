@@ -36,7 +36,7 @@ namespace KeyforgeUnlocked.Actions
 
     public override string Identity()
     {
-      _origin.FindCreature(Target, out _, out var index);
+      OriginState.FindCreature(Target, out _, out var index);
 
       return base.Identity() + ';' + index;
     }

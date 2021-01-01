@@ -19,7 +19,7 @@ namespace KeyforgeUnlocked.Cards.Untamed.Creatures
     static readonly Callback ReapAbility = (s, _, _) =>
     {
       var effect = new TargetSingleDiscardedCard(
-        (s, t, _) => s.ReturnFromDiscard(t), Targets.Own);
+        (s, t, _) => s.ReturnFromDiscard(t), Target.Own);
       s.AddEffect(effect);
     };
 

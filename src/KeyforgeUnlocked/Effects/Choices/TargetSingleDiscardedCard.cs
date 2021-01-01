@@ -8,14 +8,8 @@ namespace KeyforgeUnlocked.Effects.Choices
 {
   public class TargetSingleDiscardedCard : TargetSingle
   {
-    public TargetSingleDiscardedCard(Callback effect, Targets targets = Targets.All, ValidOn validOn = null) : base(effect, targets, validOn)
+    public TargetSingleDiscardedCard(Callback effect, Target targets = Target.All, ValidOn? validOn = null) : base(effect, TargetType.CardInDiscard, targets, validOn)
     {
-    }
-
-
-    protected override IReadOnlyDictionary<Player, IEnumerable<IIdentifiable>> UnfilteredTargets(IState state)
-    {
-      return state.Discards.ToReadOnly(kv => kv.Value.Cast<IIdentifiable>());
     }
   }
 }

@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Actions
   {
     public House House { get; }
 
-    public DeclareHouse(ImmutableState origin, House house) : base(origin)
+    public DeclareHouse(ImmutableState originState, House house) : base(originState)
     {
       House = house;
     }

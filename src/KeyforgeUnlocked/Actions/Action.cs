@@ -11,18 +11,18 @@ namespace KeyforgeUnlocked.Actions
 {
   public abstract class Action<T> : Equatable<T>, IAction where T : Action<T>
   {
-    protected ImmutableState _origin;
-    static Comparer<IAction> _comparer = new ActionStrengthComparer();
-    public ICoreState Origin => _origin;
+    protected readonly ImmutableState OriginState;
+    static readonly Comparer<IAction> Comparer = new ActionStrengthComparer();
+    public ICoreState Origin => OriginState;
 
-    protected Action(ImmutableState origin)
+    protected Action(ImmutableState originState)
     {
-      _origin = origin;
+      OriginState = originState;
     }
 
     public ICoreState DoCoreAction()
     {
-      return DoAction(_origin);
+      return DoAction(OriginState);
     }
 
     public virtual string Identity()
@@ -45,14 +45,15 @@ namespace KeyforgeUnlocked.Actions
 
     internal abstract void DoActionNoResolve(IMutableState state);
 
-    public int CompareTo(object other)
+    public int CompareTo(object? other)
     {
+      if (other == null) return 1;
       return CompareTo((IAction) other);
     }
 
     int CompareTo(IAction other)
     {
-      return _comparer.Compare(this, other);
+      return Comparer.Compare(this, other);
     }
   }
 }

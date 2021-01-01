@@ -15,7 +15,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Actions
           {
             s.DamageCreature(t, 2);
             s.AddEffect(new TargetSingleCreature((s2, t2, _) => s2.DamageCreature(t2, 2), validOn: Delegates.AllExcept(t)));
-          }, Targets.All, Delegates.All));
+          }, Target.All, Delegates.All));
 
     public TwinBoltEmission() : this(House.Logos)
     {

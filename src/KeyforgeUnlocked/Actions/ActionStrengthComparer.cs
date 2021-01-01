@@ -7,8 +7,11 @@ namespace KeyforgeUnlocked.Actions
   /// </summary>
   public class ActionStrengthComparer : Comparer<IAction>
   {
-    public override int Compare(IAction fst, IAction snd)
+    public override int Compare(IAction? fst, IAction? snd)
     {
+      if (fst == null && snd == null) return 0;
+      if (fst == null) return -1;
+      if (snd == null) return 1;
       return new ActionStrengthComparerBuilder(fst, snd)
         .ThenByPriority()
         .ThenByType()
@@ -19,13 +22,13 @@ namespace KeyforgeUnlocked.Actions
 
   class ActionStrengthComparerBuilder
   {
-    readonly IAction first, second;
+    readonly IAction _first, _second;
     public int ComparedValue;
 
     public ActionStrengthComparerBuilder(IAction first, IAction second)
     {
-      this.first = first;
-      this.second = second;
+      this._first = first;
+      this._second = second;
     }
 
     public ActionStrengthComparerBuilder ThenByPriority()
@@ -33,8 +36,8 @@ namespace KeyforgeUnlocked.Actions
       if (ComparedValue != 0)
         return this;
 
-      var fstVal = (int) GetPriority(first);
-      var sndVal = (int) GetPriority(second);
+      var fstVal = (int) GetPriority(_first);
+      var sndVal = (int) GetPriority(_second);
 
       ComparedValue = fstVal - sndVal;
       return this;
@@ -45,8 +48,8 @@ namespace KeyforgeUnlocked.Actions
       if (ComparedValue != 0)
         return this;
 
-      var fstVal = first.GetType().Name;
-      var sndVal = second.GetType().Name;
+      var fstVal = _first.GetType().Name;
+      var sndVal = _second.GetType().Name;
 
       ComparedValue = fstVal.CompareTo(sndVal);
       return this;
@@ -57,8 +60,8 @@ namespace KeyforgeUnlocked.Actions
       if (ComparedValue != 0)
         return this;
 
-      var fstVal = first.Identity();
-      var sndVal = second.Identity();
+      var fstVal = _first.Identity();
+      var sndVal = _second.Identity();
 
       ComparedValue = fstVal.CompareTo(sndVal);
       return this;

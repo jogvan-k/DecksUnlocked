@@ -9,17 +9,19 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Effects.Choices
 {
-  public abstract class TargetSingle : EffectBase<TargetSingle>
+  public class TargetSingle : EffectBase<TargetSingle>
   {
     readonly Callback _effect;
+    readonly TargetType _targetType;
     readonly ValidOn _validOn;
-    readonly Targets _targets;
+    readonly Target _target;
 
-    public TargetSingle(Callback effect, Targets targets = Targets.All, ValidOn validOn = null)
+    public TargetSingle(Callback effect, TargetType targetType, Target target = Target.All, ValidOn? validOn = null)
     {
       _effect = effect;
       _validOn = validOn ?? Delegates.All;
-      _targets = targets;
+      _target = target;
+      _targetType = targetType;
     }
 
     protected override void ResolveImpl(IMutableState state)
@@ -34,7 +36,7 @@ namespace KeyforgeUnlocked.Effects.Choices
         _effect(state, t.target, t.owningPlayer);
       }
     }
-    
+
     protected List<(IIdentifiable target, Player owningPlayer)> ValidTargets(IMutableState state)
     {
       return PreFilter(state)
@@ -44,34 +46,49 @@ namespace KeyforgeUnlocked.Effects.Choices
 
     IEnumerable<(IIdentifiable target, Player owningPlayer)> PreFilter(IState state)
     {
-      switch (_targets)
-      {
-        case Targets.Own:
-          return OrderedUnfilteredTargets(state)[state.PlayerTurn].Select(t => (t, Player.Player1));
-        case Targets.Opponens:
-          return OrderedUnfilteredTargets(state)[state.PlayerTurn.Other()].Select(t => (t, Player.Player1));
-        case Targets.All:
-          var targets = OrderedUnfilteredTargets(state).ToDictionary(kv => kv.Key, kv => kv.Value.Select(v => (v, kv.Key)));
-          return targets[state.PlayerTurn.Other()].Concat(targets[state.PlayerTurn]);
-        default:
-          throw new Exception($"{_targets} not implemented.");
-      }
+      var player = state.PlayerTurn;
+
+      var targets = Enumerable.Empty<(IIdentifiable, Player)>();
+
+      if ((_target & Target.Opponens) > 0)
+        targets = targets.Concat(OrderedTargets(state, player.Other()).Select(t => (t, player.Other())));
+
+      if ((_target & Target.Own) > 0)
+        targets = targets.Concat(OrderedTargets(state, player).Select(t => (t, player)));
+
+      return targets;
     }
 
-    IReadOnlyDictionary<Player, IOrderedEnumerable<IIdentifiable>> OrderedUnfilteredTargets(IState state)
+    IEnumerable<IIdentifiable> OrderedTargets(IState state, Player player)
     {
-      return UnfilteredTargets(state).ToReadOnly(kv => kv.Value.OrderBy(i => i.Id));
+      var orderedTargets = Enumerable.Empty<IIdentifiable>();
+
+      if ((_targetType & TargetType.Creature) > 0)
+        orderedTargets = orderedTargets.Concat(state.Fields[player].Cast<IIdentifiable>());
+
+      if ((_targetType & TargetType.Artifact) > 0)
+        orderedTargets = orderedTargets.Concat(state.Artifacts[player].Cast<IIdentifiable>().OrderBy(i => i));
+
+      if ((_targetType & TargetType.CardInHand) > 0)
+        orderedTargets = orderedTargets.Concat(state.Hands[player].Cast<IIdentifiable>().OrderBy(i => i));
+
+      if ((_targetType & TargetType.CardInDiscard) > 0)
+        orderedTargets = orderedTargets.Concat(state.Discards[player].Cast<IIdentifiable>().OrderBy(i => i));
+
+      return orderedTargets;
     }
-    protected abstract IReadOnlyDictionary<Player,IEnumerable<IIdentifiable>> UnfilteredTargets(IState state);
 
     protected override bool Equals(TargetSingle other)
     {
-      return _effect.Equals(other._effect) && _validOn.Equals(other._validOn) && _targets.Equals(other._targets);
+      return _effect.Equals(other._effect)
+             && _validOn.Equals(other._validOn)
+             && _target.Equals(other._target)
+             && _targetType.Equals(other._targetType);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(_effect, _validOn, _targets);
+      return HashCode.Combine(_effect, _validOn, _target, _targetType);
     }
   }
 }

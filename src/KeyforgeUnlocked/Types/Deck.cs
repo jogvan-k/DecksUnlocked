@@ -26,20 +26,12 @@ namespace KeyforgeUnlocked.Types
       var cards = new List<Card>();
       foreach (var cardString in deckString)
       {
-        var card = (Card) cardsDictionary[cardString].GetConstructor(new Type[0]).Invoke(new object[0]);
-        cards.Add(card);
+        var card = cardsDictionary[cardString].GetConstructor(new Type[0])?.Invoke(new object[0]);
+        if(card != null)
+          cards.Add((Card) card);
       }
 
       return new Deck(cards);
-    }
-
-    static bool IsCard(Type cardType, string cardString)
-    {
-      var fieldInfo = cardType.GetField("SpecialName", BindingFlags.Public | BindingFlags.Static);
-      if (fieldInfo == null)
-        return cardType.Name.Equals(cardString);
-      var name = (string) fieldInfo.GetValue(null);
-      return cardString.Equals(name);
     }
 
     static IDictionary<string, Type> CardsDictionary(Assembly assembly)

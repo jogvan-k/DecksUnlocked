@@ -7,12 +7,13 @@ namespace KeyforgeUnlocked.Types.Events
   public class LazyEvents : IMutableEvents
   {
     readonly ImmutableEvents _initial;
-    Events _events;
+    Events? _events;
 
     public IImmutableDictionary<EventType, IImmutableDictionary<string, Callback>> EventCallbacks =>
       Get().EventCallbacks;
 
-    public IImmutableDictionary<ModifierType, IImmutableDictionary<string, Modifier>> Modifiers { get; }
+    public IImmutableDictionary<ModifierType, IImmutableDictionary<string, Modifier>> Modifiers =>
+      Get().Modifiers;
 
     public LazyEvents()
     {
@@ -61,7 +62,8 @@ namespace KeyforgeUnlocked.Types.Events
 
     IEvents Get()
     {
-      return (IEvents) _events ?? _initial;
+      if (_events == null) return _initial;
+      return _events;
     }
 
     IMutableEvents GetMutable()

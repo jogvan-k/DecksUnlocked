@@ -9,7 +9,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Actions
     static readonly Callback PlayAbility = (s, _, _) =>
     {
       s.AddEffect(new TargetSingleCreature(
-          (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(), Targets.Own))));
+          (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(), Target.Own))));
     };
 
     public Inspiration() : this(House.Sanctum)

@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Types
       ImmutableDictionary<Player, IImmutableSet<House>> houses,
       int turnCountLimit)
     {
-      InitialDecks = initialDecks?.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableList<ICard>)kv.Value.Cards);
+      InitialDecks = initialDecks.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableList<ICard>)kv.Value.Cards);
       Houses = houses;
       TurnCountLimit = turnCountLimit;
     }

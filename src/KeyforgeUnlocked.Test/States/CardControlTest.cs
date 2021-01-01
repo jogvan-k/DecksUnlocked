@@ -215,6 +215,36 @@ namespace KeyforgeUnlockedTest.States
       
       StateAsserter.StateEquals(StateTestUtil.EmptyState.New(playerTurn: playerTurn, archives: expectedArchives, hands: expectedHands, resolvedEffects: expectedResolvedEffects), state);
     }
+
+    [Test]
+    public void DiscardTopCardOfDeck_EmptyDeck(
+      [Values(Player.Player1, Player.Player2)] Player player)
+    {
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn: player);
+
+      var discardedCard = state.DiscardTopOfDeck();
+      
+      Assert.Null(discardedCard);
+    }
+
+    [Test]
+    public void DiscardTopCardOfDeck(
+      [Values(Player.Player1, Player.Player2)]
+      Player player)
+    {
+      var state = StateTestUtil.EmptyMutableState.New(playerTurn: player, decks: SetupDecks());
+
+      var discardedCard = state.DiscardTopOfDeck();
+
+      var expectedDecks = SetupDecks();
+      var expectedDiscard = expectedDecks[player].Dequeue();
+      Assert.That(discardedCard, Is.EqualTo(expectedDiscard));
+      var expectedDiscards = TestUtil.Sets<ICard>();
+      expectedDiscards[player].Add(expectedDiscard);
+      var expectedResolvedEffects = new LazyList<IResolvedEffect> {new CardDiscarded(expectedDiscard)};
+      var expectedState = StateTestUtil.EmptyState.New(playerTurn: player, decks: expectedDecks, discards: expectedDiscards, resolvedEffects: expectedResolvedEffects);
+      StateAsserter.StateEquals(expectedState, state);
+    }
     
     static IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> SetupDecks()
     {

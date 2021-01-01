@@ -9,8 +9,12 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {
-  public delegate void Callback(IMutableState state, IIdentifiable target, Player owningPlayer);
+  public delegate void Callback(IMutableState state, IIdentifiable? target, Player owningPlayer);
+
+  public delegate bool StatePredicate(IMutableState state);
+
   public delegate int Modifier(IState state);
+
   public delegate bool ActionPredicate(IState state, IAction action);
   public delegate bool ValidOn(IState state, IIdentifiable id);
 
@@ -18,17 +22,17 @@ namespace KeyforgeUnlocked.Types
   {
     public static readonly Callback StunTarget = (s, t, _) =>
     {
-      s.StunCreature(t);
+      s.StunCreature(t!);
     };
 
-    public static Callback ReadyAndUse(UseCreature allowedUsage = UseCreature.All) => (s, c,_) => s.AddEffect(new ReadyCreatureAndUse(c, true, allowedUsage));
+    public static Callback ReadyAndUse(UseCreature allowedUsage = UseCreature.All) => (s, c,_) => s.AddEffect(new ReadyCreatureAndUse(c!, true, allowedUsage));
 
-    public static readonly Callback ReturnTargetToHand = (s, c, _) => s.ReturnCreatureToHand(c);
+    public static readonly Callback ReturnTargetToHand = (s, c, _) => s.ReturnCreatureToHand(c!);
 
     public static Callback SwapCreatures(IIdentifiable c) =>
       (s, t, _) =>
       {
-        s.SwapCreatures(c, t);
+        s.SwapCreatures(c, t!);
       };
 
     public static readonly ValidOn All = (_, _) => true;

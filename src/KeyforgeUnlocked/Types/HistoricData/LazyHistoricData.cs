@@ -6,8 +6,8 @@ namespace KeyforgeUnlocked.Types.HistoricData
 {
   public class LazyHistoricData : IMutableHistoricData, IHistoricData
   {
-    [NotNull] readonly ImmutableHistoricData _initial;
-    IMutableHistoricData _inner;
+    readonly ImmutableHistoricData _initial;
+    IMutableHistoricData? _inner;
 
     public bool ActionPlayedThisTurn
     {
@@ -52,7 +52,8 @@ namespace KeyforgeUnlocked.Types.HistoricData
 
     IHistoricData Get()
     {
-      return (IHistoricData) _inner ?? _initial;
+      if (_inner == null) return _initial;
+      return (IHistoricData) _inner;
     }
 
     IMutableHistoricData Mutable()

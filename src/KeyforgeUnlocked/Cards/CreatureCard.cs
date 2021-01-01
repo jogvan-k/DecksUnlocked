@@ -9,30 +9,30 @@ namespace KeyforgeUnlocked.Cards
     public int CardArmor { get; }
     public Keyword[] CardKeywords { get; }
     public Trait[] CardTraits { get; }
-    public Callback CardFightAbility { get; }
-    public Callback CardBeforeFightAbility { get; }
-    public Callback CardAfterKillAbility { get; }
-    public Callback CardCreatureAbility { get; }
-    public Callback CardReapAbility { get; }
-    public Callback CardDestroyedAbility { get; }
+    public Callback? CardFightAbility { get; }
+    public Callback? CardBeforeFightAbility { get; }
+    public Callback? CardAfterKillAbility { get; }
+    public Callback? CardCreatureAbility { get; }
+    public Callback? CardReapAbility { get; }
+    public Callback? CardDestroyedAbility { get; }
     public ActionPredicate CardUseActionAllowed { get; }
 
     protected CreatureCard(
       House house,
       int power,
       int armor,
-      Trait[] traits = null,
-      Keyword[] keywords = null,
-      Pip[] pips = null,
-      Callback playAbility = null,
-      Callback beforeFightAbility = null,
-      Callback fightAbility = null,
-      Callback afterKillAbility = null,
-      Callback creatureAbility = null,
-      Callback reapAbility = null,
-      Callback destroyedAbility = null,
-      ActionPredicate useActionAllowed = null,
-      ActionPredicate playAllowed = null) : base(house, pips, playAbility, playAllowed)
+      Trait[]? traits = null,
+      Keyword[]? keywords = null,
+      Pip[]? pips = null,
+      Callback? playAbility = null,
+      Callback? beforeFightAbility = null,
+      Callback? fightAbility = null,
+      Callback? afterKillAbility = null,
+      Callback? creatureAbility = null,
+      Callback? reapAbility = null,
+      Callback? destroyedAbility = null,
+      ActionPredicate? useActionAllowed = null,
+      ActionPredicate? playAllowed = null) : base(house, pips, playAbility, playAllowed)
     {
       CardPower = power;
       CardArmor = armor;

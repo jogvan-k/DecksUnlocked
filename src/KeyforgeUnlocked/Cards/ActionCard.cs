@@ -6,8 +6,8 @@ namespace KeyforgeUnlocked.Cards
   {
     protected ActionCard(
       House house,
-      Pip[] pips = null,
-      Callback playAbility = null) : base(house, pips: pips, playAbility: playAbility)
+      Pip[]? pips = null,
+      Callback? playAbility = null) : base(house, pips: pips, playAbility: playAbility)
     {
     }
   }

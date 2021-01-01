@@ -7,29 +7,29 @@ namespace KeyforgeUnlocked.Cards
 {
   public abstract class Card : Equatable<Card>, ICard
   {
-    static readonly StringComparer nameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
+    static readonly StringComparer NameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
 
     public string Id { get; }
     public House House { get; }
     public Pip[] CardPips { get; }
     readonly Lazy<string> _name;
     public string Name => _name.Value;
-    public Callback CardPlayAbility { get; }
+    public Callback? CardPlayAbility { get; }
     public ActionPredicate CardPlayAllowed { get; }
 
     protected Card(
       House house,
-      Pip[] pips = null,
-      Callback playAbility = null,
-      ActionPredicate PlayAllowed = null,
-      string id = null)
+      Pip[]? pips = null,
+      Callback? playAbility = null,
+      ActionPredicate? playAllowed = null,
+      string? id = null)
     {
       Id = id ?? IdGenerator.GetNextInt().ToString();
       House = house;
       _name = new Lazy<string>(GetName);
       CardPips = pips ?? Array.Empty<Pip>();
       CardPlayAbility = playAbility;
-      CardPlayAllowed = PlayAllowed ?? Delegates.True;
+      CardPlayAllowed = playAllowed ?? Delegates.True;
     }
 
     string GetName()
@@ -45,9 +45,9 @@ namespace KeyforgeUnlocked.Cards
       return ToProperCase(card.Name);
     }
 
-    static string ToProperCase(string str)
+    static string ToProperCase(string? str)
     {
-      if (str == null) return null;
+      if (str == null) return "";
       if (str.Length < 2) return str.ToUpper();
 
       var properStr = str.Substring(0, 1).ToUpper();
@@ -73,16 +73,17 @@ namespace KeyforgeUnlocked.Cards
       return Name;
     }
 
-    public int CompareTo(object obj)
+    public int CompareTo(object? obj)
     {
       if (obj == null)
         return 1;
       return CompareTo((Card) obj);
     }
 
-    public int CompareTo(Card other)
+    public int CompareTo(Card? other)
     {
-      return nameComparer.Compare(Id, other.Id);
+      if (other == null) return -1;
+      return NameComparer.Compare(Id, other.Id);
     }
 
     public override int GetHashCode()

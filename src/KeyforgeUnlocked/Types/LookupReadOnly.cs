@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Types
   /// <summary>
   /// Read-only equivalent of <see cref="Lookup{TKey,TValue}"/>.
   /// </summary>
-  public sealed class LookupReadOnly<TKey, TValue> : ReadOnlyDictionary<TKey, TValue>
+  public sealed class LookupReadOnly<TKey, TValue> : ReadOnlyDictionary<TKey, TValue> where TKey : notnull
   {
     public LookupReadOnly(IDictionary<TKey, TValue> dictionary) : base(dictionary)
     {
@@ -34,7 +34,7 @@ namespace KeyforgeUnlocked.Types
       return Equals(Dictionary, other.Dictionary);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;

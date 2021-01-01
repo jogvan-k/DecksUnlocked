@@ -48,7 +48,7 @@ namespace KeyforgeUnlocked.Types.Events
     {
       return (s, t, _) =>
       {
-        if (t.Equals(source)) s.Events.Unsubscribe(source.Id);
+        if (t != null && t.Equals(source)) s.Events.Unsubscribe(source.Id);
       };
     }
   }

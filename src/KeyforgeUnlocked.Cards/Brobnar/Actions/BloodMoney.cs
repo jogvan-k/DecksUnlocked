@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Actions
   public sealed class BloodMoney : ActionCard
   {
     static readonly Callback PlayAbility = 
-      (s, _, _) => s.AddEffect(new TargetSingleCreature((s, t, _) => s.AddAemberToCreature(t, 2), Targets.Opponens));
+      (s, _, _) => s.AddEffect(new TargetSingleCreature((s, t, _) => s.AddAemberToCreature(t, 2), Target.Opponens));
 
     public BloodMoney() : this(House.Brobnar)
     {

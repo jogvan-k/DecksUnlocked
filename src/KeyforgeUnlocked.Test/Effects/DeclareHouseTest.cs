@@ -25,7 +25,7 @@ namespace KeyforgeUnlockedTest.Effects
           new KeyValuePair<Player, IImmutableSet<House>>(Player.Player2, Player2Houses.ToImmutableHashSet())
         });
 
-    static readonly DeclareHouse Sut = new DeclareHouse();
+    static readonly DeclareHouse Sut = new ();
 
     [Test]
     public void EmptyState_ThrowException()
@@ -49,7 +49,7 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(Player.Player2)]
     public void StateWithMetadata(Player playerTurn)
     {
-      var metadata = new Metadata(null, Houses, 0);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, Houses, 0);
       var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, metadata: metadata);
 
       Sut.Resolve(state);

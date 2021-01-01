@@ -42,9 +42,9 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseNotAvailable_ThrowException()
     {
-      var metadata = new Metadata(null, AvailableHouses, 40);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40);
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
-      var sut = new DeclareHouse(null, House.Brobnar);
+      var sut = new DeclareHouse(StateTestUtil.EmptyState, House.Brobnar);
 
       System.Action<DeclaredHouseNotAvailableException> asserts = e =>
       {
@@ -58,10 +58,10 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseAvailable()
     {
-      var metadata = new Metadata(null, AvailableHouses, 40);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40);
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var declaredHouse = House.Shadows;
-      var sut = new DeclareHouse(null, declaredHouse);
+      var sut = new DeclareHouse(StateTestUtil.EmptyState, declaredHouse);
 
       var expectedResolvedEffects = new LazyList<IResolvedEffect> {new HouseDeclared(declaredHouse)};
       var expectedState = StateTestUtil.EmptyState.New(

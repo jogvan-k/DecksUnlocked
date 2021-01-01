@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 
     static readonly Callback FightReapAbility = (s, self, p) =>
     {
-      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Targets.Own, Delegates.AlliesOf(p)));
+      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Target.Own, Delegates.AlliesOf(p)));
     };
 
     public SanctumGuardian() : this(House.Sanctum)

@@ -33,7 +33,7 @@ namespace KeyforgeUnlocked.Actions
       return Equals(_effect, other._effect) && Target.Equals(other.Target);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       return ReferenceEquals(this, obj) || obj is TargetAction other && Equals(other);
     }

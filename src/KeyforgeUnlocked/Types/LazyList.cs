@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Types
   public sealed class LazyList<T> : IMutableList<T>
   {
     [NotNull] readonly IImmutableList<T> _initial;
-    List<T> _innerList;
+    List<T>? _innerList;
 
     public IImmutableList<T> Immutable()
     {
@@ -25,8 +25,6 @@ namespace KeyforgeUnlocked.Types
         _innerList = _initial.ToList();
       return _innerList;
     }
-
-    bool Initialized => _innerList != null;
 
     public LazyList()
     {
@@ -101,7 +99,7 @@ namespace KeyforgeUnlocked.Types
       return GetEnumerator();
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
@@ -111,8 +109,8 @@ namespace KeyforgeUnlocked.Types
 
     bool Equals(LazyList<T> other)
     {
-      var first = Initialized ? (IEnumerable<T>) _innerList : _initial;
-      var second = other.Initialized ? (IEnumerable<T>) other._innerList : other._initial;
+      var first = _innerList != null ? (IEnumerable<T>) _innerList : _initial;
+      var second = other._innerList != null ? (IEnumerable<T>) other._innerList : other._initial;
 
       return first.SequenceEqual(second);
     }
@@ -120,7 +118,7 @@ namespace KeyforgeUnlocked.Types
     public override int GetHashCode()
     {
       var hc = new HashCode();
-      var entries = Initialized ? (IEnumerable<T>) _innerList : _initial;
+      var entries = _innerList != null ? (IEnumerable<T>) _innerList : _initial;
       foreach (var entry in entries)
       {
         hc.Add(entry);

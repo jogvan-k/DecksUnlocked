@@ -28,7 +28,7 @@ namespace KeyforgeUnlocked.States
       this IState state,
       IIdentifiable id)
     {
-      if(!TryFind(state.Metadata.InitialDecks, id, out _, out _, out var card))
+      if(!TryFind(state.Metadata.InitialDecks, id, out _, out _, out var card) || card == null)
         throw new CardNotPresentException(state, id);
 
       return card;
@@ -49,7 +49,7 @@ namespace KeyforgeUnlocked.States
       IIdentifiable id,
       out Player owningPlayer,
       out int index,
-      out T lookup) where T : IIdentifiable
+      out T? lookup) where T : IIdentifiable
     {
       foreach (var keyValue in toLookup)
       {
@@ -69,7 +69,7 @@ namespace KeyforgeUnlocked.States
     static bool TryFind<T>(IEnumerable<T> toLookup,
       IIdentifiable id,
       out int index,
-      out T lookup) where T : IIdentifiable
+      out T? lookup) where T : IIdentifiable
     {
       index = 0;
       foreach (var entry in toLookup)

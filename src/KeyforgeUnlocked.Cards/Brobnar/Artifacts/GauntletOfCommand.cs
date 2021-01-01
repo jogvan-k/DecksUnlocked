@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Artifacts
   {
     static readonly Trait[] traits = {Trait.Item};
     static readonly Callback ActionAbility =
-      (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(UseCreature.Fight), Targets.Own));
+      (s, _, _) => s.AddEffect(new TargetSingleCreature(Delegates.ReadyAndUse(UseCreature.Fight), Target.Own));
 
     public GauntletOfCommand() : this(House.Brobnar)
     {

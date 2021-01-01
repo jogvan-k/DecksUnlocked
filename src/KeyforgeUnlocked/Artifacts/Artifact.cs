@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Artifacts
     public bool IsReady;
     public string Id => Card.Id;
     public string Name => Card.Name;
-    public Callback ActionAbility => Card.CardActionAbility;
+    public Callback? ActionAbility => Card.CardActionAbility;
 
     public Artifact(IArtifactCard card, bool isReady = false)
     {
@@ -18,8 +18,9 @@ namespace KeyforgeUnlocked.Artifacts
       IsReady = isReady;
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
+      if (obj == null) return false;
       return obj is Artifact other && Equals(other);
     }
 
@@ -37,6 +38,11 @@ namespace KeyforgeUnlocked.Artifacts
     {
       return
         $"{Card.GetType().Name}, IsReady: {IsReady}";
+    }
+
+    public int CompareTo(object? obj)
+    {
+      return obj == null ? 1 : string.Compare(Id, ((IIdentifiable) obj).Id, StringComparison.Ordinal);
     }
   }
 }

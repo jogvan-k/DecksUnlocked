@@ -17,10 +17,10 @@ namespace KeyforgeUnlocked.States.Extensions
     public static void RaiseEvent(
       this IMutableState state,
       EventType @event,
-      IIdentifiable target = null,
+      IIdentifiable? target = null,
       Player owningPlayer = Player.None)
     {
-      state.Events.RaiseEvent(@event, state, target, owningPlayer);
+      state.Events.RaiseEvent(@event, state, target!, owningPlayer);
     }
 
     public static int Modify(

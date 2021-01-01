@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Types
   public sealed class LazySet<T> : IMutableSet<T>
   {
     readonly IImmutableSet<T> _initial;
-    HashSet<T> _innerSet;
+    HashSet<T>? _innerSet;
 
     public IImmutableSet<T> Immutable()
     {
@@ -132,7 +132,7 @@ namespace KeyforgeUnlocked.Types
       return GetEnumerator();
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;

@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public sealed class EndTurn : BasicAction<EndTurn>
   {
-    public EndTurn(ImmutableState origin) : base(origin)
+    public EndTurn(ImmutableState originState) : base(originState)
     {
     }
 

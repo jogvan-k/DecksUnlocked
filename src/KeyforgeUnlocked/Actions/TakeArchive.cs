@@ -5,7 +5,7 @@ namespace KeyforgeUnlocked.Actions
 {
   public class TakeArchive : Action<TakeArchive>
   {
-    public TakeArchive(ImmutableState origin) : base(origin)
+    public TakeArchive(ImmutableState originState) : base(originState)
     {
     }
 

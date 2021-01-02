@@ -25,7 +25,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
     static readonly StatePredicate RepeatIf = s =>
     {
       var c = s.DiscardTopOfDeck();
-      return c != null && c.House == House.Logos;
+      return c != null && c.House != House.Logos;
     };
 
     static readonly Callback PlayFightReapAbility = (s, _, _) =>

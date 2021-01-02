@@ -17,7 +17,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     protected IState _state;
     protected IDictionary<string, IActionGroup> Commands;
     protected IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
-    protected IEvaluator _evaluator = new Evaluator();
+    protected Stack<IState> previousStates = new();
 
     public BaseConsoleGame(IState state)
     {
@@ -46,8 +46,14 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       Commands = commands;
 
       var command = ReadCommand();
-      if (int.TryParse(command, out var i))
+      if (command == "undo")
       {
+        if (previousStates.Count > 0)
+          _state = previousStates.Pop();
+      }
+      else if (int.TryParse(command, out var i))
+      {
+        previousStates.Push(_state);
         _state = Commands["action"].Actions(_state.ToImmutable())[i - 1].DoAction(_state);
       }
       else
@@ -105,6 +111,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           HelperCommands[command].Print(_state);
         else if (Commands.Keys.Contains(command))
           return command;
+        else if (command == "undo")
+          return "undo";
         else
           Console.WriteLine($"Invalid command: {command}");
       }
@@ -117,11 +125,13 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         throw new InvalidOperationException("List /'IActionGroup.Actions/' must not be empty ");
       if (actions.Count == 1)
       {
+        previousStates.Push(_state);
         _state = actions.Single().DoAction(_state);
         return;
       }
 
       var action = WriteAndReadActions(command);
+      previousStates.Push(_state);
       _state = action.DoAction(_state);
     }
 

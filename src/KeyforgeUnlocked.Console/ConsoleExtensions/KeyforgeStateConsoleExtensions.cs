@@ -194,7 +194,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsActionEndTurn(this IActionGroup group)
     {
-      return group is EndTurnGroup;
+      return group is EndTurnGroup || group is NoActionGroup;
     }
 
     static void PrintAdditionalActions(

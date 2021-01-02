@@ -57,7 +57,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.Unlimited));
+      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.NewSeconds(5)));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");

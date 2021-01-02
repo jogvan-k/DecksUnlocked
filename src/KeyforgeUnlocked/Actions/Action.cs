@@ -12,7 +12,9 @@ namespace KeyforgeUnlocked.Actions
   public abstract class Action<T> : Equatable<T>, IAction where T : Action<T>
   {
     protected readonly ImmutableState OriginState;
+    ICoreState? _resultingState;
     static readonly Comparer<IAction> Comparer = new ActionStrengthComparer();
+    
     public ICoreState Origin => OriginState;
 
     protected Action(ImmutableState originState)
@@ -22,7 +24,9 @@ namespace KeyforgeUnlocked.Actions
 
     public ICoreState DoCoreAction()
     {
-      return DoAction(OriginState);
+      if (_resultingState == null)
+        _resultingState = DoAction(OriginState);
+      return _resultingState;
     }
 
     public virtual string Identity()

@@ -1,10 +1,14 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Actions
 {
-  [CardName("Loot the Bodies")]
+  [CardInfo("Loot the Bodies", Rarity.Common,
+    "Play: For the remainder of the turn, gain 1 æmber each time an enemy creature is destroyed.",
+    "\"Loot the Bodies! Hit the Floor! Loot the Bodies! Hit the Floor!\" -Brobnar War Chant")]
+  [ExpansionSet(Expansion.CotA, 10)]
   public sealed class LootTheBodies : ActionCard
   {
     static readonly Callback PlayAbility =

@@ -1,3 +1,4 @@
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
@@ -5,6 +6,10 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 {
+  [CardInfo("Sanctum Guardian", Rarity.Rare,
+    "Fight/Reap: Swap Sanctum Guardian with another friendly creature in your battleline.")]
+  [ExpansionSet(Expansion.CotA, 256)]
+  [ExpansionSet(Expansion.AoA, 265)]
   public sealed class SanctumGuardian : CreatureCard
   {
     const int power = 6;

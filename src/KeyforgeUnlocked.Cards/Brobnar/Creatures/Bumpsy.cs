@@ -1,9 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
-  [CardName("Bumpsy")]
+  [CardInfo("Bumpsy", Rarity.Common,
+    "Play: Your opponent loses 1 æmber.",
+    "Whatever he doesn't like, he breaks. He doesn't like anything.")]
+  [ExpansionSet(Expansion.CotA, 30)]
   public class Bumpsy : CreatureCard
   {
     const int Power = 5;

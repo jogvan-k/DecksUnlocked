@@ -1,9 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Artifacts
 {
-  [CardName("Ritual of Balance")]
+  [CardInfo("Ritual of Balance", Rarity.Uncommon,
+    "Action: If your opponent has 6 æmber or more, steal 1 æmber.",
+    "Is balance a means to an end, or an end in itself?")]
+  [ExpansionSet(Expansion.CotA, 342)]
   public class RitualOfBalance : ArtifactCard
   {
     static readonly Trait[] traits = {Trait.Power};

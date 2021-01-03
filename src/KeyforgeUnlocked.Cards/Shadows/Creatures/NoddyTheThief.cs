@@ -1,10 +1,14 @@
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
-  [CardName("Noddy the Thief")]
+  [CardInfo("Noddy the Thief",
+    Rarity.Common,
+    "Action: Steal 1 æmber.")]
+  [ExpansionSet(Expansion.CotA, 306)]
   public sealed class NoddyTheThief : CreatureCard
   {
     const int Power = 2;

@@ -1,12 +1,13 @@
-﻿using KeyforgeUnlocked.Creatures;
-using KeyforgeUnlocked.Effects.Choices;
-using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
 {
-  [CardName("Mother")]
+  [CardInfo("Mother", Rarity.Common,
+    "During your \"draw cards\" step, refill your hand to 1 additional card.",
+    "\"Of course she's neccessary, she's the mother of all invention!\"")]
+  [ExpansionSet(Expansion.CotA, 145)]
   public class Mother : CreatureCard
   {
     const int Power = 5;

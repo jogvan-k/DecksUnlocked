@@ -1,4 +1,4 @@
-﻿using KeyforgeUnlocked.Creatures;
+﻿using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
@@ -6,6 +6,11 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
 {
+  [CardInfo("Neutron Shark", Rarity.Rare,
+    "Play/Fight/Reap: Destroy an enemy creature or artifact and a friendly creature or artifact. Discard the top card of your deck. If that card is not a Logos card, trigger this effect again.")]
+  [ExpansionSet(Expansion.CotA, 146)]
+  [ExpansionSet(Expansion.AoA, 149)]
+  [ExpansionSet(Expansion.WC, 171)]
   public class NeutronShark : CreatureCard
   {
     const int Power = 1;

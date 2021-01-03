@@ -1,9 +1,14 @@
-﻿using KeyforgeUnlocked.Effects.Choices;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Actions
 {
+  [CardInfo("Punch", Rarity.Common,
+    "Play: Deal 3 damage to a creature.",
+    "Three for flinching.")]
+  [ExpansionSet(Expansion.CotA, 12)]
   public sealed class Punch : ActionCard
   {
     static readonly Pip[] Pips = {Pip.Aember};

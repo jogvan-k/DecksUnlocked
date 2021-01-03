@@ -4,6 +4,8 @@ using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Actions;
 using KeyforgeUnlocked.Cards;
+using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using KeyforgeUnlockedConsole.PrintCommands;
@@ -63,11 +65,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         _state = Commands["action"].Actions(_state.ToImmutable())[i - 1].DoAction(_state);
         PrintStatus();
       }
-      else if(Commands.Keys.Contains(command))
+      else if (Commands.Keys.Contains(command))
       {
         ResolveCommand(Commands[command]);
         PrintStatus();
-      } else
+      }
+      else
       {
         var card = _state.GetCard(command);
         PrintCardInfo(card!);
@@ -88,14 +91,16 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       if (card is ICreatureCard creature)
       {
         PrintCardInfo(creature);
-      } else if (card is IActionCard action)
-      {
-        Console.WriteLine("Action");
-      } else if (card is IArtifactCard artifact)
-      {
-        Console.WriteLine("Artifact");
       }
-      
+      else if (card is IActionCard action)
+      {
+        PrintCardInfo(action);
+      }
+      else if (card is IArtifactCard artifact)
+      {
+        PrintCardInfo(artifact);
+      }
+
       Console.WriteLine();
     }
 
@@ -103,24 +108,53 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     {
       Console.WriteLine("Creature");
       Console.WriteLine(ReadableTraits(creature.CardTraits));
+      Console.WriteLine(ReadableKeywords(creature.CardKeywords));
       var armor = creature.CardArmor > 0 ? creature.CardArmor.ToString() : "~";
       Console.WriteLine($"Power: {creature.CardPower}, Armor: {armor}");
+      PrintDescriptionAndFlavorText(creature);
     }
-    
+
     void PrintCardInfo(IActionCard action)
     {
       Console.WriteLine("Action");
+      PrintDescriptionAndFlavorText(action);
     }
-    
+
     void PrintCardInfo(IArtifactCard artifact)
     {
       Console.WriteLine("Artifact");
       Console.WriteLine(ReadableTraits(artifact.CardTraits));
+      PrintDescriptionAndFlavorText(artifact);
     }
 
     string ReadableTraits(Trait[] traits)
     {
-      return traits.Select(t => t.ToString()).Aggregate((f, s) => $"{f}, {s}");;
+      if (traits.Length == 0) return "";
+      return traits.Select(t => t.ToString()).Aggregate((f, s) => $"{f}, {s}");
+    }
+
+    string ReadableKeywords(Keyword[] keywords)
+    {
+      if (keywords.Length == 0) return "";
+      return keywords.Select(k => k.ToString()).Aggregate((f, s) => $"{f}, {s}");
+    }
+
+    static void PrintDescriptionAndFlavorText(ICard creature)
+    {
+      var cardInfo = GetCardInfo(creature);
+      if (cardInfo != null)
+      {
+        var attribute = (CardInfoAttribute) cardInfo;
+        if (attribute.Description != null)
+          Console.WriteLine(attribute.Description);
+        if (attribute.FlavorText != null)
+          Console.WriteLine(attribute.FlavorText);
+      }
+    }
+
+    static Attribute? GetCardInfo(ICard card)
+    {
+      return Attribute.GetCustomAttribute(card.GetType(), typeof(CardInfoAttribute));
     }
 
     protected void AdvanceStateOnAITurn(Player aiPlayer, IGameAI gameAi)

@@ -1,9 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
 {
-  [CardName("Dr. Escotera")]
+  [CardInfo("Dr. Escotera", Rarity.Common,
+    "Play: Gain 1 æmber for each forged key your opponent has.",
+    "\"Interesting reaction, but what does it mean?\"")]
+  [ExpansionSet(Expansion.CotA, 140)]
   public class DrEscotera : CreatureCard
   {
     const int Power = 4;

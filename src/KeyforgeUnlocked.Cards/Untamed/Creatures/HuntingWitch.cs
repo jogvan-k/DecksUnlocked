@@ -1,9 +1,15 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
+  [CardInfo("Hunting Witch",
+    Rarity.Common,
+    "Each time you play another creature, gain 1 æmber.",
+    "\"What is it? Is it food?\"")]
+  [ExpansionSet(Expansion.CotA, 367)]
   public class HuntingWitch : CreatureCard
   {
     const int Power = 2;

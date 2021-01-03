@@ -1,9 +1,14 @@
-﻿using KeyforgeUnlocked.Effects.Choices;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Actions
 {
+  [CardInfo("Twin Bolt Emission", Rarity.Common,
+    "Play: Deal 2 damage to a creature and deal 2 damage to a different creature.")]
+  [ExpansionSet(Expansion.CotA, 124)]
+  [ExpansionSet(Expansion.WC, 142)]
   public sealed class TwinBoltEmission : ActionCard
   {
     static readonly Pip[] Pips = {Pip.Aember};

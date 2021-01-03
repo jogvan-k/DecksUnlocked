@@ -1,11 +1,17 @@
 ﻿using KeyforgeUnlocked.Actions;
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
+using static KeyforgeUnlocked.Cards.Attributes.Expansion;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
+  [CardInfo("Bigtwig",
+    Rarity.Uncommon,
+    "Bigtwig can only fight stunned creatures.\nReap: Stun and exhaust a creature.")]
+  [ExpansionSet(CotA, 346)]
   public class Bigtwig : CreatureCard
   {
     const int Power = 7;

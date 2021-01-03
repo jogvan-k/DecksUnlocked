@@ -1,8 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
+  [CardInfo("Dew Faerie",
+    Rarity.Common,
+    "Reap: Gain 1 æmber.")]
+  [ExpansionSet(Expansion.CotA, 350)]
   public class DewFaerie : CreatureCard
   {
     const int Power = 2;

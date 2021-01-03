@@ -1,10 +1,13 @@
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
-using static KeyforgeUnlocked.Types.Delegates;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
+  [CardInfo("Wardrummer", Rarity.Common,
+    "Play: Return each other friendly Brobnar creature to your hand")]
+  [ExpansionSet(Expansion.CotA, 49)]
   public sealed class Wardrummer : CreatureCard
   {
     const int Power = 3;
@@ -13,9 +16,7 @@ namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 
     static readonly Callback PlayAbility = (s, i, p) =>
     {
-      var effect = new TargetAllCreatures(
-        ReturnTargetToHand,
-        AlliesOf(p).And(OfHouse(House.Brobnar).And(Not(i))));
+      var effect = new TargetAllCreatures(Delegates.ReturnTargetToHand, Delegates.AlliesOf(p).And(Delegates.OfHouse(House.Brobnar).And(Delegates.Not(i))));
       s.AddEffect(effect);
     };
 

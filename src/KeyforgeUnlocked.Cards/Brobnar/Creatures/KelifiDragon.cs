@@ -1,9 +1,13 @@
-﻿using KeyforgeUnlocked.Effects.Choices;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
+  [CardInfo("Kelifi Dragon", Rarity.Rare,
+    "Kelifi Dragon cannot be played unless you have 7 æmber or more.\nFight/Reap: Gain 1 æmber. Deal 5 damage to a creature.")]
+  [ExpansionSet(Expansion.CotA, 37)]
   public class KelifiDragon : CreatureCard
   {
     const int Power = 12;

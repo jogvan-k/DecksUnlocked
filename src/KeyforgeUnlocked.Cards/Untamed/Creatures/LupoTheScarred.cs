@@ -1,11 +1,17 @@
-﻿using KeyforgeUnlocked.Creatures;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
-  [CardName("Lupo the Scarred")]
+  [CardInfo("Lupo the Scarred",
+    Rarity.Rare,
+    "Play: Deal 2 damage to an enemy creature.",
+    "\"Nothing that big should be able to move that silently.\" -Lost Lukas Lawrence")]
+  [ExpansionSet(Expansion.CotA, 359)]
+  [ExpansionSet(Expansion.AoA, 358)]
   public class LupoTheScarred : CreatureCard
   {
     const int Power = 6;

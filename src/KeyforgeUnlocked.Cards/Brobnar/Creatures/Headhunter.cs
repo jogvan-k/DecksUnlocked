@@ -1,8 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
+  [CardInfo("Headhunter", Rarity.Common,
+    "Fight: Gain 1 æmber",
+    "\"I mean, I think it's a head...\"")]
+  [ExpansionSet(Expansion.CotA, 35)]
   public class Headhunter : CreatureCard
   {
     const int Power = 5;

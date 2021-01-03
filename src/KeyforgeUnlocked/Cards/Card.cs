@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
 using System.Linq;
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards
@@ -39,10 +40,10 @@ namespace KeyforgeUnlocked.Cards
 
     public static string GetName(Type card)
     {
-      var nameAttribute = Attribute.GetCustomAttribute(card, typeof(CardNameAttribute));
+      var nameAttribute = Attribute.GetCustomAttribute(card, typeof(CardInfoAttribute));
       if (nameAttribute != null)
       {
-        var cardName = ((CardNameAttribute) nameAttribute).CardName;
+        var cardName = ((CardInfoAttribute) nameAttribute).CardName;
         if (cardName != null) return cardName;
       }
         

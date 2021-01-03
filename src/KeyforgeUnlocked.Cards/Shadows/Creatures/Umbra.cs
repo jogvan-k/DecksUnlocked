@@ -1,9 +1,13 @@
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
+  [CardInfo("Umbra", Rarity.Common,
+    "Fight: Steal 1 æmber.",
+    "\"When the fightin's done, the real work begins\"")]
   public sealed class Umbra : CreatureCard
   {
     const int Power = 2;

@@ -1,7 +1,11 @@
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.Creatures;
 
 namespace KeyforgeUnlocked.Cards.Shadows.Creatures
 {
+  [CardInfo("Macis Asp", Rarity.Uncommon)]
+  [ExpansionSet(Expansion.CotA, 301)]
+  [ExpansionSet(Expansion.MM, 268)]
   public sealed class MacisAsp : CreatureCard
   {
     const int Power = 3;

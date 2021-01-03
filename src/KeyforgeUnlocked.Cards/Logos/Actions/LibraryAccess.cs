@@ -1,9 +1,13 @@
-﻿using KeyforgeUnlocked.States.Extensions;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Cards.Logos.Actions
 {
+  [CardInfo("Library Access", Rarity.Common,
+    "Play: for the remainder of the turn, each time you play another card, draw a card.\nPurge Library Access.")]
+  [ExpansionSet(Expansion.CotA, 115)]
   public sealed class LibraryAccess : ActionCard
   {
     static readonly Callback PlayAbility =

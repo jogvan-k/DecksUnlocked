@@ -1,9 +1,14 @@
 ﻿using System.Linq;
+using KeyforgeUnlocked.Cards.Attributes;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
+  [CardInfo("Giant Sloth",
+    Rarity.Rare,
+    "You cannot use this card unless you have discarded an Untamed card from your hand this turn.\nAction: Gain 3 æmber.")]
+  [ExpansionSet(Expansion.CotA, 354)]
   public class GiantSloth : CreatureCard
   {
     const int Power = 6;

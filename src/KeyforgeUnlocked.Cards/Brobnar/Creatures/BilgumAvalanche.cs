@@ -1,10 +1,16 @@
-﻿using KeyforgeUnlocked.Effects;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Effects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 
 namespace KeyforgeUnlocked.Cards.Brobnar.Creatures
 {
+  [CardInfo("Bilgum Avalanche", Rarity.Rare,
+    "After you forge a key, deal 2 damage to each enemy creature.",
+    "\"Some call her 'warleader.' Some call her 'demon.' I just call her 'Avalanche.'\" -Dodger")]
+  [ExpansionSet(Expansion.CotA, 28)]
+  [ExpansionSet(Expansion.AoA, 35)]
   public class BilgumAvalanche : CreatureCard
   {
     const int Power = 5;

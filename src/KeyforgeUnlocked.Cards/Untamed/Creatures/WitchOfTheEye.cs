@@ -1,10 +1,14 @@
-﻿using KeyforgeUnlocked.Effects.Choices;
+﻿using KeyforgeUnlocked.Cards.Attributes;
+using KeyforgeUnlocked.Effects.Choices;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
-  [CardName("Witch of the Eye")]
+  [CardInfo("Witch of the Eye",
+    Rarity.Common,
+    "Reap: Return a card from your discard pile to your hand.",
+    "\"Waste not, want not.\"")]
   public class WitchOfTheEye : CreatureCard
   {
     const int Power = 3;

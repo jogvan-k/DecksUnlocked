@@ -10,7 +10,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     IGameAI _gameAi;
     Player _playingPlayer;
 
-    public PlayerVsAIGame(IState state, IGameAI gameAi, Player playingPlayer) : base(state)
+    public PlayerVsAIGame(IState state, IGameAI gameAi, Player playingPlayer, LogInfo logInfo = LogInfo.None) : base(state, logInfo)
     {
       _gameAi = gameAi;
       _playingPlayer = playingPlayer;
@@ -18,7 +18,6 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
 
     protected override void AdvanceState()
     {
-      Console.Clear();
       if (_state.PlayerTurn == _playingPlayer)
       {
         AdvanceStateOnPlayerTurn();

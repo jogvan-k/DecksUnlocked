@@ -1,4 +1,5 @@
-﻿using KeyforgeUnlocked.States;
+﻿using System;
+using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleGames;
 using KeyforgeUnlockedConsole.Decks;
 using UnlockedCore;
@@ -10,6 +11,7 @@ namespace KeyforgeUnlockedConsole
   {
     static void Main(string[] args)
     {
+      Console.SetWindowSize(200, 50);
       var consoleGame = PlayerVsAiGame();
       consoleGame.StartGame();
     }

@@ -41,7 +41,11 @@ namespace KeyforgeUnlocked.Cards
     {
       var nameAttribute = Attribute.GetCustomAttribute(card, typeof(CardNameAttribute));
       if (nameAttribute != null)
-        return ((CardNameAttribute) nameAttribute).cardName;
+      {
+        var cardName = ((CardNameAttribute) nameAttribute).CardName;
+        if (cardName != null) return cardName;
+      }
+        
       return ToProperCase(card.Name);
     }
 

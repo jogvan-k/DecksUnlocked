@@ -10,6 +10,7 @@ using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using UnlockedCore;
+using LogInfo = KeyforgeUnlockedConsole.ConsoleGames.LogInfo;
 
 namespace KeyforgeUnlockedConsole.ConsoleExtensions
 {
@@ -18,30 +19,35 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static IEvaluator _evaluator = new Evaluator();
 
     public static void Print(this IState state,
+      LogInfo logInfo,
       out Dictionary<string, IActionGroup> commands)
     {
       var fromPlayerPerspective = state.PlayerTurn;
       commands = new Dictionary<string, IActionGroup>();
-      PrintStatus(state, fromPlayerPerspective, commands);
+      PrintStatus(state, fromPlayerPerspective, logInfo, commands);
       PrintHand(state, fromPlayerPerspective, commands);
       PrintResolvedEffects(state);
       PrintAdditionalActions(state, commands);
+      Console.WriteLine();
     }
 
-    public static void PrintAITurn(this IState state)
+    public static void PrintAITurn(this IState state, LogInfo logInfo)
     {
+      Console.Clear();
       var fromPlayerPerspective = state.PlayerTurn.Other();
-      PrintStatus(state, fromPlayerPerspective);
+      PrintStatus(state, fromPlayerPerspective, logInfo);
       PrintHand(state, fromPlayerPerspective);
       PrintResolvedEffects(state);
     }
 
     static void PrintStatus(IState state,
       Player fromPlayerPerspective,
-      Dictionary<string, IActionGroup> commands = null)
+      LogInfo logInfo,
+      Dictionary<string, IActionGroup>? commands = null)
     {
       Console.WriteLine($"Current player: {state.PlayerTurn}");
-      Console.WriteLine($"Board value: {_evaluator.Evaluate(state)}");
+      if(logInfo == LogInfo.CalculationInfo)
+        Console.WriteLine($"Board value: {_evaluator.Evaluate(state)}");
       PrintAmounts(state, fromPlayerPerspective);
       PrintActiveHouse(state);
       PrintFieldAndArtifacts(state, fromPlayerPerspective, commands);
@@ -71,7 +77,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintFieldAndArtifacts(IState state,
       Player fromPlayerPerspective,
-      Dictionary<string, IActionGroup> commands = null)
+      Dictionary<string, IActionGroup>? commands = null)
     {
       Console.Write("Opponent: ");
       PrintKeysAndAember(state.Keys[fromPlayerPerspective.Other()], state.Aember[fromPlayerPerspective.Other()]);
@@ -97,7 +103,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintField(IState state,
       IImmutableList<Creature> creatures,
-      Dictionary<string, IActionGroup> commands = null)
+      Dictionary<string, IActionGroup>? commands = null)
     {
       Console.WriteLine("Board: ");
       int i = 1;
@@ -133,7 +139,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintArtifacts(IState state,
       IImmutableSet<Artifact> artifacts,
-      Dictionary<string, IActionGroup> commands = null)
+      Dictionary<string, IActionGroup>? commands = null)
     {
       if (artifacts.Count == 0) return;
       Console.WriteLine("Artifacts: ");
@@ -170,7 +176,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintHand(IState state,
       Player fromPlayerPerspective,
-      Dictionary<string, IActionGroup> commands = null)
+      Dictionary<string, IActionGroup>? commands = null)
     {
       Console.WriteLine($"Cards in hand: ");
       int i = 1;
@@ -245,7 +251,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static bool IsSpecialActionGroup(this IActionGroup group)
     {
-      return group.GetType().BaseType.Name == typeof(ResolveEffectActionGroup<>).Name;
+      return group.GetType().BaseType?.Name == typeof(ResolveEffectActionGroup<>).Name;
     }
 
     static bool IsTakeArchive(this IActionGroup group)
@@ -297,6 +303,12 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
       }
       
       return false;
+    }
+
+    public static ICard? GetCard(this IState state, string name)
+    {
+      return state.Metadata.InitialDecks.SelectMany(d => d.Value.ToHashSet())
+        .FirstOrDefault(c => c.Name.ToLower().Replace(' ', default).Contains(name));
     }
   }
 }

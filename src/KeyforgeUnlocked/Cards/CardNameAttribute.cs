@@ -5,11 +5,11 @@ namespace KeyforgeUnlocked.Cards
   [AttributeUsage(AttributeTargets.Class)]
   public class CardNameAttribute : Attribute
   {
-    public readonly string cardName;
+    public readonly string? CardName;
 
-    public CardNameAttribute(string cardName)
+    public CardNameAttribute(string? cardName = null)
     {
-      this.cardName = cardName;
+      this.CardName = cardName;
     }
   }
 }

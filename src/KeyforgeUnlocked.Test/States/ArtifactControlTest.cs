@@ -51,7 +51,7 @@ namespace KeyforgeUnlockedTest.States
       StateAsserter.StateEquals(expectedState, state);
     }
 
-    public LookupReadOnly<Player, IMutableSet<Artifact>> SetupArtifacts(Player player, out Artifact artifact)
+    public ImmutableLookup<Player, IMutableSet<Artifact>> SetupArtifacts(Player player, out Artifact artifact)
     {
       var artifacts = TestUtil.Sets<Artifact>();
       artifact = new Artifact(_sampleArtifactCard);

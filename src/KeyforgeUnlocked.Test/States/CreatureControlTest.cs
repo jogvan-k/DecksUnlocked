@@ -29,7 +29,7 @@ namespace KeyforgeUnlockedTest.States
       
       state.DamageCreature(targetCreature, damage);
 
-      LookupReadOnly<Player, IMutableList<Creature>> expectedFields;
+      ImmutableLookup<Player, IMutableList<Creature>> expectedFields;
       var expectedDiscards = TestUtil.Sets<ICard>();
       var expectedTarget = new Creature(targetCreatureCard, damage: damage);
       var expectedResolvedEffects = new List<IResolvedEffect>();
@@ -231,7 +231,7 @@ namespace KeyforgeUnlockedTest.States
       StateAsserter.StateEquals(expectedState, state);
     }
     
-    static LookupReadOnly<Player, IMutableList<Creature>> InstantiateFields(Player player, Creature targetCreature, Creature otherCreature)
+    static ImmutableLookup<Player, IMutableList<Creature>> InstantiateFields(Player player, Creature targetCreature, Creature otherCreature)
     {
       return TestUtil.Lists(
         player.IsPlayer1() ? targetCreature : otherCreature,

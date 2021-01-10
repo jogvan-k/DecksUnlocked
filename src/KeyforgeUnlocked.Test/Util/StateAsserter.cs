@@ -83,6 +83,46 @@ namespace KeyforgeUnlockedTest.Util
         sb.AppendLine($"Actual has the following extra entries: {ToString(actualExtra)}");
     }
 
+    // static void CheckAndWriteFieldErrorMessage<T>(
+    //   StringBuilder sb,
+    //   string fieldName,
+    //   IReadOnlyDictionary<Player, IImmutableStack<T>> expected,
+    //   IReadOnlyDictionary<Player, IImmutableStack<T>> actual)
+    // {
+    //   CheckAndWriteFieldErrorMessage(
+    //     sb,
+    //     fieldName,
+    //     expected.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.ToList()),
+    //     actual.ToImmutableDictionary(kv => kv.Key, kv => kv.Value.ToList()));
+    // }
+    static void CheckAndWriteFieldErrorMessage<T>(
+      StringBuilder sb,
+      string fieldName,
+      IReadOnlyDictionary<Player, IImmutableStack<T>> expected,
+      IReadOnlyDictionary<Player, IImmutableStack<T>> actual)
+    {
+      foreach (var key in expected.Keys)
+      {
+        if (!AssertKey(sb, fieldName, key, expected, actual)) continue;
+        if (expected[key].Count() != actual[key].Count())
+        {
+          AppendFieldName(sb, fieldName);
+          sb.Append($"Expected and actual have different length for key {key}");
+          return;
+        }
+
+        for (int i = 0; i < expected[key].Count(); i++)
+        {
+          if (!expected[key].Equals(actual[key]))
+          {
+            AppendFieldName(sb, fieldName);
+            sb.Append($"Expected and actual differ at index {i} for key {key}");
+            return;
+          }
+        }
+      }
+    }
+    
     static void CheckAndWriteFieldErrorMessage<T>(
       StringBuilder sb,
       string fieldName,
@@ -91,35 +131,46 @@ namespace KeyforgeUnlockedTest.Util
     {
       foreach (var key in expected.Keys.Union(actual.Keys))
       {
-        if (!expected.ContainsKey(key))
-        {
-          AppendFieldName(sb, fieldName);
-          sb.Append($"Expected state does not contain an entry for {key}");
-        }
-
-        else if (!actual.ContainsKey(key))
-        {
-          AppendFieldName(sb, fieldName);
-          sb.Append($"Actual state does not contain an entry for {key}");
-        }
+        if (!AssertKey(sb, fieldName, key, expected, actual)) continue;
+        var ex = expected[key];
+        var ac = actual[key];
+        if (ex is IEnumerable<object> e && ac is IEnumerable<object> a)
+          WriteEntryError(sb, fieldName, key, e, a);
+        else if (ex is IMutableList<Creature> exCm && ac is IMutableList<Creature> acCm)
+          WriteCreatureEntryError(sb, fieldName, key, exCm, acCm);
+        else if (ex is IImmutableList<Creature> exCim && ac is IImmutableList<Creature> acCim)
+          WriteCreatureEntryError(sb, fieldName, key, exCim, acCim); 
+        else if (ex is IMutableSet<Artifact> exAm && ac is IMutableSet<Artifact> acAm)
+          WriteArtifactEntryError(sb, fieldName, key, exAm, acAm);
+        else if (ex is IImmutableSet<Artifact>exAim && ac is IImmutableSet<Artifact> acAim)
+          WriteArtifactEntryError(sb, fieldName, key, exAim, acAim);
         else
-        {
-          var ex = expected[key];
-          var ac = actual[key];
-          if (ex is IEnumerable<object> e && ac is IEnumerable<object> a)
-            WriteEntryError(sb, fieldName, key, e, a);
-          else if (ex is IMutableList<Creature> exCm && ac is IMutableList<Creature> acCm)
-            WriteCreatureEntryError(sb, fieldName, key, exCm, acCm);
-          else if (ex is IImmutableList<Creature> exCim && ac is IImmutableList<Creature> acCim)
-            WriteCreatureEntryError(sb, fieldName, key, exCim, acCim); 
-          else if (ex is IMutableSet<Artifact> exAm && ac is IMutableSet<Artifact> acAm)
-            WriteArtifactEntryError(sb, fieldName, key, exAm, acAm);
-          else if (ex is IImmutableSet<Artifact>exAim && ac is IImmutableSet<Artifact> acAim)
-            WriteArtifactEntryError(sb, fieldName, key, exAim, acAim);
-          else
-            WriteEntryError(sb, fieldName, key, ex, ac);
-        }
+          WriteEntryError(sb, fieldName, key, ex, ac);
       }
+    }
+
+    static bool AssertKey<TKey, TValue>(
+      StringBuilder sb,
+      string fieldName,
+      TKey key,
+      IReadOnlyDictionary<TKey,TValue> expected,
+      IReadOnlyDictionary<TKey,TValue> actual)
+    {
+      if (!expected.ContainsKey(key))
+      {
+        AppendFieldName(sb, fieldName);
+        sb.Append($"Expected state does not contain an entry for {key}");
+        return false;
+      }
+
+      if (!actual.ContainsKey(key))
+      {
+        AppendFieldName(sb, fieldName);
+        sb.Append($"Actual state does not contain an entry for {key}");
+        return false;
+      }
+
+      return true;
     }
 
     static void CheckAndWriteFieldErrorMessage(

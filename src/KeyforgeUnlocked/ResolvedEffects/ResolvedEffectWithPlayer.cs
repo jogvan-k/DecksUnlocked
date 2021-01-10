@@ -6,21 +6,21 @@ namespace KeyforgeUnlocked.ResolvedEffects
 {
   public abstract class ResolvedEffectWithPlayer<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithPlayer<T>
   {
-    protected readonly Player _player;
+    protected readonly Player Player;
 
     protected ResolvedEffectWithPlayer(Player player)
     {
-      _player = player;
+      Player = player;
     }
 
     protected override bool Equals(T other)
     {
-      return _player.Equals(other._player);
+      return Player.Equals(other.Player);
     }
 
     public override int GetHashCode()
     {
-      return HashCode.Combine(base.GetHashCode(), _player);
+      return HashCode.Combine(base.GetHashCode(), Player);
     }
   }
 }

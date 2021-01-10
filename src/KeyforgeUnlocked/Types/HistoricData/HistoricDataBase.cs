@@ -15,7 +15,8 @@ namespace KeyforgeUnlocked.Types.HistoricData
     bool Equals(IHistoricData other)
     {
       var thisState = (IHistoricData) this;
-      return thisState.ActionPlayedThisTurn == other.ActionPlayedThisTurn
+      return EqualityComparer.Equals(thisState.NumberOfShuffles, other.NumberOfShuffles)
+             && thisState.ActionPlayedThisTurn == other.ActionPlayedThisTurn
              && thisState.EnemiesDestroyedInAFightThisTurn == other.EnemiesDestroyedInAFightThisTurn
              && thisState.CreaturesAttackedThisTurn.SetEquals(other.CreaturesAttackedThisTurn)
              && thisState.CardsDiscardedThisTurn.SetEquals(other.CardsDiscardedThisTurn);
@@ -25,6 +26,7 @@ namespace KeyforgeUnlocked.Types.HistoricData
     {
       var thisState = (IHistoricData) this;
       return HashCode.Combine(
+        thisState.NumberOfShuffles,
         thisState.ActionPlayedThisTurn,
         thisState.EnemiesDestroyedInAFightThisTurn,
         EqualityComparer.GetHashCode(thisState.CreaturesAttackedThisTurn),

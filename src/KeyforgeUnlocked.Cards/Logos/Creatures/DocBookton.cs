@@ -20,7 +20,7 @@ namespace KeyforgeUnlocked.Cards.Logos.Creatures
 
     static readonly Callback ReapAbility = (s, _, p) => s.Draw(p);
 
-    public DocBookton() : this(House.Brobnar)
+    public DocBookton() : this(House.Logos)
     {
     }
 

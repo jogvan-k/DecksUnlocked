@@ -8,13 +8,13 @@ namespace KeyforgeUnlocked.Types
   /// <summary>
   /// Read-only equivalent of <see cref="Lookup{TKey,TValue}"/>.
   /// </summary>
-  public sealed class LookupReadOnly<TKey, TValue> : ReadOnlyDictionary<TKey, TValue> where TKey : notnull
+  public sealed class ImmutableLookup<TKey, TValue> : ReadOnlyDictionary<TKey, TValue> where TKey : notnull
   {
-    public LookupReadOnly(IDictionary<TKey, TValue> dictionary) : base(dictionary)
+    public ImmutableLookup(IDictionary<TKey, TValue> dictionary) : base(dictionary)
     {
     }
 
-    public LookupReadOnly(Lookup<TKey, TValue> lookup) : base(lookup.ToDictionary(kv => kv.Key, kv => kv.Value))
+    public ImmutableLookup(Lookup<TKey, TValue> lookup) : base(lookup.ToDictionary(kv => kv.Key, kv => kv.Value))
     {
     }
     
@@ -29,9 +29,9 @@ namespace KeyforgeUnlocked.Types
 
       return hc.ToHashCode();
     }
-    bool Equals(LookupReadOnly<TKey, TValue> other)
+    bool Equals(ImmutableLookup<TKey, TValue> other)
     {
-      return Equals(Dictionary, other.Dictionary);
+      return EqualityComparer.Equals(Dictionary, other.Dictionary);
     }
 
     public override bool Equals(object? obj)
@@ -39,7 +39,7 @@ namespace KeyforgeUnlocked.Types
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       if (obj.GetType() != this.GetType()) return false;
-      return Equals((LookupReadOnly<TKey, TValue>) obj);
+      return Equals((ImmutableLookup<TKey, TValue>) obj);
     }
   }
 }

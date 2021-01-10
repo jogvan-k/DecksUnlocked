@@ -24,25 +24,25 @@ namespace KeyforgeUnlockedTest.Util
       }.ToLookup();
     }
 
-    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>()
+    public static ImmutableLookup<Player, IMutableList<T>> Lists<T>()
     {
       return Lists(Enumerable.Empty<T>(), Enumerable.Empty<T>());
     }
     
-    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
+    public static ImmutableLookup<Player, IMutableList<T>> Lists<T>(
       T player1Type)
     {
       return Lists(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
-    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
+    public static ImmutableLookup<Player, IMutableList<T>> Lists<T>(
       T player1Type,
       T player2Type)
     {
       return Lists<T>(new[] {player1Type}, new[] {player2Type});
     }
 
-    public static LookupReadOnly<Player, IMutableList<T>> Lists<T>(
+    public static ImmutableLookup<Player, IMutableList<T>> Lists<T>(
       IEnumerable<T> player1Types,
       IEnumerable<T> player2Types)
     {
@@ -52,18 +52,18 @@ namespace KeyforgeUnlockedTest.Util
         {Player.Player2, new LazyList<T>(player2Types)}
       }.ToReadOnly();
     }
-    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>()
+    public static ImmutableLookup<Player, IMutableStackQueue<T>> Stacks<T>()
     {
       return Stacks(Enumerable.Empty<T>(), Enumerable.Empty<T>());
     }
 
-    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>(
+    public static ImmutableLookup<Player, IMutableStackQueue<T>> Stacks<T>(
       IEnumerable<T> player1Type)
     {
       return Stacks(player1Type, Enumerable.Empty<T>());
     }
 
-    public static LookupReadOnly<Player, IMutableStackQueue<T>> Stacks<T>(
+    public static ImmutableLookup<Player, IMutableStackQueue<T>> Stacks<T>(
       IEnumerable<T> player1Type,
       IEnumerable<T> player2Type)
     {
@@ -74,25 +74,25 @@ namespace KeyforgeUnlockedTest.Util
       }.ToReadOnly();
     }
 
-    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>()
+    public static ImmutableLookup<Player, IMutableSet<T>> Sets<T>()
     {
       return Sets(Enumerable.Empty<T>(), Enumerable.Empty<T>());
     }
 
-    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
+    public static ImmutableLookup<Player, IMutableSet<T>> Sets<T>(
       T player1Type)
     {
       return Sets(new[] {player1Type}, Enumerable.Empty<T>());
     }
 
-    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
+    public static ImmutableLookup<Player, IMutableSet<T>> Sets<T>(
       T player1Type,
       T player2Type)
     {
       return Sets<T>(new[] {player1Type}, new[] {player2Type});
     }
 
-    public static LookupReadOnly<Player, IMutableSet<T>> Sets<T>(
+    public static ImmutableLookup<Player, IMutableSet<T>> Sets<T>(
       IEnumerable<T> player1Types,
       IEnumerable<T> player2Types)
     {

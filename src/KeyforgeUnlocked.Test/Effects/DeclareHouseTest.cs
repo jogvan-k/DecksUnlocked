@@ -31,6 +31,7 @@ namespace KeyforgeUnlockedTest.Effects
     public void EmptyState_ThrowException()
     {
       var state = StateTestUtil.EmptyMutableState;
+      state.Metadata = null!;
 
       try
       {
@@ -49,7 +50,7 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(Player.Player2)]
     public void StateWithMetadata(Player playerTurn)
     {
-      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, Houses, 0);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, Houses, 0, 0);
       var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, metadata: metadata);
 
       Sut.Resolve(state);

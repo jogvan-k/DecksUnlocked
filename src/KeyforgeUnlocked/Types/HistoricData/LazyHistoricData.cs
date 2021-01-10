@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using KeyforgeUnlocked.Cards;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
@@ -8,6 +8,14 @@ namespace KeyforgeUnlocked.Types.HistoricData
   {
     readonly ImmutableHistoricData _initial;
     IMutableHistoricData? _inner;
+
+    Lookup<Player, int> IMutableHistoricData.NumberOfShuffles
+    {
+      get => Mutable().NumberOfShuffles;
+      set => Mutable().NumberOfShuffles = value;
+    }
+
+    ImmutableLookup<Player, int> IHistoricData.NumberOfShuffles => Get().NumberOfShuffles;
 
     public bool ActionPlayedThisTurn
     {
@@ -64,6 +72,16 @@ namespace KeyforgeUnlocked.Types.HistoricData
     public IMutableHistoricData ToMutable()
     {
       return _inner != null ? _inner.ToMutable() : _initial.ToMutable();
+    }
+
+    public override bool Equals(object? obj)
+    {
+      return Get().Equals(obj);
+    }
+
+    public override int GetHashCode()
+    {
+      return Get().GetHashCode();
     }
   }
 }

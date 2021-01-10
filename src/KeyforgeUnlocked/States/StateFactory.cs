@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.ActionGroups;
+using KeyforgeUnlocked.Algorithms;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -11,20 +13,23 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlocked.Types.Events;
 using KeyforgeUnlocked.Types.HistoricData;
 using UnlockedCore;
+using static KeyforgeUnlocked.Types.Initializers;
 
 namespace KeyforgeUnlocked.States
 {
   public static class StateFactory
   {
     public static ImmutableState Initiate(Deck player1Deck,
-      Deck player2Deck)
+      Deck player2Deck,
+      int? seed = null)
     {
-      var decks = ToDecks(player1Deck, player2Deck);
+      var rngSeed = seed ?? new Random().Next();
+      var decks = ToDecks(player1Deck, player2Deck, rngSeed);
 
       var initialDecks = ToInitialDecks(player1Deck, player2Deck);
       var houses = ToHouses(player1Deck, player2Deck);
 
-      var metadata = new Metadata(initialDecks, houses, 40);
+      var metadata = new Metadata(initialDecks, houses, 40, rngSeed);
 
       var effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new InitiateGame()});
 
@@ -69,13 +74,13 @@ namespace KeyforgeUnlocked.States
       return player1Deck.Cards.Select(c => c.House).Distinct().ToImmutableHashSet();
     }
 
-    static LookupReadOnly<Player, IMutableStackQueue<ICard>> ToDecks(Deck player1Deck,
-      Deck player2Deck)
+    static ImmutableLookup<Player, IMutableStackQueue<ICard>> ToDecks(Deck player1Deck,
+      Deck player2Deck, int seed)
     {
       return new(new Dictionary<Player, IMutableStackQueue<ICard>>
       {
-        {Player.Player1, new LazyStackQueue<ICard>(player1Deck.Cards)},
-        {Player.Player2, new LazyStackQueue<ICard>(player2Deck.Cards)}
+        {Player.Player1, new LazyStackQueue<ICard>(player1Deck.Cards)},//Shuffler.Shuffle(player1Deck.Cards, seed))},
+        {Player.Player2, new LazyStackQueue<ICard>(player2Deck.Cards)}//Shuffler.Shuffle(player2Deck.Cards, 2 * seed))}
       });
     }
 
@@ -88,38 +93,6 @@ namespace KeyforgeUnlocked.States
           new KeyValuePair<Player, Deck>(Player.Player1, player1Deck),
           new KeyValuePair<Player, Deck>(Player.Player2, player2Deck)
         });
-    }
-
-    static Types.Lookup<Player, int> EmptyValues()
-    {
-      return new(new Dictionary<Player, int>
-      {
-        {Player.Player1, 0}, {Player.Player2, 0}
-      });
-    }
-
-    static LookupReadOnly<Player, IMutableSet<ICard>> EmptySet()
-    {
-      return new(new Dictionary<Player, IMutableSet<ICard>>()
-      {
-        {Player.Player1, new LazySet<ICard>()}, {Player.Player2, new LazySet<ICard>()}
-      });
-    }
-
-    static LookupReadOnly<Player, IMutableList<Creature>> EmptyField()
-    {
-      return new(new Dictionary<Player, IMutableList<Creature>>
-      {
-        {Player.Player1, new LazyList<Creature>()}, {Player.Player2, new LazyList<Creature>()}
-      });
-    }
-
-    static LookupReadOnly<Player, IMutableSet<Artifact>> EmptyArtifacts()
-    {
-      return new(new Dictionary<Player, IMutableSet<Artifact>>
-      {
-        {Player.Player1, new LazySet<Artifact>()}, {Player.Player2, new LazySet<Artifact>()}
-      });
     }
   }
 }

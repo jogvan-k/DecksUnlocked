@@ -17,6 +17,7 @@ namespace KeyforgeUnlockedTest.Util
 {
   public static class StateTestUtil
   {
+    static Metadata _emptyMetadata = EmptyMetadata();
     public static IMutableState EmptyMutableState => new MutableState(
       Player.Player1,
       0,
@@ -36,7 +37,21 @@ namespace KeyforgeUnlockedTest.Util
       new LazyEvents(),
       new LazyList<IResolvedEffect>(),
       new LazyHistoricData(),
-      null);
+      _emptyMetadata);
+
+    static Metadata EmptyMetadata()
+    {
+      return new(
+        ImmutableDictionary<Player, Deck>.Empty.AddRange(
+          new[]
+          {
+            new KeyValuePair<Player, Deck>(Player.Player1, new Deck(Enumerable.Empty<ICard>())),
+            new KeyValuePair<Player, Deck>(Player.Player2, new Deck(Enumerable.Empty<ICard>()))
+          }), 
+        ImmutableDictionary<Player, IImmutableSet<House>>.Empty,
+        0,
+        0);
+    }
 
     public static ImmutableState EmptyState => new (
       Player.Player1,
@@ -57,7 +72,7 @@ namespace KeyforgeUnlockedTest.Util
       new ImmutableEvents(),
       new List<IResolvedEffect>().ToImmutableList(),
       new ImmutableHistoricData(),
-      null);
+      _emptyMetadata);
 
     public static IMutableState New(
       this IState state,

@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override string ToString()
     {
-      return $"{_player} gained {_int} aember";
+      return $"{Player} gained {_int} aember";
     }
   }
 }

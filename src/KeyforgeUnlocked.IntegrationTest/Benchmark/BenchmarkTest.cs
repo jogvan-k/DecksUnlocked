@@ -43,7 +43,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     public void NegamaxAIRun()
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.Unlimited), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.NewSeconds(15)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -57,7 +57,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.NewSeconds(5)));
+      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -74,6 +74,10 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     // 3 turns search depth
     // Evaluated 1430498 end states over 39 calls and 40 turns in 245,0023509 seconds.
     // 2407768 successful hash map lookups and 613184 paths pruned.
+    
+    // 1 turn search depth /w 5 s search time
+    // Evaluated 76924 end states over 9 calls and 10 turns in 38,1994761 seconds.
+    //110604 successful hash map lookups and 0 paths pruned.
 
     [Test]
     [Explicit]

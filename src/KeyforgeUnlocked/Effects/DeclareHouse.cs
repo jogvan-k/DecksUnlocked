@@ -8,11 +8,11 @@ namespace KeyforgeUnlocked.Effects
   {
     protected override void ResolveImpl(IMutableState state)
     {
-      var Metadata = state.Metadata;
-      if (Metadata == null)
+      var metadata = state.Metadata;
+      if (metadata == null)
         throw new NoMetadataException(state);
 
-      var availableHouses = Metadata.Houses[state.PlayerTurn];
+      var availableHouses = metadata.Houses[state.PlayerTurn];
       state.ActionGroups.Add(new DeclareHouseGroup(availableHouses));
     }
   }

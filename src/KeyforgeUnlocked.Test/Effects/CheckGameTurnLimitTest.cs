@@ -11,7 +11,7 @@ namespace KeyforgeUnlockedTest.Effects
   [TestFixture]
   sealed class CheckGameTurnLimitTest
   {
-    static readonly Metadata Metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 10);
+    static readonly Metadata Metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 10, 0);
     [Test]
     public void GameTurnLimitNotReached()
     {

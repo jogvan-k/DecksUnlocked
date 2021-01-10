@@ -17,8 +17,8 @@ namespace KeyforgeUnlocked.States
   {
     bool IsGameOver { get; }
     House? ActiveHouse { get; }
-    IReadOnlyDictionary<Player, int> Keys { get; }
-    IReadOnlyDictionary<Player, int> Aember { get; }
+    ImmutableLookup<Player, int> Keys { get; }
+    ImmutableLookup<Player, int> Aember { get; }
     IImmutableSet<IActionGroup> ActionGroups { get; }
     IReadOnlyDictionary<Player, IImmutableStack<ICard>> Decks { get; }
     IReadOnlyDictionary<Player, IImmutableSet<ICard>> Hands { get; }

@@ -1,10 +1,12 @@
 ﻿using System.Collections.Immutable;
 using KeyforgeUnlocked.Cards;
+using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
   public interface IMutableHistoricData
   {
+    Lookup<Player, int> NumberOfShuffles { get; set; }
     bool ActionPlayedThisTurn { get; set; }
     int EnemiesDestroyedInAFightThisTurn { get; set; }
     IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn { get; set; }

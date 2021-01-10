@@ -8,7 +8,7 @@ namespace KeyforgeUnlocked.Types
   /// <summary>
   /// Dictionary-like class that allows manipulation of existing entries, but not to add new entries.
   /// </summary>
-  public sealed class Lookup<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>> where TKey : notnull
+  public sealed class Lookup<TKey, TValue> : IMutableLookup<TKey, TValue> where TKey : notnull
   {
     Dictionary<TKey, TValue> _dictionary;
     public TValue this[TKey key]
@@ -21,8 +21,11 @@ namespace KeyforgeUnlocked.Types
         _dictionary.Add(key, value);
       }
     }
-    public int Count => _dictionary.Count;
-    public ICollection<TKey> Keys => _dictionary.Keys;
+
+    public ImmutableLookup<TKey, TValue> Immutable()
+    {
+      return new(_dictionary);
+    }
 
     public Lookup(Dictionary<TKey, TValue> dictionary)
     {

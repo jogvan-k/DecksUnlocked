@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 
 namespace KeyforgeUnlocked.Types
 {
@@ -46,9 +47,25 @@ namespace KeyforgeUnlocked.Types
       Mutable().AddFirst(item);
     }
 
+    public void Enqueue(IEnumerable<T> items)
+    {
+      foreach (var i in items.Reverse())
+      {
+        Mutable().AddFirst(i);
+      }
+    }
+
     public void Push(T item)
     {
       Mutable().AddLast(item);
+    }
+
+    public void Push(IEnumerable<T> items)
+    {
+      foreach (var i in items)
+      {
+        Mutable().AddLast(i);
+      }
     }
 
     public T Dequeue()
@@ -76,6 +93,11 @@ namespace KeyforgeUnlocked.Types
 
       value = Dequeue();
       return true;
+    }
+
+    public void ReplaceWith(IEnumerable<T> t)
+    {
+      _innerList = new LinkedList<T>(t);
     }
 
     public void Clear()

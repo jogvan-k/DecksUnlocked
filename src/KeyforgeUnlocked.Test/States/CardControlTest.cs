@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.States.Extensions;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
@@ -21,7 +23,10 @@ namespace KeyforgeUnlockedTest.States
       Player player,
       [Range(0, 3)] int amount)
     {
-      var state = StateTestUtil.EmptyState.New(decks: SetupDecks());
+      var decks = SetupDecks();
+      var initialDecks = decks.ToImmutableDictionary(kv => kv.Key, kv => new Deck(kv.Value.OrderBy(v => v.Id)));
+      var metadata = new Metadata(initialDecks, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 0, -1);
+      var state = StateTestUtil.EmptyState.New(decks: decks, metadata: metadata);
 
       var cardsDrawn = state.Draw(player, amount);
 
@@ -37,7 +42,7 @@ namespace KeyforgeUnlockedTest.States
       if (expectedCardsDrawn > 0)
         expectedResolvedEffects.Add(new CardsDrawn(player, expectedCardsDrawn));
       var expectedState = StateTestUtil.EmptyState.New(decks: expectedDecks, hands: expectedHands,
-        resolvedEffects: expectedResolvedEffects);
+        resolvedEffects: expectedResolvedEffects, metadata: metadata);
       Assert.That(cardsDrawn, Is.EqualTo(expectedCardsDrawn));
       StateAsserter.StateEquals(expectedState, state);
     }
@@ -243,6 +248,42 @@ namespace KeyforgeUnlockedTest.States
       expectedDiscards[player].Add(expectedDiscard);
       var expectedResolvedEffects = new LazyList<IResolvedEffect> {new CardDiscarded(expectedDiscard)};
       var expectedState = StateTestUtil.EmptyState.New(playerTurn: player, decks: expectedDecks, discards: expectedDiscards, resolvedEffects: expectedResolvedEffects);
+      StateAsserter.StateEquals(expectedState, state);
+    }
+
+    [Test]
+    public void ShuffleDiscardsIntoDeck_NoCardsInDeckOrDiscards(
+      [Values(Player.Player1, Player.Player2)] Player player)
+    {
+      Assert.False(StateTestUtil.EmptyMutableState.ShuffleDiscardsIntoDeck(player));
+    }
+
+    [Test]
+    public void ShuffleDiscardsIntoDeck(
+      [Values(Player.Player1, Player.Player2)] Player player)
+    {
+      var discards = SetupCardSets();
+      var decks = discards.ToImmutableDictionary(kv => kv.Key, kv => new Deck(kv.Value.OrderBy(v => v.Id)));
+      var metadata = new Metadata(decks, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 0, -1);
+
+      var state = StateTestUtil.EmptyState.New(player, discards: discards, metadata: metadata);
+      
+      var result = state.ShuffleDiscardsIntoDeck(player);
+
+      var expectedDiscards = SetupCardSets();
+      expectedDiscards[player].Clear();
+      var expectedDecks = SetupDecks();
+      expectedDecks[player.Other()].Clear();
+      var expectedHistoricData = new LazyHistoricData();
+      ((IMutableHistoricData) expectedHistoricData).NumberOfShuffles[player] = 1;
+      var expectedResolvedEffects = new LazyList<IResolvedEffect>(new []{(IResolvedEffect) new DiscardShuffledIntoDeck(player)});
+      var expectedState = StateTestUtil.EmptyState.New(player, decks: expectedDecks, discards: expectedDiscards, resolvedEffects: expectedResolvedEffects,  historicData: expectedHistoricData, metadata: metadata);
+      foreach (var card in state.Decks[player])
+      {
+        Console.WriteLine(card.Id);
+      }
+      
+      Assert.True(result);
       StateAsserter.StateEquals(expectedState, state);
     }
     

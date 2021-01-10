@@ -5,6 +5,7 @@ using KeyforgeUnlocked.Types.HistoricData;
 using KeyforgeUnlocked.Types.HistoricData.Extensions;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
+using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Types
 {
@@ -26,6 +27,7 @@ namespace KeyforgeUnlockedTest.Types
     public void NextTurn()
     {
       var historicData = new ImmutableHistoricData().ToMutable();
+      historicData.NumberOfShuffles = TestUtil.Ints(2, 3);
       historicData.ActionPlayedThisTurn = true;
       historicData.EnemiesDestroyedInAFightThisTurn = 5;
       historicData.CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty
@@ -37,7 +39,8 @@ namespace KeyforgeUnlockedTest.Types
       
       historicData.NextTurn();
 
-      var expectedHistoricData = new ImmutableHistoricData();
+      var expectedHistoricData = new ImmutableHistoricData().ToMutable();
+      expectedHistoricData.NumberOfShuffles = TestUtil.Ints(2, 3);
       Assert.AreEqual(expectedHistoricData, historicData);
     }
   }

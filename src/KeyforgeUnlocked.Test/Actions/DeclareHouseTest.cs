@@ -32,7 +32,8 @@ namespace KeyforgeUnlockedTest.Actions
     public void Act_EmptyState_ThrowException()
     {
       var state = StateTestUtil.EmptyState.New();
-      var sut = new DeclareHouse(null, House.Mars);
+      state.Metadata = null!;
+      var sut = new DeclareHouse(null!, House.Mars);
 
       System.Action<NoMetadataException> asserts = _ => { };
 
@@ -42,7 +43,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseNotAvailable_ThrowException()
     {
-      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40,0 );
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var sut = new DeclareHouse(StateTestUtil.EmptyState, House.Brobnar);
 
@@ -58,7 +59,7 @@ namespace KeyforgeUnlockedTest.Actions
     [Test]
     public void Act_HouseAvailable()
     {
-      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40);
+      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, AvailableHouses, 40, 0);
       var state = StateTestUtil.EmptyState.New(metadata: metadata);
       var declaredHouse = House.Shadows;
       var sut = new DeclareHouse(StateTestUtil.EmptyState, declaredHouse);

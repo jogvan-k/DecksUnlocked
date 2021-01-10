@@ -18,8 +18,8 @@ namespace KeyforgeUnlocked.States
     new int TurnNumber { get; set; }
     new bool IsGameOver { get; set; }
     new House? ActiveHouse { get; set; }
-    new Lookup<Player, int> Keys { get; set; }
-    new Lookup<Player, int> Aember { get; set; }
+    new IMutableLookup<Player, int> Keys { get; set; }
+    new IMutableLookup<Player, int> Aember { get; set; }
     new IMutableList<IActionGroup> ActionGroups { get; set; }
     new IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks { get; set; }
     new IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands { get; set; }

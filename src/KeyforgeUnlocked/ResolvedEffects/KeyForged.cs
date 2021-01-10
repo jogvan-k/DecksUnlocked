@@ -11,7 +11,7 @@ namespace KeyforgeUnlocked.ResolvedEffects
 
     public override string ToString()
     {
-      return $"{_player} forged a key for {_int} Æmber";
+      return $"{Player} forged a key for {_int} Æmber";
     }
   }
 }

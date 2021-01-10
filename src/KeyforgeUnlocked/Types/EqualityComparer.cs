@@ -7,6 +7,21 @@ namespace KeyforgeUnlocked.Types
 {
   public static class EqualityComparer
   {
+    public static bool Equals<T>(IList<T> x, IList<T> y)
+    {
+      if (ReferenceEquals(x, y)) return true;
+      if (ReferenceEquals(x, null)) return false;
+      if (x.Count != y.Count) return false;
+      for(int i = 0; i < x.Count; i++)
+      {
+        if (x[i] == null && y[i] == null) continue;
+        if (x[i] == null && y[i] != null) return false;
+        if (!x[i].Equals(y[i])) return false;
+      }
+
+      return true;
+    }
+
     public static bool Equals<T>(IReadOnlyCollection<T> x, IReadOnlyCollection<T> y)
     {
       if (ReferenceEquals(x, y)) return true;

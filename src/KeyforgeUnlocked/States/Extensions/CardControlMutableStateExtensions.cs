@@ -1,4 +1,8 @@
-﻿using KeyforgeUnlocked.Cards;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using KeyforgeUnlocked.Algorithms;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Exceptions;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -18,7 +22,7 @@ namespace KeyforgeUnlocked.States.Extensions
       
       var cardsDrawn = 0;
 
-      while (cardsDrawn < amount && state.Decks[player].Length > 0)
+      while (cardsDrawn < amount && (state.Decks[player].Length > 0 || ShuffleDiscardsIntoDeck(state, player)))
       {
         state.Hands[player].Add(state.Decks[player].Dequeue());
         cardsDrawn++;
@@ -28,6 +32,29 @@ namespace KeyforgeUnlocked.States.Extensions
         state.ResolvedEffects.Add(new CardsDrawn(player, cardsDrawn));
       
       return cardsDrawn;
+    }
+
+    public static bool ShuffleDiscardsIntoDeck(
+      this IMutableState state,
+      Player player)
+    {
+      if (state.Decks[player].Length == 0 && state.Discards[player].Count == 0)
+        return false;
+      state.Decks[player].Push(state.Discards[player]);
+      state.Discards[player].Clear();
+      ShuffleDeck(state, player);
+      
+      state.ResolvedEffects.Add(new DiscardShuffledIntoDeck(player));
+      return true;
+    }
+
+    public static void ShuffleDeck(
+      this IMutableState state,
+      Player player)
+    {
+      var seed = (player.IsPlayer1() ? 1 : 2) * (state.Metadata.RngSeed + ++state.HistoricData.NumberOfShuffles[player]);
+      var shuffled = Shuffler.Shuffle(state.Metadata.InitialDecks[player], state.Decks[player], seed);
+      state.Decks[player].ReplaceWith(shuffled);
     }
 
     public static void ArchiveFromHand(

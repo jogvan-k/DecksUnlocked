@@ -20,8 +20,8 @@ namespace KeyforgeUnlocked.States
     public int TurnNumber { get; set; }
     public bool IsGameOver { get; set; }
     public House? ActiveHouse { get; set; }
-    public Lookup<Player, int> Keys { get; set; }
-    public Lookup<Player, int> Aember { get; set; }
+    public IMutableLookup<Player, int> Keys { get; set; }
+    public IMutableLookup<Player, int> Aember { get; set; }
     public IMutableList<IActionGroup> ActionGroups { get; set; }
     public IReadOnlyDictionary<Player, IMutableStackQueue<ICard>> Decks { get; set; }
     public IReadOnlyDictionary<Player, IMutableSet<ICard>> Hands { get; set; }
@@ -37,8 +37,8 @@ namespace KeyforgeUnlocked.States
     public Metadata Metadata { get; set; }
 
     #region IState-specific fields
-    IReadOnlyDictionary<Player, int> IState.Keys => Keys.ToReadOnly();
-    IReadOnlyDictionary<Player, int> IState.Aember => Aember.ToReadOnly();
+    ImmutableLookup<Player, int> IState.Keys => Keys.Immutable();
+    ImmutableLookup<Player, int> IState.Aember => Aember.Immutable();
     IImmutableSet<IActionGroup> IState.ActionGroups => ActionGroups.ToImmutableHashSet();
     IReadOnlyDictionary<Player, IImmutableStack<ICard>> IState.Decks => Decks.ToImmutable();
     IReadOnlyDictionary<Player, IImmutableSet<ICard>> IState.Hands => Hands.ToImmutable();
@@ -59,8 +59,8 @@ namespace KeyforgeUnlocked.States
       TurnNumber = state.TurnNumber;
       IsGameOver = state.IsGameOver;
       ActiveHouse = state.ActiveHouse;
-      Keys = state.Keys.ToLookup();
-      Aember = state.Aember.ToLookup();
+      Keys = new LazyLookup<Player, int>(state.Keys);
+      Aember = new LazyLookup<Player, int>(state.Aember);
       ActionGroups = new LazyList<IActionGroup>(state.ActionGroups);
       Decks = state.Decks.ToMutable();
       Hands = state.Hands.ToMutable();

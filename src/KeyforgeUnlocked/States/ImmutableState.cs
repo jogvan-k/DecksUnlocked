@@ -19,8 +19,8 @@ namespace KeyforgeUnlocked.States
     public int TurnNumber { get; }
     public bool IsGameOver { get; }
     public House? ActiveHouse { get; }
-    public IReadOnlyDictionary<Player, int> Keys { get; }
-    public IReadOnlyDictionary<Player, int> Aember { get; }
+    public ImmutableLookup<Player, int> Keys { get; }
+    public ImmutableLookup<Player, int> Aember { get; }
     public IImmutableSet<IActionGroup> ActionGroups { get; }
     public IReadOnlyDictionary<Player, IImmutableStack<ICard>> Decks { get; }
     public IReadOnlyDictionary<Player, IImmutableSet<ICard>> Hands { get; }
@@ -40,15 +40,15 @@ namespace KeyforgeUnlocked.States
       int turnNumber,
       bool isGameOver,
       House? activeHouse,
-      LookupReadOnly<Player, int> keys,
-      LookupReadOnly<Player, int> aember,
+      ImmutableLookup<Player, int> keys,
+      ImmutableLookup<Player, int> aember,
       IImmutableSet<IActionGroup> actionGroups,
-      LookupReadOnly<Player, IImmutableStack<ICard>> decks,
-      LookupReadOnly<Player, IImmutableSet<ICard>> hands,
-      LookupReadOnly<Player, IImmutableSet<ICard>> discards,
-      LookupReadOnly<Player, IImmutableSet<ICard>> archives,
+      ImmutableLookup<Player, IImmutableStack<ICard>> decks,
+      ImmutableLookup<Player, IImmutableSet<ICard>> hands,
+      ImmutableLookup<Player, IImmutableSet<ICard>> discards,
+      ImmutableLookup<Player, IImmutableSet<ICard>> archives,
       IReadOnlyDictionary<Player, IImmutableSet<ICard>> purgedCard,
-      LookupReadOnly<Player, IImmutableList<Creature>> fields,
+      ImmutableLookup<Player, IImmutableList<Creature>> fields,
       IReadOnlyDictionary<Player, IImmutableSet<Artifact>> artifacts,
       ImmutableArray<IEffect> effects,
       ImmutableEvents events,

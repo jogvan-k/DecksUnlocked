@@ -219,7 +219,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         var origin = state.ToImmutable();
         foreach (var action in specialActions.Actions(origin))
         {
-          Console.WriteLine($"{i++}: {action.ToConsole()}");
+          Console.WriteLine($"{i++}: {action}");
         }
       }
 

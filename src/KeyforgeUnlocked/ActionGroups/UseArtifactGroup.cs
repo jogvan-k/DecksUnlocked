@@ -41,5 +41,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       return HashCode.Combine(base.GetHashCode(), Artifact, _allowOutOfHouseUse);
     }
+
+    public override string ToString()
+    {
+      return "Use artifact";
+    }
   }
 }

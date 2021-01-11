@@ -44,5 +44,10 @@ namespace KeyforgeUnlocked.Actions
     {
       return HashCode.Combine(base.GetHashCode(), House);
     }
+
+    public override string ToString()
+    {
+      return $"Declare {House}";
+    }
   }
 }

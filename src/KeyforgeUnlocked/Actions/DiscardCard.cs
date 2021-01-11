@@ -13,5 +13,10 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Push(new Effects.DiscardCard(Card));
     }
+
+    public override string ToString()
+    {
+      return $"Discard card";
+    }
   }
 }

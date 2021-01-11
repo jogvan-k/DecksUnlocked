@@ -50,5 +50,10 @@ namespace KeyforgeUnlocked.Actions
       if (!AllowOutOfHouseUse && Artifact.Card.House != house)
         throw new NotFromActiveHouseException(state, Artifact.Card, house ?? House.Undefined);
     }
+
+    public override string ToString()
+    {
+      return $"Use artifact";
+    }
   }
 }

@@ -17,5 +17,10 @@ namespace KeyforgeUnlocked.Actions
 
       state.Effects.Push(new Effects.PlayArtifactCard((IArtifactCard) Card));
     }
+
+    public override string ToString()
+    {
+      return $"Play artifact card";
+    }
   }
 }

@@ -21,5 +21,10 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Enqueue(new Effects.RemoveStun(Creature));
     }
+
+    public override string ToString()
+    {
+      return "Remove stun";
+    }
   }
 }

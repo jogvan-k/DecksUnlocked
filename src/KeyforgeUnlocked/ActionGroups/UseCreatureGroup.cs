@@ -93,5 +93,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       return HashCode.Combine(base.GetHashCode(), Creature, _allowOutOfHouseUse, _allowedUsages);
     }
+
+    public override string ToString()
+    {
+      return "Use creature";
+    }
   }
 }

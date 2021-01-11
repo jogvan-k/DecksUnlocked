@@ -22,5 +22,10 @@ namespace KeyforgeUnlocked.ActionGroups
         return ImmutableList.Create<IAction>(playAction, discardAction);
       return ImmutableList.Create<IAction>(discardAction);
     }
+
+    public override string ToString()
+    {
+      return $"Actions to card {Card.Name}:";
+    }
   }
 }

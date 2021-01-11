@@ -23,5 +23,10 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Push(new CreatureAbility(Creature));
     }
+
+    public override string ToString()
+    {
+      return "Use creature ability";
+    }
   }
 }

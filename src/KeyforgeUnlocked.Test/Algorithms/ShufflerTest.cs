@@ -61,7 +61,7 @@ namespace KeyforgeUnlockedTest.Algorithms
       {
         Shuffler.Shuffle(_initialCards, subset, 0);
       }
-      catch (Exception e)
+      catch (Exception)
       {
         return;
       }

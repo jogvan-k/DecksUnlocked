@@ -235,13 +235,13 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
 
     IAction WriteAndReadActions(IActionGroup actionGroup)
     {
-      Console.WriteLine(actionGroup.ToConsole());
+      Console.WriteLine(actionGroup.ToString());
 
       int i = 1;
       var actions = new List<IAction>();
       foreach (var action in actionGroup.Actions(_state.ToImmutable()))
       {
-        Console.WriteLine($"{i++}: {action.ToConsole()}");
+        Console.WriteLine($"{i++}: {action}");
         actions.Add(action);
       }
 

@@ -50,5 +50,10 @@ namespace KeyforgeUnlocked.Actions
     {
       return HashCode.Combine(base.GetHashCode(), Target);
     }
+
+    public override string ToString()
+    {
+      return $"Attack {Target.Card.Name}";
+    }
   }
 }

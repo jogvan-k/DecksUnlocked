@@ -21,5 +21,10 @@ namespace KeyforgeUnlocked.Actions
     {
       state.Effects.Push(new Effects.Reap(Creature));
     }
+
+    public override string ToString()
+    {
+      return "Reap creature";
+    }
   }
 }

@@ -13,5 +13,10 @@ namespace KeyforgeUnlocked.Actions
     {
       state.PopArchive();
     }
+
+    public override string ToString()
+    {
+      return $"Take archive";
+    }
   }
 }

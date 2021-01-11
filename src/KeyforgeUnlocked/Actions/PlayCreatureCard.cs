@@ -42,5 +42,10 @@ namespace KeyforgeUnlocked.Actions
     {
       return HashCode.Combine(base.GetHashCode(), Card, Position);
     }
+
+    public override string ToString()
+    {
+      return $"Play to position {Position}";
+    }
   }
 }

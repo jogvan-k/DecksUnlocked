@@ -15,5 +15,10 @@ namespace KeyforgeUnlocked.Actions
       state.Effects.Enqueue(new DrawToHandLimit());
       state.Effects.Enqueue(new Effects.EndTurn());
     }
+
+    public override string ToString()
+    {
+      return "End turn";
+    }
   }
 }

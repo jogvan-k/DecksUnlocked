@@ -33,5 +33,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       return HashCode.Combine(base.GetHashCode(), _effect, EqualityComparer.GetHashCode(_targets));
     }
+
+    public override string ToString()
+    {
+      return "Target creature";
+    }
   }
 }

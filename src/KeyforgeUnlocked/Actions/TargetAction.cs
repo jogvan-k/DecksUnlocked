@@ -42,5 +42,10 @@ namespace KeyforgeUnlocked.Actions
     {
       return HashCode.Combine(_effect, Target);
     }
+
+    public override string ToString()
+    {
+      return $"Target {Target.Name}";
+    }
   }
 }

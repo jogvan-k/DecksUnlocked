@@ -10,5 +10,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       return ImmutableList<IAction>.Empty.Add(new EndTurn(origin));
     }
+
+    public override string ToString()
+    {
+      return "End turn";
+    }
   }
 }

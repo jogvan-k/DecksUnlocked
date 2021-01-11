@@ -31,5 +31,10 @@ namespace KeyforgeUnlocked.ActionGroups
     {
       return HashCode.Combine(base.GetHashCode(), Houses);
     }
+
+    public override string ToString()
+    {
+      return $"Declare house";
+    }
   }
 }

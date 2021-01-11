@@ -38,5 +38,10 @@ namespace KeyforgeUnlocked.ActionGroups
 
       return list.Add(DiscardAction(origin));
     }
+
+    public override string ToString()
+    {
+      return $"Actions to card {Card.Name}:";
+    }
   }
 }

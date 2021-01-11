@@ -13,5 +13,10 @@ namespace KeyforgeUnlocked.ActionGroups
 
       return new[] { (IAction) new TakeArchive(origin) }.ToImmutableList();
     }
+
+    public override string ToString()
+    {
+      return "Take archive";
+    }
   }
 }

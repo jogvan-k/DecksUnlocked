@@ -11,5 +11,10 @@ namespace KeyforgeUnlocked.Actions
     internal override void DoActionNoResolve(IMutableState state)
     {
     }
+
+    public override string ToString()
+    {
+      return "No action";
+    }
   }
 }

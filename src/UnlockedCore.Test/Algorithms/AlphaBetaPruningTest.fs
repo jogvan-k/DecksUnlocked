@@ -17,20 +17,22 @@ type alphaBetaPruningTest() =
 
     [<Test>]
     member this.PruningOnMaximizingPlayer () =
-        let sut = NegamaxAI(evaluator, searchLimit.Turn(4, searchTime.Unlimited), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
+        let sut = NegamaxAI(evaluator, searchLimit.Turn(4, searchTime.Unlimited), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedEndStates + LoggingConfiguration.LogCalculatedSteps)
         let path = (sut :> IGameAI).DetermineAction (alphaBetaPruningTree.build())
         
         Assert.That(path, Is.EqualTo([|0; 0|]))
         
-        Assert.That(sut.LatestLogInfo.nodesEvaluated, Is.EqualTo(5))
+        Assert.That(sut.LatestLogInfo.stepsCalculated, Is.EqualTo(8))
+        Assert.That(sut.LatestLogInfo.endNodesEvaluated, Is.EqualTo(5))
         
     [<Test>]
     member this.PruningOnMinimizingPlayer () =
-        let sut = NegamaxAI(evaluator, searchLimit.Turn(4, searchTime.Unlimited), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedStates)
+        let sut = NegamaxAI(evaluator, searchLimit.Turn(4, searchTime.Unlimited), loggingConfiguration0 = LoggingConfiguration.LogEvaluatedEndStates + LoggingConfiguration.LogCalculatedSteps)
         
         let invertedTree = invertTree alphaBetaPruningTree
         let path = (sut :> IGameAI).DetermineAction (invertedTree.build())
         
         Assert.That(path, Is.EqualTo([|1; 1|]))
         
-        Assert.That(sut.LatestLogInfo.nodesEvaluated, Is.EqualTo(8))
+        Assert.That(sut.LatestLogInfo.stepsCalculated, Is.EqualTo(11))
+        Assert.That(sut.LatestLogInfo.endNodesEvaluated, Is.EqualTo(8))

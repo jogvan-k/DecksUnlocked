@@ -33,7 +33,7 @@ let rec recNegamax alpha beta color (depth: remainingSearch) (s: ICoreState) (ac
             currentBest
 and nextCandidate alpha beta color (action: ICoreAction) depth acc tTable pv =
     let nextDepth = reduceRemainingSearch depth
-    let nextState = action.DoCoreAction()
+    let nextState = acc.nextState action
     if (changingPlayer action.Origin nextState)
     then
         recNegamax (-1 * beta) (-1 * alpha) (-color) nextDepth nextState acc tTable pv |> flipValue

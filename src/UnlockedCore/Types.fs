@@ -23,7 +23,7 @@ type IEvaluator =
 type IGameAI =
     // Calculates the best path for a given state.
     abstract DetermineAction: state: ICoreState -> int[]
-    // Calculates the best path for a given state. A sub part can be provided from previous calculations to speed up
+    // Calculates the best path for a given state. A previously calculated best path can be provided from previous calculations to speed up
     // calculation time.
     abstract DetermineActionWithVariation: state: (ICoreState ) -> variation: int[] -> int[]
 
@@ -48,16 +48,18 @@ type SearchConfiguration =
     
 [<Flags>]
 type LoggingConfiguration =
-    | NoLogging                    = 0x0
-    | LogEvaluatedStates           = 0x1
-    | LogTime                      = 0x2
-    | LogSuccessfulHashMapLookup   = 0x4
-    | LogPrunedPaths               = 0x8
-    | LogAll                       = 0xf
+    | NoLogging                    = 0x00
+    | LogEvaluatedEndStates        = 0x01
+    | LogCalculatedSteps           = 0x02
+    | LogTime                      = 0x04
+    | LogSuccessfulHashMapLookup   = 0x08
+    | LogPrunedPaths               = 0x10
+    | LogAll                       = 0x1f
 
 type LogInfo =
     struct
-        val mutable nodesEvaluated: int
+        val mutable endNodesEvaluated: int
+        val mutable stepsCalculated: int
         val mutable elapsedTime: TimeSpan
         val mutable prunedPaths: int
         val mutable successfulHashMapLookups: int

@@ -11,7 +11,7 @@ type BaseAI(evaluator: IEvaluator,
             depth: searchLimit,
             searchConfig: SearchConfiguration,
             loggingConfiguration: LoggingConfiguration) =
-    let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedStates)
+    let logEvaulatedStates = loggingConfiguration.HasFlag(LoggingConfiguration.LogEvaluatedEndStates)
     let logTime = loggingConfiguration.HasFlag(LoggingConfiguration.LogTime)
     let incrementalSearch = searchConfig.HasFlag(SearchConfiguration.IncrementalSearch)
     let mutable _logInfos: LogInfo list = List.empty
@@ -36,7 +36,7 @@ type BaseAI(evaluator: IEvaluator,
                 if (logEvaulatedStates) then
                     function
                     | i ->
-                        logInfo.nodesEvaluated <- logInfo.nodesEvaluated + 1
+                        logInfo.endNodesEvaluated <- logInfo.endNodesEvaluated + 1
                         evaluator.Evaluate i
                 else
                     evaluator.Evaluate
@@ -47,6 +47,7 @@ type BaseAI(evaluator: IEvaluator,
                             then doIncrementalSearch this.AICall searchLimit s accumulator
                             else snd (this.AICall searchLimit s accumulator (v |> Array.toList))
 
+            logInfo.stepsCalculated <- accumulator.stepsCalculated
             logInfo.elapsedTime <-
                 match timer with
                 | Some (timer) ->

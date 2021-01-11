@@ -46,7 +46,7 @@ and nullWindowSearch alpha beta color (action: ICoreAction) depth acc tTable =
 
 and nextCandidate alpha beta color (action: ICoreAction) depth acc tTable p =
     let nextDepth = reduceRemainingSearch depth
-    let nextState = action.DoCoreAction()
+    let nextState = acc.nextState action
     if (changingPlayer action.Origin nextState)
     then
         recPVS (-1 * beta) (-1 * alpha) (-color) nextDepth nextState acc tTable p |> flipValue

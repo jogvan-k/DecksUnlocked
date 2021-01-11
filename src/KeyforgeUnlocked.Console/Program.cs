@@ -4,6 +4,7 @@ using KeyforgeUnlockedConsole.ConsoleGames;
 using KeyforgeUnlockedConsole.Decks;
 using UnlockedCore;
 using UnlockedCore.AITypes;
+using LogInfo = KeyforgeUnlockedConsole.ConsoleGames.LogInfo;
 
 namespace KeyforgeUnlockedConsole
 {
@@ -20,7 +21,7 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(1, searchTime.NewSeconds(5)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(2, searchTime.NewSeconds(10)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1, logInfo: LogInfo.CalculationInfo);
     }
     static IConsoleGame TwoPlayerGame()
     {

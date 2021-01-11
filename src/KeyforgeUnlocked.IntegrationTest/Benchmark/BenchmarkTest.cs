@@ -48,7 +48,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
       ((IGameAI) ai).DetermineAction(_state);
 
       Console.WriteLine(
-        $"Evaluated {ai.LatestLogInfo.nodesEvaluated} end states in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds.");
+        $"Evaluated {ai.LatestLogInfo.endNodesEvaluated} end states in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds.");
       Console.WriteLine(
         $"{ai.LatestLogInfo.successfulHashMapLookups} successful hash map lookups and {ai.LatestLogInfo.prunedPaths} paths pruned.");
     }
@@ -60,7 +60,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
       var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
 
       Console.WriteLine(
-        $"Evaluated {result.Item1.Sum(l => l.nodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
+        $"Evaluated {result.Item1.Sum(l => l.endNodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
       Console.WriteLine(
         $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
     }

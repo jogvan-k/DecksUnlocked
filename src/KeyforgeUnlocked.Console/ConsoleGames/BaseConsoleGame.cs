@@ -10,6 +10,7 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleExtensions;
 using KeyforgeUnlockedConsole.PrintCommands;
 using UnlockedCore;
+using UnlockedCore.AI;
 using UnlockedCore.AITypes;
 
 namespace KeyforgeUnlockedConsole.ConsoleGames
@@ -170,12 +171,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           _state.PrintAITurn(_consoleWriter, _logInfo);
           Console.WriteLine("Calculating moves...");
           aiMoves = gameAi.DetermineAction(_state);
-          if (_logInfo == LogInfo.CalculationInfo && gameAi is NegamaxAI negamaxAi)
+          if (_logInfo == LogInfo.CalculationInfo && gameAi is AIBase.BaseAI ai)
           {
-            if (negamaxAi.LatestLogInfo.nodesEvaluated > 0 && negamaxAi.LatestLogInfo.elapsedTime.Ticks > 0)
+            if (ai.LatestLogInfo.endNodesEvaluated > 0 && ai.LatestLogInfo.elapsedTime.Ticks > 0)
               aiLogString =
-                $"{negamaxAi.LatestLogInfo.nodesEvaluated} states evaluated in {negamaxAi.LatestLogInfo.elapsedTime.TotalSeconds} seconds. \n" +
-                $"{negamaxAi.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
+                $"{ai.LatestLogInfo.stepsCalculated} steps calculated and {ai.LatestLogInfo.endNodesEvaluated} end states evaluated in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds. \n" +
+                $"{ai.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
           }
         }
 

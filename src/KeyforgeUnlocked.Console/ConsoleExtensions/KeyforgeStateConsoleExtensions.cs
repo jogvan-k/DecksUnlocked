@@ -9,6 +9,7 @@ using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
 using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
+using KeyforgeUnlockedConsole.PrintCommands;
 using UnlockedCore;
 using LogInfo = KeyforgeUnlockedConsole.ConsoleGames.LogInfo;
 
@@ -19,29 +20,34 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     static IEvaluator _evaluator = new Evaluator();
 
     public static void Print(this IState state,
+      ConsoleWriter consoleWriter,
       LogInfo logInfo,
       out Dictionary<string, IActionGroup> commands)
     {
       var fromPlayerPerspective = state.PlayerTurn;
       commands = new Dictionary<string, IActionGroup>();
-      PrintStatus(state, fromPlayerPerspective, logInfo, commands);
-      PrintHand(state, fromPlayerPerspective, commands);
+      PrintStatus(state, fromPlayerPerspective, consoleWriter, logInfo, commands);
+      PrintHand(state, fromPlayerPerspective, consoleWriter, commands);
       PrintResolvedEffects(state);
-      PrintAdditionalActions(state, commands);
+      PrintAdditionalActions(state, consoleWriter, commands);
       Console.WriteLine();
     }
 
-    public static void PrintAITurn(this IState state, LogInfo logInfo)
+    public static void PrintAITurn(
+      this IState state,
+      ConsoleWriter consoleWriter,
+      LogInfo logInfo)
     {
       Console.Clear();
       var fromPlayerPerspective = state.PlayerTurn.Other();
-      PrintStatus(state, fromPlayerPerspective, logInfo);
-      PrintHand(state, fromPlayerPerspective);
+      PrintStatus(state, fromPlayerPerspective, consoleWriter, logInfo);
+      PrintHand(state, fromPlayerPerspective, consoleWriter);
       PrintResolvedEffects(state);
     }
 
     static void PrintStatus(IState state,
       Player fromPlayerPerspective,
+      ConsoleWriter consoleWriter,
       LogInfo logInfo,
       Dictionary<string, IActionGroup>? commands = null)
     {
@@ -50,7 +56,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         Console.WriteLine($"Board value: {_evaluator.Evaluate(state)}");
       PrintAmounts(state, fromPlayerPerspective);
       PrintActiveHouse(state);
-      PrintFieldAndArtifacts(state, fromPlayerPerspective, commands);
+      PrintFieldAndArtifacts(state, fromPlayerPerspective, consoleWriter, commands);
     }
 
     static void PrintResolvedEffects(IState state)
@@ -77,16 +83,17 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintFieldAndArtifacts(IState state,
       Player fromPlayerPerspective,
+      ConsoleWriter consoleWriter,
       Dictionary<string, IActionGroup>? commands = null)
     {
       Console.Write("Opponent: ");
       PrintKeysAndAember(state.Keys[fromPlayerPerspective.Other()], state.Aember[fromPlayerPerspective.Other()]);
-      PrintField(state, state.Fields[fromPlayerPerspective.Other()], commands);
+      PrintField(state, state.Fields[fromPlayerPerspective.Other()], consoleWriter, commands);
       PrintArtifacts(state, state.Artifacts[fromPlayerPerspective.Other()], commands);
 
       Console.Write("You: ");
       PrintKeysAndAember(state.Keys[fromPlayerPerspective], state.Aember[fromPlayerPerspective]);
-      PrintField(state, state.Fields[fromPlayerPerspective], commands);
+      PrintField(state, state.Fields[fromPlayerPerspective], consoleWriter, commands);
       PrintArtifacts(state, state.Artifacts[fromPlayerPerspective], commands);
     }
 
@@ -103,6 +110,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintField(IState state,
       IImmutableList<Creature> creatures,
+      ConsoleWriter consoleWriter,
       Dictionary<string, IActionGroup>? commands = null)
     {
       Console.WriteLine("Board: ");
@@ -120,7 +128,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           }
         }
 
-        var sb = new StringBuilder($"{creature.Card.Name}");
+        consoleWriter.Write(creature.Card);
+        var sb = new StringBuilder();
         sb.Append($", Power: {creature.Power}");
         if (creature.Armor > 0) sb.Append($", Armor: {creature.Armor}");
         if (creature.Damage > 0) sb.Append($", Damage: {creature.Damage}");
@@ -176,6 +185,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintHand(IState state,
       Player fromPlayerPerspective,
+      ConsoleWriter consoleWriter,
       Dictionary<string, IActionGroup>? commands = null)
     {
       Console.WriteLine($"Cards in hand: ");
@@ -194,7 +204,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
           }
         }
 
-        Console.WriteLine(card);
+        consoleWriter.WriteLine(card);
       }
     }
 
@@ -205,6 +215,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
 
     static void PrintAdditionalActions(
       IState state,
+      ConsoleWriter consoleWriter,
       Dictionary<string, IActionGroup> commands)
     {
       var specialActions = state.ActionGroups.SingleOrDefault(a => a.IsSpecialActionGroup());
@@ -219,7 +230,8 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
         var origin = state.ToImmutable();
         foreach (var action in specialActions.Actions(origin))
         {
-          Console.WriteLine($"{i++}: {action}");
+          Console.Write($"{i++}: ");
+          action.WriteToConsole(consoleWriter);
         }
       }
 
@@ -308,7 +320,7 @@ namespace KeyforgeUnlockedConsole.ConsoleExtensions
     public static ICard? GetCard(this IState state, string name)
     {
       return state.Metadata.InitialDecks.SelectMany(d => d.Value.ToHashSet())
-        .FirstOrDefault(c => c.Name.ToLower().Replace(' ', default).Contains(name));
+        .FirstOrDefault(c => c.Name.ToLower().Contains(name));
     }
   }
 }

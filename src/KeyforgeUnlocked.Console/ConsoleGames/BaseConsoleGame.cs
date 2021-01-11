@@ -21,11 +21,13 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     protected IDictionary<string, IActionGroup> Commands;
     protected IDictionary<string, IPrintCommand> HelperCommands = PrintCommandsFactory.HelperCommands;
     protected Stack<IState> previousStates = new();
+    protected ConsoleWriter _consoleWriter;
 
     public BaseConsoleGame(IState state, LogInfo logInfo = LogInfo.None)
     {
       _logInfo = logInfo;
       _state = state;
+      _consoleWriter = new ConsoleWriter(state.Metadata.InitialDecks.SelectMany(d => d.Value).ToDictionary(v => v.Id, v => v));
       Commands = new Dictionary<string, IActionGroup>();
     }
 
@@ -38,7 +40,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       }
 
       Console.Clear();
-      _state.Print(_logInfo, out _);
+      _state.Print(_consoleWriter, _logInfo, out _);
       Console.WriteLine($"{_state.PlayerTurn} won!");
       Console.WriteLine();
     }
@@ -48,14 +50,13 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     protected void AdvanceStateOnPlayerTurn()
     {
       var command = ReadCommand();
-      if (command == "undo")
+      if (string.Equals(command, "undo", StringComparison.OrdinalIgnoreCase))
       {
         if (previousStates.Count > 0)
           _state = previousStates.Pop();
-
         PrintStatus();
       }
-      else if (command == "clear" || command == "")
+      else if (string.Equals(command, "clear", StringComparison.Ordinal) || command.Equals(""))
       {
         PrintStatus();
       }
@@ -73,6 +74,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       else
       {
         var card = _state.GetCard(command);
+        PrintStatus();
         PrintCardInfo(card!);
       }
     }
@@ -80,7 +82,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
     void PrintStatus()
     {
       Console.Clear();
-      _state.Print(_logInfo, out var commands);
+      _state.Print(_consoleWriter, _logInfo, out var commands);
       Commands = commands;
     }
 
@@ -165,7 +167,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         var aiLogString = "";
         if (aiMoves.Length == 0)
         {
-          _state.PrintAITurn(_logInfo);
+          _state.PrintAITurn(_consoleWriter, _logInfo);
           Console.WriteLine("Calculating moves...");
           aiMoves = gameAi.DetermineAction(_state);
           if (_logInfo == LogInfo.CalculationInfo && gameAi is NegamaxAI negamaxAi)
@@ -179,16 +181,16 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
 
         _state = (IState) _state.Actions()[aiMoves[0]].DoCoreAction();
         aiMoves = aiMoves.Skip(1).ToArray();
-        _state.PrintAITurn(_logInfo);
-
-        if (!string.IsNullOrEmpty(aiLogString))
-          Console.WriteLine(aiLogString);
         if (_state.PlayerTurn == aiPlayer)
         {
+          _state.PrintAITurn(_consoleWriter, _logInfo);
+          if (!string.IsNullOrEmpty(aiLogString))
+            Console.WriteLine(aiLogString);
           Console.WriteLine("Press any key to continue...");
           Console.ReadKey();
           Console.Clear();
         }
+        PrintStatus();
       }
     }
 
@@ -197,8 +199,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       while (true)
       {
         Console.Write("Action: ");
-        var command = Console.ReadLine()?.ToLower().Replace(' ', default);
-        if (command == null)
+        var command = Console.ReadLine()?.ToLower().Trim();
+        if (command == null || string.Equals(command, "", StringComparison.OrdinalIgnoreCase))
           return "";
         if (Commands.Keys.Contains("action"))
         {
@@ -209,7 +211,9 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
           HelperCommands[command].Print(_state);
         else if (Commands.Keys.Contains(command))
           return command;
-        else if (command == "undo" || command == "clear" || _state.GetCard(command) != null)
+        else if (string.Equals(command, "undo", StringComparison.Ordinal) ||
+                 string.Equals(command, "clear", StringComparison.Ordinal) 
+                 || _state.GetCard(command) != null)
           return command;
         else
           Console.WriteLine($"Invalid command: {command}");
@@ -241,7 +245,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
       var actions = new List<IAction>();
       foreach (var action in actionGroup.Actions(_state.ToImmutable()))
       {
-        Console.WriteLine($"{i++}: {action}");
+        Console.Write($"{i++}: ");
+        action.WriteToConsole(_consoleWriter);
         actions.Add(action);
       }
 

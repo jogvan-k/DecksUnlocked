@@ -18,6 +18,9 @@
         <Compile Include="AI\NegamaxAI.fs" />
         <Compile Include="AI\PvsAI.fs" />
         <Compile Include="AI\RandomMove.fs" />
+        <Compile Include="MCTS\Types.fs" />
+        <Compile Include="MCTS\Algorithm.fs" />
+        <Compile Include="MCTS\MonteCarloTreeSearch.fs" />
     </ItemGroup>
 
 </Project>

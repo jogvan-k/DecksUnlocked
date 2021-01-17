@@ -21,7 +21,8 @@ type BaseAI(evaluator: IEvaluator,
     member this.LatestLogInfo = this.logInfos.Head
 
     interface IGameAI with
-        member this.DetermineAction (s: ICoreState) = (this :> IGameAI).DetermineActionWithVariation s Array.empty
+        member this.DetermineAction (s: ICoreState) = (this :> IGameAIWithVariationPath).DetermineActionWithVariation s Array.empty
+    interface IGameAIWithVariationPath with
         member this.DetermineActionWithVariation (s: ICoreState) (v: int[]) =
             let mutable logInfo = LogInfo()
 

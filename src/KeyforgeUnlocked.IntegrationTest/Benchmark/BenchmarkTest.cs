@@ -160,7 +160,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
       var playerTurn = _state.PlayerTurn;
       while (!_state.IsGameOver)
       {
-        moves = ((IGameAI) ai).DetermineActionWithVariation(_state, moves);
+        moves = ((IGameAIWithVariationPath) ai).DetermineActionWithVariation(_state, moves);
         while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
         {
           var move = moves[0];

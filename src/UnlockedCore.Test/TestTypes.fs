@@ -33,7 +33,8 @@ and action(origin, node) =
     override this.Equals other = node.Equals other
     override this.GetHashCode() = node.GetHashCode()
 
-type nb(playerTurn, turnNumber, value, hash, children) =
+type nb(playerTurn, turnNumber, value, hash, children : nb list) =
+    new(playerTurn, turnNumber, value, hash, child: nb) = nb(playerTurn, turnNumber, value, hash, List.singleton child)
     new(playerTurn, turnNumber, value, hash) = nb(playerTurn, turnNumber, value, hash, list.Empty)
     member this.children = children
     member this.playerTurn = playerTurn

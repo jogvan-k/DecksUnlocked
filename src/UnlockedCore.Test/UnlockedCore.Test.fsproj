@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="FsUnit" Version="4.0.4" />
         <PackageReference Include="nunit" Version="3.12.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />
@@ -22,6 +23,7 @@
         <Compile Include="Algorithms\HashMapTest.fs" />
         <Compile Include="Algorithms\NegamaxTest.fs" />
         <Compile Include="MCTS\AlgorithmTest.fs" />
+        <Compile Include="MCTS\BenchmarkTest.fs" />
         <Compile Include="program.fs" />
     </ItemGroup>
 

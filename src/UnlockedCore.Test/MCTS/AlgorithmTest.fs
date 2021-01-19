@@ -52,7 +52,7 @@ type selectionTests() =
         root.leaves <- (branchingNode :> ICoreState).Actions()
                        |> Array.mapi (fun i -> fun _ -> Leaf.Leaf(State(Parent.Parent(root), branchingNode.children.[i])))
         
-        let leafEvaluator = fun i ->
+        let leafEvaluator = fun (i, _) ->
             match i with
             | Leaf s -> if((s.state :> Object).GetHashCode() = highestEvaluated) then 0.1 else 0.
             | _ -> 1.
@@ -80,7 +80,7 @@ type selectionTests() =
             leaves <- leaf :: leaves
         root.leaves <- leaves |> List.rev |> List.toArray
         
-        let leafEvaluator = fun i ->
+        let leafEvaluator = fun (i, _) ->
             match i with
             | Leaf s -> if((s.state :> Object).GetHashCode() = highestEvaluated) then 0.1 else 0.
             | _ -> 1.

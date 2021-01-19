@@ -2,6 +2,7 @@
 
 open UnlockedCore
 open UnlockedCore.AI.AIBase
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.Algorithms.PVS
 
 type PvsAI(evaluator : IEvaluator, depth, ?searchConfig0: SearchConfiguration, ?loggingConfiguration0 : LoggingConfiguration) =

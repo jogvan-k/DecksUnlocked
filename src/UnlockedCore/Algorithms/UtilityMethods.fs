@@ -2,6 +2,7 @@
 
 open System
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.Algorithms.Accumulator
 open AISupportTypes
 

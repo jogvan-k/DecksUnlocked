@@ -1,6 +1,7 @@
 ﻿namespace UnlockedCore.Test.BenchmarkTest
 
 open System
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.AITypes
 open NUnit.Framework
 open UnlockedCore

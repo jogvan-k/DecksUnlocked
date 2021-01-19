@@ -1,6 +1,7 @@
 ﻿module UnlockedCore.Algorithms.TranspositionTable
 
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.Algorithms.Accumulator
 
 type ITranspositionTable =

@@ -5,6 +5,7 @@ open System
 open NUnit.Framework
 
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.PVS
 open UnlockedCore.Algorithms.TranspositionTable

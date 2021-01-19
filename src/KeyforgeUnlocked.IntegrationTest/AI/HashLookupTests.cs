@@ -3,6 +3,7 @@ using KeyforgeUnlocked.IntegrationTest.Benchmark;
 using KeyforgeUnlocked.States;
 using NUnit.Framework;
 using UnlockedCore;
+using UnlockedCore.AI;
 using UnlockedCore.AITypes;
 
 namespace KeyforgeUnlocked.IntegrationTest.AI
@@ -12,7 +13,7 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
   {
     NegamaxAI noHashTableAi;
     NegamaxAI hashTableAi;
-    static readonly searchLimit Depth = searchLimit.NewTurn(3, searchTime.Unlimited);
+    static readonly MinimaxTypes.searchLimit Depth = MinimaxTypes.searchLimit.NewTurn(3, searchTime.Unlimited);
     IState state = BenchmarkTest.SetupStartState();
 
     int[] noHashMapResult, hashMapResult;
@@ -21,8 +22,8 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
     [Explicit]
     public void NegamaxAIWithAndWithoutHashtableLookupYieldSameResult()
     {
-      noHashTableAi = new NegamaxAI(new Evaluator(), Depth, SearchConfiguration.NoHashTable, LoggingConfiguration.LogSuccessfulHashMapLookup);
-      hashTableAi = new NegamaxAI(new Evaluator(), Depth, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogSuccessfulHashMapLookup);
+      noHashTableAi = new NegamaxAI(new Evaluator(), Depth, MinimaxTypes.SearchConfiguration.NoHashTable, MinimaxTypes.LoggingConfiguration.LogSuccessfulHashMapLookup);
+      hashTableAi = new NegamaxAI(new Evaluator(), Depth, MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogSuccessfulHashMapLookup);
 
       while (!state.IsGameOver)
       {

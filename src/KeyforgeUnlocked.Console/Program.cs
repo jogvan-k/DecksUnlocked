@@ -3,7 +3,9 @@ using KeyforgeUnlocked.States;
 using KeyforgeUnlockedConsole.ConsoleGames;
 using KeyforgeUnlockedConsole.Decks;
 using UnlockedCore;
+using UnlockedCore.AI;
 using UnlockedCore.AITypes;
+using UnlockedCore.MCTS;
 using LogInfo = KeyforgeUnlockedConsole.ConsoleGames.LogInfo;
 
 namespace KeyforgeUnlockedConsole
@@ -21,7 +23,9 @@ namespace KeyforgeUnlockedConsole
     {
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
-      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  searchLimit.NewTurn(2, searchTime.NewSeconds(10)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll), Player.Player1, logInfo: LogInfo.CalculationInfo);
+      return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck),
+        new MonteCarloTreeSearch.MonteCarloTreeSearch(searchTime.NewSeconds(10)), Player.Player1, LogInfo.CalculationInfo);
+      //return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(10)), MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll), Player.Player1, logInfo: LogInfo.CalculationInfo);
     }
     static IConsoleGame TwoPlayerGame()
     {
@@ -35,7 +39,7 @@ namespace KeyforgeUnlockedConsole
       
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
-      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), searchLimit.NewTurn(3, searchTime.NewSeconds(5)), SearchConfiguration.IncrementalSearch, LoggingConfiguration.LogAll));
+      return new AIVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(), MinimaxTypes.searchLimit.NewTurn(3, searchTime.NewSeconds(5)), MinimaxTypes.SearchConfiguration.IncrementalSearch, MinimaxTypes.LoggingConfiguration.LogAll));
     }
   }
 }

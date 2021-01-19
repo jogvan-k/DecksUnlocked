@@ -2,6 +2,7 @@
 
 open System.Diagnostics
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 
 let logPrunedPaths (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogPrunedPaths)
 let logCalculatedSteps (logConfig: LoggingConfiguration) = logConfig.HasFlag(LoggingConfiguration.LogCalculatedSteps);

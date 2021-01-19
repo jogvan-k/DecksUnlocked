@@ -8,6 +8,7 @@ using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
 using UnlockedCore;
+using UnlockedCore.AI;
 using UnlockedCore.AITypes;
 
 namespace KeyforgeUnlocked.IntegrationTest.Benchmark
@@ -43,7 +44,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     public void NegamaxAIRun()
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), searchLimit.NewTurn(2, searchTime.NewSeconds(15)), SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(15)), MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll);
 
       ((IGameAI) ai).DetermineAction(_state);
 
@@ -57,7 +58,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     [Explicit]
     public void FullGameRun()
     {
-      var result = RunSingleGame(searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
+      var result = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
 
       Console.WriteLine(
         $"Evaluated {result.Item1.Sum(l => l.endNodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
@@ -89,7 +90,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 
       for (int i = 0; i < numberOfGames; i++)
       {
-        var results = RunSingleGame(searchLimit.NewTurn(3, searchTime.Unlimited));
+        var results = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(3, searchTime.Unlimited));
         runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
         moves.Add(results.movesTaken);
       }
@@ -150,10 +151,10 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 //       10: 00:04:19.9021848, turns: 34
 
 
-    (IEnumerable<LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(searchLimit depth)
+    (IEnumerable<MinimaxTypes.LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(MinimaxTypes.searchLimit depth)
     {
       _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), depth, SearchConfiguration.NoRestrictions, LoggingConfiguration.LogAll);
+      var ai = new NegamaxAI(new Evaluator(), depth, MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll);
       var moves = new int[0];
       var movesTaken = Enumerable.Empty<int>();
 

@@ -7,6 +7,7 @@
 
     <ItemGroup>
         <Compile Include="Types.fs" />
+        <Compile Include="Algorithms\MinimaxTypes.fs" />
         <Compile Include="Algorithms\AISupportTypes.fs" />
         <Compile Include="Algorithms\Accumulator.fs" />
         <Compile Include="Algorithms\TranspositionTable.fs" />
@@ -14,10 +15,10 @@
         <Compile Include="Algorithms\Negamax.fs" />
         <Compile Include="Algorithms\PrincipalVariationSearch.fs" />
         <Compile Include="Algorithms\RandomMove.fs" />
-        <Compile Include="AI\AIBase.fs" />
-        <Compile Include="AI\NegamaxAI.fs" />
-        <Compile Include="AI\PvsAI.fs" />
-        <Compile Include="AI\RandomMove.fs" />
+        <Compile Include="Minimax\AIBase.fs" />
+        <Compile Include="Minimax\NegamaxAI.fs" />
+        <Compile Include="Minimax\PvsAI.fs" />
+        <Compile Include="Minimax\RandomMove.fs" />
         <Compile Include="MCTS\Types.fs" />
         <Compile Include="MCTS\Algorithm.fs" />
         <Compile Include="MCTS\MonteCarloTreeSearch.fs" />

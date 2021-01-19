@@ -2,6 +2,7 @@
 
 open NUnit.Framework
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.AITypes
 open UnlockedCoreTest.TestTypes
 

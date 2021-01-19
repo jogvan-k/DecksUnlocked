@@ -1,6 +1,7 @@
 namespace UnlockedCore.Test
 
 open UnlockedCore
+open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.Algorithms.AISupportTypes
 open UnlockedCore.Algorithms.Accumulator
 open UnlockedCore.Algorithms.Negamax

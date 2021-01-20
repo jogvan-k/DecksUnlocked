@@ -14,7 +14,7 @@ using UnlockedCore.AITypes;
 namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 {
   [TestFixture]
-  sealed class BenchmarkTest
+  sealed class MinimaxBenchmarkTest
   {
     IState _state;
 

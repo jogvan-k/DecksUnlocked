@@ -14,7 +14,7 @@ namespace KeyforgeUnlocked.IntegrationTest.AI
     NegamaxAI noHashTableAi;
     NegamaxAI hashTableAi;
     static readonly MinimaxTypes.searchLimit Depth = MinimaxTypes.searchLimit.NewTurn(3, searchTime.Unlimited);
-    IState state = BenchmarkTest.SetupStartState();
+    IState state = MinimaxBenchmarkTest.SetupStartState();
 
     int[] noHashMapResult, hashMapResult;
 

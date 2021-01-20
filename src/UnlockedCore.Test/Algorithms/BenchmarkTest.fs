@@ -7,6 +7,8 @@ open NUnit.Framework
 open UnlockedCore
 open UnlockedCoreTest.TestTypes
 
+open FsUnit
+
 [<TestFixture>]
 type BenchmarkCases () =
     
@@ -39,26 +41,28 @@ type BenchmarkCases () =
         
         let logInfo = evaluate evalFun n b
         
-        Assert.That(logInfo.stepsCalculated, Is.EqualTo(((pown b n) - 1)*b/(b-1)))
-        Assert.That(logInfo.endNodesEvaluated, Is.EqualTo(pown b n))
-        Assert.That(logInfo.prunedPaths, Is.EqualTo(0))
-        Assert.That(logInfo.successfulHashMapLookups, Is.EqualTo(0))
+        let expectedStepsCalculated = ((pown b n) - 1) * b /(b-1)
+        let expectedEndNodesEvaluated = pown b n
+        logInfo.stepsCalculated |> should equal expectedStepsCalculated
+        logInfo.endNodesEvaluated |> should equal expectedEndNodesEvaluated
+        logInfo.prunedPaths |> should equal 0
+        logInfo.successfulHashMapLookups |> should equal 0
         
     [<Explicit>]
     [<Test>]
     member this.PathsPruned () =
         let rng = Random()
-        let evalFun (d,h) =
+        let evalFun (d,_) =
             let playerTurn = if(d % 2 = 0) then p1 else p2
             (playerTurn, d, rng.Next() / 100, rng.Next())
         let n, b = 8, 6
         
         let logInfo = evaluate evalFun n b
         
-        Assert.That(logInfo.stepsCalculated, Is.GreaterThan(0))
-        Assert.That(logInfo.endNodesEvaluated, Is.GreaterThan(0))
-        Assert.That(logInfo.prunedPaths, Is.GreaterThan(0))
-        Assert.That(logInfo.successfulHashMapLookups, Is.EqualTo(0))
+        logInfo.stepsCalculated |> should greaterThan 0
+        logInfo.endNodesEvaluated |> should greaterThan 0
+        logInfo.prunedPaths |> should greaterThan 0
+        logInfo.successfulHashMapLookups |> should equal 0
         
     [<Explicit>]
     [<Test>]
@@ -69,7 +73,7 @@ type BenchmarkCases () =
         
         let logInfo = evaluate evalFun n b
         
-        Assert.That(logInfo.stepsCalculated, Is.GreaterThan(0))
-        Assert.That(logInfo.endNodesEvaluated, Is.GreaterThan(0))
-        Assert.That(logInfo.prunedPaths, Is.EqualTo(0))
-        Assert.That(logInfo.successfulHashMapLookups, Is.GreaterThan(0))
+        logInfo.stepsCalculated |> should greaterThan 0
+        logInfo.endNodesEvaluated |> should greaterThan 0
+        logInfo.prunedPaths |> should equal 0
+        logInfo.successfulHashMapLookups |> should greaterThan 0

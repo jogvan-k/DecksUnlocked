@@ -7,6 +7,8 @@ open UnlockedCore.MCTS.Types
 open UnlockedCore.MCTS.Algorithm
 open UnlockedCoreTest.TestTypes
 
+open FsUnit
+
 [<TestFixture>]
 type selectionTests() =
     let branchingNode = nb(p1, 0, 0, 0)
@@ -14,14 +16,14 @@ type selectionTests() =
                                             nb(p1, 0, 0, 2, nb(p1, 0, 0, 5, nb(p2, 0, 0, 8)))
                                             nb(p2, 0, 0, 3, nb(p2, 0, 0, 6, nb(p2, 0, 0, 9)))])
                               .build()
+    let stateHash (s: State) = (s.state :> Object).GetHashCode()
     
     [<Test>]
     member this.TerminalNode ([<Values(Player.Player1, Player.Player2)>] playerTurn) =
         let terminalNode = State(Parent.None, node(playerTurn, 0, 0, 0))
         let result = selection(terminalNode, leafEvaluator)
-        match result with
-        | Exhausted(path) -> Assert.That(path, Is.Empty)
-        | _ -> Assert.Fail()
+        
+        result |> should be (ofCase<@ Exhausted @>)
         
     [<Test>]
     member this.AllUnexploredLeaves_SelectsFirst () =
@@ -29,8 +31,8 @@ type selectionTests() =
         let result = selection(root, leafEvaluator)
         match result with 
         | Candidate(s, i) ->
-            Assert.That((s.state :> Object).GetHashCode(), Is.EqualTo(0))
-            Assert.That(i, Is.EqualTo(0))
+            stateHash s |> should equal 0
+            i |> should equal 0
         | _ -> Assert.Fail()
         
     [<Test>]
@@ -42,8 +44,8 @@ type selectionTests() =
         let result = selection(root, leafEvaluator)
         match result with
         | Candidate(s, i) ->
-            Assert.That((s.state :> Object).GetHashCode(), Is.EqualTo(0))
-            Assert.That(i, Is.EqualTo(2))
+            stateHash s |> should equal 0
+            i |> should equal 2
         | _ -> Assert.Fail()
 
     [<Test>]
@@ -54,14 +56,14 @@ type selectionTests() =
         
         let leafEvaluator = fun (i, _) ->
             match i with
-            | Leaf s -> if((s.state :> Object).GetHashCode() = highestEvaluated) then 0.1 else 0.
+            | Leaf s -> if(stateHash s = highestEvaluated) then 0.1 else 0.
             | _ -> 1.
         
         let result = selection(root, leafEvaluator)
         match result with
         | Candidate(s, i) ->
-            Assert.That((s.state :> Object).GetHashCode(), Is.EqualTo(highestEvaluated))
-            Assert.That(i, Is.EqualTo(0))
+            stateHash s |> should equal highestEvaluated
+            i |> should equal 0
         | _ -> Assert.Fail()
         
     [<TestCase(1, 4)>]
@@ -82,12 +84,12 @@ type selectionTests() =
         
         let leafEvaluator = fun (i, _) ->
             match i with
-            | Leaf s -> if((s.state :> Object).GetHashCode() = highestEvaluated) then 0.1 else 0.
+            | Leaf s -> if(stateHash s = highestEvaluated) then 0.1 else 0.
             | _ -> 1.
         
         let result = selection(root, leafEvaluator)
         match result with
         | Candidate(s, i) ->
-            Assert.That((s.state :> Object).GetHashCode(), Is.EqualTo(expectedCandidate))
-            Assert.That(i, Is.EqualTo(0))
+            stateHash s |> should equal expectedCandidate
+            i |> should equal 0
         | _ -> Assert.Fail()

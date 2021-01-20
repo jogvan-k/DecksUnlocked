@@ -9,6 +9,8 @@ open UnlockedCore.Algorithms.Negamax
 open NUnit.Framework
 open UnlockedCoreTest.TestTypes
 
+open FsUnit
+
 [<TestFixture>]
 type NegamaxTest () =
 
@@ -37,8 +39,8 @@ type NegamaxTest () =
         let d = Plies(0)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
-        Assert.That(fst result, Is.EqualTo(0))
-        Assert.That(Array.ofList(snd result), Is.EqualTo([]))
+        fst result |> should equal 0
+        snd result |> should be Empty
 
     [<TestCase(1, -10, [|0|])>]
     [<TestCase(2, 30, [|1; 0|])>]
@@ -48,8 +50,8 @@ type NegamaxTest () =
         let d = Plies(depth)
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
-        Assert.That(fst result, Is.EqualTo(expectedValue))
-        Assert.That(Array.ofList (snd result), Is.EqualTo(expectedPath))
+        fst result |> should equal expectedValue
+        snd result |> should equal expectedPath
 
     [<TestCase(1, -20, [|1|])>]
     [<TestCase(2, 20, [|0; 0|])>]
@@ -60,8 +62,8 @@ type NegamaxTest () =
         let d = Plies(depth)
         let result = negamax d (invertedTree.build()) (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
-        Assert.That(- fst result, Is.EqualTo(expectedValue))
-        Assert.That(Array.ofList(snd result), Is.EqualTo(expectedPath))
+        fst result |> should equal -expectedValue
+        snd result |> should equal expectedPath
 
     [<TestCase(1, 25, [|0; 1|])>]
     [<TestCase(2, 10, [|1|])>]
@@ -71,5 +73,5 @@ type NegamaxTest () =
         
         let result = negamax d twoDepthsPerTurnTree (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
-        Assert.That(fst result, Is.EqualTo(expectedValue))
-        Assert.That(Array.ofList(snd result), Is.EqualTo(expectedPath))
+        fst result |> should equal expectedValue
+        snd result |> should equal expectedPath

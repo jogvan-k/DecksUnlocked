@@ -12,6 +12,8 @@ open UnlockedCore.Algorithms.TranspositionTable
 open UnlockedCore.Algorithms.AISupportTypes
 open UnlockedCoreTest.TestTypes
 
+open FsUnit
+
 [<TestFixture>]
 type PrincipalVariationSearchTest () =
     let mutable hashIndex = 0
@@ -37,9 +39,10 @@ type PrincipalVariationSearchTest () =
         let acc = accumulator(evalFuncWithEvalCount, searchTime.Unlimited, LoggingConfiguration.LogAll)
         let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable bestPath
         
-        Assert.That(fst result, Is.EqualTo(10))
-        Assert.That(snd result, Is.EqualTo(bestPath))
-        Assert.That(nodesEvaluated, Is.EqualTo(7))
+        fst result |> should equal 10
+        snd result |> should equal bestPath
+        nodesEvaluated |> should equal 7
+        
     
     [<Test>]
     member this.PrincipalPathIsNotBestPath () =
@@ -53,6 +56,6 @@ type PrincipalVariationSearchTest () =
         let acc = accumulator(evalFuncWithEvalCount, searchTime.Unlimited, LoggingConfiguration.LogAll)
         let result = recPVS -Int32.MaxValue Int32.MaxValue 1 (Plies 10) state acc tTable pv
         
-        Assert.That(fst result, Is.EqualTo(10))
-        Assert.That(snd result, Is.EqualTo(bestPath))
-        Assert.That(nodesEvaluated, Is.EqualTo(14))
+        fst result |> should equal 10
+        snd result |> should equal bestPath
+        nodesEvaluated |> should equal 14

@@ -6,6 +6,8 @@ open UnlockedCore.AI.MinimaxTypes
 open UnlockedCore.AITypes
 open UnlockedCoreTest.TestTypes
 
+open FsUnit
+
 [<TestFixture>]
 type hashMapTest() =
     
@@ -23,5 +25,5 @@ type hashMapTest() =
         
         let path = (sut :> IGameAI).DetermineAction tree
         
-        Assert.That(path, Is.EqualTo(Seq.toArray [|0; 0|]))
-        Assert.That(sut.LatestLogInfo.successfulHashMapLookups, Is.EqualTo(2))
+        path |> should equal [0;0]
+        sut.LatestLogInfo.successfulHashMapLookups |> should equal 2

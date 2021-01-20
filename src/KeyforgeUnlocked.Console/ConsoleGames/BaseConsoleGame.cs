@@ -12,6 +12,7 @@ using KeyforgeUnlockedConsole.PrintCommands;
 using UnlockedCore;
 using UnlockedCore.AI;
 using UnlockedCore.AITypes;
+using UnlockedCore.MCTS;
 
 namespace KeyforgeUnlockedConsole.ConsoleGames
 {
@@ -177,6 +178,12 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
               aiLogString =
                 $"{ai.LatestLogInfo.stepsCalculated} steps calculated and {ai.LatestLogInfo.endNodesEvaluated} end states evaluated in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds. \n" +
                 $"{ai.LatestLogInfo.successfulHashMapLookups} successful hash map lookups.";
+          } else if (_logInfo == LogInfo.CalculationInfo && gameAi is AI.MonteCarloTreeSearch mcstAi)
+          {
+            var logInfo = mcstAi.LatestLogInfo();
+            aiLogString =
+              $"{logInfo.simulations} simulations executed in {logInfo.elapsedTime}\n" +
+              $"Estimated AI win chance: {logInfo.estimatedAiWinChance * 100} %";
           }
         }
 

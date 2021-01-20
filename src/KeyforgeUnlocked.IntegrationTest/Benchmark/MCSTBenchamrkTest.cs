@@ -16,7 +16,7 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
     public void NumberOfSimulations()
     {
       var root = SetupStartState();
-      var ai = new MonteCarloTreeSearch.MonteCarloTreeSearch(searchTime.NewSeconds(10));
+      var ai = new UnlockedCore.MCTS.AI.MonteCarloTreeSearch(searchTime.NewSeconds(10));
       
       ((IGameAI) ai).DetermineAction(root);
       

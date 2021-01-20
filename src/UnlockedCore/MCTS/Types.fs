@@ -42,4 +42,5 @@ type LogInfo =
     struct
         val mutable simulations: int
         val mutable elapsedTime: TimeSpan
+        val mutable estimatedAiWinChance: float
     end

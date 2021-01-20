@@ -4,7 +4,7 @@ open NUnit.Framework
 
 open UnlockedCore
 open UnlockedCore.MCTS
-open UnlockedCore.MCTS.MonteCarloTreeSearch
+open UnlockedCore.MCTS.AI
 open UnlockedCoreTest.TestTypes
 
 [<TestFixture>]

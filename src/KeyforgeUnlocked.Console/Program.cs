@@ -24,7 +24,7 @@ namespace KeyforgeUnlockedConsole
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck),
-        new MonteCarloTreeSearch.MonteCarloTreeSearch(searchTime.NewSeconds(10)), Player.Player1, LogInfo.CalculationInfo);
+        new AI.MonteCarloTreeSearch(searchTime.NewSeconds(10)), Player.Player1, LogInfo.CalculationInfo);
       //return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(10)), MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll), Player.Player1, logInfo: LogInfo.CalculationInfo);
     }
     static IConsoleGame TwoPlayerGame()

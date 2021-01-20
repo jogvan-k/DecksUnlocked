@@ -11,6 +11,7 @@ and Leaf =
     | Unexplored of ICoreAction
     | Leaf of State
     | Terminal of bool
+    | Duplicate
 
 and State(parent: Parent, state: ICoreState) =
     let mutable _leaves = state.Actions() |> Array.map Unexplored
@@ -32,7 +33,7 @@ and State(parent: Parent, state: ICoreState) =
     member this.winRate
         with get() = _winRate
     member this.visitCount
-        with get() = System.Math.Max(1, _visitCount)
+        with get() = Math.Max(1, _visitCount)
 
 type SelectionResult =
     | Exhausted of State

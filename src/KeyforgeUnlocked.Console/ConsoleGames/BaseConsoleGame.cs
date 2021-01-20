@@ -183,7 +183,7 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
             var logInfo = mcstAi.LatestLogInfo();
             aiLogString =
               $"{logInfo.simulations} simulations executed in {logInfo.elapsedTime}\n" +
-              $"Estimated AI win chance: {logInfo.estimatedAiWinChance * 100} %";
+              $"Estimated AI win chance: {(logInfo.estimatedAiWinChance * 100).ToString("##.#")} %";
           }
         }
 

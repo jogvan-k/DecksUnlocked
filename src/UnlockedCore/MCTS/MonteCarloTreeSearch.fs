@@ -1,12 +1,22 @@
 ﻿module UnlockedCore.MCTS.AI
 
 open System
+open System.Collections.Generic
 open System.Diagnostics
 open UnlockedCore
 open UnlockedCore.MCTS.Algorithm
 open UnlockedCore.MCTS.Types
 
-type MonteCarloTreeSearch(st: searchTime) =
+type configuration =
+    | None
+    | TranspositionTable
+
+let tTable (config: configuration) =
+    match config with
+    | TranspositionTable -> Some(HashSet<int>() :> ISet<int>)
+        | None -> option.None
+
+type MonteCarloTreeSearch(st: searchTime, config: configuration) =
     let mutable _logInfos: LogInfo list = List.empty
     let _evaluateUntil = match st with
                          | Minutes s -> Stopwatch.Frequency * int64(60 * s)
@@ -26,8 +36,9 @@ type MonteCarloTreeSearch(st: searchTime) =
         member this.DetermineAction(state) =
             let timer = Stopwatch.StartNew()
             let root = State(Parent.None, state)
+            let tTable = tTable config
             
-            let result = search(root, timer, _evaluateUntil)
+            let result = search(root, timer, tTable, _evaluateUntil)
             
             let mutable logInfo = LogInfo()
             logInfo.simulations <- root.visitCount

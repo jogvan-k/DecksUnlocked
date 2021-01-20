@@ -1,6 +1,7 @@
 ﻿module UnlockedCore.MCTS.Algorithm
 
 open System
+open System.Collections.Generic
 open System.Diagnostics
 open UnlockedCore
 open UnlockedCore.MCTS.Types
@@ -26,6 +27,7 @@ let leafEvaluator (l: Leaf, actingPlayer: Player) =
     | Terminal win -> if(win && actingPlayer = Player.Player1 || (not win && actingPlayer = Player.Player2)) then 0. else -1.
     | Unexplored _ -> 1.
     | Leaf s -> Math.Min(1., (winRate(actingPlayer, s) + explorationRate s))
+    | Duplicate -> 0.
 
 let rec selection (s: State, leafEvaluator) =
     if (Array.isEmpty s.leaves) then Exhausted s
@@ -34,16 +36,27 @@ let rec selection (s: State, leafEvaluator) =
     | (_, Terminal _) -> Exhausted(s)
     | (i, Unexplored _) -> Candidate(s, i)
     | (_, Leaf s) -> selection(s, leafEvaluator)
+    | (_, Duplicate) -> Exhausted(s)
     
-let expansion (s: State, i) =
+let expandUnexplored (parent: State, i, nextState: ICoreState) =
+    let state = State(Parent(parent), nextState)
+    parent.leaves.[i] <- if Array.isEmpty state.leaves
+                         then Terminal(state.state.PlayerTurn = Player.Player1)
+                         else Leaf(state)
+    state
+
+let expansion (s: State, i, tTable: int ISet Option) =
     match s.leaves.[i] with
     | Unexplored a ->
-        let state = State(Parent(s), a.DoCoreAction())
-        s.leaves.[i] <-
-         if Array.isEmpty state.leaves
-         then Terminal(state.state.PlayerTurn = Player.Player1)
-         else Leaf(state)
-        state
+        let nextState = a.DoCoreAction()
+        match tTable with
+        | Some t -> let hash = (nextState :> Object).GetHashCode()
+                    if(t.Contains(hash))
+                    then s.leaves.[i] <- Duplicate
+                         option.None
+                    else t.Add hash |> ignore
+                         Some(expandUnexplored(s, i, nextState))
+        | option.None -> Some(expandUnexplored(s, i, nextState))
     | _ -> raise(Exception("Target leaf is already expanded"))
 
 let simulation (s: State) =
@@ -73,6 +86,7 @@ let extractionEvaluator (p: Player, l: Leaf) =
     | Terminal win -> if(win && p = Player.Player1 || (not win && p = Player.Player2)) then 1. else 0.
     | Leaf s -> if(p = Player.Player1) then s.winRate else 1. - s.winRate
     | Unexplored _ -> 0.
+    | Duplicate -> 0.
     
 let extractBestPath (s: State) =
     let mutable path = List.empty
@@ -90,15 +104,17 @@ let extractBestPath (s: State) =
     
     path |> List.rev
 
-let search(root: State, timer: Stopwatch, evaluateUntil: Int64) =
+let search(root: State, timer: Stopwatch, tTable, evaluateUntil: Int64) =
     while timer.ElapsedTicks < evaluateUntil do
         match selection(root, leafEvaluator) with
         | Exhausted s ->
             let win = simulation s
             backPropagating s win
         | Candidate(c, a) ->
-            let ex = expansion(c, a)
-            let win = simulation ex
-            backPropagating ex win
+            match expansion(c, a, tTable) with
+            | Some ex ->
+                        let win = simulation ex
+                        backPropagating ex win
+            | option.None -> ()
     
     extractBestPath root |> List.toArray

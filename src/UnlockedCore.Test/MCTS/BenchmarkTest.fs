@@ -12,7 +12,7 @@ type BenchmarkCases () =
     
     let evaluate evalFun n b =
         let tree = complexTree evalFun n b
-        let cal = MonteCarloTreeSearch(Seconds(5))
+        let cal = MonteCarloTreeSearch(Seconds(5), configuration.TranspositionTable)
         
         let bestPath = (cal :> IGameAI).DetermineAction (tree.build())
         let logInfo = cal.LatestLogInfo()

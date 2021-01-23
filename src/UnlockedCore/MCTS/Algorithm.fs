@@ -62,10 +62,9 @@ let expansion (s: State, i, tTable: int ISet Option) =
 let simulation (s: State) =
     let currentState = ref s.state
     let actions = ref (currentState.Value.Actions())
-    let random = Random()
     while (not(Array.isEmpty(actions.Value))) do
-        let nextMove = random.Next() % actions.Value.Length
-        currentState := actions.Value.[nextMove].DoCoreAction()
+        let nextMove = actions.Value |> Seq.sort |> Seq.head
+        currentState := nextMove.DoCoreAction()
         actions := currentState.Value.Actions()
     
     currentState.Value.PlayerTurn = Player.Player1

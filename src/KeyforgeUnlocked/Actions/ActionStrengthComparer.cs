@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
@@ -13,6 +15,7 @@ namespace KeyforgeUnlocked.Actions
       if (fst == null) return -1;
       if (snd == null) return 1;
       return new ActionStrengthComparerBuilder(fst, snd)
+        .ThenBySpecific()
         .ThenByPriority()
         .ThenByType()
         .ThenByIdentity()
@@ -29,6 +32,35 @@ namespace KeyforgeUnlocked.Actions
     {
       this._first = first;
       this._second = second;
+    }
+
+    public ActionStrengthComparerBuilder ThenBySpecific()
+    {
+      if (ComparedValue != 0)
+        return this;
+
+      ComparedValue = CompareSpecific(_first, _second);
+      return this;
+    }
+
+    static int CompareSpecific(IAction first, IAction second)
+    {
+      if (first is DeclareHouse h1 && second is DeclareHouse h2)
+        return CompareDeclareHouse(h1, h2);
+      return 0;
+    }
+
+    static int CompareDeclareHouse(DeclareHouse h1, DeclareHouse h2)
+    {
+      return - (PotentialActions(h1) - PotentialActions(h2));
+    }
+
+    static int PotentialActions(DeclareHouse h)
+    {
+      var actingPlayer = h.Origin.PlayerTurn;
+      var state = (IState) h.Origin;
+      return state.Hands[actingPlayer].Count(c => c.House == h.House)
+             + state.Fields[actingPlayer].Count(c => c.Card.House == h.House);
     }
 
     public ActionStrengthComparerBuilder ThenByPriority()
@@ -76,11 +108,13 @@ namespace KeyforgeUnlocked.Actions
         FightCreature _ => Priority.Good,
         Reap _ => Priority.Best,
         RemoveStun _ => Priority.Good,
-        PlayActionCard _ => Priority.Good,
-        PlayCreatureCard _ => Priority.Good,
-        EndTurn _ => Priority.Neutral,
+        EndTurn _ => Priority.Worst,
         TargetAction _ => Priority.Neutral,
         UseCreatureAbility _ => Priority.Good,
+        PlayActionCard _ => Priority.Good,
+        PlayCreatureCard _ => Priority.Good,
+        UseArtifact _ => Priority.Good,
+        PlayArtifactCard => Priority.Good,
         _ => Priority.Neutral
       };
     }

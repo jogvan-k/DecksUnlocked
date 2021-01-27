@@ -22,12 +22,12 @@ type IEvaluator =
 
 type IGameAI =
     // Calculates the best path for a given state.
-    abstract DetermineAction: state: ICoreState -> int[]
+    abstract DetermineAction: state:ICoreState -> int []
 
 type IGameAIWithVariationPath =
     // Calculates the best path for a given state. A previously calculated best path can be provided from previous calculations to speed up
     // calculation time.
-    abstract DetermineActionWithVariation: state: (ICoreState ) -> variation: int[] -> int[]
+    abstract DetermineActionWithVariation: state:(ICoreState) -> variation:int [] -> int []
 
 type searchTime =
     | Unlimited

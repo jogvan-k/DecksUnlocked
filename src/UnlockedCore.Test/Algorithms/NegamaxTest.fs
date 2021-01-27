@@ -51,7 +51,7 @@ type NegamaxTest () =
         let result = negamax d (basicTree.build()) (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
         fst result |> should equal expectedValue
-        snd result |> should equal expectedPath
+        snd result |> List.toArray |> should equal expectedPath
 
     [<TestCase(1, -20, [|1|])>]
     [<TestCase(2, 20, [|0; 0|])>]
@@ -63,7 +63,7 @@ type NegamaxTest () =
         let result = negamax d (invertedTree.build()) (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
         fst result |> should equal -expectedValue
-        snd result |> should equal expectedPath
+        snd result |> List.toArray |> should equal expectedPath
 
     [<TestCase(1, 25, [|0; 1|])>]
     [<TestCase(2, 10, [|1|])>]
@@ -74,4 +74,4 @@ type NegamaxTest () =
         let result = negamax d twoDepthsPerTurnTree (accumulator(evaluatorFunc, searchTime.Unlimited, LoggingConfiguration.NoLogging)) []
         
         fst result |> should equal expectedValue
-        snd result |> should equal expectedPath
+        snd result |> List.toArray |> should equal expectedPath

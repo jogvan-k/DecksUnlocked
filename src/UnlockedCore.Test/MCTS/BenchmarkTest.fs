@@ -3,16 +3,17 @@
 open NUnit.Framework
 
 open UnlockedCore
-open UnlockedCore.MCTS
 open UnlockedCore.MCTS.AI
 open UnlockedCoreTest.TestTypes
+
+let unlimited = 999999999
 
 [<TestFixture>]
 type BenchmarkCases () =
     
     let evaluate evalFun n b =
         let tree = complexTree evalFun n b
-        let cal = MonteCarloTreeSearch(Seconds(5), configuration.TranspositionTable)
+        let cal = MonteCarloTreeSearch(Seconds(5), unlimited, configuration.AsyncExecution)
         
         let bestPath = (cal :> IGameAI).DetermineAction (tree.build())
         let logInfo = cal.LatestLogInfo()

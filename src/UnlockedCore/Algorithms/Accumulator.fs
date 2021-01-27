@@ -14,12 +14,7 @@ type accumulator(evaluator : ICoreState -> int, st: searchTime, logConfig: Loggi
     let mutable _stepsCalculated = 0
     let _timer = Stopwatch()
     let mutable _timeLimitReached = false
-    let _evaluateUntil = match st with
-                         | Unlimited -> None
-                         | Minutes s -> Some(Stopwatch.Frequency * int64(60 * s))
-                         | Seconds s -> Some(Stopwatch.Frequency * int64(s))
-                         | MilliSeconds s -> Some(Stopwatch.Frequency / int64(1000) * int64(s))
-        
+    let _evaluateUntil = Utility.toStopwatchTics st
         
     let _incrementPrunedPaths =
         if(logPrunedPaths logConfig)

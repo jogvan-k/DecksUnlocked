@@ -25,5 +25,5 @@ type hashMapTest() =
         
         let path = (sut :> IGameAI).DetermineAction tree
         
-        path |> should equal [0;0]
+        path |> should equal [|0;0|]
         sut.LatestLogInfo.successfulHashMapLookups |> should equal 2

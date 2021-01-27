@@ -6,7 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Types.fs" />
+        <Compile Include="DomainTypes.fs" />
+        <Compile Include="Algorithms\Utility.fs" />
         <Compile Include="Algorithms\MinimaxTypes.fs" />
         <Compile Include="Algorithms\AISupportTypes.fs" />
         <Compile Include="Algorithms\Accumulator.fs" />

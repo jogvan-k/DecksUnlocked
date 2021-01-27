@@ -4,25 +4,23 @@ open System
 open System.Collections.Generic
 open System.Diagnostics
 open UnlockedCore
+open UnlockedCore.Algorithms
 open UnlockedCore.MCTS.Algorithm
 open UnlockedCore.MCTS.Types
 
+[<Flags>]
 type configuration =
-    | None
-    | TranspositionTable
+    | None               = 0x0
+    | TranspositionTable = 0x1
+    | AsyncExecution     = 0x2
 
 let tTable (config: configuration) =
-    match config with
-    | TranspositionTable -> Some(HashSet<int>() :> ISet<int>)
-        | None -> option.None
+    if(config.HasFlag(configuration.TranspositionTable))
+    then Some(HashSet<int>() :> ISet<int>)
+    else option.None
 
-type MonteCarloTreeSearch(st: searchTime, config: configuration) =
+type MonteCarloTreeSearch(st: searchTime, maxSimulationCount, config: configuration) =
     let mutable _logInfos: LogInfo list = List.empty
-    let _evaluateUntil = match st with
-                         | Minutes s -> Stopwatch.Frequency * int64(60 * s)
-                         | Seconds s -> Stopwatch.Frequency * int64(s)
-                         | MilliSeconds s -> Stopwatch.Frequency / int64(1000) * int64(s)
-                         | Unlimited -> Int64.MaxValue
 
     let extractWinChance (s: State) =
        let aiPlayer = s.state.PlayerTurn
@@ -38,7 +36,10 @@ type MonteCarloTreeSearch(st: searchTime, config: configuration) =
             let root = State(Parent.None, state)
             let tTable = tTable config
             
-            let result = search(root, timer, tTable, _evaluateUntil)
+            let result =
+                if config.HasFlag(configuration.AsyncExecution)
+                then parallelSearch(root, maxSimulationCount, tTable, Utility.toMilliseconds st)
+                else search(root, maxSimulationCount, timer, tTable, Utility.toStopwatchTics st)
             
             let mutable logInfo = LogInfo()
             logInfo.simulations <- root.visitCount

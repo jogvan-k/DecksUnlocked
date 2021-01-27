@@ -103,8 +103,9 @@ let extractBestPath (s: State) =
     
     path |> List.rev
 
-let search(root: State, timer: Stopwatch, tTable, evaluateUntil: Int64) =
-    while timer.ElapsedTicks < evaluateUntil do
+let search(root: State, maxSimulationCount, timer: Stopwatch, tTable, evaluateUntil: Int64 option) =
+    while(root.visitCount < maxSimulationCount
+          && (not evaluateUntil.IsSome || timer.ElapsedTicks < evaluateUntil.Value)) do
         match selection(root, leafEvaluator) with
         | Exhausted s ->
             let win = simulation s
@@ -117,3 +118,23 @@ let search(root: State, timer: Stopwatch, tTable, evaluateUntil: Int64) =
             | option.None -> ()
     
     extractBestPath root |> List.toArray
+    
+let parallelSearch(root: State, maxSimulationCount, tTable, evaluateUntil: int) =
+    let expression = async {
+        let state = lock root (fun () ->
+            match selection(root, leafEvaluator) with
+            | Exhausted s -> s
+            | Candidate(c, a) -> expansion(c, a, option.None).Value)
+        let win = simulation state
+        lock root (fun () -> backPropagating state win)
+        }
+    
+    try
+        let tasks = Async.Parallel [ for _ in 1..maxSimulationCount -> expression ]
+        Async.RunSynchronously(tasks, evaluateUntil)
+        |> ignore
+    with
+    | :? TimeoutException -> ()
+    
+    extractBestPath root |> List.toArray
+    

@@ -33,7 +33,7 @@ type MonteCarloTreeSearch(st: searchTime, maxSimulationCount, config: configurat
     interface IGameAI with
         member this.DetermineAction(state) =
             let timer = Stopwatch.StartNew()
-            let root = State(Parent.None, state)
+            let root = State(state)
             let tTable = tTable config
             
             let result =

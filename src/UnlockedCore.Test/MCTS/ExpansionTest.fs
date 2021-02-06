@@ -11,23 +11,25 @@ open UnlockedCore.MCTS.Algorithm
 
 [<TestFixture>]
 type ExpansionTest() =
-    let branchingNode =
-        nb(p1, 0, 0, -1, nb(p1, 0, 0, 0)
-               .addChildren([ nb (p2, 0, 0, 1, nb(p2, 0, 0, 4))
-                              nb (p1, 0, 0, 2, nb(p1, 0, 0, 5))
-                              nb (p2, 0, 0, 3, nb(p2, 0, 0, 6)) ]))
-            .build()
+    let branchingNode = nb(p1, 0, 0, 0)
+                               .addChildren([ nb (p2, 0, 0, 1, nb(p2, 0, 0, 4))
+                                              nb (p1, 0, 0, 2, nb(p1, 0, 0, 5))
+                                              nb (p2, 0, 0, 3, nb(p2, 0, 0, 6)) ])
+                               .build()
 
-    let root = State(Parent.None, branchingNode)
-
-    let constructSut() = State(Parent.Parent(root), branchingNode.children.[0])
+    let constructSut() = State(branchingNode)
 
     let stateHash (s: State) = (s.state :> Object).GetHashCode()
 
-    let assertIsState s expandTo =
-        match s with
-        | Some(s) -> stateHash s |> should equal expandTo
-        | option.None -> Assert.Fail()
+    let assertIsState leaf expandTo =
+        match leaf with
+        | Leaf.Leaf a -> stateHash a.state |> should equal expandTo
+        | _ -> Assert.Fail()
+        
+    let assertIsTerminal terminal win =
+        match terminal with
+        | Terminal w -> w |> should equal win
+        | _ -> Assert.Fail()
         
     [<Test>]
     member this.ExpandUnexplored([<Range(1, 3)>] expandTo) =
@@ -39,20 +41,21 @@ type ExpansionTest() =
     [<Test>]
     member this.ExpandToTerminal() =
         let node = nb(p1, 0, 0, 0, nb(p2, 0, 0, 2)).build()
-        let sut = State(Parent.None, node)
+        let sut = State(node)
         let result = expansion ( sut, 0, Option.None)
-        assertIsState result 2
+        assertIsTerminal result p2
         sut.leaves.[0] |> should be (ofCase<@ Terminal @>)
         
     [<Test>]
     member this.ExpandExplored() =
         let sut = constructSut()
-        sut.leaves.[0] <- Leaf(sut)
+        sut.leaves.[0] <- Leaf(Action(p1, sut))
 
         (fun () -> expansion (sut, 0, Option.None) |> ignore)
         |> should (throwWithMessage "Target leaf is already expanded") typeof<Exception>
     
     [<Test>]
+    [<Ignore("TODO implement transposition tables")>]
     member this.ExpandWithTranspositionTable([<Range(1, 3)>] expandTo) =
         let sut = constructSut()
         let tTable = HashSet<int>([0]) :> ISet<int>
@@ -62,6 +65,7 @@ type ExpansionTest() =
         tTable |> should equivalent [0;expandTo]
         
     [<Test>]
+    [<Ignore("TODO implement transposition tables")>]
     member this.ExpandToValueInTranspositionTable([<Range(1, 3)>] expandTo) =
         let sut = constructSut()
         let tTable = HashSet<int>([0;expandTo]) :> ISet<int>

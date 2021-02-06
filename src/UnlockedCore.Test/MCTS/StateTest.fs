@@ -9,7 +9,7 @@ open FsUnit
 type StateTest() =
     
     let sampleState() =
-        State(Parent.None, node(p1, 0, 0, 0))
+        State(node(p1, 0, 0, 0))
         
     [<Test>]
     member this.OnlyWin()=

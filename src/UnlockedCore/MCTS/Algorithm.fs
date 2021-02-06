@@ -15,7 +15,7 @@ let isLeaf l =
     match l with
     | Leaf _ -> true
     | _ -> false
-let winRate (actingPlayer: Player, s: State) = if(actingPlayer = Player.Player1) then s.winRate else 1. - s.winRate
+let winRate (actingPlayer: Player, s: State) = if(actingPlayer = s.state.PlayerTurn) then s.winRate else 1. - s.winRate
 let explorationConstant = sqrt(2.)
 let explorationRate (s: State) =
     match s.parent with
@@ -25,7 +25,7 @@ let explorationRate (s: State) =
 let leafEvaluator (l: Leaf, actingPlayer: Player) =
     match l with
     | Terminal win -> if(win && actingPlayer = Player.Player1 || (not win && actingPlayer = Player.Player2)) then 0. else -1.
-    | Unexplored _ -> 1.
+    | Unexplored _ -> 10.
     | Leaf s -> Math.Min(1., (winRate(actingPlayer, s) + explorationRate s))
     | Duplicate -> 0.
 
@@ -67,14 +67,18 @@ let simulation (s: State) =
         currentState := nextMove.DoCoreAction()
         actions := currentState.Value.Actions()
     
-    currentState.Value.PlayerTurn = Player.Player1
+    currentState.Value.PlayerTurn
 
-let backPropagating (s: State) win =
-    let increment = if(win) then (fun (s: State) -> s.registerWin()) else (fun (s: State) -> s.registerLoss())
+let registerResult (s: State) (playerWin: Player) =
+    if s.state.PlayerTurn = playerWin
+        then s.registerWin()
+        else s.registerLoss()
+
+let backPropagating (s: State) (playerWin: Player) =
     let i = ref s
     let mutable rootReached = false
     while not rootReached do
-        increment(i.Value)
+        registerResult i.Value playerWin
         match i.Value.parent with
         | Parent.None -> rootReached <- true
         | Parent.Parent p ->
@@ -83,7 +87,7 @@ let backPropagating (s: State) win =
 let extractionEvaluator (p: Player, l: Leaf) =
     match l with
     | Terminal win -> if(win && p = Player.Player1 || (not win && p = Player.Player2)) then 1. else 0.
-    | Leaf s -> if(p = Player.Player1) then s.winRate else 1. - s.winRate
+    | Leaf s -> if(p = s.state.PlayerTurn) then s.winRate else 1. - s.winRate
     | Unexplored _ -> 0.
     | Duplicate -> 0.
     
@@ -108,8 +112,7 @@ let search(root: State, maxSimulationCount, timer: Stopwatch, tTable, evaluateUn
           && (not evaluateUntil.IsSome || timer.ElapsedTicks < evaluateUntil.Value)) do
         match selection(root, leafEvaluator) with
         | Exhausted s ->
-            let win = simulation s
-            backPropagating s win
+            backPropagating s (simulation s)
         | Candidate(c, a) ->
             match expansion(c, a, tTable) with
             | Some ex ->

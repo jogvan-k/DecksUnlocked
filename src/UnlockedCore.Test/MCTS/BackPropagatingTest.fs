@@ -36,24 +36,24 @@ type BackPropagatingTest() =
         | Leaf.Leaf v -> v
         | _ -> failwith "not a leaf"
     
-    let assertWinRate (state: State) win =
-           state.winRate |> should equal (if win then 1. else 0.)
+    let assertWinRate (state: State) expectWinningPlayer =
+           state.winRate |> should equal (if state.state.PlayerTurn = expectWinningPlayer then 1. else 0.)
     
     [<Test>]
-    member this.BranchingTree([<Values(0, 1, 2)>] branch, [<Values(true, false)>] win) =
+    member this.BranchingTree([<Values(0, 1, 2)>] branch, [<Values(Player.Player1, Player.Player2)>] playerWin) =
         let root = constructSut(branchingNode.build())
         let endNode = getLeaf( getLeaf(root.leaves.[branch]).leaves.[0])
         
-        backPropagating(endNode) win
+        backPropagating(endNode) playerWin
         
         root.visitCount |> should equal 1
-        root.winRate |> should equal (if win then 1. else 0.)
+        assertWinRate root playerWin
         
         let visitedBranch = getLeaf root.leaves.[branch]
         
-        assertWinRate visitedBranch win
+        assertWinRate visitedBranch playerWin
         let visitedChildBranch = getLeaf(visitedBranch.leaves.[0])
-        assertWinRate visitedChildBranch win
+        assertWinRate visitedChildBranch playerWin
         
         for i in [|0;1;2|] |> Array.where(fun i -> i <> branch) do
             let leaf = getLeaf root.leaves.[i]

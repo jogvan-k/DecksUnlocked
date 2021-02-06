@@ -74,10 +74,10 @@ let backPropagating (s: State) win =
     let i = ref s
     let mutable rootReached = false
     while not rootReached do
+        increment(i.Value)
         match i.Value.parent with
         | Parent.None -> rootReached <- true
         | Parent.Parent p ->
-            increment(p)
             i:= p
 
 let extractionEvaluator (p: Player, l: Leaf) =
@@ -137,4 +137,3 @@ let parallelSearch(root: State, maxSimulationCount, tTable, evaluateUntil: int) 
     | :? TimeoutException -> ()
     
     extractBestPath root |> List.toArray
-    

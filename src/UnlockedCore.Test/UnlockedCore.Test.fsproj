@@ -24,6 +24,7 @@
         <Compile Include="Algorithms\NegamaxTest.fs" />
         <Compile Include="MCTS\SelectionTest.fs" />
         <Compile Include="MCTS\ExpansionTest.fs" />
+        <Compile Include="MCTS\BackPropagatingTest.fs" />
         <Compile Include="MCTS\BenchmarkTest.fs" />
         <Compile Include="program.fs" />
     </ItemGroup>

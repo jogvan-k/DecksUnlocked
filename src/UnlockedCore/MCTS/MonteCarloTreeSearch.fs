@@ -1,6 +1,7 @@
 ﻿module UnlockedCore.MCTS.AI
 
 open System
+open System.Collections
 open System.Collections.Generic
 open System.Diagnostics
 open UnlockedCore
@@ -13,10 +14,11 @@ type configuration =
     | None               = 0x0
     | TranspositionTable = 0x1
     | AsyncExecution     = 0x2
+    | All                = 0x3
 
 let tTable (config: configuration) =
     if(config.HasFlag(configuration.TranspositionTable))
-    then Some(HashSet<int>() :> ISet<int>)
+    then Some(TranspositionTable())
     else option.None
 
 type MonteCarloTreeSearch(st: searchTime, maxSimulationCount, config: configuration) =
@@ -45,6 +47,10 @@ type MonteCarloTreeSearch(st: searchTime, maxSimulationCount, config: configurat
             logInfo.simulations <- root.visitCount
             logInfo.elapsedTime <- timer.Elapsed
             logInfo.estimatedAiWinChance <- extractWinChance root
+            match tTable with
+            | Some t -> logInfo.successfulTranspositionTableLookup <- t.SuccessfulLookups
+                        logInfo.transpositionTableSize <- t.Count
+            | None -> () 
             _logInfos <- logInfo :: _logInfos
             result
     

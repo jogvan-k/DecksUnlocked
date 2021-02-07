@@ -55,21 +55,27 @@ type ExpansionTest() =
         |> should (throwWithMessage "Target leaf is already expanded") typeof<Exception>
     
     [<Test>]
-    [<Ignore("TODO implement transposition tables")>]
     member this.ExpandWithTranspositionTable([<Range(1, 3)>] expandTo) =
         let sut = constructSut()
-        let tTable = HashSet<int>([0]) :> ISet<int>
+        let tTable = TranspositionTable()
+        tTable.Add(0, sut)
         let result = expansion (sut, expandTo - 1, Some(tTable))
         assertIsState result expandTo
         sut.leaves.[expandTo - 1] |> should be (ofCase<@ Leaf.Leaf @>)
-        tTable |> should equivalent [0;expandTo]
+        tTable.SuccessfulLookups |> should equal 0
+        tTable.Count |> should equal 2
         
     [<Test>]
-    [<Ignore("TODO implement transposition tables")>]
     member this.ExpandToValueInTranspositionTable([<Range(1, 3)>] expandTo) =
         let sut = constructSut()
-        let tTable = HashSet<int>([0;expandTo]) :> ISet<int>
+        
+        let tTable = TranspositionTable()
+        tTable.Add(0, sut)
+        tTable.Add(expandTo, State(nb(p1, 99, 0, expandTo, nb(p2,0, 0, 10)).build()))
         let result = expansion (sut, expandTo - 1, Some(tTable))
-        result |> should be Null
-        sut.leaves.[expandTo - 1] |> should be (ofCase<@ Duplicate @>)
-        tTable |> should equivalent [0;expandTo]
+        
+        match result with
+        | Leaf.Leaf a -> a.state.state.TurnNumber |> should equal 99
+        | _ -> Assert.Fail()
+        tTable.SuccessfulLookups |> should equal 1
+        tTable.Count |> should equal 2

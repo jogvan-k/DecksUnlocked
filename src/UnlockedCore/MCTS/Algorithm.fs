@@ -41,20 +41,30 @@ let rec recSelection (s: State, actionHistory: Action list, leafEvaluator) =
 let selection (s: State, leafEvaluator) =
     recSelection(s, [], leafEvaluator)
     
-let expandUnexplored (parent: State, i, nextState: ICoreState) =
-    let state = State(nextState)
+let expandUnexplored (parent: State, i, state: State) =
     let leaf = if Array.isEmpty state.leaves
-                     then Terminal(state.playerTurn)
-                     else let a = Action(parent.playerTurn, state)
-                          Leaf(a)
+               then Terminal(state.playerTurn)
+               else let a = Action(parent.playerTurn, state)
+                    Leaf(a)
     parent.leaves.[i] <- leaf
     leaf
+    
 
-let expansion (s: State, i, tTable: int ISet Option) =
+let expansion (s: State, i, tTable: TranspositionTable Option) =
     match s.leaves.[i] with
     | Unexplored a ->
         let nextState = a.DoCoreAction()
-        expandUnexplored(s, i, nextState)
+        match tTable with
+        | Some t ->
+            let stateHash = nextState.GetHashCode()
+            match t.Lookup stateHash with
+            | Some r -> expandUnexplored(s, i, r)
+            | None ->
+                let ex = State(nextState)
+                t.Add(stateHash, ex)
+                expandUnexplored(s, i, ex)
+        | None -> expandUnexplored(s, i, State(nextState))
+
     | _ -> raise(Exception("Target leaf is already expanded"))
 
 let simulation (s: State) =
@@ -125,7 +135,7 @@ let parallelSearch(root: State, maxSimulationCount, tTable, evaluateUntil: int) 
             | Exhausted a -> (Terminal(snd a), fst a)
             | Candidate(ah, i) ->
                 let s = if List.isEmpty ah then root else ah.[0].state
-                (expansion(s, i, option.None), ah))
+                (expansion(s, i, tTable), ah))
         
         let (win, actionHistory) =
             match leaf with

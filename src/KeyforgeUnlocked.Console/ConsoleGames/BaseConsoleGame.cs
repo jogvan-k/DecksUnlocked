@@ -184,6 +184,8 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
             aiLogString =
               $"{logInfo.simulations} simulations executed in {logInfo.elapsedTime}\n" +
               $"Estimated AI win chance: {(logInfo.estimatedAiWinChance * 100).ToString("##.#")} %";
+            if (logInfo.transpositionTableSize > 0)
+              aiLogString += $"\n{logInfo.successfulTranspositionTableLookup} successful transposition table lookup";
           }
         }
 

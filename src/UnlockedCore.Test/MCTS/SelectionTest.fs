@@ -38,7 +38,7 @@ type selectionTests() =
     [<Test>]
     member this.ExploredAndUnexploredLeaves_SelectUnexplored () =
         let root = State(branchingNode)
-        root.leaves <- [|Leaf.Leaf(Action(root.playerTurn, State(branchingNode.children.[0])));
+        root.leaves <- [|Leaf.Leaf(Action(root.playerTurn, State(branchingNode.children.[0])))
                          Leaf.Terminal(p2)
                          Leaf.Unexplored(root.state.Actions().[2])|]
         let result = selection(root, leafEvaluator)

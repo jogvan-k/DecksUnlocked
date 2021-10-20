@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\KeyforgeUnlocked.Protos\greet.proto" Link="Protos\campaigns.proto" GrpcServices="Server" />
+        <Protobuf Include="..\KeyforgeUnlocked.Protos\ai.proto" Link="Protos\campaigns.proto" GrpcServices="Server" />
     </ItemGroup>
 
     <ItemGroup>

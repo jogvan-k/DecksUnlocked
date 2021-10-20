@@ -15,6 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Protobuf Include="..\KeyforgeUnlocked.Protos\greet.proto" Link="Protos\campaigns.proto" GrpcServices="Client" />
+        <Protobuf Include="..\KeyforgeUnlocked.Protos\ai.proto" Link="Protos\ai.proto" GrpcServices="Client" />
     </ItemGroup>
 </Project>

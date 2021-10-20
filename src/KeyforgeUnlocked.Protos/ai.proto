@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "KeyforgeUnlocked.Server";
+
+package ai;
+
+service AI {
+  rpc Simulate (SimulateRequest) returns (SimulateResponse);
+}
+
+message SimulateRequest {
+  string stateJson = 1;
+}
+
+message SimulateResponse {
+  repeated uint32 moveOrder = 1;
+}

@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>KeyforgeUnlockedConsole</RootNamespace>
         <Nullable>enable</Nullable>
     </PropertyGroup>
@@ -10,6 +10,15 @@
     <ItemGroup>
         <ProjectReference Include="..\KeyforgeUnlocked.Cards\KeyforgeUnlocked.Cards.csproj" />
         <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
+        <PackageReference Include="Google.Protobuf" Version="3.18.1" />
+        <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
+        <PackageReference Include="Grpc.Tools" Version="2.41.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+        <Protobuf Include="..\KeyforgeUnlocked.Protos\ai.proto" Link="Protos\ai.proto" GrpcServices="Client" />
+    </ItemGroup>
 </Project>

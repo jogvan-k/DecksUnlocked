@@ -14,7 +14,7 @@ namespace KeyforgeUnlockedConsole
   {
     static void Main(string[] args)
     {
-      Console.SetWindowSize(200, 50);
+      //Console.SetWindowSize(200, 50);
       var consoleGame = PlayerVsAiGame();
       consoleGame.StartGame();
     }
@@ -24,8 +24,8 @@ namespace KeyforgeUnlockedConsole
       var player1Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       var player2Deck = DeckLoader.LoadDeck("Fyre, Bareleyhill Bodyguard.txt");
       return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck),
-        new AI.MonteCarloTreeSearch(searchTime.NewSeconds(20), 1000000, AI.configuration.All), Player.Player2, LogInfo.CalculationInfo);
-      //return new PlayerVsAIGame(StateFactory.Initiate(player1Deck, player2Deck), new NegamaxAI(new Evaluator(),  MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(10)), MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll), Player.Player1, logInfo: LogInfo.CalculationInfo);
+        new ServerAI(), Player.Player1);
+      //new AI.MonteCarloTreeSearch(searchTime.NewSeconds(4), 1000000, AI.configuration.All), Player.Player1, LogInfo.None);
     }
     static IConsoleGame TwoPlayerGame()
     {

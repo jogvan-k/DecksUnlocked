@@ -27,7 +27,7 @@ namespace KeyforgeUnlocked.Server
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<AIService>();
 
                 endpoints.MapGet("/",
                     async context =>

@@ -1,24 +1,26 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked", "KeyforgeUnlocked\KeyforgeUnlocked.csproj", "{BD961E76-52F5-4488-B377-DCDC251033FB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked", "src\KeyforgeUnlocked\KeyforgeUnlocked.csproj", "{BD961E76-52F5-4488-B377-DCDC251033FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Console", "KeyforgeUnlocked.Console\KeyforgeUnlocked.Console.csproj", "{C492CBF5-EC3D-42BC-A06F-085477D359D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Console", "src\KeyforgeUnlocked.Console\KeyforgeUnlocked.Console.csproj", "{C492CBF5-EC3D-42BC-A06F-085477D359D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Test", "KeyforgeUnlocked.Test\KeyforgeUnlocked.Test.csproj", "{1935B847-E793-44A4-B879-ECFBF86BB71D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Test", "tests\KeyforgeUnlocked.Test\KeyforgeUnlocked.Test.csproj", "{1935B847-E793-44A4-B879-ECFBF86BB71D}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore", "UnlockedCore\UnlockedCore.fsproj", "{3A4805DD-9F43-4E2E-9558-A365A2EFD044}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore", "src\UnlockedCore\UnlockedCore.fsproj", "{3A4805DD-9F43-4E2E-9558-A365A2EFD044}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore.Test", "UnlockedCore.Test\UnlockedCore.Test.fsproj", "{27DDC334-5695-4757-B4A3-8D8C4DED321C}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "UnlockedCore.Test", "tests\UnlockedCore.Test\UnlockedCore.Test.fsproj", "{27DDC334-5695-4757-B4A3-8D8C4DED321C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Cards", "KeyforgeUnlocked.Cards\KeyforgeUnlocked.Cards.csproj", "{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Cards", "src\KeyforgeUnlocked.Cards\KeyforgeUnlocked.Cards.csproj", "{40F84F75-A74D-4BEC-8CF6-E9BF741214C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.IntegrationTest", "KeyforgeUnlocked.IntegrationTest\KeyforgeUnlocked.IntegrationTest.csproj", "{496B0389-E0DE-460B-8C84-3101253DA88D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.IntegrationTest", "tests\KeyforgeUnlocked.IntegrationTest\KeyforgeUnlocked.IntegrationTest.csproj", "{496B0389-E0DE-460B-8C84-3101253DA88D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Server", "KeyforgeUnlocked.Server\KeyforgeUnlocked.Server.csproj", "{292DBA39-5260-4CDF-B9FA-A4D7D222CB71}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Server", "src\KeyforgeUnlocked.Server\KeyforgeUnlocked.Server.csproj", "{292DBA39-5260-4CDF-B9FA-A4D7D222CB71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Protos", "KeyforgeUnlocked.Protos\KeyforgeUnlocked.Protos.csproj", "{3F6DDF8C-C2CD-4BC1-A22E-DED271C966A1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KeyforgeUnlocked.Protos", "src\KeyforgeUnlocked.Protos\KeyforgeUnlocked.Protos.csproj", "{3F6DDF8C-C2CD-4BC1-A22E-DED271C966A1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KeyforgeUnlocked", "KeyforgeUnlocked", "{9C1E3241-7E68-47B7-8290-A5E854D9401E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "KeyforgeUnlocked", "src\KeyforgeUnlocked", "{9C1E3241-7E68-47B7-8290-A5E854D9401E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0CF2E3E7-FD1A-4EDA-867F-C4FB06F95DD0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,9 +69,10 @@ Global
 		{BD961E76-52F5-4488-B377-DCDC251033FB} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
 		{40F84F75-A74D-4BEC-8CF6-E9BF741214C4} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
 		{C492CBF5-EC3D-42BC-A06F-085477D359D6} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
-		{496B0389-E0DE-460B-8C84-3101253DA88D} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
 		{3F6DDF8C-C2CD-4BC1-A22E-DED271C966A1} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
 		{292DBA39-5260-4CDF-B9FA-A4D7D222CB71} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
-		{1935B847-E793-44A4-B879-ECFBF86BB71D} = {9C1E3241-7E68-47B7-8290-A5E854D9401E}
+		{27DDC334-5695-4757-B4A3-8D8C4DED321C} = {0CF2E3E7-FD1A-4EDA-867F-C4FB06F95DD0}
+		{1935B847-E793-44A4-B879-ECFBF86BB71D} = {0CF2E3E7-FD1A-4EDA-867F-C4FB06F95DD0}
+		{496B0389-E0DE-460B-8C84-3101253DA88D} = {0CF2E3E7-FD1A-4EDA-867F-C4FB06F95DD0}
 	EndGlobalSection
 EndGlobal

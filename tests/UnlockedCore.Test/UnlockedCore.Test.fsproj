@@ -31,7 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\UnlockedCore\UnlockedCore.fsproj" />
+      <ProjectReference Include="..\..\src\UnlockedCore\UnlockedCore.fsproj" />
     </ItemGroup>
 
 </Project>

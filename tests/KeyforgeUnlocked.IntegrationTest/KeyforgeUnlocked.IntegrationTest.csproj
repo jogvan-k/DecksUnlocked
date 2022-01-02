@@ -14,7 +14,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\KeyforgeUnlocked.Test\KeyforgeUnlocked.Test.csproj" />
-      <ProjectReference Include="..\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
+      <ProjectReference Include="..\..\src\KeyforgeUnlocked\KeyforgeUnlocked.csproj" />
     </ItemGroup>
 
 </Project>

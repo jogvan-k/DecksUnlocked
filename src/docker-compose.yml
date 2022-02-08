@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  calculator:
+    container_name: Keyforge-AI-Calculator
+    image: keyforge/calculator
+    build:
+      dockerfile: KeyforgeUnlocked.Server/.
+      context: .
+    ports:
+      - 5001:5001

@@ -16,6 +16,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <Content Include="Decks\**\*.txt" CopyToPublishDirectory="Always" />
     </ItemGroup>
 
     <ItemGroup>

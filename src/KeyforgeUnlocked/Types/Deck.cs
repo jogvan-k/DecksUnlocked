@@ -20,8 +20,8 @@ namespace KeyforgeUnlocked.Types
 
     public static Deck LoadDeckFromFile(Assembly assembly, string filename)
     {
-      var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Decks", filename);
-      var deckString = File.ReadLines(path);
+      var pathToDecks = Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", ".."), "Decks", SearchOption.AllDirectories);
+      var deckString = File.ReadLines(Path.Combine(pathToDecks.First(), filename));
       var cardsDictionary = CardsDictionary(assembly);
       var cards = new List<Card>();
       foreach (var cardString in deckString)

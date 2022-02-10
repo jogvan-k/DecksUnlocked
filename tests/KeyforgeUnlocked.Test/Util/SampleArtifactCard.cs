@@ -1,4 +1,5 @@
-﻿using KeyforgeUnlocked.Cards;
+﻿using System;
+using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlockedTest.Util
@@ -22,7 +23,7 @@ namespace KeyforgeUnlockedTest.Util
             ActionPredicate playAllowed = null,
             string id = null) : base(house, pips, playAbility, playAllowed, id)
         {
-            CardTraits = traits ?? new Trait[0];
+            CardTraits = traits ?? Array.Empty<Trait>();
             CardActionAbility = actionAbility;
         }
     }

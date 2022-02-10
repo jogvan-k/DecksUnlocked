@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.ResolvedEffects;
 using KeyforgeUnlocked.Types;
@@ -25,7 +26,7 @@ namespace KeyforgeUnlocked.States
         public Dictionary<Player, List<CardDto>> PurgedCard { get; set; }
 
         //public Dictionary<Player, List<CreatureDTO>> Fields { get; set; }
-        //public Dictionary<Player, List<ArtifactDTO>> Artifacts { get; set; }
+        public Dictionary<Player, List<ArtifactDto>> Artifacts { get; set; }
         //public ImmutableArray<IEffect> Effects { get; set; }
         //public ImmutableEvents Events { get; set; }
         public List<IResolvedEffect> ResolvedEffects { get; set; }

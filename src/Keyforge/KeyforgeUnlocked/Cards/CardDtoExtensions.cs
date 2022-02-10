@@ -7,7 +7,7 @@ namespace KeyforgeUnlocked.Cards
     public static class CardDtoExtensions
     {
         static Lazy<IDictionary<string, Type>>
-            CardClasses = new Lazy<IDictionary<string, Type>>(() => AllCardClasses());
+            CardClasses = new(() => AllCardClasses());
 
         public static CardDto ToDto(this ICard card) =>
             new()
@@ -20,7 +20,7 @@ namespace KeyforgeUnlocked.Cards
         public static ICard ToCard(this CardDto dto)
         {
             var @class = CardClasses.Value[dto.Name];
-            var card = (ICard)@class.GetConstructor(new Type[] { typeof(House) })
+            var card = (ICard)@class.GetConstructor(new[] { typeof(House) })
                 ?.Invoke(new object[] { dto.House });
             @class.GetProperty("Id").SetValue(card, dto.Id);
             return card;

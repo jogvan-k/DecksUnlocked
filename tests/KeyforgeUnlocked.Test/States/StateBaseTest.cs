@@ -81,7 +81,7 @@ namespace KeyforgeUnlockedTest.States
                 emptyState.New(
                         metadata: new Metadata(
                             ImmutableLookup<Player, IImmutableList<ICard>>.Empty,
-                            ImmutableLookup<Player, IImmutableSet<House>>.Empty, 0, 0))
+                            ImmutableLookup<Player, IImmutableSet<House>>.Empty, 0, 1))
                     .Equals(emptyState));
         }
     }

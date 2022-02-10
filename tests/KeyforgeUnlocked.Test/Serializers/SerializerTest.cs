@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Immutable;
+using Google.Protobuf.WellKnownTypes;
+using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Serializers;
 using KeyforgeUnlocked.Types;
@@ -28,6 +31,14 @@ namespace KeyforgeUnlockedTest.Serializers
                     TestUtil.Sets<ICard>(new SampleCreatureCard(House.Brobnar), new SampleActionCard(House.Saurian)),
                     TestUtil.Sets<ICard>(new SampleActionCard(House.Brobnar), new SampleCreatureCard(House.Saurian)),
                     TestUtil.Sets<ICard>(new SampleArtifactCard(House.Brobnar), new SampleArtifactCard(House.Saurian)),
+                    artifacts: TestUtil.Sets<Artifact>(new[]
+                    {
+                        new Artifact(new SampleArtifactCard(House.Brobnar, new[]
+                        {
+                            Trait.Elf, Trait.Cyborg
+                        })),
+                        new Artifact(new SampleArtifactCard(House.Mars, Array.Empty<Trait>()))
+                    }, new[] { new Artifact(new SampleArtifactCard()) }),
                     metadata: new Metadata(ImmutableLookup<Player, IImmutableList<ICard>>.Empty,
                         ImmutableLookup<Player, IImmutableSet<House>>.Empty, 10, 20)
                 )

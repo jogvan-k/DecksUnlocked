@@ -30,6 +30,7 @@ namespace KeyforgeUnlocked.States
                 Discards = state.Discards.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
                 Archives = state.Archives.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
                 PurgedCard = state.PurgedCard.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
+                Artifacts = state.Artifacts.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
                 Metadata = state.Metadata.ToDto()
             };
 
@@ -59,11 +60,7 @@ namespace KeyforgeUnlocked.States
                     { Player.Player1, new LazyList<Creature>() },
                     { Player.Player2, new LazyList<Creature>() }
                 }.ToReadOnly().ToImmutable(),
-                Artifacts = new Dictionary<Player, IMutableSet<Artifact>>
-                {
-                    { Player.Player1, new LazySet<Artifact>() },
-                    { Player.Player2, new LazySet<Artifact>() }
-                }.ToReadOnly().ToImmutable(),
+                Artifacts = dto.Artifacts.ToReadOnly<Player, List<ArtifactDto>, IImmutableSet<Artifact>>(kv => ImmutableHashSet.Create(ToArtifact(kv.Value))),
                 Effects = ImmutableArray<IEffect>.Empty,
                 ResolvedEffects = ImmutableList<IResolvedEffect>.Empty,
                 Events = new ImmutableEvents(),
@@ -72,6 +69,8 @@ namespace KeyforgeUnlocked.States
             };
 
         static List<CardDto> ToDto(IEnumerable<ICard> cards) => cards.Select(v => v.ToDto()).ToList();
+        static List<ArtifactDto> ToDto(IEnumerable<Artifact> cards) => cards.Select(v => v.ToDto()).ToList();
         static ICard[] ToCard(IEnumerable<CardDto> dtos) => dtos.Select(c => c.ToCard()).ToArray();
+        static Artifact[] ToArtifact(IEnumerable<ArtifactDto> dtos) => dtos.Select(c => c.ToArtifact()).ToArray();
     }
 }

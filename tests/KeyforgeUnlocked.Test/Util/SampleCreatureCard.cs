@@ -18,6 +18,7 @@ namespace KeyforgeUnlockedTest.Util
     public Callback CardDestroyedAbility { get; }
     public ActionPredicate CardUseActionAllowed { get; }
 
+    public SampleCreatureCard(House house) : this(house, 1) {}
     public SampleCreatureCard(House house = House.Undefined,
       int power = 1,
       int armor = 0,

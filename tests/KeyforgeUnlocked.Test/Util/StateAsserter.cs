@@ -113,7 +113,7 @@ namespace KeyforgeUnlockedTest.Util
 
         for (int i = 0; i < expected[key].Count(); i++)
         {
-          if (!expected[key].Equals(actual[key]))
+          if (!expected[key].ToArray()[i].Equals(actual[key].ToArray()[i]))
           {
             AppendFieldName(sb, fieldName);
             sb.Append($"Expected and actual differ at index {i} for key {key}");

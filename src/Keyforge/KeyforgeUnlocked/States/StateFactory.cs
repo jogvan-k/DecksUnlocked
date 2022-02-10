@@ -29,7 +29,7 @@ namespace KeyforgeUnlocked.States
       var initialDecks = ToInitialDecks(player1Deck, player2Deck);
       var houses = ToHouses(player1Deck, player2Deck);
 
-      var metadata = new Metadata(initialDecks, houses, 40, rngSeed);
+      var metadata = new Metadata(initialDecks.ToReadOnly(kv => (IImmutableList<ICard>)kv.Value.Cards), houses.ToReadOnly(), 40, rngSeed);
 
       var effects = new LazyStackQueue<IEffect>(new[] {(IEffect) new InitiateGame()});
 

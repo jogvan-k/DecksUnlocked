@@ -24,8 +24,8 @@ namespace KeyforgeUnlockedTest.States
       [Range(0, 3)] int amount)
     {
       var decks = SetupDecks();
-      var initialDecks = decks.ToImmutableDictionary(kv => kv.Key, kv => new Deck(kv.Value.OrderBy(v => v.Id)));
-      var metadata = new Metadata(initialDecks, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 0, -1);
+      var initialDecks = decks.ToReadOnly(kv => (IImmutableList<ICard>) kv.Value.ToImmutableList());
+      var metadata = new Metadata(initialDecks, ImmutableLookup<Player, IImmutableSet<House>>.Empty, 0, -1);
       var state = StateTestUtil.EmptyState.New(decks: decks, metadata: metadata);
 
       var cardsDrawn = state.Draw(player, amount);
@@ -264,7 +264,8 @@ namespace KeyforgeUnlockedTest.States
     {
       var discards = SetupCardSets();
       var decks = discards.ToImmutableDictionary(kv => kv.Key, kv => new Deck(kv.Value.OrderBy(v => v.Id)));
-      var metadata = new Metadata(decks, ImmutableDictionary<Player, IImmutableSet<House>>.Empty, 0, -1);
+      var initialDecks = decks.ToReadOnly(kv => (IImmutableList<ICard>) kv.Value.Cards);
+      var metadata = new Metadata(initialDecks, ImmutableLookup<Player, IImmutableSet<House>>.Empty, 0, -1);
 
       var state = StateTestUtil.EmptyState.New(player, discards: discards, metadata: metadata);
       

@@ -7,20 +7,38 @@ namespace KeyforgeUnlocked.Types
 {
   public sealed class Metadata
   {
-    public ImmutableDictionary<Player, IImmutableList<ICard>> InitialDecks { get; }
-    public ImmutableDictionary<Player, IImmutableSet<House>> Houses { get; }
+    public ImmutableLookup<Player, IImmutableList<ICard>> InitialDecks { get; }
+    public ImmutableLookup<Player, IImmutableSet<House>> Houses { get; }
     public int TurnCountLimit { get; }
     public int RngSeed { get; }
 
-    public Metadata(ImmutableDictionary<Player, Deck> initialDecks,
-      ImmutableDictionary<Player, IImmutableSet<House>> houses,
+    public Metadata(ImmutableLookup<Player, IImmutableList<ICard>> initialDecks,
+      ImmutableLookup<Player, IImmutableSet<House>> houses,
       int turnCountLimit,
       int rngSeed)
     {
-      InitialDecks = initialDecks.ToImmutableDictionary(kv => kv.Key, kv => (IImmutableList<ICard>)kv.Value.Cards);
+      InitialDecks = initialDecks;
       Houses = houses;
       TurnCountLimit = turnCountLimit;
       RngSeed = rngSeed;
+    }
+
+    bool Equals(Metadata other)
+    {
+      return EqualityComparer.Equals(InitialDecks, other.InitialDecks)
+             && EqualityComparer.Equals(Houses, other.Houses)
+             && TurnCountLimit == other.TurnCountLimit
+             && RngSeed == other.RngSeed;
+    }
+
+    public override bool Equals(object? obj)
+    {
+      return ReferenceEquals(this, obj) || obj is Metadata other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(InitialDecks, Houses, TurnCountLimit, RngSeed);
     }
   }
 }

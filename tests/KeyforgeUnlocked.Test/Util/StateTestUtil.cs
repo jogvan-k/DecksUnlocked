@@ -42,13 +42,8 @@ namespace KeyforgeUnlockedTest.Util
     static Metadata EmptyMetadata()
     {
       return new(
-        ImmutableDictionary<Player, Deck>.Empty.AddRange(
-          new[]
-          {
-            new KeyValuePair<Player, Deck>(Player.Player1, new Deck(Enumerable.Empty<ICard>())),
-            new KeyValuePair<Player, Deck>(Player.Player2, new Deck(Enumerable.Empty<ICard>()))
-          }), 
-        ImmutableDictionary<Player, IImmutableSet<House>>.Empty,
+        Initializers.EmptyDeck(), 
+        ImmutableLookup<Player, IImmutableSet<House>>.Empty, 
         0,
         0);
     }

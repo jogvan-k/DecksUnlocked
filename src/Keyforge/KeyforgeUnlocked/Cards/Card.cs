@@ -10,7 +10,7 @@ namespace KeyforgeUnlocked.Cards
   {
     static readonly StringComparer NameComparer = StringComparer.Create(CultureInfo.CurrentCulture, false);
 
-    public string Id { get; }
+    public string Id { get; init; }
     public House House { get; }
     public Pip[] CardPips { get; }
     readonly Lazy<string> _name;

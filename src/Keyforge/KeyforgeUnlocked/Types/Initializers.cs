@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Creatures;
@@ -16,6 +17,17 @@ namespace KeyforgeUnlocked.Types
       });
     }
 
+    public static ImmutableLookup<Player, IImmutableList<ICard>> EmptyDeck() =>
+      new(new Dictionary<Player, IImmutableList<ICard>>
+      {
+        { Player.Player1, ImmutableList<ICard>.Empty }, { Player.Player2, ImmutableList<ICard>.Empty }
+      });
+
+    public static ImmutableLookup<Player, IImmutableSet<House>> EmptyHouses() =>
+      new(new Dictionary<Player, IImmutableSet<House>>
+      {
+        { Player.Player1, ImmutableHashSet<House>.Empty }, { Player.Player2, ImmutableHashSet<House>.Empty }
+      });
     public static ImmutableLookup<Player, IMutableSet<ICard>> EmptySet()
     {
       return new(new Dictionary<Player, IMutableSet<ICard>>()

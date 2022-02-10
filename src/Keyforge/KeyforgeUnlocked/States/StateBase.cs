@@ -61,7 +61,7 @@ namespace KeyforgeUnlocked.States
              && thisState.Events.Equals(other.Events)
              && thisState.ResolvedEffects.SequenceEqual(other.ResolvedEffects)
              && thisState.HistoricData.Equals(other.HistoricData)
-             && ReferenceEquals(thisState.Metadata, other.Metadata);
+             && thisState.Metadata.Equals(other.Metadata);
     }
 
     static bool EqualValues<T>(IReadOnlyDictionary<Player, T> first,

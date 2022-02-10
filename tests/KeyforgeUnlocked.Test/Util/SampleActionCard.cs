@@ -5,6 +5,7 @@ namespace KeyforgeUnlockedTest.Util
 {
   public sealed class SampleActionCard : Card, IActionCard
   {
+    public SampleActionCard(House house) : this(house, null) {}
     public SampleActionCard(
       House house = House.Undefined,
       Pip[] pips = null,

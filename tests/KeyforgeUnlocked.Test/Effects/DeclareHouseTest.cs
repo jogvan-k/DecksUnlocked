@@ -17,12 +17,11 @@ namespace KeyforgeUnlockedTest.Effects
     static readonly House[] Player1Houses = {House.Brobnar, House.Logos, House.Sanctum};
     static readonly House[] Player2Houses = {House.Dis, House.Mars, House.Saurian};
 
-    static readonly ImmutableDictionary<Player, IImmutableSet<House>> Houses =
-      ImmutableDictionary<Player, IImmutableSet<House>>.Empty.AddRange(
-        new[]
+    static readonly ImmutableLookup<Player, IImmutableSet<House>> Houses =
+      new ImmutableLookup<Player, IImmutableSet<House>>(new Dictionary<Player, IImmutableSet<House>>
         {
-          new KeyValuePair<Player, IImmutableSet<House>>(Player.Player1, Player1Houses.ToImmutableHashSet()),
-          new KeyValuePair<Player, IImmutableSet<House>>(Player.Player2, Player2Houses.ToImmutableHashSet())
+          {Player.Player1, Player1Houses.ToImmutableHashSet()},
+          {Player.Player2, Player2Houses.ToImmutableHashSet()}
         });
 
     static readonly DeclareHouse Sut = new ();
@@ -50,7 +49,7 @@ namespace KeyforgeUnlockedTest.Effects
     [TestCase(Player.Player2)]
     public void StateWithMetadata(Player playerTurn)
     {
-      var metadata = new Metadata(ImmutableDictionary<Player, Deck>.Empty, Houses, 0, 0);
+      var metadata = new Metadata(ImmutableLookup<Player, IImmutableList<ICard>>.Empty, Houses, 0, 0);
       var state = StateTestUtil.EmptyState.New(playerTurn: playerTurn, metadata: metadata);
 
       Sut.Resolve(state);

@@ -19,6 +19,7 @@ namespace KeyforgeUnlocked.Types
         }
 
         public static ImmutableLookup<TKey, TValue> Empty => new(new Dictionary<TKey, TValue>());
+
         public override int GetHashCode()
         {
             var hc = new HashCode();

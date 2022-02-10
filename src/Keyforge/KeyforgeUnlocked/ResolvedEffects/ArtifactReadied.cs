@@ -2,15 +2,15 @@
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public class ArtifactReadied : ResolvedEffectWithIdentifiable<ArtifactReadied>
-  {
-    public ArtifactReadied(IIdentifiable id) : base(id)
+    public class ArtifactReadied : ResolvedEffectWithIdentifiable<ArtifactReadied>
     {
-    }
+        public ArtifactReadied(IIdentifiable id) : base(id)
+        {
+        }
 
-    public override string ToString()
-    {
-      return $"{Id.Name} readied";
+        public override string ToString()
+        {
+            return $"{Id.Name} readied";
+        }
     }
-  }
 }

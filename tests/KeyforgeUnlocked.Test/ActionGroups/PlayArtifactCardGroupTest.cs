@@ -8,37 +8,37 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.ActionGroups
 {
-  [TestFixture]
-  sealed class PlayArtifactCardGroupTest
-  {
-    IArtifactCard sampleCard = new SampleArtifactCard();
-    ImmutableState _state = StateTestUtil.EmptyState;
-
-    [Test]
-    public void Actions_EmptyState()
+    [TestFixture]
+    sealed class PlayArtifactCardGroupTest
     {
-      var sut = new PlayArtifactCardGroup(sampleCard);
+        IArtifactCard sampleCard = new SampleArtifactCard();
+        ImmutableState _state = StateTestUtil.EmptyState;
 
-      var actions = sut.Actions(_state);
-
-      var expectedActions = ImmutableList<IAction>.Empty.AddRange(
-        new[]
+        [Test]
+        public void Actions_EmptyState()
         {
-          (IAction) new PlayArtifactCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
-        });
-      Assert.AreEqual(expectedActions, actions);
-    }
-    
-    [Test]
-    public void Actions_PlayNotAllowed()
-    {
-      var card = new SampleArtifactCard(playAllowed: (_, _) => false);
-      var sut = new PlayArtifactCardGroup(card);
+            var sut = new PlayArtifactCardGroup(sampleCard);
 
-      var actions = sut.Actions(_state);
+            var actions = sut.Actions(_state);
 
-      var expectedActions = ImmutableList<IAction>.Empty.Add(new DiscardCard(_state, card));
-      Assert.AreEqual(expectedActions, actions);
+            var expectedActions = ImmutableList<IAction>.Empty.AddRange(
+                new[]
+                {
+                    (IAction)new PlayArtifactCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
+                });
+            Assert.AreEqual(expectedActions, actions);
+        }
+
+        [Test]
+        public void Actions_PlayNotAllowed()
+        {
+            var card = new SampleArtifactCard(playAllowed: (_, _) => false);
+            var sut = new PlayArtifactCardGroup(card);
+
+            var actions = sut.Actions(_state);
+
+            var expectedActions = ImmutableList<IAction>.Empty.Add(new DiscardCard(_state, card));
+            Assert.AreEqual(expectedActions, actions);
+        }
     }
-  }
 }

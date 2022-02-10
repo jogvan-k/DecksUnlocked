@@ -1,12 +1,12 @@
 ﻿namespace KeyforgeUnlocked.Cards
 {
-  public static class IdGenerator
-  {
-    static int nextId;
-
-    public static int GetNextInt()
+    public static class IdGenerator
     {
-      return nextId++;
+        static int nextId;
+
+        public static int GetNextInt()
+        {
+            return nextId++;
+        }
     }
-  }
 }

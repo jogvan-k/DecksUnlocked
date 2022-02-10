@@ -9,39 +9,39 @@ using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Types
 {
-  [TestFixture]
-  sealed class MutableHistoricDataExtensions
-  {
-    [Test]
-    public void NextTurn_DefaultHistoricData()
+    [TestFixture]
+    sealed class MutableHistoricDataExtensions
     {
-      var historicData = new ImmutableHistoricData().ToMutable();
-      
-      historicData.NextTurn();
+        [Test]
+        public void NextTurn_DefaultHistoricData()
+        {
+            var historicData = new ImmutableHistoricData().ToMutable();
 
-      var expectedHistoricData = new ImmutableHistoricData();
-      Assert.AreEqual(expectedHistoricData, historicData);
+            historicData.NextTurn();
+
+            var expectedHistoricData = new ImmutableHistoricData();
+            Assert.AreEqual(expectedHistoricData, historicData);
+        }
+
+        [Test]
+        public void NextTurn()
+        {
+            var historicData = new ImmutableHistoricData().ToMutable();
+            historicData.NumberOfShuffles = TestUtil.Ints(2, 3);
+            historicData.ActionPlayedThisTurn = true;
+            historicData.EnemiesDestroyedInAFightThisTurn = 5;
+            historicData.CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty
+                .Add(new Identifiable(new SampleCreatureCard()))
+                .Add(new Identifiable(new SampleCreatureCard()));
+            historicData.CardsDiscardedThisTurn = ImmutableHashSet<ICard>.Empty
+                .Add(new SampleActionCard())
+                .Add(new SampleCreatureCard());
+
+            historicData.NextTurn();
+
+            var expectedHistoricData = new ImmutableHistoricData().ToMutable();
+            expectedHistoricData.NumberOfShuffles = TestUtil.Ints(2, 3);
+            Assert.AreEqual(expectedHistoricData, historicData);
+        }
     }
-
-    [Test]
-    public void NextTurn()
-    {
-      var historicData = new ImmutableHistoricData().ToMutable();
-      historicData.NumberOfShuffles = TestUtil.Ints(2, 3);
-      historicData.ActionPlayedThisTurn = true;
-      historicData.EnemiesDestroyedInAFightThisTurn = 5;
-      historicData.CreaturesAttackedThisTurn = ImmutableHashSet<IIdentifiable>.Empty
-        .Add(new Identifiable(new SampleCreatureCard()))
-        .Add(new Identifiable(new SampleCreatureCard()));
-      historicData.CardsDiscardedThisTurn = ImmutableHashSet<ICard>.Empty
-        .Add(new SampleActionCard())
-        .Add(new SampleCreatureCard());
-      
-      historicData.NextTurn();
-
-      var expectedHistoricData = new ImmutableHistoricData().ToMutable();
-      expectedHistoricData.NumberOfShuffles = TestUtil.Ints(2, 3);
-      Assert.AreEqual(expectedHistoricData, historicData);
-    }
-  }
 }

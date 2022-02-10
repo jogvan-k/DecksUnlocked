@@ -6,45 +6,45 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public abstract class UseCreature<T> : BasicAction<T> where T : UseCreature<T>
-  {
-    public readonly Creature Creature;
-    readonly bool _allowOutOfHouseUse;
-
-    public UseCreature(ImmutableState origin, Creature creature, bool allowOutOfHouseUse) : base(origin)
+    public abstract class UseCreature<T> : BasicAction<T> where T : UseCreature<T>
     {
-      Creature = creature;
-      _allowOutOfHouseUse = allowOutOfHouseUse;
-    }
+        public readonly Creature Creature;
+        readonly bool _allowOutOfHouseUse;
 
-    internal override void Validate(IState state)
-    {
-      base.Validate(state);
-      ValidateActiveHouse(state);
-      ValidateCreatureIsReady(state);
-    }
+        public UseCreature(ImmutableState origin, Creature creature, bool allowOutOfHouseUse) : base(origin)
+        {
+            Creature = creature;
+            _allowOutOfHouseUse = allowOutOfHouseUse;
+        }
 
-    void ValidateCreatureIsReady(IState state)
-    {
-      if (!Creature.IsReady)
-        throw new CreatureNotReadyException(state, Creature);
-    }
+        internal override void Validate(IState state)
+        {
+            base.Validate(state);
+            ValidateActiveHouse(state);
+            ValidateCreatureIsReady(state);
+        }
 
-    void ValidateActiveHouse(IState state)
-    {
-      var house = state.ActiveHouse;
-      if (!_allowOutOfHouseUse && Creature.Card.House != house)
-        throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
-    }
+        void ValidateCreatureIsReady(IState state)
+        {
+            if (!Creature.IsReady)
+                throw new CreatureNotReadyException(state, Creature);
+        }
 
-    protected override bool Equals(T other)
-    {
-      return Equals(Creature, other.Creature);
-    }
+        void ValidateActiveHouse(IState state)
+        {
+            var house = state.ActiveHouse;
+            if (!_allowOutOfHouseUse && Creature.Card.House != house)
+                throw new NotFromActiveHouseException(state, Creature.Card, house ?? House.Undefined);
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Creature);
+        protected override bool Equals(T other)
+        {
+            return Equals(Creature, other.Creature);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Creature);
+        }
     }
-  }
 }

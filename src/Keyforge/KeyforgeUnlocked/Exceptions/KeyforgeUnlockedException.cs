@@ -3,31 +3,31 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public class KeyforgeUnlockedException : Exception
-  {
-    public IState State { get; }
-
-    public KeyforgeUnlockedException(IState state)
+    public class KeyforgeUnlockedException : Exception
     {
-      State = state;
-    }
+        public IState State { get; }
 
-    protected bool Equals(KeyforgeUnlockedException other)
-    {
-      return Equals(State, other.State);
-    }
+        public KeyforgeUnlockedException(IState state)
+        {
+            State = state;
+        }
 
-    public override bool Equals(object? obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((KeyforgeUnlockedException) obj);
-    }
+        protected bool Equals(KeyforgeUnlockedException other)
+        {
+            return Equals(State, other.State);
+        }
 
-    public override int GetHashCode()
-    {
-      return State.GetHashCode();
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((KeyforgeUnlockedException)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return State.GetHashCode();
+        }
     }
-  }
 }

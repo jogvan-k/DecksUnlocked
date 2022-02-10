@@ -4,8 +4,8 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public interface IActionGroup
-  {
-    public IImmutableList<IAction> Actions(ImmutableState state);
-  }
+    public interface IActionGroup
+    {
+        public IImmutableList<IAction> Actions(ImmutableState state);
+    }
 }

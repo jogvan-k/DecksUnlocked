@@ -4,23 +4,24 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithPlayer<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithPlayer<T>
-  {
-    protected readonly Player Player;
-
-    protected ResolvedEffectWithPlayer(Player player)
+    public abstract class ResolvedEffectWithPlayer<T> : Equatable<T>, IResolvedEffect
+        where T : ResolvedEffectWithPlayer<T>
     {
-      Player = player;
-    }
+        protected readonly Player Player;
 
-    protected override bool Equals(T other)
-    {
-      return Player.Equals(other.Player);
-    }
+        protected ResolvedEffectWithPlayer(Player player)
+        {
+            Player = player;
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Player);
+        protected override bool Equals(T other)
+        {
+            return Player.Equals(other.Player);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Player);
+        }
     }
-  }
 }

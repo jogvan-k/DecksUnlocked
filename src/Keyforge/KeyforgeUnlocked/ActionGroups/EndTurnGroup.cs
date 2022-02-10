@@ -4,16 +4,16 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class EndTurnGroup : ActionGroupBase<EndTurnGroup>
-  {
-    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+    public sealed class EndTurnGroup : ActionGroupBase<EndTurnGroup>
     {
-      return ImmutableList<IAction>.Empty.Add(new EndTurn(origin));
-    }
+        protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+        {
+            return ImmutableList<IAction>.Empty.Add(new EndTurn(origin));
+        }
 
-    public override string ToString()
-    {
-      return "End turn";
+        public override string ToString()
+        {
+            return "End turn";
+        }
     }
-  }
 }

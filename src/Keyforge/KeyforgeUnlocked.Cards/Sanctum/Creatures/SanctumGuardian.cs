@@ -6,29 +6,29 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Sanctum.Creatures
 {
-  [CardInfo("Sanctum Guardian", Rarity.Rare,
-    "Fight/Reap: Swap Sanctum Guardian with another friendly creature in your battleline.")]
-  [ExpansionSet(Expansion.CotA, 256)]
-  [ExpansionSet(Expansion.AoA, 265)]
-  public sealed class SanctumGuardian : CreatureCard
-  {
-    const int power = 6;
-    const int armor = 1;
-    static readonly Trait[] Traits = {Trait.Knight, Trait.Spirit};
-    static readonly Keyword[] Keywords = {Keyword.Taunt};
-
-    static readonly Callback FightReapAbility = (s, self, p) =>
+    [CardInfo("Sanctum Guardian", Rarity.Rare,
+        "Fight/Reap: Swap Sanctum Guardian with another friendly creature in your battleline.")]
+    [ExpansionSet(Expansion.CotA, 256)]
+    [ExpansionSet(Expansion.AoA, 265)]
+    public sealed class SanctumGuardian : CreatureCard
     {
-      s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Target.Own, Delegates.AlliesOf(p)));
-    };
+        const int power = 6;
+        const int armor = 1;
+        static readonly Trait[] Traits = { Trait.Knight, Trait.Spirit };
+        static readonly Keyword[] Keywords = { Keyword.Taunt };
 
-    public SanctumGuardian() : this(House.Sanctum)
-    {
+        static readonly Callback FightReapAbility = (s, self, p) =>
+        {
+            s.AddEffect(new TargetSingleCreature(Delegates.SwapCreatures(self), Target.Own, Delegates.AlliesOf(p)));
+        };
+
+        public SanctumGuardian() : this(House.Sanctum)
+        {
+        }
+
+        public SanctumGuardian(House house) : base(
+            house, power, armor, Traits, Keywords, fightAbility: FightReapAbility, reapAbility: FightReapAbility)
+        {
+        }
     }
-
-    public SanctumGuardian(House house) : base(
-      house, power, armor, Traits, Keywords, fightAbility: FightReapAbility, reapAbility: FightReapAbility)
-    {
-    }
-  }
 }

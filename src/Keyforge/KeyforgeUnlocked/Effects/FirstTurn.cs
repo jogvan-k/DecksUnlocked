@@ -5,31 +5,31 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public class FirstTurn : EffectBase<FirstTurn>
-  {
-    protected override void ResolveImpl(IMutableState state)
+    public class FirstTurn : EffectBase<FirstTurn>
     {
-      foreach (var card in state.Hands[state.PlayerTurn])
-        if (card.House == state.ActiveHouse)
-          state.ActionGroups.Add(ActionGroup(state, card));
+        protected override void ResolveImpl(IMutableState state)
+        {
+            foreach (var card in state.Hands[state.PlayerTurn])
+                if (card.House == state.ActiveHouse)
+                    state.ActionGroups.Add(ActionGroup(state, card));
 
-      state.ActionGroups.Add(new NoActionGroup());
-    }
+            state.ActionGroups.Add(new NoActionGroup());
+        }
 
-    IActionGroup ActionGroup(IState state,
-      ICard card)
-    {
-      switch (card)
-      {
-        case ICreatureCard creatureCard:
-          return new PlayCreatureCardGroup(state, creatureCard);
-        case IActionCard actionCard:
-          return new PlayActionCardGroup(actionCard);
-        case IArtifactCard artifactCard:
-          return new PlayArtifactCardGroup(artifactCard);
-        default:
-          throw new NotImplementedException();
-      }
+        IActionGroup ActionGroup(IState state,
+            ICard card)
+        {
+            switch (card)
+            {
+                case ICreatureCard creatureCard:
+                    return new PlayCreatureCardGroup(state, creatureCard);
+                case IActionCard actionCard:
+                    return new PlayActionCardGroup(actionCard);
+                case IArtifactCard artifactCard:
+                    return new PlayArtifactCardGroup(artifactCard);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
-  }
 }

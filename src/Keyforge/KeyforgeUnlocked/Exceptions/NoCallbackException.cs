@@ -3,12 +3,13 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public class NoCallbackException : KeyforgeUnlockedException
-  {
-    public readonly IIdentifiable Id;
-    public NoCallbackException(IState state, IIdentifiable id) : base(state)
+    public class NoCallbackException : KeyforgeUnlockedException
     {
-      Id = id;
+        public readonly IIdentifiable Id;
+
+        public NoCallbackException(IState state, IIdentifiable id) : base(state)
+        {
+            Id = id;
+        }
     }
-  }
 }

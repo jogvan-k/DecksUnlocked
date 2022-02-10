@@ -20,12 +20,12 @@ namespace KeyforgeUnlocked.Cards
         public static ICard ToCard(this CardDto dto)
         {
             var @class = CardClasses.Value[dto.Name];
-            var card = (ICard) @class.GetConstructor(new Type[] { typeof(House) })
+            var card = (ICard)@class.GetConstructor(new Type[] { typeof(House) })
                 ?.Invoke(new object[] { dto.House });
             @class.GetProperty("Id").SetValue(card, dto.Id);
             return card;
         }
-            
+
 
         static IDictionary<string, Type> AllCardClasses()
         {

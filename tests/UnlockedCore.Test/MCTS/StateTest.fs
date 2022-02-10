@@ -7,37 +7,39 @@ open FsUnit
 
 [<TestFixture>]
 type StateTest() =
-    
-    let sampleState() =
-        State(node(p1, 0, 0, 0))
-        
+
+    let sampleState () = State(node (p1, 0, 0, 0))
+
     [<Test>]
-    member this.OnlyWin()=
-        let state = sampleState()
-        
-        for _ in [1..10] do
-            state.registerWin()
-        
+    member this.OnlyWin() =
+        let state = sampleState ()
+
+        for _ in [ 1 .. 10 ] do
+            state.registerWin ()
+
         state.visitCount |> should equal 10
         state.winRate |> should equal 1.
-    
+
     [<Test>]
     member this.OnlyLoss() =
-        let state = sampleState()
-        
-        for _ in [1..10] do
-            state.registerLoss()
-        
+        let state = sampleState ()
+
+        for _ in [ 1 .. 10 ] do
+            state.registerLoss ()
+
         state.visitCount |> should equal 10
         state.winRate |> should equal 0.
-    
+
     [<Test>]
     member this.WinThenLosses() =
-        let state = sampleState()
-        
-        state.registerWin()
-        for _ in [1..99] do
-            state.registerLoss()
-        
+        let state = sampleState ()
+
+        state.registerWin ()
+
+        for _ in [ 1 .. 99 ] do
+            state.registerLoss ()
+
         state.visitCount |> should equal 100
-        state.winRate |> should (equalWithin 0.0000001) 0.01
+
+        state.winRate
+        |> should (equalWithin 0.0000001) 0.01

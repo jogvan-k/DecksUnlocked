@@ -2,11 +2,11 @@
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class ArchivedClaimed : Equatable<ArchivedClaimed>, IResolvedEffect
-  {
-    public override string ToString()
+    public sealed class ArchivedClaimed : Equatable<ArchivedClaimed>, IResolvedEffect
     {
-      return "Archive claimed";
+        public override string ToString()
+        {
+            return "Archive claimed";
+        }
     }
-  }
 }

@@ -3,17 +3,17 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public sealed class InvalidFightException : KeyforgeUnlockedException
-  {
-    public Creature FightingCreature { get; }
-    public Creature TargetCreature { get; }
-
-    public InvalidFightException(IState state,
-      Creature fightingCreature,
-      Creature targetCreature) : base(state)
+    public sealed class InvalidFightException : KeyforgeUnlockedException
     {
-      FightingCreature = fightingCreature;
-      TargetCreature = targetCreature;
+        public Creature FightingCreature { get; }
+        public Creature TargetCreature { get; }
+
+        public InvalidFightException(IState state,
+            Creature fightingCreature,
+            Creature targetCreature) : base(state)
+        {
+            FightingCreature = fightingCreature;
+            TargetCreature = targetCreature;
+        }
     }
-  }
 }

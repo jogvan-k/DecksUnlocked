@@ -1,6 +1,6 @@
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public abstract class ResolveEffectActionGroup<T> : ActionGroupBase<T>
-  {
-  }
+    public abstract class ResolveEffectActionGroup<T> : ActionGroupBase<T>
+    {
+    }
 }

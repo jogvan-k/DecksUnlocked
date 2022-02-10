@@ -3,12 +3,13 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public class CreatureNotPresentException : KeyforgeUnlockedException
-  {
-    public IIdentifiable Id;
-    public CreatureNotPresentException(IState state, IIdentifiable id) : base(state)
+    public class CreatureNotPresentException : KeyforgeUnlockedException
     {
-      Id = id;
+        public IIdentifiable Id;
+
+        public CreatureNotPresentException(IState state, IIdentifiable id) : base(state)
+        {
+            Id = id;
+        }
     }
-  }
 }

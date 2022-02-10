@@ -1,6 +1,6 @@
 ﻿namespace KeyforgeUnlocked.Cards
 {
-  public interface IActionCard : ICard
-  {
-  }
+    public interface IActionCard : ICard
+    {
+    }
 }

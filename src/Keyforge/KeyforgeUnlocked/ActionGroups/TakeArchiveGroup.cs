@@ -4,19 +4,19 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public class TakeArchiveGroup : ActionGroupBase<TakeArchiveGroup>
-  {
-    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+    public class TakeArchiveGroup : ActionGroupBase<TakeArchiveGroup>
     {
-      if(origin.Archives[origin.PlayerTurn].Count == 0)
-        return ImmutableList<IAction>.Empty;
+        protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+        {
+            if (origin.Archives[origin.PlayerTurn].Count == 0)
+                return ImmutableList<IAction>.Empty;
 
-      return new[] { (IAction) new TakeArchive(origin) }.ToImmutableList();
-    }
+            return new[] { (IAction)new TakeArchive(origin) }.ToImmutableList();
+        }
 
-    public override string ToString()
-    {
-      return "Take archive";
+        public override string ToString()
+        {
+            return "Take archive";
+        }
     }
-  }
 }

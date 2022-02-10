@@ -7,19 +7,19 @@ using KeyforgeUnlocked.Types.HistoricData.Extensions;
 
 namespace KeyforgeUnlocked.Effects
 {
-  public sealed class EndTurn : EffectBase<EndTurn>
-  {
-    protected override void ResolveImpl(IMutableState state)
+    public sealed class EndTurn : EffectBase<EndTurn>
     {
-      state.RaiseEvent(EventType.TurnEnded);
-      state.PlayerTurn = state.PlayerTurn.Other();
-      state.TurnNumber++;
-      state.ActiveHouse = null;
-      state.HistoricData.NextTurn();
-      state.ResolvedEffects.Add(new TurnEnded());
-      state.Effects.Enqueue(new CheckGameTurnLimit());
-      state.Effects.Enqueue(new TryForge());
-      state.Effects.Enqueue(new DeclareHouse());
+        protected override void ResolveImpl(IMutableState state)
+        {
+            state.RaiseEvent(EventType.TurnEnded);
+            state.PlayerTurn = state.PlayerTurn.Other();
+            state.TurnNumber++;
+            state.ActiveHouse = null;
+            state.HistoricData.NextTurn();
+            state.ResolvedEffects.Add(new TurnEnded());
+            state.Effects.Enqueue(new CheckGameTurnLimit());
+            state.Effects.Enqueue(new TryForge());
+            state.Effects.Enqueue(new DeclareHouse());
+        }
     }
-  }
 }

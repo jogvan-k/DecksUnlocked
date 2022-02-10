@@ -13,107 +13,108 @@ using UnlockedCore.AITypes;
 
 namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 {
-  [TestFixture]
-  sealed class MinimaxBenchmarkTest
-  {
-    IState _state;
-
-    [Test]
-    [Explicit]
-    public void StateRun()
+    [TestFixture]
+    sealed class MinimaxBenchmarkTest
     {
-      var i = 0;
-      _state = SetupStartState();
+        IState _state;
 
-      var stopwatch = Stopwatch.StartNew();
-      while (!_state.IsGameOver && ++i > -1)
-      {
-        var coreActions = _state.Actions();
-        if (coreActions.Length > 1)
-          _state = (IState) coreActions[1].DoCoreAction();
-        else
-          _state = (IState) coreActions.First().DoCoreAction();
-      }
+        [Test]
+        [Explicit]
+        public void StateRun()
+        {
+            var i = 0;
+            _state = SetupStartState();
 
-      stopwatch.Stop();
-      Console.WriteLine($"Ran through {i} states in {stopwatch.Elapsed.TotalSeconds} seconds.");
-    }
+            var stopwatch = Stopwatch.StartNew();
+            while (!_state.IsGameOver && ++i > -1)
+            {
+                var coreActions = _state.Actions();
+                if (coreActions.Length > 1)
+                    _state = (IState)coreActions[1].DoCoreAction();
+                else
+                    _state = (IState)coreActions.First().DoCoreAction();
+            }
 
-    [Test]
-    [Explicit]
-    public void NegamaxAIRun()
-    {
-      _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(15)), MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll);
+            stopwatch.Stop();
+            Console.WriteLine($"Ran through {i} states in {stopwatch.Elapsed.TotalSeconds} seconds.");
+        }
 
-      ((IGameAI) ai).DetermineAction(_state);
+        [Test]
+        [Explicit]
+        public void NegamaxAIRun()
+        {
+            _state = SetupStartState();
+            var ai = new NegamaxAI(new Evaluator(), MinimaxTypes.searchLimit.NewTurn(2, searchTime.NewSeconds(15)),
+                MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll);
 
-      Console.WriteLine(
-        $"Evaluated {ai.LatestLogInfo.endNodesEvaluated} end states in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds.");
-      Console.WriteLine(
-        $"{ai.LatestLogInfo.successfulHashMapLookups} successful hash map lookups and {ai.LatestLogInfo.prunedPaths} paths pruned.");
-    }
+            ((IGameAI)ai).DetermineAction(_state);
 
-    [Test]
-    [Explicit]
-    public void FullGameRun()
-    {
-      var result = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
+            Console.WriteLine(
+                $"Evaluated {ai.LatestLogInfo.endNodesEvaluated} end states in {ai.LatestLogInfo.elapsedTime.TotalSeconds} seconds.");
+            Console.WriteLine(
+                $"{ai.LatestLogInfo.successfulHashMapLookups} successful hash map lookups and {ai.LatestLogInfo.prunedPaths} paths pruned.");
+        }
 
-      Console.WriteLine(
-        $"Evaluated {result.Item1.Sum(l => l.endNodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
-      Console.WriteLine(
-        $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
-    }
-    
-    // Evaluated 745853 end states over 19 calls and 20 turns in 383,9004011000002 seconds.
-    // 4435705 successful hash map lookups and 0 paths pruned.
-    
-    // Evaluated 774770 end states over 19 calls and 20 turns in 428,71984790000016 seconds.
-    // 4608404 successful hash map lookups and 0 paths pruned.
-    
-    // 3 turns search depth
-    // Evaluated 1430498 end states over 39 calls and 40 turns in 245,0023509 seconds.
-    // 2407768 successful hash map lookups and 613184 paths pruned.
-    
-    // 1 turn search depth /w 5 s search time
-    // Evaluated 76924 end states over 9 calls and 10 turns in 38,1994761 seconds.
-    //110604 successful hash map lookups and 0 paths pruned.
+        [Test]
+        [Explicit]
+        public void FullGameRun()
+        {
+            var result = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(1, searchTime.NewSeconds(15)));
 
-    [Test]
-    [Explicit]
-    public void RunGameSample()
-    {
-      var numberOfGames = 10;
-      var runTimes = new List<(TimeSpan, int)>();
-      var moves = new List<int[]>();
+            Console.WriteLine(
+                $"Evaluated {result.Item1.Sum(l => l.endNodesEvaluated)} end states over {result.logInfos.Count()} calls and {result.turns} turns in {result.logInfos.Sum(l => l.elapsedTime.TotalSeconds)} seconds.");
+            Console.WriteLine(
+                $"{result.Item1.Sum(l => l.successfulHashMapLookups)} successful hash map lookups and {result.logInfos.Sum(l => l.prunedPaths)} paths pruned.");
+        }
 
-      for (int i = 0; i < numberOfGames; i++)
-      {
-        var results = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(3, searchTime.Unlimited));
-        runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
-        moves.Add(results.movesTaken);
-      }
-      
-      Console.WriteLine($"{numberOfGames} evaluated in {runTimes.Select(r => r.Item1).Total()}");
-      if (numberOfGames < 1)
-        return;
-      
-      Console.WriteLine("//Excluding first run");
-      
-      var reducedRunTimes = runTimes.GetRange(1, numberOfGames - 1);
-      Console.WriteLine($"Average runtime: {reducedRunTimes.Select(r => r.Item1).Average()}");
-      Console.WriteLine($"Fastest run: {reducedRunTimes.Select(r => r.Item1).Min()})");
-      Console.WriteLine($"Slowest run: {reducedRunTimes.Select(r => r.Item1).Max()})");
-      Console.WriteLine();
+        // Evaluated 745853 end states over 19 calls and 20 turns in 383,9004011000002 seconds.
+        // 4435705 successful hash map lookups and 0 paths pruned.
 
-      for (int i = 1; i <= runTimes.Count(); i++)
-      {
-        Console.WriteLine($"{i}: {runTimes[i - 1].Item1}, turns: {runTimes[i - 1].Item2}");
-        //Console.WriteLine($"Moves: " + moves[i - 1].Select(m => m.ToString()).Aggregate((f, s) => f + ',' + s));
-      }
-    }
-    
+        // Evaluated 774770 end states over 19 calls and 20 turns in 428,71984790000016 seconds.
+        // 4608404 successful hash map lookups and 0 paths pruned.
+
+        // 3 turns search depth
+        // Evaluated 1430498 end states over 39 calls and 40 turns in 245,0023509 seconds.
+        // 2407768 successful hash map lookups and 613184 paths pruned.
+
+        // 1 turn search depth /w 5 s search time
+        // Evaluated 76924 end states over 9 calls and 10 turns in 38,1994761 seconds.
+        //110604 successful hash map lookups and 0 paths pruned.
+
+        [Test]
+        [Explicit]
+        public void RunGameSample()
+        {
+            var numberOfGames = 10;
+            var runTimes = new List<(TimeSpan, int)>();
+            var moves = new List<int[]>();
+
+            for (int i = 0; i < numberOfGames; i++)
+            {
+                var results = RunSingleGame(MinimaxTypes.searchLimit.NewTurn(3, searchTime.Unlimited));
+                runTimes.Add((results.logInfos.Select(l => l.elapsedTime).Total(), results.turns));
+                moves.Add(results.movesTaken);
+            }
+
+            Console.WriteLine($"{numberOfGames} evaluated in {runTimes.Select(r => r.Item1).Total()}");
+            if (numberOfGames < 1)
+                return;
+
+            Console.WriteLine("//Excluding first run");
+
+            var reducedRunTimes = runTimes.GetRange(1, numberOfGames - 1);
+            Console.WriteLine($"Average runtime: {reducedRunTimes.Select(r => r.Item1).Average()}");
+            Console.WriteLine($"Fastest run: {reducedRunTimes.Select(r => r.Item1).Min()})");
+            Console.WriteLine($"Slowest run: {reducedRunTimes.Select(r => r.Item1).Max()})");
+            Console.WriteLine();
+
+            for (int i = 1; i <= runTimes.Count(); i++)
+            {
+                Console.WriteLine($"{i}: {runTimes[i - 1].Item1}, turns: {runTimes[i - 1].Item2}");
+                //Console.WriteLine($"Moves: " + moves[i - 1].Select(m => m.ToString()).Aggregate((f, s) => f + ',' + s));
+            }
+        }
+
 //       2 turn evaluation
 //       10 evaluated in 00:00:25.3878356
 //       //Excluding first run
@@ -151,48 +152,52 @@ namespace KeyforgeUnlocked.IntegrationTest.Benchmark
 //       10: 00:04:19.9021848, turns: 34
 
 
-    (IEnumerable<MinimaxTypes.LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(MinimaxTypes.searchLimit depth)
-    {
-      _state = SetupStartState();
-      var ai = new NegamaxAI(new Evaluator(), depth, MinimaxTypes.SearchConfiguration.NoRestrictions, MinimaxTypes.LoggingConfiguration.LogAll);
-      var moves = new int[0];
-      var movesTaken = Enumerable.Empty<int>();
-
-      var playerTurn = _state.PlayerTurn;
-      while (!_state.IsGameOver)
-      {
-        moves = ((IGameAIWithVariationPath) ai).DetermineActionWithVariation(_state, moves);
-        while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
+        (IEnumerable<MinimaxTypes.LogInfo> logInfos, int turns, int[] movesTaken) RunSingleGame(
+            MinimaxTypes.searchLimit depth)
         {
-          var move = moves[0];
-          _state = (IState) _state.Actions()[move].DoCoreAction();
-          moves = moves.Skip(1).ToArray();
-          movesTaken = movesTaken.Append(move);
+            _state = SetupStartState();
+            var ai = new NegamaxAI(new Evaluator(), depth, MinimaxTypes.SearchConfiguration.NoRestrictions,
+                MinimaxTypes.LoggingConfiguration.LogAll);
+            var moves = new int[0];
+            var movesTaken = Enumerable.Empty<int>();
+
+            var playerTurn = _state.PlayerTurn;
+            while (!_state.IsGameOver)
+            {
+                moves = ((IGameAIWithVariationPath)ai).DetermineActionWithVariation(_state, moves);
+                while (!_state.IsGameOver && _state.PlayerTurn == playerTurn && moves.Length > 0)
+                {
+                    var move = moves[0];
+                    _state = (IState)_state.Actions()[move].DoCoreAction();
+                    moves = moves.Skip(1).ToArray();
+                    movesTaken = movesTaken.Append(move);
+                }
+
+                playerTurn = playerTurn.Other();
+            }
+
+            return (ai.logInfos, _state.TurnNumber, movesTaken.ToArray());
         }
 
-        playerTurn = playerTurn.Other();
-      }
+        // Log
+        // Commit 2a66ec65 depth 4 actions
 
-      return (ai.logInfos, _state.TurnNumber, movesTaken.ToArray());
+        // Evaluated 178971 end states over 54 calls in 76,89423450000001 seconds.
+        // 0 successful hash map lookups and 5881 paths pruned.
+
+        // Evaluated 264535 end states over 60 calls in 65,9268776 seconds.
+        // 0 successful hash map lookups and 7368 paths pruned.
+
+        // Commit a4b57123 depth 4 actions
+        // Evaluated 651991 end states over 68 calls in 46,986610899999995 seconds.
+        // 21650 successful hash map lookups and 10086 paths pruned.
+        internal static ImmutableState SetupStartState()
+        {
+            var player1Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),
+                "Fyre, Bareleyhill Bodyguard.txt");
+            var player2Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),
+                "Fyre, Bareleyhill Bodyguard.txt");
+            return StateFactory.Initiate(player1Deck, player2Deck);
+        }
     }
-
-    // Log
-    // Commit 2a66ec65 depth 4 actions
-    
-    // Evaluated 178971 end states over 54 calls in 76,89423450000001 seconds.
-    // 0 successful hash map lookups and 5881 paths pruned.
-    
-    // Evaluated 264535 end states over 60 calls in 65,9268776 seconds.
-    // 0 successful hash map lookups and 7368 paths pruned.
-
-    // Commit a4b57123 depth 4 actions
-    // Evaluated 651991 end states over 68 calls in 46,986610899999995 seconds.
-    // 21650 successful hash map lookups and 10086 paths pruned.
-    internal static ImmutableState SetupStartState()
-    {
-      var player1Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"),"Fyre, Bareleyhill Bodyguard.txt");
-      var player2Deck = Deck.LoadDeckFromFile(Assembly.Load("KeyforgeUnlocked.Cards"), "Fyre, Bareleyhill Bodyguard.txt");
-      return StateFactory.Initiate(player1Deck, player2Deck);
-    }
-  }
 }

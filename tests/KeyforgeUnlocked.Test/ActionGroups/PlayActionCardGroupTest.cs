@@ -10,42 +10,42 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.ActionGroups
 {
-  [TestFixture]
-  sealed class PlayActionCardGroupTest
-  {
-    IActionCard sampleCard = new SampleActionCard();
-    ImmutableState _state = StateTestUtil.EmptyState;
-
-    [Test]
-    public void Actions_EmptyState()
+    [TestFixture]
+    sealed class PlayActionCardGroupTest
     {
-      var sut = new PlayActionCardGroup(sampleCard);
+        IActionCard sampleCard = new SampleActionCard();
+        ImmutableState _state = StateTestUtil.EmptyState;
 
-      var actions = sut.Actions(_state);
-
-      var expectedActions = ImmutableList<IAction>.Empty.AddRange(
-        new[]
+        [Test]
+        public void Actions_EmptyState()
         {
-          (IAction) new PlayActionCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
-        });
-      Assert.AreEqual(expectedActions, actions);
-    }
-    
-    [Test]
-    public void Actions_PlayNotAllowed()
-    {
-      var card = new SampleActionCard(playAllowed: (_, _) => false);
-      
-      var sut = new PlayActionCardGroup(card);
+            var sut = new PlayActionCardGroup(sampleCard);
 
-      var actions = sut.Actions(_state);
+            var actions = sut.Actions(_state);
 
-      var expectedActions = ImmutableList<IAction>.Empty.AddRange(
-        new[]
+            var expectedActions = ImmutableList<IAction>.Empty.AddRange(
+                new[]
+                {
+                    (IAction)new PlayActionCard(_state, sampleCard), new DiscardCard(_state, sampleCard)
+                });
+            Assert.AreEqual(expectedActions, actions);
+        }
+
+        [Test]
+        public void Actions_PlayNotAllowed()
         {
-          new DiscardCard(_state, card)
-        });
-      Assert.AreEqual(expectedActions, actions);
+            var card = new SampleActionCard(playAllowed: (_, _) => false);
+
+            var sut = new PlayActionCardGroup(card);
+
+            var actions = sut.Actions(_state);
+
+            var expectedActions = ImmutableList<IAction>.Empty.AddRange(
+                new[]
+                {
+                    new DiscardCard(_state, card)
+                });
+            Assert.AreEqual(expectedActions, actions);
+        }
     }
-  }
 }

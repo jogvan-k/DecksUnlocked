@@ -2,11 +2,11 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class TurnEnded : Equatable<TurnEnded>, IResolvedEffect
-  {
-    public override string ToString()
+    public sealed class TurnEnded : Equatable<TurnEnded>, IResolvedEffect
     {
-      return $"Turn ended";
+        public override string ToString()
+        {
+            return $"Turn ended";
+        }
     }
-  }
 }

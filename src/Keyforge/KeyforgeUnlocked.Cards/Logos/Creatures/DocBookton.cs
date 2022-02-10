@@ -4,28 +4,28 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Cards.Logos.Creatures
 {
-  [CardInfo("Doc Bookton", Rarity.Common,
-    "Reap: Draw a card.",
-    "\"Don't worry, Momo. We'll have this quantum death ray installed in no time.\"")]
-  [ExpansionSet(Expansion.CotA, 139)]
-  public class DocBookton : CreatureCard
-  {
-    const int Power = 5;
-    const int Armor = 0;
-
-    static readonly Trait[] Traits =
+    [CardInfo("Doc Bookton", Rarity.Common,
+        "Reap: Draw a card.",
+        "\"Don't worry, Momo. We'll have this quantum death ray installed in no time.\"")]
+    [ExpansionSet(Expansion.CotA, 139)]
+    public class DocBookton : CreatureCard
     {
-      Trait.Human, Trait.Scientist
-    };
+        const int Power = 5;
+        const int Armor = 0;
 
-    static readonly Callback ReapAbility = (s, _, p) => s.Draw(p);
+        static readonly Trait[] Traits =
+        {
+            Trait.Human, Trait.Scientist
+        };
 
-    public DocBookton() : this(House.Logos)
-    {
+        static readonly Callback ReapAbility = (s, _, p) => s.Draw(p);
+
+        public DocBookton() : this(House.Logos)
+        {
+        }
+
+        public DocBookton(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility)
+        {
+        }
     }
-
-    public DocBookton(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility)
-    {
-    }
-  }
 }

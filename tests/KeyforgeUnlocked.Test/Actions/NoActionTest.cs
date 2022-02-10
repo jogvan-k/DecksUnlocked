@@ -5,17 +5,17 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.Effects
 {
-  [TestFixture]
-  class NoActionTest : ActionTestBase<NoAction>
-  {
-    [Test]
-    public void Resolve_EmptyState()
+    [TestFixture]
+    class NoActionTest : ActionTestBase<NoAction>
     {
-      var state = StateTestUtil.EmptyMutableState;
+        [Test]
+        public void Resolve_EmptyState()
+        {
+            var state = StateTestUtil.EmptyMutableState;
 
-      var expectedState = StateTestUtil.EmptyState;
+            var expectedState = StateTestUtil.EmptyState;
 
-      ActAndAssert(new NoAction(null), state, expectedState);
+            ActAndAssert(new NoAction(null), state, expectedState);
+        }
     }
-  }
 }

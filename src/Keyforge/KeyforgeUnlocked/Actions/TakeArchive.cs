@@ -3,20 +3,20 @@ using KeyforgeUnlocked.States.Extensions;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public class TakeArchive : Action<TakeArchive>
-  {
-    public TakeArchive(ImmutableState originState) : base(originState)
+    public class TakeArchive : Action<TakeArchive>
     {
-    }
+        public TakeArchive(ImmutableState originState) : base(originState)
+        {
+        }
 
-    internal override void DoActionNoResolve(IMutableState state)
-    {
-      state.PopArchive();
-    }
+        internal override void DoActionNoResolve(IMutableState state)
+        {
+            state.PopArchive();
+        }
 
-    public override string ToString()
-    {
-      return $"Take archive";
+        public override string ToString()
+        {
+            return $"Take archive";
+        }
     }
-  }
 }

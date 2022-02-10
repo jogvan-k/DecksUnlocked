@@ -8,28 +8,33 @@ using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {
-  [TestFixture]
-  class InitiateGameTest
-  {
-    [Test]
-    public void Resolve_EmptyState()
+    [TestFixture]
+    class InitiateGameTest
     {
-      var state = StateTestUtil.EmptyMutableState;
-      var sut = new InitiateGame();
-
-      sut.Resolve(state);
-
-      var expectedEffects =
-        new LazyStackQueue<IEffect>(new[] {(IEffect) new EndTurn(), new DrawToHandLimit(), new ReadyCardsAndRestoreArmor(), new FirstTurn(), new DeclareHouse(), new DrawInitialHands()});
-      var expectedHistoricData = new LazyHistoricData();
-      ((IMutableHistoricData) expectedHistoricData).NumberOfShuffles = new Lookup<Player, int>(
-        new Dictionary<Player, int>
+        [Test]
+        public void Resolve_EmptyState()
         {
-          {Player.Player1, 1},
-          {Player.Player2, 1}
-        });
-      var expectedState = StateTestUtil.EmptyMutableState.New(effects: expectedEffects, historicData: expectedHistoricData);
-      StateAsserter.StateEquals(expectedState, state);
+            var state = StateTestUtil.EmptyMutableState;
+            var sut = new InitiateGame();
+
+            sut.Resolve(state);
+
+            var expectedEffects =
+                new LazyStackQueue<IEffect>(new[]
+                {
+                    (IEffect)new EndTurn(), new DrawToHandLimit(), new ReadyCardsAndRestoreArmor(), new FirstTurn(),
+                    new DeclareHouse(), new DrawInitialHands()
+                });
+            var expectedHistoricData = new LazyHistoricData();
+            ((IMutableHistoricData)expectedHistoricData).NumberOfShuffles = new Lookup<Player, int>(
+                new Dictionary<Player, int>
+                {
+                    { Player.Player1, 1 },
+                    { Player.Player2, 1 }
+                });
+            var expectedState =
+                StateTestUtil.EmptyMutableState.New(effects: expectedEffects, historicData: expectedHistoricData);
+            StateAsserter.StateEquals(expectedState, state);
+        }
     }
-  }
 }

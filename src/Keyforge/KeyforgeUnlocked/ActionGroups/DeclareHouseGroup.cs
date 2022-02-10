@@ -8,33 +8,33 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class DeclareHouseGroup : ActionGroupBase<DeclareHouseGroup>
-  {
-    public IImmutableSet<House> Houses;
-
-    public DeclareHouseGroup(IEnumerable<House> houses)
+    public sealed class DeclareHouseGroup : ActionGroupBase<DeclareHouseGroup>
     {
-      Houses = houses.ToImmutableHashSet();
-    }
+        public IImmutableSet<House> Houses;
 
-    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
-    {
-      return Houses.Select(h => new DeclareHouse(origin, h)).ToImmutableList<IAction>();
-    }
+        public DeclareHouseGroup(IEnumerable<House> houses)
+        {
+            Houses = houses.ToImmutableHashSet();
+        }
 
-    protected override bool Equals(DeclareHouseGroup other)
-    {
-      return Houses.SetEquals(other.Houses);
-    }
+        protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+        {
+            return Houses.Select(h => new DeclareHouse(origin, h)).ToImmutableList<IAction>();
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Houses);
-    }
+        protected override bool Equals(DeclareHouseGroup other)
+        {
+            return Houses.SetEquals(other.Houses);
+        }
 
-    public override string ToString()
-    {
-      return $"Declare house";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Houses);
+        }
+
+        public override string ToString()
+        {
+            return $"Declare house";
+        }
     }
-  }
 }

@@ -4,16 +4,16 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class NoActionGroup : ActionGroupBase<NoActionGroup>
-  {
-    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+    public sealed class NoActionGroup : ActionGroupBase<NoActionGroup>
     {
-      return ImmutableList<IAction>.Empty.Add(new NoAction(origin));
-    }
+        protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+        {
+            return ImmutableList<IAction>.Empty.Add(new NoAction(origin));
+        }
 
-    public override string ToString()
-    {
-      return "No action";
+        public override string ToString()
+        {
+            return "No action";
+        }
     }
-  }
 }

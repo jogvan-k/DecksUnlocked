@@ -8,47 +8,47 @@ using static KeyforgeUnlocked.Cards.Attributes.Expansion;
 
 namespace KeyforgeUnlocked.Cards.Untamed.Creatures
 {
-  [CardInfo("Bigtwig",
-    Rarity.Uncommon,
-    "Bigtwig can only fight stunned creatures.\nReap: Stun and exhaust a creature.")]
-  [ExpansionSet(CotA, 346)]
-  public class Bigtwig : CreatureCard
-  {
-    const int Power = 7;
-    const int Armor = 0;
-
-    static readonly Trait[] Traits =
+    [CardInfo("Bigtwig",
+        Rarity.Uncommon,
+        "Bigtwig can only fight stunned creatures.\nReap: Stun and exhaust a creature.")]
+    [ExpansionSet(CotA, 346)]
+    public class Bigtwig : CreatureCard
     {
-      Trait.Beast
-    };
+        const int Power = 7;
+        const int Armor = 0;
 
-    static readonly Callback ReapAbility = (s, _, _) =>
-    {
-      s.AddEffect(new TargetSingleCreature(
-        (s, t, _) =>
+        static readonly Trait[] Traits =
         {
-          s.StunCreature(t);
-          s.ExhaustCreature(t);
-        }));
-    };
+            Trait.Beast
+        };
 
-    static readonly ActionPredicate ActionAllowed = (_, a) =>
-    {
-      if (a is FightCreature f)
-      {
-        return f.Target.IsStunned();
-      }
+        static readonly Callback ReapAbility = (s, _, _) =>
+        {
+            s.AddEffect(new TargetSingleCreature(
+                (s, t, _) =>
+                {
+                    s.StunCreature(t);
+                    s.ExhaustCreature(t);
+                }));
+        };
 
-      return true;
-    };
+        static readonly ActionPredicate ActionAllowed = (_, a) =>
+        {
+            if (a is FightCreature f)
+            {
+                return f.Target.IsStunned();
+            }
 
-    public Bigtwig() : this(House.Untamed)
-    {
+            return true;
+        };
+
+        public Bigtwig() : this(House.Untamed)
+        {
+        }
+
+        public Bigtwig(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility,
+            useActionAllowed: ActionAllowed)
+        {
+        }
     }
-
-    public Bigtwig(House house) : base(house, Power, Armor, Traits, reapAbility: ReapAbility,
-      useActionAllowed: ActionAllowed)
-    {
-    }
-  }
 }

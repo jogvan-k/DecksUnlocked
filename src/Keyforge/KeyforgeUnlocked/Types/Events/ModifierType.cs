@@ -1,7 +1,7 @@
 ﻿namespace KeyforgeUnlocked.Types.Events
 {
-  public enum ModifierType
-  {
-    HandLimit
-  }
+    public enum ModifierType
+    {
+        HandLimit
+    }
 }

@@ -15,9 +15,17 @@ namespace KeyforgeUnlockedConsole.ConsoleGames
         public int[] DetermineAction(ICoreState state)
         {
             // TODO IoC this
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions{HttpClient = new HttpClient(new HttpClientHandler{ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator})});
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001",
+                new GrpcChannelOptions
+                {
+                    HttpClient = new HttpClient(new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback =
+                            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                    })
+                });
             _client = new AI.AIClient(channel);
-            
+
             var response = _client.Simulate(new SimulateRequest { StateJson = state.ToString() });
             return response.MoveOrder.Select(r => (int)r).ToArray();
         }

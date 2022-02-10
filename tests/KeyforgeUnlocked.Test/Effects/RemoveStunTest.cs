@@ -8,25 +8,25 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.Effects
 {
-  [TestFixture]
-  sealed class RemoveStunTest
-  {
-    [Test]
-    public void Invoke()
+    [TestFixture]
+    sealed class RemoveStunTest
     {
-      var sampleCreatureCard = new SampleCreatureCard();
-      var creature = new Creature(sampleCreatureCard, state: CreatureState.Stunned, isReady: true);
-      var state = StateTestUtil.EmptyState.New(fields: TestUtil.Lists(creature));
-      var sut = new RemoveStun(creature);
+        [Test]
+        public void Invoke()
+        {
+            var sampleCreatureCard = new SampleCreatureCard();
+            var creature = new Creature(sampleCreatureCard, state: CreatureState.Stunned, isReady: true);
+            var state = StateTestUtil.EmptyState.New(fields: TestUtil.Lists(creature));
+            var sut = new RemoveStun(creature);
 
-      sut.Resolve(state);
+            sut.Resolve(state);
 
-      var expectedCreature = new Creature(sampleCreatureCard);
-      var expectedFields = TestUtil.Lists(expectedCreature);
-      var expectedResolvedEffects = new List<IResolvedEffect>{new StunRemoved(expectedCreature)};
-      var expectedState = StateTestUtil.EmptyState.New(
-        fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
-      StateAsserter.StateEquals(expectedState, state);
+            var expectedCreature = new Creature(sampleCreatureCard);
+            var expectedFields = TestUtil.Lists(expectedCreature);
+            var expectedResolvedEffects = new List<IResolvedEffect> { new StunRemoved(expectedCreature) };
+            var expectedState = StateTestUtil.EmptyState.New(
+                fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects));
+            StateAsserter.StateEquals(expectedState, state);
+        }
     }
-  }
 }

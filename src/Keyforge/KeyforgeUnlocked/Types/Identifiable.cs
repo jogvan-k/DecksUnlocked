@@ -1,47 +1,47 @@
 ﻿namespace KeyforgeUnlocked.Types
 {
-  /// <summary>
-  /// Lightweight implementation of <see cref="IIdentifiable"/> that only contains the Id and name.
-  /// </summary>
-  public class Identifiable : IIdentifiable
-  {
-    public string Id { get; }
-
-    public string Name { get; }
-
-    public Identifiable(IIdentifiable identifiable)
+    /// <summary>
+    /// Lightweight implementation of <see cref="IIdentifiable"/> that only contains the Id and name.
+    /// </summary>
+    public class Identifiable : IIdentifiable
     {
-      Id = identifiable.Id;
-      Name = identifiable.Name;
-    }
+        public string Id { get; }
 
-    public Identifiable(string id)
-    {
-      Id = id;
-      Name = id;
-    }
+        public string Name { get; }
 
-    public override bool Equals(object? obj)
-    {
-      if (obj == null) return false;
-      if (obj is IIdentifiable identifiable)
-        return Id.Equals(identifiable.Id);
-      return false;
-    }
+        public Identifiable(IIdentifiable identifiable)
+        {
+            Id = identifiable.Id;
+            Name = identifiable.Name;
+        }
 
-    public override int GetHashCode()
-    {
-      return Id.GetHashCode();
-    }
+        public Identifiable(string id)
+        {
+            Id = id;
+            Name = id;
+        }
 
-    public override string ToString()
-    {
-      return Name;
-    }
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (obj is IIdentifiable identifiable)
+                return Id.Equals(identifiable.Id);
+            return false;
+        }
 
-    public int CompareTo(object? obj)
-    {
-      return obj == null ? 1 : Id.CompareTo(((IIdentifiable) obj).Id);
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public int CompareTo(object? obj)
+        {
+            return obj == null ? 1 : Id.CompareTo(((IIdentifiable)obj).Id);
+        }
     }
-  }
 }

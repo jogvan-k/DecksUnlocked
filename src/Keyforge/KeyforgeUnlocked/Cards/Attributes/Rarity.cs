@@ -1,7 +1,9 @@
 ﻿namespace KeyforgeUnlocked.Cards.Attributes
 {
-  public enum Rarity
-  {
-    Common, Uncommon, Rare
-  }
+    public enum Rarity
+    {
+        Common,
+        Uncommon,
+        Rare
+    }
 }

@@ -1,6 +1,6 @@
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public interface IResolvedEffect
-  {
-  }
+    public interface IResolvedEffect
+    {
+    }
 }

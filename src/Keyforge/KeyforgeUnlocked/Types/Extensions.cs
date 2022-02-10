@@ -4,54 +4,54 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types
 {
-  public static class Extensions
-  {
-    public static ValidOn And(this ValidOn first, ValidOn second)
+    public static class Extensions
     {
-      return (s, c) => first(s, c) && second(s, c);
-    }
+        public static ValidOn And(this ValidOn first, ValidOn second)
+        {
+            return (s, c) => first(s, c) && second(s, c);
+        }
 
-    public static ValidOn Or(this ValidOn first, ValidOn second)
-    {
-      return (s, c) => first(s, c) || second(s, c);
-    }
+        public static ValidOn Or(this ValidOn first, ValidOn second)
+        {
+            return (s, c) => first(s, c) || second(s, c);
+        }
 
-    public static ValidOn Not(this ValidOn validOn)
-    {
-      return (s, c) => !validOn(s, c);
-    }
+        public static ValidOn Not(this ValidOn validOn)
+        {
+            return (s, c) => !validOn(s, c);
+        }
 
-    public static int Index(this IList<Creature> list, IIdentifiable id)
-    {
-      for (int i = 0; i < list.Count; i++)
-      {
-        if (id.Equals(list[i]))
-          return i;
-      }
+        public static int Index(this IList<Creature> list, IIdentifiable id)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (id.Equals(list[i]))
+                    return i;
+            }
 
-      return -1;
-    }
+            return -1;
+        }
 
-    public static Player Other(this Player player)
-    {
-      if (player.IsNone()) return Player.None;
-      
-      return player.IsPlayer1() ? Player.Player2 : Player.Player1;
-    }
+        public static Player Other(this Player player)
+        {
+            if (player.IsNone()) return Player.None;
 
-    public static bool IsNone(this Player player)
-    {
-      return player == Player.None;
-    }
+            return player.IsPlayer1() ? Player.Player2 : Player.Player1;
+        }
 
-    public static bool IsPlayer1(this Player player)
-    {
-      return player == Player.Player1;
-    }
+        public static bool IsNone(this Player player)
+        {
+            return player == Player.None;
+        }
 
-    public static bool IsPlayer2(this Player player)
-    {
-      return player == Player.Player2;
+        public static bool IsPlayer1(this Player player)
+        {
+            return player == Player.Player1;
+        }
+
+        public static bool IsPlayer2(this Player player)
+        {
+            return player == Player.Player2;
+        }
     }
-  }
 }

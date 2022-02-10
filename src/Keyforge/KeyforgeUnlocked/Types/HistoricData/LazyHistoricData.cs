@@ -4,84 +4,84 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Types.HistoricData
 {
-  public class LazyHistoricData : IMutableHistoricData, IHistoricData
-  {
-    readonly ImmutableHistoricData _initial;
-    IMutableHistoricData? _inner;
-
-    Lookup<Player, int> IMutableHistoricData.NumberOfShuffles
+    public class LazyHistoricData : IMutableHistoricData, IHistoricData
     {
-      get => Mutable().NumberOfShuffles;
-      set => Mutable().NumberOfShuffles = value;
-    }
+        readonly ImmutableHistoricData _initial;
+        IMutableHistoricData? _inner;
 
-    ImmutableLookup<Player, int> IHistoricData.NumberOfShuffles => Get().NumberOfShuffles;
+        Lookup<Player, int> IMutableHistoricData.NumberOfShuffles
+        {
+            get => Mutable().NumberOfShuffles;
+            set => Mutable().NumberOfShuffles = value;
+        }
 
-    public bool ActionPlayedThisTurn
-    {
-      get => Get().ActionPlayedThisTurn;
-      set => Mutable().ActionPlayedThisTurn = value;
-    }
+        ImmutableLookup<Player, int> IHistoricData.NumberOfShuffles => Get().NumberOfShuffles;
 
-    public int EnemiesDestroyedInAFightThisTurn
-    {
-      get => Get().EnemiesDestroyedInAFightThisTurn;
-      set => Mutable().EnemiesDestroyedInAFightThisTurn = value;
-    }
+        public bool ActionPlayedThisTurn
+        {
+            get => Get().ActionPlayedThisTurn;
+            set => Mutable().ActionPlayedThisTurn = value;
+        }
 
-    public IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn
-    {
-      get => Get().CreaturesAttackedThisTurn;
-      set => Mutable().CreaturesAttackedThisTurn = value;
-    }
+        public int EnemiesDestroyedInAFightThisTurn
+        {
+            get => Get().EnemiesDestroyedInAFightThisTurn;
+            set => Mutable().EnemiesDestroyedInAFightThisTurn = value;
+        }
 
-    public IImmutableSet<ICard> CardsDiscardedThisTurn
-    {
-      get => Get().CardsDiscardedThisTurn;
-      set => Mutable().CardsDiscardedThisTurn = value;
-    }
+        public IImmutableSet<IIdentifiable> CreaturesAttackedThisTurn
+        {
+            get => Get().CreaturesAttackedThisTurn;
+            set => Mutable().CreaturesAttackedThisTurn = value;
+        }
 
-    public LazyHistoricData()
-    {
-      _initial = new ImmutableHistoricData();
-    }
+        public IImmutableSet<ICard> CardsDiscardedThisTurn
+        {
+            get => Get().CardsDiscardedThisTurn;
+            set => Mutable().CardsDiscardedThisTurn = value;
+        }
 
-    public LazyHistoricData(IHistoricData initial)
-    {
-      _initial = initial.ToImmutable();
-    }
+        public LazyHistoricData()
+        {
+            _initial = new ImmutableHistoricData();
+        }
 
-    public ImmutableHistoricData ToImmutable()
-    {
-      if (_inner != null)
-        return _inner.ToImmutable();
-      return _initial;
-    }
+        public LazyHistoricData(IHistoricData initial)
+        {
+            _initial = initial.ToImmutable();
+        }
 
-    IHistoricData Get()
-    {
-      if (_inner == null) return _initial;
-      return (IHistoricData) _inner;
-    }
+        public ImmutableHistoricData ToImmutable()
+        {
+            if (_inner != null)
+                return _inner.ToImmutable();
+            return _initial;
+        }
 
-    IMutableHistoricData Mutable()
-    {
-      return _inner ??= new MutableHistoricData(_initial);
-    }
+        IHistoricData Get()
+        {
+            if (_inner == null) return _initial;
+            return (IHistoricData)_inner;
+        }
 
-    public IMutableHistoricData ToMutable()
-    {
-      return _inner != null ? _inner.ToMutable() : _initial.ToMutable();
-    }
+        IMutableHistoricData Mutable()
+        {
+            return _inner ??= new MutableHistoricData(_initial);
+        }
 
-    public override bool Equals(object? obj)
-    {
-      return Get().Equals(obj);
-    }
+        public IMutableHistoricData ToMutable()
+        {
+            return _inner != null ? _inner.ToMutable() : _initial.ToMutable();
+        }
 
-    public override int GetHashCode()
-    {
-      return Get().GetHashCode();
+        public override bool Equals(object? obj)
+        {
+            return Get().Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Get().GetHashCode();
+        }
     }
-  }
 }

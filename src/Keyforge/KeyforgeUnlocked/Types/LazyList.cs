@@ -7,124 +7,125 @@ using System.Linq;
 
 namespace KeyforgeUnlocked.Types
 {
-  public sealed class LazyList<T> : IMutableList<T>
-  {
-    [NotNull] readonly IImmutableList<T> _initial;
-    List<T>? _innerList;
-
-    public IImmutableList<T> Immutable()
+    public sealed class LazyList<T> : IMutableList<T>
     {
-      if (_innerList != null)
-        return _innerList.ToImmutableList();
-      return _initial;
-    }
+        [NotNull] readonly IImmutableList<T> _initial;
+        List<T>? _innerList;
 
-    List<T> Mutable()
-    {
-      if (_innerList == null)
-        _innerList = _initial.ToList();
-      return _innerList;
-    }
+        public IImmutableList<T> Immutable()
+        {
+            if (_innerList != null)
+                return _innerList.ToImmutableList();
+            return _initial;
+        }
 
-    public LazyList()
-    {
-      _initial = ImmutableList<T>.Empty;
-    }
+        List<T> Mutable()
+        {
+            if (_innerList == null)
+                _innerList = _initial.ToList();
+            return _innerList;
+        }
 
-    public LazyList([NotNull]IEnumerable<T> initial)
-    {
-      _initial = initial.ToImmutableList();
-    }
-    public LazyList([NotNull]IImmutableList<T> initial)
-    {
-      _initial = initial;
-    }
+        public LazyList()
+        {
+            _initial = ImmutableList<T>.Empty;
+        }
 
-    public void Add(T item)
-    {
-      Mutable().Add(item);
-    }
+        public LazyList([NotNull] IEnumerable<T> initial)
+        {
+            _initial = initial.ToImmutableList();
+        }
 
-    public void Clear()
-    {
-      Mutable().Clear();
-    }
+        public LazyList([NotNull] IImmutableList<T> initial)
+        {
+            _initial = initial;
+        }
 
-    public bool Contains(T item)
-    {
-      return Immutable().Contains(item);
-    }
+        public void Add(T item)
+        {
+            Mutable().Add(item);
+        }
 
-    public void CopyTo(T[] array, int arrayIndex)
-    {
-      Mutable().CopyTo(array, arrayIndex);
-    }
+        public void Clear()
+        {
+            Mutable().Clear();
+        }
 
-    public bool Remove(T item)
-    {
-      return Mutable().Remove(item);
-    }
+        public bool Contains(T item)
+        {
+            return Immutable().Contains(item);
+        }
 
-    public int Count => Immutable().Count;
-    public bool IsReadOnly => false;
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            Mutable().CopyTo(array, arrayIndex);
+        }
 
-    public int IndexOf(T item)
-    {
-      return Immutable().IndexOf(item);
-    }
+        public bool Remove(T item)
+        {
+            return Mutable().Remove(item);
+        }
 
-    public void Insert(int index, T item)
-    {
-      Mutable().Insert(index, item);
-    }
+        public int Count => Immutable().Count;
+        public bool IsReadOnly => false;
 
-    public void RemoveAt(int index)
-    {
-      Mutable().RemoveAt(index);
-    }
+        public int IndexOf(T item)
+        {
+            return Immutable().IndexOf(item);
+        }
 
-    public T this[int index]
-    {
-      get => Immutable()[index];
-      set => Mutable()[index] = value;
-    }
-    
-    public IEnumerator<T> GetEnumerator()
-    {
-      return Immutable().GetEnumerator();
-    }
+        public void Insert(int index, T item)
+        {
+            Mutable().Insert(index, item);
+        }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
+        public void RemoveAt(int index)
+        {
+            Mutable().RemoveAt(index);
+        }
 
-    public override bool Equals(object? obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((LazyList<T>) obj);
-    }
+        public T this[int index]
+        {
+            get => Immutable()[index];
+            set => Mutable()[index] = value;
+        }
 
-    bool Equals(LazyList<T> other)
-    {
-      var first = _innerList != null ? (IEnumerable<T>) _innerList : _initial;
-      var second = other._innerList != null ? (IEnumerable<T>) other._innerList : other._initial;
+        public IEnumerator<T> GetEnumerator()
+        {
+            return Immutable().GetEnumerator();
+        }
 
-      return first.SequenceEqual(second);
-    }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
-    public override int GetHashCode()
-    {
-      var hc = new HashCode();
-      var entries = _innerList != null ? (IEnumerable<T>) _innerList : _initial;
-      foreach (var entry in entries)
-      {
-        hc.Add(entry);
-      }
-      
-      return hc.ToHashCode();
+        public override bool Equals(object? obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((LazyList<T>)obj);
+        }
+
+        bool Equals(LazyList<T> other)
+        {
+            var first = _innerList != null ? (IEnumerable<T>)_innerList : _initial;
+            var second = other._innerList != null ? (IEnumerable<T>)other._innerList : other._initial;
+
+            return first.SequenceEqual(second);
+        }
+
+        public override int GetHashCode()
+        {
+            var hc = new HashCode();
+            var entries = _innerList != null ? (IEnumerable<T>)_innerList : _initial;
+            foreach (var entry in entries)
+            {
+                hc.Add(entry);
+            }
+
+            return hc.ToHashCode();
+        }
     }
-  }
 }

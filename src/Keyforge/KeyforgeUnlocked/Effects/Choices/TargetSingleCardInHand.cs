@@ -6,11 +6,12 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Effects.Choices
 {
-  public class TargetSingleCardInHand : TargetSingle
-  {
-    public TargetSingleCardInHand(Callback effect, Target targets = Target.All, ValidOn? validOn = null) : base(effect,
-      TargetType.CardInHand, targets, validOn)
+    public class TargetSingleCardInHand : TargetSingle
     {
+        public TargetSingleCardInHand(Callback effect, Target targets = Target.All, ValidOn? validOn = null) : base(
+            effect,
+            TargetType.CardInHand, targets, validOn)
+        {
+        }
     }
-  }
 }

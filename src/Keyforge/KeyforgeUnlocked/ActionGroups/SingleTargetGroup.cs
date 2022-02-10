@@ -8,35 +8,36 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public sealed class SingleTargetGroup : ResolveEffectActionGroup<SingleTargetGroup>
-  {
-    readonly Callback _effect;
-    readonly IImmutableList<(IIdentifiable target, Player owningPlayer)> _targets;
-
-    public SingleTargetGroup(Callback effect, IImmutableList<(IIdentifiable, Player)> targets)
+    public sealed class SingleTargetGroup : ResolveEffectActionGroup<SingleTargetGroup>
     {
-      _effect = effect;
-      _targets = targets;
-    }
+        readonly Callback _effect;
+        readonly IImmutableList<(IIdentifiable target, Player owningPlayer)> _targets;
 
-    protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
-    {
-      return _targets.Select(t => (IAction) new TargetAction(origin, _effect, t.target, t.owningPlayer)).ToImmutableList();
-    }
+        public SingleTargetGroup(Callback effect, IImmutableList<(IIdentifiable, Player)> targets)
+        {
+            _effect = effect;
+            _targets = targets;
+        }
 
-    protected override bool Equals(SingleTargetGroup other)
-    {
-      return Equals(_effect, other._effect) && _targets.SequenceEqual(other._targets);
-    }
+        protected override IImmutableList<IAction> InitiateActions(ImmutableState origin)
+        {
+            return _targets.Select(t => (IAction)new TargetAction(origin, _effect, t.target, t.owningPlayer))
+                .ToImmutableList();
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), _effect, EqualityComparer.GetHashCode(_targets));
-    }
+        protected override bool Equals(SingleTargetGroup other)
+        {
+            return Equals(_effect, other._effect) && _targets.SequenceEqual(other._targets);
+        }
 
-    public override string ToString()
-    {
-      return "Target creature";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), _effect, EqualityComparer.GetHashCode(_targets));
+        }
+
+        public override string ToString()
+        {
+            return "Target creature";
+        }
     }
-  }
 }

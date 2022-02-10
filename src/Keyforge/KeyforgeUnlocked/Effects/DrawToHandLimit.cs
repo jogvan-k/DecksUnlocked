@@ -6,14 +6,14 @@ using static KeyforgeUnlocked.Constants;
 
 namespace KeyforgeUnlocked.Effects
 {
-  // TODO include shuffle upon empty deck
-  public sealed class DrawToHandLimit : EffectBase<DrawToHandLimit>
-  {
-    protected override void ResolveImpl(IMutableState state)
+    // TODO include shuffle upon empty deck
+    public sealed class DrawToHandLimit : EffectBase<DrawToHandLimit>
     {
-      var endTurnHandLimit = EndTurnHandLimit + state.Modify(ModifierType.HandLimit);
-      var toDraw = Math.Max(0, endTurnHandLimit - state.Hands[state.PlayerTurn].Count);
-      state.Draw(state.PlayerTurn, toDraw);
+        protected override void ResolveImpl(IMutableState state)
+        {
+            var endTurnHandLimit = EndTurnHandLimit + state.Modify(ModifierType.HandLimit);
+            var toDraw = Math.Max(0, endTurnHandLimit - state.Hands[state.PlayerTurn].Count);
+            state.Draw(state.PlayerTurn, toDraw);
+        }
     }
-  }
 }

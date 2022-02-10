@@ -12,50 +12,51 @@ using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects
 {
-  [TestFixture]
-  sealed class ReadyCreatureAndUseTest
-  {
-    ICreatureCard sampleCreatureCard = new SampleCreatureCard();
-
-    [Test]
-    public void Resolve_TargetCreatureDoesNotBelongToCurrentPlayer_Exception()
+    [TestFixture]
+    sealed class ReadyCreatureAndUseTest
     {
-      var target = new Creature(sampleCreatureCard);
-      var fields = TestUtil.Lists(target);
-      var state = StateTestUtil.EmptyState.New(Player.Player2, fields: fields);
+        ICreatureCard sampleCreatureCard = new SampleCreatureCard();
 
-      var sut = new ReadyCreatureAndUse(target, false);
+        [Test]
+        public void Resolve_TargetCreatureDoesNotBelongToCurrentPlayer_Exception()
+        {
+            var target = new Creature(sampleCreatureCard);
+            var fields = TestUtil.Lists(target);
+            var state = StateTestUtil.EmptyState.New(Player.Player2, fields: fields);
 
-      try
-      {
-        sut.Resolve(state);
-      }
-      catch (InvalidTargetException e)
-      {
-        Assert.AreEqual(state, e.State);
-        Assert.True(e.TargetId.Equals(sampleCreatureCard));
-        return;
-      }
+            var sut = new ReadyCreatureAndUse(target, false);
 
-      Assert.Fail();
+            try
+            {
+                sut.Resolve(state);
+            }
+            catch (InvalidTargetException e)
+            {
+                Assert.AreEqual(state, e.State);
+                Assert.True(e.TargetId.Equals(sampleCreatureCard));
+                return;
+            }
+
+            Assert.Fail();
+        }
+
+        [Test]
+        public void Resolve()
+        {
+            var target = new Creature(sampleCreatureCard);
+            var fields = TestUtil.Lists(target);
+            var state = StateTestUtil.EmptyState.New(fields: fields);
+            var sut = new ReadyCreatureAndUse(target, false);
+
+            sut.Resolve(state);
+
+            var readiedCreature = new Creature(sampleCreatureCard, isReady: true);
+            var expectedFields = TestUtil.Lists(readiedCreature);
+            var expectedResolvedEffects = new List<IResolvedEffect> { new CreatureReadied(readiedCreature) };
+            var expectedActionGroups = new List<IActionGroup> { new UseCreatureGroup(state, readiedCreature) };
+            var expectedState = StateTestUtil.EmptyState.New(
+                fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects),
+                actionGroups: new LazyList<IActionGroup>(expectedActionGroups));
+        }
     }
-
-    [Test]
-    public void Resolve()
-    {
-      var target = new Creature(sampleCreatureCard);
-      var fields = TestUtil.Lists(target);
-      var state = StateTestUtil.EmptyState.New(fields: fields);
-      var sut = new ReadyCreatureAndUse(target, false);
-
-      sut.Resolve(state);
-
-      var readiedCreature = new Creature(sampleCreatureCard, isReady: true);
-      var expectedFields = TestUtil.Lists(readiedCreature);
-      var expectedResolvedEffects = new List<IResolvedEffect> {new CreatureReadied(readiedCreature)};
-      var expectedActionGroups = new List<IActionGroup> {new UseCreatureGroup(state, readiedCreature)};
-      var expectedState = StateTestUtil.EmptyState.New(
-        fields: expectedFields, resolvedEffects: new LazyList<IResolvedEffect>(expectedResolvedEffects), actionGroups: new LazyList<IActionGroup>(expectedActionGroups));
-    }
-  }
 }

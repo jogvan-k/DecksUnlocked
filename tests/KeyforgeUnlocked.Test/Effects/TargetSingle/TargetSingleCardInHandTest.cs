@@ -11,79 +11,83 @@ using UnlockedCore;
 
 namespace KeyforgeUnlockedTest.Effects.TargetSingle
 {
-  public class TargetSingleCardInHandTest
-  {
-    
-    static readonly ICard[] _playerOneDiscardCards = {new SampleActionCard(id: $"{Player.Player1}0"), new SampleActionCard(id: $"{Player.Player1}1")};
-    static readonly ICard[] _playerTwoDiscardCards = {new SampleActionCard(id: $"{Player.Player2}0"), new SampleActionCard(id: $"{Player.Player2}1")};
-    
-    [Test]
-    public void Resolve_NoValidTargets()
+    public class TargetSingleCardInHandTest
     {
-      var state = Setup();
-      bool effectResolved = false;
-      Callback effect = (_, _, _) => effectResolved = true;
-      ValidOn validOn = (_, _) => false;
-      var sut = new TargetSingleCardInHand(effect, validOn: validOn);
+        static readonly ICard[] _playerOneDiscardCards =
+            { new SampleActionCard(id: $"{Player.Player1}0"), new SampleActionCard(id: $"{Player.Player1}1") };
 
-      sut.Resolve(state);
+        static readonly ICard[] _playerTwoDiscardCards =
+            { new SampleActionCard(id: $"{Player.Player2}0"), new SampleActionCard(id: $"{Player.Player2}1") };
 
-      Assert.False(effectResolved);
-      StateAsserter.StateEquals(Setup(), state);
+        [Test]
+        public void Resolve_NoValidTargets()
+        {
+            var state = Setup();
+            bool effectResolved = false;
+            Callback effect = (_, _, _) => effectResolved = true;
+            ValidOn validOn = (_, _) => false;
+            var sut = new TargetSingleCardInHand(effect, validOn: validOn);
+
+            sut.Resolve(state);
+
+            Assert.False(effectResolved);
+            StateAsserter.StateEquals(Setup(), state);
+        }
+
+        [Test]
+        public void Resolve_AllValidTargets(
+            [Values(Player.Player1, Player.Player2)]
+            Player playerTurn)
+        {
+            var state = Setup(playerTurn);
+            bool effectResolved = false;
+            Callback effect = (_, _, _) => effectResolved = true;
+            var sut = new TargetSingleCardInHand(effect);
+
+            sut.Resolve(state);
+
+            var player2Discards = _playerTwoDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player2));
+            var player1Discards = _playerOneDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player1));
+            var expectedActionGroup = new SingleTargetGroup(
+                effect,
+                playerTurn.IsPlayer1()
+                    ? player2Discards.Concat(player1Discards).ToImmutableList()
+                    : player1Discards.Concat(player2Discards).ToImmutableList());
+
+            Assert.False(effectResolved);
+            StateAsserter.StateEquals(
+                Setup(playerTurn).New(actionGroups: new LazyList<IActionGroup> { expectedActionGroup }), state);
+        }
+
+        [Test]
+        public void Resolve_SingleValidTarget(
+            [Values(Player.Player1, Player.Player2)]
+            Player playerCard,
+            [Range(0, 1)] int i)
+        {
+            var state = Setup();
+            IIdentifiable cardTargeted = null;
+            Player playerTargeted = Player.None;
+            Callback effect = (_, t, p) =>
+            {
+                cardTargeted = t;
+                playerTargeted = p;
+            };
+            var targetCard = $"{playerCard}{i}";
+            var sut = new TargetSingleCardInHand(effect, validOn: (_, t) => t.Id == targetCard);
+
+            sut.Resolve(state);
+
+            Assert.That(cardTargeted.Id, Is.EqualTo(targetCard));
+            Assert.That(playerTargeted, Is.EqualTo(playerCard));
+            StateAsserter.StateEquals(Setup(), state);
+        }
+
+        IMutableState Setup(Player playerTurn = Player.Player1)
+        {
+            var hands =
+                TestUtil.Sets<ICard>(_playerOneDiscardCards, _playerTwoDiscardCards);
+            return StateTestUtil.EmptyState.New(playerTurn: playerTurn, hands: hands);
+        }
     }
-    
-    [Test]
-    public void Resolve_AllValidTargets(
-      [Values(Player.Player1, Player.Player2)]
-      Player playerTurn)
-    {
-      var state = Setup(playerTurn);
-      bool effectResolved = false;
-      Callback effect = (_, _, _) => effectResolved = true;
-      var sut = new TargetSingleCardInHand(effect);
-
-      sut.Resolve(state);
-
-      var player2Discards = _playerTwoDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player2));
-      var player1Discards = _playerOneDiscardCards.Cast<IIdentifiable>().Select(c => (c, Player.Player1));
-      var expectedActionGroup = new SingleTargetGroup(
-        effect,
-        playerTurn.IsPlayer1() ?
-          player2Discards.Concat(player1Discards).ToImmutableList() :
-          player1Discards.Concat(player2Discards).ToImmutableList());
-
-      Assert.False(effectResolved);
-      StateAsserter.StateEquals(Setup(playerTurn).New(actionGroups: new LazyList<IActionGroup>{expectedActionGroup}), state);
-    }
-
-    [Test]
-    public void Resolve_SingleValidTarget(
-      [Values(Player.Player1, Player.Player2)] Player playerCard,
-      [Range(0, 1)] int i)
-    {
-      var state = Setup();
-      IIdentifiable cardTargeted = null;
-      Player playerTargeted = Player.None;
-      Callback effect = (_, t, p) =>
-      {
-        cardTargeted = t;
-        playerTargeted = p;
-      };
-      var targetCard = $"{playerCard}{i}";
-      var sut = new TargetSingleCardInHand(effect, validOn: (_, t) => t.Id == targetCard);
-      
-      sut.Resolve(state);
-
-      Assert.That(cardTargeted.Id, Is.EqualTo(targetCard));
-      Assert.That(playerTargeted, Is.EqualTo(playerCard));
-      StateAsserter.StateEquals(Setup(), state);
-    }
-
-    IMutableState Setup(Player playerTurn = Player.Player1)
-    {
-      var hands =
-        TestUtil.Sets<ICard>(_playerOneDiscardCards, _playerTwoDiscardCards);
-      return StateTestUtil.EmptyState.New(playerTurn: playerTurn, hands: hands);
-    }
-  }
 }

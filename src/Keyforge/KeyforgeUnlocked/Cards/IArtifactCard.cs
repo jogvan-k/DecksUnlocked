@@ -2,9 +2,9 @@
 
 namespace KeyforgeUnlocked.Cards
 {
-  public interface IArtifactCard : ICard
-  {
-    Trait[] CardTraits { get; }
-    Callback? CardActionAbility { get; }
-  }
+    public interface IArtifactCard : ICard
+    {
+        Trait[] CardTraits { get; }
+        Callback? CardActionAbility { get; }
+    }
 }

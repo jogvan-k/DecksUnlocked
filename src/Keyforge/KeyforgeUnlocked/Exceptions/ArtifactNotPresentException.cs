@@ -3,13 +3,13 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.Exceptions
 {
-  public class ArtifactNotPresentException : KeyforgeUnlockedException
-  {
-    public readonly IIdentifiable Id;
-    
-    public ArtifactNotPresentException(IState state, IIdentifiable id) : base(state)
+    public class ArtifactNotPresentException : KeyforgeUnlockedException
     {
-      Id = id;
+        public readonly IIdentifiable Id;
+
+        public ArtifactNotPresentException(IState state, IIdentifiable id) : base(state)
+        {
+            Id = id;
+        }
     }
-  }
 }

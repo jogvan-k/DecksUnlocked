@@ -5,28 +5,28 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-  public abstract class PlayCardGroup<T> : ActionGroupBase<T> where T : PlayCardGroup<T>
-  {
-    public ICard Card { get; }
-
-    protected PlayCardGroup(ICard card)
+    public abstract class PlayCardGroup<T> : ActionGroupBase<T> where T : PlayCardGroup<T>
     {
-      Card = card;
-    }
+        public ICard Card { get; }
 
-    protected IAction DiscardAction(ImmutableState origin)
-    {
-      return new DiscardCard(origin, Card);
-    }
+        protected PlayCardGroup(ICard card)
+        {
+            Card = card;
+        }
 
-    protected override bool Equals(T other)
-    {
-      return Equals(Card, other.Card);
-    }
+        protected IAction DiscardAction(ImmutableState origin)
+        {
+            return new DiscardCard(origin, Card);
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Card);
+        protected override bool Equals(T other)
+        {
+            return Equals(Card, other.Card);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Card);
+        }
     }
-  }
 }

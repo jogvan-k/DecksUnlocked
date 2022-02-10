@@ -1,7 +1,10 @@
 ﻿namespace KeyforgeUnlocked.Cards.Attributes
 {
-  public enum Expansion
-  {
-    CotA, AoA, WC, MM
-  }
+    public enum Expansion
+    {
+        CotA,
+        AoA,
+        WC,
+        MM
+    }
 }

@@ -43,20 +43,26 @@ namespace KeyforgeUnlocked.States
                 Keys = new ImmutableLookup<Player, int>(dto.Keys),
                 Aember = new ImmutableLookup<Player, int>(dto.Aember),
                 ActionGroups = ImmutableHashSet<IActionGroup>.Empty,
-                Decks = dto.Decks.ToReadOnly<Player, List<CardDto>, IImmutableStack<ICard>>(kv => ImmutableStack.Create(ToCard(kv.Value).Reverse().ToArray())),
-                Hands = dto.Hands.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv => ImmutableHashSet.Create(ToCard(kv.Value))),
-                Discards = dto.Discards.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv => ImmutableHashSet.Create(ToCard(kv.Value))),
-                Archives = dto.Archives.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv => ImmutableHashSet.Create(ToCard(kv.Value))),
-                PurgedCard = dto.PurgedCard.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv => ImmutableHashSet.Create(ToCard(kv.Value))),
+                Decks = dto.Decks.ToReadOnly<Player, List<CardDto>, IImmutableStack<ICard>>(kv =>
+                    ImmutableStack.Create(ToCard(kv.Value).Reverse().ToArray())),
+                Hands = dto.Hands.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv =>
+                    ImmutableHashSet.Create(ToCard(kv.Value))),
+                Discards = dto.Discards.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv =>
+                    ImmutableHashSet.Create(ToCard(kv.Value))),
+                Archives = dto.Archives.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv =>
+                    ImmutableHashSet.Create(ToCard(kv.Value))),
+                PurgedCard =
+                    dto.PurgedCard.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv =>
+                        ImmutableHashSet.Create(ToCard(kv.Value))),
                 Fields = new Dictionary<Player, IMutableList<Creature>>
                 {
-                    {Player.Player1, new LazyList<Creature>()},
-                    {Player.Player2, new LazyList<Creature>()}
+                    { Player.Player1, new LazyList<Creature>() },
+                    { Player.Player2, new LazyList<Creature>() }
                 }.ToReadOnly().ToImmutable(),
                 Artifacts = new Dictionary<Player, IMutableSet<Artifact>>
                 {
-                    {Player.Player1, new LazySet<Artifact>()},
-                    {Player.Player2, new LazySet<Artifact>()}
+                    { Player.Player1, new LazySet<Artifact>() },
+                    { Player.Player2, new LazySet<Artifact>() }
                 }.ToReadOnly().ToImmutable(),
                 Effects = ImmutableArray<IEffect>.Empty,
                 ResolvedEffects = ImmutableList<IResolvedEffect>.Empty,

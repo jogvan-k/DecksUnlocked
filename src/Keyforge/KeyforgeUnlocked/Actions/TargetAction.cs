@@ -5,47 +5,48 @@ using UnlockedCore;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class TargetAction : Action<TargetAction>
-  {
-    readonly Callback _effect;
-    public readonly IIdentifiable Target;
-    readonly Player _owningPayer;
-
-    public TargetAction(ImmutableState origin, Callback effect, IIdentifiable target, Player owningPayer) : base(origin)
+    public sealed class TargetAction : Action<TargetAction>
     {
-      _effect = effect;
-      Target = target;
-      _owningPayer = owningPayer;
-    }
+        readonly Callback _effect;
+        public readonly IIdentifiable Target;
+        readonly Player _owningPayer;
 
-    internal override void DoActionNoResolve(IMutableState state)
-    {
-      _effect(state, Target, _owningPayer);
-    }
+        public TargetAction(ImmutableState origin, Callback effect, IIdentifiable target, Player owningPayer) :
+            base(origin)
+        {
+            _effect = effect;
+            Target = target;
+            _owningPayer = owningPayer;
+        }
 
-    public override string Identity()
-    {
-      return Target.Id;
-    }
+        internal override void DoActionNoResolve(IMutableState state)
+        {
+            _effect(state, Target, _owningPayer);
+        }
 
-    protected override bool Equals(TargetAction other)
-    {
-      return Equals(_effect, other._effect) && Target.Equals(other.Target);
-    }
+        public override string Identity()
+        {
+            return Target.Id;
+        }
 
-    public override bool Equals(object? obj)
-    {
-      return ReferenceEquals(this, obj) || obj is TargetAction other && Equals(other);
-    }
+        protected override bool Equals(TargetAction other)
+        {
+            return Equals(_effect, other._effect) && Target.Equals(other.Target);
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(_effect, Target);
-    }
+        public override bool Equals(object? obj)
+        {
+            return ReferenceEquals(this, obj) || obj is TargetAction other && Equals(other);
+        }
 
-    public override string ToString()
-    {
-      return $"Target {Target.Name}";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_effect, Target);
+        }
+
+        public override string ToString()
+        {
+            return $"Target {Target.Name}";
+        }
     }
-  }
 }

@@ -1,8 +1,8 @@
 ﻿namespace KeyforgeUnlockedConsole.ConsoleGames
 {
-  public enum LogInfo
-  {
-    None,
-    CalculationInfo
-  }
+    public enum LogInfo
+    {
+        None,
+        CalculationInfo
+    }
 }

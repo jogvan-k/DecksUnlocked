@@ -6,48 +6,48 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class DeclareHouse : Action<DeclareHouse>
-  {
-    public House House { get; }
-
-    public DeclareHouse(ImmutableState originState, House house) : base(originState)
+    public sealed class DeclareHouse : Action<DeclareHouse>
     {
-      House = house;
-    }
+        public House House { get; }
 
-    internal override void Validate(IState state)
-    {
-      var metadata = state.Metadata;
-      if(metadata == null)
-        throw new NoMetadataException(state);
-      if(!metadata.Houses[state.PlayerTurn].Contains(House))
-        throw new DeclaredHouseNotAvailableException(state, House);
-    }
+        public DeclareHouse(ImmutableState originState, House house) : base(originState)
+        {
+            House = house;
+        }
 
-    internal override void DoActionNoResolve(IMutableState state)
-    {
-      state.ActiveHouse = House;
-      state.ResolvedEffects.Add(new HouseDeclared(House));
-    }
+        internal override void Validate(IState state)
+        {
+            var metadata = state.Metadata;
+            if (metadata == null)
+                throw new NoMetadataException(state);
+            if (!metadata.Houses[state.PlayerTurn].Contains(House))
+                throw new DeclaredHouseNotAvailableException(state, House);
+        }
 
-    public override string Identity()
-    {
-      return House.ToString();
-    }
+        internal override void DoActionNoResolve(IMutableState state)
+        {
+            state.ActiveHouse = House;
+            state.ResolvedEffects.Add(new HouseDeclared(House));
+        }
 
-    protected override bool Equals(DeclareHouse other)
-    {
-      return House == other.House;
-    }
+        public override string Identity()
+        {
+            return House.ToString();
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), House);
-    }
+        protected override bool Equals(DeclareHouse other)
+        {
+            return House == other.House;
+        }
 
-    public override string ToString()
-    {
-      return $"Declare {House}";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), House);
+        }
+
+        public override string ToString()
+        {
+            return $"Declare {House}";
+        }
     }
-  }
 }

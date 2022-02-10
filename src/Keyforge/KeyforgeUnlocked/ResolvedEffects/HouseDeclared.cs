@@ -4,28 +4,28 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public sealed class HouseDeclared : Equatable<HouseDeclared>, IResolvedEffect
-  {
-    public readonly House House;
-
-    public HouseDeclared(House house)
+    public sealed class HouseDeclared : Equatable<HouseDeclared>, IResolvedEffect
     {
-      House = house;
-    }
+        public readonly House House;
 
-    protected override bool Equals(HouseDeclared other)
-    {
-      return House == other.House;
-    }
+        public HouseDeclared(House house)
+        {
+            House = house;
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), House);
-    }
+        protected override bool Equals(HouseDeclared other)
+        {
+            return House == other.House;
+        }
 
-    public override string ToString()
-    {
-      return $"House {House} declared.";
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), House);
+        }
+
+        public override string ToString()
+        {
+            return $"House {House} declared.";
+        }
     }
-  }
 }

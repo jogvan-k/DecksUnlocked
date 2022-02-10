@@ -4,24 +4,23 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public sealed class PlayActionCard : BasicActionWithCard<PlayActionCard>
-  {
-
-    public PlayActionCard(ImmutableState origin, IActionCard card) : base(origin, card)
+    public sealed class PlayActionCard : BasicActionWithCard<PlayActionCard>
     {
-    }
+        public PlayActionCard(ImmutableState origin, IActionCard card) : base(origin, card)
+        {
+        }
 
-    protected override void DoSpecificActionNoResolve(IMutableState state)
-    {
-      if (!state.Hands[state.PlayerTurn].Remove(Card))
-        throw new CardNotPresentException(state, Card);
+        protected override void DoSpecificActionNoResolve(IMutableState state)
+        {
+            if (!state.Hands[state.PlayerTurn].Remove(Card))
+                throw new CardNotPresentException(state, Card);
 
-      state.Effects.Push(new Effects.PlayActionCard((IActionCard) Card));
-    }
+            state.Effects.Push(new Effects.PlayActionCard((IActionCard)Card));
+        }
 
-    public override string ToString()
-    {
-      return $"Play action card";
+        public override string ToString()
+        {
+            return $"Play action card";
+        }
     }
-  }
 }

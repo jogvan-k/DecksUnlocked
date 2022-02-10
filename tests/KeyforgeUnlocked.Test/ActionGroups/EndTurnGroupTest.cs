@@ -7,19 +7,19 @@ using NUnit.Framework;
 
 namespace KeyforgeUnlockedTest.ActionGroups
 {
-  [TestFixture]
-  public class EndTurnGroupTest
-  {
-    private ImmutableState _state = StateTestUtil.EmptyState;
-
-    [Test]
-    public void Actions()
+    [TestFixture]
+    public class EndTurnGroupTest
     {
-      var sut = new EndTurnGroup();
+        private ImmutableState _state = StateTestUtil.EmptyState;
 
-      var actions = sut.Actions(_state);
+        [Test]
+        public void Actions()
+        {
+            var sut = new EndTurnGroup();
 
-      Assert.AreEqual(new EndTurn(_state), actions.Single());
+            var actions = sut.Actions(_state);
+
+            Assert.AreEqual(new EndTurn(_state), actions.Single());
+        }
     }
-  }
 }

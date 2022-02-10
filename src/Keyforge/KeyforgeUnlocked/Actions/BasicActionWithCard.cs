@@ -4,28 +4,28 @@ using KeyforgeUnlocked.States;
 
 namespace KeyforgeUnlocked.Actions
 {
-  public abstract class BasicActionWithCard<T> : BasicAction<T> where T : BasicActionWithCard<T>
-  {
-    public readonly ICard Card;
-
-    public BasicActionWithCard(ImmutableState originState, ICard card) : base(originState)
+    public abstract class BasicActionWithCard<T> : BasicAction<T> where T : BasicActionWithCard<T>
     {
-      Card = card;
-    }
+        public readonly ICard Card;
 
-    public override string Identity()
-    {
-      return Card.Id;
-    }
+        public BasicActionWithCard(ImmutableState originState, ICard card) : base(originState)
+        {
+            Card = card;
+        }
 
-    protected override bool Equals(T other)
-    {
-      return Equals(Card, other.Card);
-    }
+        public override string Identity()
+        {
+            return Card.Id;
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Card);
+        protected override bool Equals(T other)
+        {
+            return Equals(Card, other.Card);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Card);
+        }
     }
-  }
 }

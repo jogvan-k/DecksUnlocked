@@ -3,23 +3,24 @@ using KeyforgeUnlocked.Types;
 
 namespace KeyforgeUnlocked.ResolvedEffects
 {
-  public abstract class ResolvedEffectWithIdentifiable<T> : Equatable<T>, IResolvedEffect where T : ResolvedEffectWithIdentifiable<T>
-  {
-    public IIdentifiable Id;
-
-    protected ResolvedEffectWithIdentifiable(IIdentifiable id)
+    public abstract class ResolvedEffectWithIdentifiable<T> : Equatable<T>, IResolvedEffect
+        where T : ResolvedEffectWithIdentifiable<T>
     {
-      Id = id;
-    }
+        public IIdentifiable Id;
 
-    protected override bool Equals(T other)
-    {
-      return Id.Equals(other.Id);
-    }
+        protected ResolvedEffectWithIdentifiable(IIdentifiable id)
+        {
+            Id = id;
+        }
 
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(base.GetHashCode(), Id);
+        protected override bool Equals(T other)
+        {
+            return Id.Equals(other.Id);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(base.GetHashCode(), Id);
+        }
     }
-  }
 }

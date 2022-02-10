@@ -8,26 +8,26 @@ type Player =
     | Player2 = 2
 
 type ICoreState =
-    abstract PlayerTurn: Player
-    abstract TurnNumber: int
-    abstract Actions: unit -> ICoreAction []
+    abstract PlayerTurn : Player
+    abstract TurnNumber : int
+    abstract Actions : unit -> ICoreAction []
 
 and ICoreAction =
-    abstract Origin: ICoreState
-    abstract DoCoreAction: unit -> ICoreState
+    abstract Origin : ICoreState
+    abstract DoCoreAction : unit -> ICoreState
     inherit IComparable
 
 type IEvaluator =
-    abstract Evaluate: ICoreState -> int
+    abstract Evaluate : ICoreState -> int
 
 type IGameAI =
     // Calculates the best path for a given state.
-    abstract DetermineAction: state:ICoreState -> int []
+    abstract DetermineAction : state: ICoreState -> int []
 
 type IGameAIWithVariationPath =
     // Calculates the best path for a given state. A previously calculated best path can be provided from previous calculations to speed up
     // calculation time.
-    abstract DetermineActionWithVariation: state:(ICoreState) -> variation:int [] -> int []
+    abstract DetermineActionWithVariation : state: (ICoreState) -> variation: int [] -> int []
 
 type searchTime =
     | Unlimited

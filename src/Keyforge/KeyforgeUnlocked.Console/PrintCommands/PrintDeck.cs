@@ -4,15 +4,15 @@ using KeyforgeUnlockedConsole.PrintCommands;
 
 namespace KeyforgeUnlockedConsole
 {
-  public class PrintDeck : IPrintCommand
-  {
-    public void Print(IState state)
+    public class PrintDeck : IPrintCommand
     {
-      Console.WriteLine("Cards in deck:");
-      foreach (var card in state.Decks[state.PlayerTurn])
-      {
-        Console.WriteLine(card.Name);
-      }
+        public void Print(IState state)
+        {
+            Console.WriteLine("Cards in deck:");
+            foreach (var card in state.Decks[state.PlayerTurn])
+            {
+                Console.WriteLine(card.Name);
+            }
+        }
     }
-  }
 }

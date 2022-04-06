@@ -26,7 +26,7 @@ namespace KeyforgeUnlockedTest.Serializers
                     TestUtil.Ints(1, 2),
                     TestUtil.Ints(3, 4),
                     House.Logos,
-                    new LazyList<IActionGroup>(),
+                    new LazyList<IActionGroup>{ new EndTurnGroup(), new DeclareHouseGroup(new [] { House.Logos , House.Mars})},
                     TestUtil.Stacks(
                         new ICard[] { new SampleActionCard(House.Logos), new SampleArtifactCard(House.Dis) },
                         new ICard[] { new SampleCreatureCard(House.Mars), new SampleArtifactCard(House.Saurian) }),

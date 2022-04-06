@@ -7,12 +7,14 @@ namespace KeyforgeUnlocked.ActionGroups
         public static ActionGroupDto ToDto(this IActionGroup actionGroup) => actionGroup.GetType().Name switch
         {
             "EndTurnGroup" => new EndTurnDto(),
+            "NoActionGroup" => new NoActionGroupDto(),
             { } name => throw new ArgumentOutOfRangeException(name)
         };
 
         public static IActionGroup ToActionGroup(this ActionGroupDto dto) => dto.Name switch
         {
             "EndTurnGroup" => new EndTurnGroup(),
+            "NoActionGroup" => new NoActionGroup(),
             { } name => throw new ArgumentOutOfRangeException(name)
         };
     }

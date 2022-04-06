@@ -3,11 +3,11 @@ using KeyforgeUnlocked.Actions;
 
 namespace KeyforgeUnlocked.ActionGroups
 {
-    public class EndTurnDto : ActionGroupDto
+    public class NoActionGroupDto : ActionGroupDto
     {
-        public EndTurnDto()
+        public NoActionGroupDto()
         {
-            Name = "EndTurnGroup";
+            Name = "NoActionGroup";
             Actions = new List<ActionDto>();
         }
     }

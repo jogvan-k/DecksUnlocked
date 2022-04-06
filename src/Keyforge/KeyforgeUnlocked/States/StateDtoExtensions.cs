@@ -25,6 +25,7 @@ namespace KeyforgeUnlocked.States
                 ActiveHouse = state.ActiveHouse,
                 Keys = state.Keys.ToDictionary(),
                 Aember = state.Aember.ToDictionary(),
+                ActionGroups = ToDto(state.ActionGroups),
                 Decks = state.Decks.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
                 Hands = state.Hands.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
                 Discards = state.Discards.ToDictionary(kv => kv.Key, kv => ToDto(kv.Value)),
@@ -43,7 +44,7 @@ namespace KeyforgeUnlocked.States
                 ActiveHouse = dto.ActiveHouse,
                 Keys = new ImmutableLookup<Player, int>(dto.Keys),
                 Aember = new ImmutableLookup<Player, int>(dto.Aember),
-                ActionGroups = ImmutableHashSet<IActionGroup>.Empty,
+                ActionGroups = dto.ActionGroups.Select(g => g.ToActionGroup()).ToHashSet().ToImmutableHashSet(),
                 Decks = dto.Decks.ToReadOnly<Player, List<CardDto>, IImmutableStack<ICard>>(kv =>
                     ImmutableStack.Create(ToCard(kv.Value).Reverse().ToArray())),
                 Hands = dto.Hands.ToReadOnly<Player, List<CardDto>, IImmutableSet<ICard>>(kv =>
@@ -70,6 +71,7 @@ namespace KeyforgeUnlocked.States
 
         static List<CardDto> ToDto(IEnumerable<ICard> cards) => cards.Select(v => v.ToDto()).ToList();
         static List<ArtifactDto> ToDto(IEnumerable<Artifact> cards) => cards.Select(v => v.ToDto()).ToList();
+        static List<ActionGroupDto> ToDto(IImmutableSet<IActionGroup> actionGroups) => actionGroups.Select(g => g.ToDto()).ToList();
         static ICard[] ToCard(IEnumerable<CardDto> dtos) => dtos.Select(c => c.ToCard()).ToArray();
         static Artifact[] ToArtifact(IEnumerable<ArtifactDto> dtos) => dtos.Select(c => c.ToArtifact()).ToArray();
     }

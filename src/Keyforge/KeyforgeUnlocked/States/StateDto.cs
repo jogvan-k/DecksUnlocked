@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.ResolvedEffects;
@@ -17,7 +18,7 @@ namespace KeyforgeUnlocked.States
 
         public Dictionary<Player, int> Aember { get; set; }
 
-        //public IImmutableSet<IActionGroup> ActionGroups { get; set; }
+        public List<ActionGroupDto> ActionGroups { get; set; }
         public Dictionary<Player, List<CardDto>> Decks { get; set; }
         public Dictionary<Player, List<CardDto>> Hands { get; set; }
         public Dictionary<Player, List<CardDto>> Discards { get; set; }

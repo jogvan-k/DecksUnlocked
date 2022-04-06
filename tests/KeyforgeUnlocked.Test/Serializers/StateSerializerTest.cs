@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Immutable;
 using Google.Protobuf.WellKnownTypes;
+using KeyforgeUnlocked.ActionGroups;
 using KeyforgeUnlocked.Artifacts;
 using KeyforgeUnlocked.Cards;
 using KeyforgeUnlocked.Serializers;
+using KeyforgeUnlocked.States;
 using KeyforgeUnlocked.Types;
 using KeyforgeUnlockedTest.Util;
 using NUnit.Framework;
@@ -12,7 +14,7 @@ using UnlockedCore;
 namespace KeyforgeUnlockedTest.Serializers
 {
     [TestFixture]
-    public class SerializerTest
+    public class StateSerializerTest
     {
         [Test]
         public void RoundtripTest()
@@ -24,7 +26,7 @@ namespace KeyforgeUnlockedTest.Serializers
                     TestUtil.Ints(1, 2),
                     TestUtil.Ints(3, 4),
                     House.Logos,
-                    null,
+                    new LazyList<IActionGroup>(),
                     TestUtil.Stacks(
                         new ICard[] { new SampleActionCard(House.Logos), new SampleArtifactCard(House.Dis) },
                         new ICard[] { new SampleCreatureCard(House.Mars), new SampleArtifactCard(House.Saurian) }),
